@@ -1,0 +1,44 @@
+{
+  "name": "fiscal-data-package-viewer",
+  "version": "0.0.1-alpha",
+  "description": "A frontend data/views app powered directly from a Fiscal Data Package.",
+  "main": "src/scripts/index.js",
+  "scripts": {
+    "build": "webpack --progress --colors",
+    "develop": "npm run build && webpack-dev-server --progress --colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openspending/fiscal-data-package-viewer.git"
+  },
+  "keywords": [
+    "fiscal",
+    "data",
+    "openspending"
+  ],
+  "author": "Open Knowledge",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/openspending/fiscal-data-package-viewer/issues"
+  },
+  "homepage": "https://github.com/openspending/fiscal-data-package-viewer#readme",
+  "dependencies": {
+    "babel-core": "^6.1.4",
+    "babel-loader": "^6.2.0",
+    "babel-polyfill": "^6.1.4",
+    "babel-preset-es2015": "^6.1.4",
+    "babel-preset-react": "^6.1.18",
+    "bootstrap": "^3.3.5",
+    "d3": "^3.5.9",
+    "react": "^0.14.3",
+    "react-bootstrap": "^0.28.1",
+    "react-d3": "^0.4.0",
+    "react-dom": "^0.14.3",
+    "webpack": "^1.12.6"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.3",
+    "webpack-dev-server": "^1.12.1"
+  }
+}
