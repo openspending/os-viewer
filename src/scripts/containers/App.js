@@ -8,8 +8,8 @@ class App extends Component {
       <div>
         <Header />
         <div className='container'>
-          <Actions data={data} model={model} />
-          <Views data={data} model={model} />
+          <Actions model={model} />
+          <Views data={data} />
         </div>
         <Footer />
       </div>

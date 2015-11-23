@@ -5,21 +5,20 @@ import _ from 'lodash'
 
 class Actions extends Component {
   render() {
-    const { data, model } = this.props
-    const { measures, dimensions } = data.codeLists
+    const { model } = this.props
     return (
       <Row>
         <Col xs={12} md={4}>
-          {!_.isEmpty(measures) &&
+          {!_.isEmpty(model.measures) &&
             <Panel header='Measures'>
-              <MeasureCodeList measures={measures} />
+              <MeasureCodeList measures={model.measures} />
             </Panel>
           }
         </Col>
         <Col xs={12} md={8}>
-          {!_.isEmpty(dimensions) &&
+          {!_.isEmpty(model.dimensions) &&
             <Panel header='Dimensions'>
-              <DimensionCodeList dimensions={dimensions} />
+              <DimensionCodeList dimensions={model.dimensions} />
             </Panel>
           }
         </Col>

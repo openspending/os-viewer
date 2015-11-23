@@ -9,7 +9,7 @@ class DimensionCodeList extends Component {
       <ButtonGroup>
         {objectMap(dimensions, function (key, value) {
           return <DropdownButton title={key.toUpperCase()} id="dropdown-size-medium">
-            {value.map(function(option) {
+            {value.values.map(function(option) {
               return <MenuItem eventKey={option}>{option}</MenuItem>
             })}
           </DropdownButton>
