@@ -43,11 +43,17 @@ const mockStateTree = {
     ],
     "selections": {
       "measures": ["projected"], // always only one for measures
-      "dimensions": ["year"] // always at least one for dimensions
+      "dimensions": { // always at least one for dimensions
+        "filters": { "year": 2014 },
+        "sum": ["category"]
+      }
     },
     "states": {
       "previous": [], // sequence of data objects. filtered to a view state
-      "current": [], // The current data object for the view state
+      "current": [ // The current data object for the view state
+        {"projected": 50, "adjusted": 56, "year": 2014, "category": "Education"},
+        {"projected": 500, "adjusted": 617, "year": 2014, "category": "Arts"}
+      ],
       "future": [] // sequence of data objects. filtered to a view state
     }
   }
