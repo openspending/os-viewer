@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { ButtonGroup, Button } from 'react-bootstrap'
 import _ from 'lodash'
 
@@ -8,11 +8,10 @@ class MeasureCodeList extends Component {
     return (
       <ButtonGroup>
         {_.keys(measures).map(function(measure) {
-          return <Button>{measure.toUpperCase()}</Button>
+          return <Button active key={measure}>{measure.toUpperCase()}</Button>
         })}
       </ButtonGroup>
     )
   }
 }
-
 export default MeasureCodeList
