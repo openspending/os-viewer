@@ -1,41 +1,24 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { ActionCreators } from 'redux-undo'
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { ActionCreators } from 'redux-undo';
+import { loaders } from 'fiscaldata-js';
 
-import {actions, loaders} from 'fiscaldata-js'
-import { Header, LoadData, Actions, Views, Footer } from '../components'
+import { Header, LoadData, Actions, Views, Footer } from '../components';
+import { bindActions } from '../utils';
 
 class App extends Component {
 
-  loadDataFromFDP(dataSource) {
-    const { dispatch } = this.props
-    loaders.fdp(dataSource).then(function (data) {
-      console.log('=====================loadDataFromFDP=========================');
-      console.log(data);
-      dispatch(actions.setDefaultStateTree(data.ui));
-      dispatch(actions.setDefaultStateTree(data.data));
-    });
-  }
-
   render() {
-    const { dispatch, data, currentData } = this.props
+    const { dispatch, data, ui, currentData } = this.props;
+    const actions = bindActions(dispatch);
     return (
       <div>
         <Header />
         <div className='container'>
-
-          <LoadData onLoadSubmit={text => this.loadDataFromFDP(text) }/>
-
-          <Actions
-            model={data.model}
-            onFilter={filters => dispatch(actions.setVisibilityFilter(filters)) }
-            ui={data.ui}
-          />
-
-        <Views data={currentData} headers={data.headers}  />
-
+          <LoadData actions={actions} />
+          <Actions model={data.model} actions={actions} ui={ui} />
+          <Views data={currentData} headers={data.headers}  />
         </div>
-
         <Footer />
       </div>
     )
@@ -45,16 +28,16 @@ class App extends Component {
 App.propTypes = {
   dispatch: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
-}
+};
 
 function select(state) {
   console.log('******************* STATE *******************');
   console.log(state.data);
   return {
     data: state.data,
-    currentData: state.data.values,
+    ui: state.ui,
     currentData: loaders.getCurrentData(state)
   }
 }
 
-export default connect(select)(App)
+export default connect(select)(App);
