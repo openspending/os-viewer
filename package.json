@@ -5,7 +5,7 @@
   "main": "src/scripts/index.js",
   "scripts": {
     "build": "webpack --progress --colors",
-    "develop": "npm run build && webpack-dev-server --progress --colors --watch"
+    "develop": "webpack-dev-server --progress --colors --watch"
   },
   "repository": {
     "type": "git",
