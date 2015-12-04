@@ -13,7 +13,7 @@ class DimensionsGroups extends Component {
     return false;
   }
   render() {
-    const { dimensions, selected } = this.props;
+    const { dimensions, headers, selected } = this.props;
     const self = this;
     return (
       <Row>
@@ -22,7 +22,7 @@ class DimensionsGroups extends Component {
             {_.map(dimensions, function (value, key) {
               let isSelected = _.contains(selected, key);
               return <Button active={isSelected} bsStyle={isSelected ? 'success' : 'default'}
-                key={ key } onClick={(event) => self.toggleGroups(event, key)}>{key.toUpperCase()}</Button>
+                key={ key } onClick={(event) => self.toggleGroups(event, key)}>{headers[key].title}</Button>
             })}
           </ButtonGroup>
         </Col>
