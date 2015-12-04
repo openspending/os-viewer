@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import { loaders } from 'fiscaldata-js';
+import _ from 'lodash';
 
 import { Header, LoadData, Actions, Views, Footer } from '../components';
 import { bindActions } from '../utils';
@@ -17,7 +18,7 @@ class App extends Component {
         <div className='container'>
           <LoadData actions={actions} />
           <Actions model={data.model} actions={actions} ui={ui} />
-          <Views data={currentData} headers={data.headers}  />
+          <Views data={currentData} headers={data.headers} ui={ui} />
         </div>
         <Footer />
       </div>
@@ -27,7 +28,7 @@ class App extends Component {
 
 App.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 
 function select(state) {
