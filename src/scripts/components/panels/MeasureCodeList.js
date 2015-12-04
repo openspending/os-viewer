@@ -13,14 +13,14 @@ class MeasureCodeList extends Component {
     return false;
   }
   render() {
-    const { measures, selected } = this.props;
+    const { measures, headers, selected } = this.props;
     const self = this;
     return (
       <ButtonGroup>
         {_.keys(measures).map(function(measure) {
           let isSelected = _.contains(selected, measure);
           return <Button active={isSelected} bsStyle={isSelected ? 'success' : 'default'}
-            key={measure} onClick={ (event) => self.toggleMeasure(event, measure) }>{measure.toUpperCase()}</Button>
+            key={measure} onClick={ (event) => self.toggleMeasure(event, measure) }>{ headers[measure].title }</Button>
         })}
       </ButtonGroup>
     )

@@ -19,7 +19,6 @@ class Pie extends Component {
         radius={100}
         innerRadius={20}
         sectorBorderColor="white"
-        title="Pie Chart"
       />
     )
   }

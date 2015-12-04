@@ -78,8 +78,8 @@ export function bindActions(dispatch) {
 
   result.loadFiscalDataPackage = function(url) {
     loaders.fdp(url).then(function(data) {
-      dispatch(actions.setDefaultStateTree(data.ui));
-      dispatch(actions.setDefaultStateTree(data.data));
+      dispatch(actions.setDefaultUi(data.ui));
+      dispatch(actions.setDefaultData(data.data));
     });
   };
 

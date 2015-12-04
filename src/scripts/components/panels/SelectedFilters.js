@@ -13,14 +13,14 @@ class SelectedFilters extends Component {
     return false;
   }
   render() {
-    const { filters } = this.props;
+    const { filters, headers } = this.props;
     const self = this;
     return (
       <Row>
         <Col xs={12}>
           {_.map(filters, function(value, key) {
             return <Label className="margin-right-4"
-              bsStyle="success">{ key }:&nbsp;{ value }&nbsp;<i onClick={(event) => self.clearFilter(event, key)}
+              bsStyle="success">{ headers[key].title }:&nbsp;{ value }&nbsp;<i onClick={(event) => self.clearFilter(event, key)}
               key={ key } className="fa fa-remove cursor-pointer" /></Label>;
           })}
         </Col>

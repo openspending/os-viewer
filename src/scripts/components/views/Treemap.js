@@ -18,7 +18,6 @@ class Treemap extends Component {
         height={250}
         textColor="#484848"
         fontSize="12px"
-        title="Treemap"
         hoverAnimation={false}
       />
     )

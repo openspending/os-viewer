@@ -10,16 +10,16 @@ class Table extends Component {
       <BootstrapTable responsive striped>
         <thead>
           <tr>
-            {headers.map(function(header, key) {
-              return <td key={ key }>{header.toUpperCase()}</td>
+            {_.map(headers, function(header, key) {
+              return <td key={ key }>{ header.title }</td>
             })}
           </tr>
         </thead>
         <tbody>
           {slicedData.map(function(row, rowKey) {
             return <tr key={ rowKey }>
-              {headers.map(function(header, key) {
-                return <td key={ key }>{row[header]}</td>
+              {_.map(headers, function(header, key) {
+                return <td key={ key }>{ row[key] }</td>
               })}
             </tr>
           })}

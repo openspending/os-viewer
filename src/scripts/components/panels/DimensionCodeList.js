@@ -15,7 +15,7 @@ class DimensionCodeList extends Component {
     return false;
   }
   render() {
-    const { dimensions, actions, ui } = this.props;
+    const { dimensions, actions, headers, ui } = this.props;
     const self = this;
     return (
       <Row>
@@ -23,7 +23,7 @@ class DimensionCodeList extends Component {
           <div>Filter</div>
           <ButtonGroup id="data-filter-buttons">
             {_.map(dimensions, function (value, key) {
-              return <DropdownButton id={ 'filter-' + key } title={key.toUpperCase()} key={ key }>
+              return <DropdownButton id={ 'filter-' + key } title={headers[key].title} key={ key }>
                 {value.values.map(function(option, innerKey) {
                   return <MenuItem key={ innerKey } eventKey={option}
                     onClick={(event) => self.handleClick(event, key, option)}>{option}</MenuItem>
@@ -33,11 +33,11 @@ class DimensionCodeList extends Component {
           </ButtonGroup>
         </Col>
         <Col xs={12} className="margin-top-8">
-          <SelectedFilters filters={ui.selections.dimensions.filters} actions={actions} />
+          <SelectedFilters filters={ui.selections.dimensions.filters} headers={headers} actions={actions} />
         </Col>
         <Col xs={12} className="margin-top-8">
           <div>Group</div>
-          <DimensionsGroups dimensions={dimensions} selected={ui.selections.dimensions.groups} actions={actions} />
+          <DimensionsGroups dimensions={dimensions} headers={headers} selected={ui.selections.dimensions.groups} actions={actions} />
         </Col>
       </Row>
     )
