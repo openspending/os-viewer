@@ -16,7 +16,9 @@ class App extends Component {
       <div>
         <Header />
         <div className='container'>
-          <LoadData actions={actions} />
+          {!data.flags.isLoaded &&
+          <LoadData actions={actions}/>
+          }
           {data.flags.isLoaded &&
           <Actions model={data.model} headers={ headers } actions={actions} ui={ui}/>
           }
