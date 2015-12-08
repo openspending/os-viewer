@@ -77,6 +77,7 @@ export function bindActions(dispatch) {
   let result = {};
 
   result.loadFiscalDataPackage = function(url) {
+    dispatch(actions.resetStateTree());
     loaders.fdp(url).then(function(data) {
       dispatch(actions.setDefaultUi(data.ui));
       dispatch(actions.setDefaultData(data.data));
