@@ -6,15 +6,22 @@ class LoadData extends Component {
     event.preventDefault();
     event.returnValue = false;
 
-    const { actions } = this.props;
-    actions.loadFiscalDataPackage(packageUrl);
+    const { actions, currentPackageUrl } = this.props;
+    if (packageUrl != currentPackageUrl) {
+      actions.loadFiscalDataPackage(packageUrl);
+    }
 
     return false;
   }
 
   componentDidMount() {
-    const { packages, actions } = this.props;
-    actions.loadFiscalDataPackage(_.first(packages));
+    const { packages, actions, currentPackageUrl } = this.props;
+    if (packages.length > 0) {
+      let packageUrl = _.first(packages);
+      if (packageUrl != currentPackageUrl) {
+        actions.loadFiscalDataPackage(packageUrl);
+      }
+    }
   }
 
   render() {
