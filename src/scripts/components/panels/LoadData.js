@@ -1,34 +1,54 @@
 import React, { Component, PropTypes } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, DropdownButton, MenuItem } from 'react-bootstrap';
 
-export default class LoadData extends Component {
-  handleSubmit(event) {
+class LoadData extends Component {
+  handleClick(event, packageUrl) {
     event.preventDefault();
     event.returnValue = false;
 
-    const { actions } = this.props;
-    const node = this.refs.input;
-    const text = node.value.trim();
-    if (text) {
-      actions.loadFiscalDataPackage(text);
-      node.value = text;
+    const { actions, currentPackageUrl } = this.props;
+    if (packageUrl != currentPackageUrl) {
+      actions.loadFiscalDataPackage(packageUrl);
     }
 
     return false;
   }
 
+  componentDidMount() {
+    const { packages, actions, currentPackageUrl } = this.props;
+    if (packages.length > 0) {
+      let packageUrl = _.first(packages);
+      if (packageUrl != currentPackageUrl) {
+        actions.loadFiscalDataPackage(packageUrl);
+      }
+    }
+  }
+
   render() {
+    const { packages, currentPackageUrl } = this.props;
+    const self = this;
     return (
       <Row className="margin-bottom-16">
         <Col xs={12}>
-          <form className="input-group" onSubmit={(event) => this.handleSubmit(event)}>
-            <input className="form-control" type="text" placeholder="URL" ref="input" />
-            <span className="input-group-btn">
-              <button className="btn btn-default">Load</button>
-            </span>
-          </form>
+          {packages.length > 1 &&
+          <DropdownButton id={ 'package-selector' }
+            title={ currentPackageUrl || 'None' }>
+            {_.map(packages, function(packageUrl, key) {
+              return <MenuItem key={ 'package-' + key } eventKey={ packageUrl }
+                onClick={(event) => self.handleClick(event, packageUrl)}>{ packageUrl }</MenuItem>
+            })}
+          </DropdownButton>
+          }
+          {packages.length == 1 &&
+            <div className="form-control-static">{ 'Package: ' + (currentPackageUrl || 'None') }</div>
+          }
+          {packages.length == 0 &&
+          <div className="form-control-static">{ 'No packages available.' }</div>
+          }
         </Col>
       </Row>
     )
   }
 }
+
+export default LoadData;

@@ -77,7 +77,10 @@ export function bindActions(dispatch) {
   let result = {};
 
   result.loadFiscalDataPackage = function(url) {
-    loaders.fdp(url).then(function(data) {
+    dispatch(actions.resetStateTree());
+    loaders.fdp(url, {}, {
+      proxy: 'http://gobetween.oklabs.org/pipe/{url}'
+    }).then(function(data) {
       dispatch(actions.setDefaultUi(data.ui));
       dispatch(actions.setDefaultData(data.data));
     });
