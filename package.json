@@ -5,7 +5,8 @@
   "main": "src/scripts/index.js",
   "scripts": {
     "build": "webpack --progress --colors",
-    "develop": "webpack-dev-server --progress --colors --watch"
+    "develop": "webpack-dev-server --progress --colors --watch",
+    "review": "jscs src"
   },
   "repository": {
     "type": "git",
@@ -57,6 +58,7 @@
     "css-loader": "^0.23.0",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.4",
+    "jscs": "^2.7.0",
     "mocha": "^2.3.3",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-dev-server": "^1.12.1",
