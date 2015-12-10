@@ -21,7 +21,7 @@ class App extends Component {
           <Actions model={data.model} headers={ headers } actions={actions} ui={ui}/>
           }
           {data.flags.isLoaded &&
-          <Views data={ currentData } headers={ headers } ui={ui}/>
+          <Views data={ currentData } headers={ headers } ui={ui} actions={actions}/>
           }
         </div>
         <Footer />
@@ -37,9 +37,9 @@ App.propTypes = {
 
 function select(state) {
   return {
-    data: state.data,
-    ui: state.ui,
-    currentData: loaders.getCurrentData(state),
+    data: state.app.present.data,
+    ui: state.app.present.ui,
+    currentData: loaders.getCurrentData(state.app.present),
     dataPackages: _.isArray(dataPackages) ? dataPackages : [] // Global variable
   }
 }

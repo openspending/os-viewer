@@ -5,15 +5,15 @@ import _ from 'lodash';
 
 class Views extends Component {
   render() {
-    const { data, headers, ui } = this.props;
+    const { data, headers, ui, actions } = this.props;
     return (
       <Row>
         <Col xs={12} md={12}>
           <h2>
             Views
             <ButtonGroup className='pull-right'>
-              <Button className='fa fa-arrow-left' />
-              <Button className='fa fa-arrow-right' />
+              <Button className='fa fa-arrow-left' onClick={(event) => actions.undo()} />
+              <Button className='fa fa-arrow-right' onClick={(event) => actions.redo()} />
             </ButtonGroup>
           </h2>
         </Col>
