@@ -32,6 +32,7 @@
     "babel-runtime": "^6.3.13",
     "bluebird": "^3.0.5",
     "bootstrap-sass": "^3.3.5",
+    "bubbletree": "git+https://github.com/kravets-levko/bubbletree",
     "d3": "^3.5.9",
     "express": "^4.13.3",
     "fiscaldata-js": "git+https://github.com/openspending/fiscal-data-js",
