@@ -1,26 +1,35 @@
 import React, { Component } from 'react'
 import { Table as BootstrapTable } from 'react-bootstrap'
+import _ from 'lodash';
 
 class Table extends Component {
   render() {
-    const { headers, data } = this.props
+    const { headers, data } = this.props;
+    let slicedData = data.slice(0, 500);
     return (
       <BootstrapTable responsive striped>
         <thead>
           <tr>
-            {headers.map(function(header) {
-              return <td>{header.toUpperCase()}</td>
+            {_.map(headers, function(header, key) {
+              return <td key={ key }>{ header.title }</td>
             })}
           </tr>
         </thead>
         <tbody>
-          {data.map(function(row) {
-            return <tr>
-              {headers.map(function(header) {
-                return <td>{row[header]}</td>
+          {slicedData.map(function(row, rowKey) {
+            return <tr key={ rowKey }>
+              {_.map(headers, function(header, key) {
+                return <td key={ key }>{ row[key] }</td>
               })}
             </tr>
           })}
+          {
+            (data.length > slicedData.length) &&
+            <tr>
+              <td
+                colSpan={headers.length}>{ '...and ' + (data.length - slicedData.length) + ' more rows' }</td>
+            </tr>
+          }
         </tbody>
       </BootstrapTable>
     )

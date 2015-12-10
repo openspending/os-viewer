@@ -5,20 +5,20 @@ import _ from 'lodash'
 
 class Actions extends Component {
   render() {
-    const { model, onFilter, ui } = this.props
+    const { model, actions, headers, ui } = this.props;
     return (
       <Row>
         <Col xs={12} md={4}>
           {!_.isEmpty(model.measures) &&
             <Panel header='Measures'>
-              <MeasureCodeList measures={model.measures} ui={ui} />
+              <MeasureCodeList headers={ headers } measures={model.measures} actions={actions} selected={ui.selections.measures } ui={ui} />
             </Panel>
           }
         </Col>
         <Col xs={12} md={8}>
           {!_.isEmpty(model.dimensions) &&
             <Panel header='Dimensions'>
-              <DimensionCodeList dimensions={model.dimensions} onFilter={onFilter} ui={ui} />
+              <DimensionCodeList dimensions={model.dimensions} headers={ headers } actions={actions} ui={ui} />
             </Panel>
           }
         </Col>
@@ -29,6 +29,6 @@ class Actions extends Component {
 
 Actions.propTypes = {
   model: PropTypes.object.isRequired
-}
+};
 
 export default Actions
