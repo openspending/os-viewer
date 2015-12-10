@@ -33,7 +33,7 @@
     "bootstrap-sass": "^3.3.5",
     "d3": "^3.5.9",
     "express": "^4.13.3",
-    "fiscaldata-js": "git+https://github.com/openspending/fiscal-data-js.git",
+    "fiscaldata-js": "git+https://github.com/openspending/fiscal-data-js",
     "font-awesome": "^4.4.0",
     "isomorphic-fetch": "^2.2.0",
     "lodash": "^3.10.1",
