@@ -19,7 +19,7 @@ class Views extends Component {
         </Col>
 
         <Col xs={12} md={8}>
-          <Tabs defaultActiveKey={3}>
+          <Tabs defaultActiveKey={1}>
             <Tab eventKey={1} title="Pie Chart">
               <div className="margin-top-8">
                 <Pie data={ data } ui={ ui } />

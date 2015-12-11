@@ -9,7 +9,7 @@ import { bindActions } from '../utils';
 
 class App extends Component {
   render() {
-    const { dispatch, data, ui, currentData, dataPackages } = this.props;
+    const { dispatch, data, ui, currentData, dataPackages, flags } = this.props;
     const headers = data.fields;
     const actions = bindActions(dispatch);
     return (
@@ -18,7 +18,7 @@ class App extends Component {
         <div className='container'>
           <LoadData actions={ actions } packages={ dataPackages } currentPackageUrl={ data.packageUrl } />
 
-          { data.flags.isLoaded ?
+          { flags.isLoaded ?
             <div>
               <Actions model={data.model} headers={ headers } actions={actions} ui={ui}/>
               <Views
@@ -54,6 +54,7 @@ function select(state) {
     redoDisabled: state.app.future.length === 0,
     data: state.app.present.data,
     ui: state.app.present.ui,
+    flags: state.flags,
     currentData: loaders.getCurrentData(state.app.present),
     dataPackages: _.isArray(dataPackages) ? dataPackages : [] // Global variable
   }

@@ -79,10 +79,15 @@ export function bindActions(dispatch) {
 
   result.loadFiscalDataPackage = function(url) {
     dispatch(actions.resetStateTree());
+    dispatch(actions.fdpLoading());
     loaders.fdp(url, {}, {
-      proxy: 'http://gobetween.oklabs.org/pipe/{url}'
+      proxy: 'http://gobetween.oklabs.org/pipe/{url}',
+      onMetaInfoLoaded: (meta) => {
+        dispatch(actions.fdpMetaInfoLoaded(meta))
+      }
     }).then(function(data) {
       dispatch(actions.setDefaultState(data));
+      dispatch(actions.fdpLoaded());
     });
   };
 
