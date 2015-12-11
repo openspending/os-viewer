@@ -14,9 +14,9 @@ class Pie extends Component {
     return (
       <PieChart
         data={(processedData)}
-        width={400}
-        height={400}
-        radius={100}
+        width={600}
+        height={600}
+        radius={200}
         innerRadius={20}
         sectorBorderColor="white"
       />

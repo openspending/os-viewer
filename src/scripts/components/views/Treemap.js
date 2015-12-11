@@ -14,11 +14,11 @@ class Treemap extends Component {
     return (
       <D3Treemap
         data={processedData}
-        width={450}
-        height={250}
+        width={600}
+        height={400}
         textColor="#484848"
         fontSize="12px"
-        hoverAnimation={false}
+        hoverAnimation={true}
       />
     )
   }

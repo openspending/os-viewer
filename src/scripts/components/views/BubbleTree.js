@@ -41,21 +41,40 @@ var randomData = (function() {
 })();
 
 class BubbleTree extends Component {
-  updateBubbleTree() {
-    new BubbleTreeConstructor({
+  constructor() {
+    super();
+    this.bubbleTree = null;
+  }
+  recreateBubbleTree() {
+    this.bubbleTree = new BubbleTreeConstructor({
       data: randomData,
       container: this.refs.container
     });
   }
+  updateBubbleTree() {
+    var self = this;
+    setTimeout(function() {
+      if (!!self.bubbleTree) {
+        try {
+          self.bubbleTree.onResize();
+        } catch(e) {
+        }
+      }
+      self.updateBubbleTree();
+    }, 500);
+  }
   componentDidMount() {
-    this.updateBubbleTree();
+    this.recreateBubbleTree();
   }
   componentDidUpdate() {
-    this.updateBubbleTree();
+    this.recreateBubbleTree();
   }
   render() {
+    this.updateBubbleTree();
     return (
-      <div className="bubbletree" ref="container" style={{width: '100%', height: '400px'}} />
+      <div style={{width: '100%', paddingTop: '60%', position: 'relative'}}>
+        <div className="bubbletree" ref="container" style={{position: 'absolute', left: '0px', top: '0px', width: '100%', height: '100%'}} />
+      </div>
     )
   }
 }

@@ -18,8 +18,8 @@ class Views extends Component {
           </h2>
         </Col>
 
-        <Col xs={12} md={8}>
-          <Tabs defaultActiveKey={3}>
+        <Col xs={12}>
+          <Tabs defaultActiveKey={1}>
             <Tab eventKey={1} title="Pie Chart">
               <div className="margin-top-8">
                 <Pie data={ data } ui={ ui } />
@@ -35,11 +35,10 @@ class Views extends Component {
                 <BubbleTree />
               </div>
             </Tab>
+            <Tab eventKey={4} title="Table">
+              <Table headers={ headers } data={ data } />
+            </Tab>
           </Tabs>
-        </Col>
-
-        <Col xs={12} md={4}>
-          <Table headers={ headers } data={ data } />
         </Col>
       </Row>
     )
