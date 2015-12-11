@@ -12,8 +12,8 @@ class Views extends Component {
           <h2>
             Views
             <ButtonGroup className='pull-right'>
-              <Button className='fa fa-arrow-left' onClick={(event) => actions.undo()} />
-              <Button className='fa fa-arrow-right' onClick={(event) => actions.redo()} />
+              <Button className='fa fa-arrow-left' onClick={(event) => actions.undo()} disabled={this.props.undoDisabled} />
+              <Button className='fa fa-arrow-right' onClick={(event) => actions.redo()} disabled={this.props.redoDisabled} />
             </ButtonGroup>
           </h2>
         </Col>

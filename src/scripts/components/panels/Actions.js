@@ -5,6 +5,7 @@ import _ from 'lodash'
 
 class Actions extends Component {
   render() {
+    console.log('Actions render');
     const { model, actions, headers, ui } = this.props;
     return (
       <Row>

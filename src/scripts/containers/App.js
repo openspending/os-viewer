@@ -17,12 +17,25 @@ class App extends Component {
         <Header />
         <div className='container'>
           <LoadData actions={ actions } packages={ dataPackages } currentPackageUrl={ data.packageUrl } />
-          {data.flags.isLoaded &&
-          <Actions model={data.model} headers={ headers } actions={actions} ui={ui}/>
+
+          { data.flags.isLoaded ?
+            <div>
+              <Actions model={data.model} headers={ headers } actions={actions} ui={ui}/>
+              <Views
+                data={ currentData }
+                headers={ headers }
+                ui={ui}
+                actions={actions}
+                undoDisabled={this.props.undoDisabled}
+                redoDisabled={this.props.redoDisabled}
+              />
+            </div>
+            :
+            <div className="waiter">
+              <i className="fa fa-spinner fa-pulse fa-4x"></i><span>Loading...</span>
+            </div>
           }
-          {data.flags.isLoaded &&
-          <Views data={ currentData } headers={ headers } ui={ui} actions={actions}/>
-          }
+
         </div>
         <Footer />
       </div>
@@ -37,6 +50,8 @@ App.propTypes = {
 
 function select(state) {
   return {
+    undoDisabled: state.app.past.length <= 1,
+    redoDisabled: state.app.future.length === 0,
     data: state.app.present.data,
     ui: state.app.present.ui,
     currentData: loaders.getCurrentData(state.app.present),
