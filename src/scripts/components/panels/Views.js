@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, ButtonGroup, Button, Tabs, Tab } from 'react-bootstrap';
-import { Treemap, Table, Pie } from '../views';
+import { Treemap, Table, Pie, BubbleTree } from '../views';
 import _ from 'lodash';
 
 class Views extends Component {
@@ -19,7 +19,7 @@ class Views extends Component {
         </Col>
 
         <Col xs={12} md={8}>
-          <Tabs defaultActiveKey={1}>
+          <Tabs defaultActiveKey={3}>
             <Tab eventKey={1} title="Pie Chart">
               <div className="margin-top-8">
                 <Pie data={ data } ui={ ui } />
@@ -28,6 +28,11 @@ class Views extends Component {
             <Tab eventKey={2} title="Treemap">
               <div className="margin-top-8">
                 <Treemap data={ data } ui={ ui } />
+              </div>
+            </Tab>
+            <Tab eventKey={3} title="Bubble Tree">
+              <div className="margin-top-8">
+                <BubbleTree />
               </div>
             </Tab>
           </Tabs>
