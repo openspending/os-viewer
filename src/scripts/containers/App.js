@@ -12,11 +12,20 @@ class App extends Component {
     const { dispatch, data, ui, currentData, dataPackages, flags } = this.props;
     const headers = data.fields;
     const actions = bindActions(dispatch);
+
+    let metaInfo = null;
+    if (flags.isLoaded) {
+      //metaInfo = flags.meta;
+    } else
+    if (flags.fdpMetaInfoLoaded) {
+      metaInfo = flags.meta;
+    }
+
     return (
       <div>
         <Header />
         <div className='container'>
-          <LoadData actions={ actions } packages={ dataPackages } currentPackageUrl={ data.packageUrl } />
+          <LoadData actions={ actions } packages={ dataPackages } metaInfo={ metaInfo } />
 
           { flags.isLoaded ?
             <div>
