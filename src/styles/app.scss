@@ -50,6 +50,13 @@ body {
   font-size: 80%;
 }
 
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
 .waiter {
   margin: 4em 0;
   i {
