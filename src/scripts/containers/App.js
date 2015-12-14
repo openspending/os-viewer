@@ -4,7 +4,7 @@ import { ActionCreators } from 'redux-undo';
 import { loaders } from 'fiscaldata-js';
 import _ from 'lodash';
 
-import { Header, LoadData, Actions, Views, Footer } from '../components';
+import { Header, LoadData, Actions, Views, Footer, MoreInformation } from '../components';
 import { bindActions } from '../utils';
 
 class App extends Component {
@@ -12,11 +12,20 @@ class App extends Component {
     const { dispatch, data, ui, currentData, dataPackages, flags } = this.props;
     const headers = data.fields;
     const actions = bindActions(dispatch);
+
+    let metaInfo = null;
+    if (flags.isLoaded) {
+      metaInfo = data.meta;
+    } else
+    if (flags.fdpMetaInfoLoaded) {
+      metaInfo = flags.meta;
+    }
+
     return (
       <div>
         <Header />
         <div className='container'>
-          <LoadData actions={ actions } packages={ dataPackages } currentPackageUrl={ data.packageUrl } />
+          <LoadData actions={ actions } packages={ dataPackages } metaInfo={ metaInfo } />
 
           { flags.isLoaded ?
             <div>
@@ -31,11 +40,14 @@ class App extends Component {
               />
             </div>
             :
-            <div className="waiter">
+            <div className="waiter text-center">
               <i className="fa fa-spinner fa-pulse fa-4x"></i><span>Loading...</span>
             </div>
           }
 
+          { metaInfo &&
+          <MoreInformation metaInfo={ metaInfo }/>
+          }
         </div>
         <Footer />
       </div>

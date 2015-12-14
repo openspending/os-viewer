@@ -6,8 +6,8 @@ class LoadData extends Component {
     event.preventDefault();
     event.returnValue = false;
 
-    const { actions, currentPackageUrl } = this.props;
-    if (packageUrl != currentPackageUrl) {
+    const { actions, metaInfo } = this.props;
+    if (!metaInfo || (packageUrl != metaInfo.url)) {
       actions.loadFiscalDataPackage(packageUrl);
     }
 
@@ -15,24 +15,28 @@ class LoadData extends Component {
   }
 
   componentDidMount() {
-    const { packages, actions, currentPackageUrl } = this.props;
+    const { packages, actions, metaInfo } = this.props;
     if (packages.length > 0) {
       let packageUrl = _.first(packages);
-      if (packageUrl != currentPackageUrl) {
+      if (!metaInfo || (packageUrl != metaInfo.url)) {
         actions.loadFiscalDataPackage(packageUrl);
       }
     }
   }
 
   render() {
-    const { packages, currentPackageUrl } = this.props;
+    const { packages, metaInfo } = this.props;
     const self = this;
     return (
       <Row className="margin-bottom-16">
+        {metaInfo && metaInfo.title &&
+        <Col xs={12}><h4>{ metaInfo.title }</h4></Col>}
+        {metaInfo && metaInfo.description &&
+        <Col xs={12}>{ metaInfo.description }</Col>}
         <Col xs={12}>
           {packages.length > 1 &&
           <DropdownButton id={ 'package-selector' }
-            title={ currentPackageUrl || 'None' }>
+            title={ metaInfo ? metaInfo.url : 'None' }>
             {_.map(packages, function(packageUrl, key) {
               return <MenuItem key={ 'package-' + key } eventKey={ packageUrl }
                 onClick={(event) => self.handleClick(event, packageUrl)}>{ packageUrl }</MenuItem>
@@ -40,7 +44,7 @@ class LoadData extends Component {
           </DropdownButton>
           }
           {packages.length == 1 &&
-            <div className="form-control-static">{ 'Package: ' + (currentPackageUrl || 'None') }</div>
+          <div className="form-control-static">{ 'Package: ' + (metaInfo ? metaInfo.url : 'None') }</div>
           }
           {packages.length == 0 &&
           <div className="form-control-static">{ 'No packages available.' }</div>
