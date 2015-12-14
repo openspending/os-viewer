@@ -10,7 +10,7 @@ import {actions, store} from 'fiscaldata-js'
 // webpack
 import './../styles/app.scss'
 
-const rootElement = document.getElementById('root')
+const rootElement = document.getElementById('root');
 render(
   <Provider store={store}>
     <App />
