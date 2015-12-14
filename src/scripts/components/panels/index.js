@@ -7,8 +7,9 @@ import DimensionCodeList from './DimensionCodeList'
 import SelectedFilters from './SelectedFilters'
 import DimensionsGroups from './DimensionsGroups'
 import Footer from './Footer'
+import MoreInformation from './MoreInformation'
 
 export {
   Header, LoadData, Actions, Views, MeasureCodeList, DimensionCodeList, Footer,
-  SelectedFilters, DimensionsGroups
+  SelectedFilters, DimensionsGroups, MoreInformation
 }
