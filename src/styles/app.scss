@@ -42,7 +42,16 @@ body {
   overflow: auto;
 }
 
+.rd3-basic-chart {
+  text-align: center;
+}
+
+.x-smaller-font {
+  font-size: 80%;
+}
+
 .waiter {
+  margin: 4em 0;
   i {
     vertical-align: middle;
   }

@@ -81,7 +81,7 @@ export function bindActions(dispatch) {
     dispatch(actions.resetStateTree());
     dispatch(actions.fdpLoading());
     loaders.fdp(url, {}, {
-      proxy: 'http://gobetween.oklabs.org/pipe/{url}',
+      //proxy: 'http://gobetween.oklabs.org/pipe/{url}',
       onMetaInfoLoaded: (meta) => {
         dispatch(actions.fdpMetaInfoLoaded(meta))
       }

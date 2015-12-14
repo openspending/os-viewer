@@ -1,7 +1,5 @@
 import {
-  Header, Footer, LoadData, Actions, Views
+  Header, Footer, LoadData, Actions, Views, MoreInformation
 } from './panels'
 
-//export { Actions, Header, Footer, Views, Treemap }
-
-export { Header, LoadData, Actions, Views,  Footer }
+export { Header, LoadData, Actions, Views,  Footer, MoreInformation }
