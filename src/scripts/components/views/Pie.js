@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { PieChart } from 'react-d3'
-import { chartDataMappers } from '../../utils'
+import { chartDataMappers, formatAmountWithSuffix } from '../../utils'
 
 class Pie extends Component {
   render() {
@@ -19,6 +19,7 @@ class Pie extends Component {
         radius={200}
         innerRadius={20}
         sectorBorderColor="white"
+        valueTextFormatter={(v) => {return formatAmountWithSuffix(v)}}
       />
     )
   }
