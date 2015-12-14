@@ -4,18 +4,31 @@ import { actions, loaders } from 'fiscaldata-js';
 
 export const chartDataMappers = {};
 
-function decimalRound2(value) {
-  return Math.round(value * 100) / 100;
+export function formatAmountWithSuffix(n) {
+  var prefix = '';
+  if (n < 0) {
+    n = -1 * n;
+    prefix = '-';
+  }
+  if (n >= 1000000000000) {
+    return prefix + Math.round(n / 100000000000) / 10 + 't';
+  }
+  if (n >= 1000000000) {
+    return prefix + Math.round(n / 100000000) / 10 + 'b';
+  }
+  if (n >= 1000000) {
+    return prefix + Math.round(n / 100000) / 10 + 'm';
+  }
+  if (n >= 1000) {
+    return prefix + Math.round(n / 100) / 10 + 'k';
+  }
+  return prefix + n;
 }
 
 chartDataMappers.collectData = function(collection, value, label) {
-  let sum = 0.0;
-  _.each(collection, function(item) {
-    sum += parseFloat(item[value]);
-  });
   return _.map(collection, function(item) {
-    let val = decimalRound2(parseFloat(item[value]) / sum * 100);
-    let lbl = val + '%';
+    let val = item[value];
+    let lbl = val;
     if (_.isString(label) || (_.isArray(label) && label.length)) {
       lbl = _.chain(item).pick(label).values().value().join(', ');
     }
@@ -46,7 +59,6 @@ chartDataMappers.reduceData = function(collection, reduceLimit) {
         aggr.value += item.value;
       }
     });
-    aggr.value = decimalRound2(aggr.value);
     result.push(aggr);
     return result;
   }
