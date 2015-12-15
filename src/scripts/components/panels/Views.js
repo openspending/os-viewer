@@ -32,7 +32,7 @@ class Views extends Component {
             </Tab>
             <Tab eventKey={3} title="Bubble Tree">
               <div className="margin-top-8">
-                <BubbleTree />
+                <BubbleTree data={ data } ui={ ui } />
               </div>
             </Tab>
             <Tab eventKey={4} title="Table">

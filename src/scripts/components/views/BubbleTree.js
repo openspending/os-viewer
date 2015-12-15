@@ -46,8 +46,16 @@ class BubbleTree extends Component {
     this.bubbleTree = null;
   }
   recreateBubbleTree() {
+    const { data, ui } = this.props;
+    const measure = _.first(ui.selections.measures);
+    const label = ui.selections.dimensions.groups;
+    let processedData = {};
+    if (measure) {
+      processedData = chartDataMappers.bubbleTree(data, measure, label);
+    }
     this.bubbleTree = new BubbleTreeConstructor({
-      data: randomData,
+      autoColors: true,
+      data: processedData,
       container: this.refs.container
     });
   }
@@ -61,7 +69,7 @@ class BubbleTree extends Component {
         }
       }
       self.updateBubbleTree();
-    }, 500);
+    }, 200);
   }
   componentDidMount() {
     this.recreateBubbleTree();

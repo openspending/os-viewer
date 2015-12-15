@@ -86,6 +86,26 @@ chartDataMappers.treeMap = function(collection, value, label) {
   return chartDataMappers.reduceData(result, 50);
 };
 
+chartDataMappers.bubbleTree = function(collection, value, label) {
+  let result = _.chain(chartDataMappers.collectData(collection, value, label))
+    .filter(function(item) {
+      return item.value > 0;
+    })
+    .value();
+  // Do some additional aggregation on large arrays
+  result = chartDataMappers.reduceData(result, 50);
+  return {
+    label: 'Total',
+    amount: _.sum(_.pluck(result, 'value')),
+    children: _.map(result, function(item) {
+      return {
+        label: item.label,
+        amount: item.value
+      }
+    })
+  }
+};
+
 export function bindActions(dispatch) {
   let result = {};
 

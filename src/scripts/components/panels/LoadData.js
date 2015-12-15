@@ -14,16 +14,6 @@ class LoadData extends Component {
     return false;
   }
 
-  componentDidMount() {
-    const { packages, actions, metaInfo } = this.props;
-    if (packages.length > 0) {
-      let packageUrl = _.first(packages);
-      if (!metaInfo || (packageUrl != metaInfo.url)) {
-        actions.loadFiscalDataPackage(packageUrl);
-      }
-    }
-  }
-
   render() {
     const { packages, metaInfo } = this.props;
     const self = this;
