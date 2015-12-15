@@ -69,7 +69,7 @@ class BubbleTree extends Component {
         }
       }
       self.updateBubbleTree();
-    }, 500);
+    }, 200);
   }
   componentDidMount() {
     this.recreateBubbleTree();

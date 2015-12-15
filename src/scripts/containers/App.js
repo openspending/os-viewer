@@ -8,6 +8,14 @@ import { Header, LoadData, Actions, Views, Footer, MoreInformation } from '../co
 import { bindActions } from '../utils';
 
 class App extends Component {
+  componentDidMount() {
+    const { dispatch, dataPackages } = this.props;
+    if (dataPackages.length > 0) {
+      const actions = bindActions(dispatch);
+      actions.loadFiscalDataPackage(_.first(dataPackages));
+    }
+  }
+
   render() {
     const { dispatch, data, ui, currentData, dataPackages, flags } = this.props;
     const headers = data.fields;
