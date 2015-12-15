@@ -4,6 +4,7 @@
   "description": "A frontend data/views app powered directly from a Fiscal Data Package.",
   "main": "src/scripts/index.js",
   "scripts": {
+    "test": "mocha --require babel-core/register --timeout 5000 test/*",
     "build": "webpack --progress --colors",
     "develop": "webpack-dev-server --progress --colors --watch",
     "review": "jscs src"
