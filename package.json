@@ -36,7 +36,7 @@
     "bubbletree": "git+https://github.com/kravets-levko/bubbletree",
     "d3": "^3.5.9",
     "express": "^4.13.3",
-    "fiscaldata-js": "git+https://github.com/borysyuk/fiscal-data-js#compile-es6-into-es5",
+    "fiscaldata-js": "git+https://github.com/openspending/fiscal-data-js",
     "font-awesome": "^4.4.0",
     "isomorphic-fetch": "^2.2.0",
     "lodash": "^3.10.1",
