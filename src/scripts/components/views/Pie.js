@@ -1,6 +1,7 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import { PieChart } from 'react-d3'
-import { chartDataMappers } from '../../utils'
+import { chartDataMappers, formatAmountWithSuffix } from '../../utils'
 
 class Pie extends Component {
   render() {
@@ -12,13 +13,14 @@ class Pie extends Component {
       processedData = chartDataMappers.pie(data, measure, label);
     }
     return (
-      <PieChart
+      <PieChart id="pie"
         data={(processedData)}
-        width={400}
-        height={400}
-        radius={100}
+        width={600}
+        height={600}
+        radius={200}
         innerRadius={20}
         sectorBorderColor="white"
+        valueTextFormatter={(v) => {return formatAmountWithSuffix(v)}}
       />
     )
   }

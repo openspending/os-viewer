@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { ButtonGroup, Button } from 'react-bootstrap'
+import { Row, Col, ButtonGroup, Button } from 'react-bootstrap'
 import _ from 'lodash'
 
 class MeasureCodeList extends Component {
@@ -12,17 +12,27 @@ class MeasureCodeList extends Component {
 
     return false;
   }
+
   render() {
     const { measures, headers, selected } = this.props;
     const self = this;
     return (
-      <ButtonGroup>
-        {_.keys(measures).map(function(measure) {
-          let isSelected = _.contains(selected, measure);
-          return <Button active={isSelected} bsStyle={isSelected ? 'success' : 'default'}
-            key={measure} onClick={ (event) => self.toggleMeasure(event, measure) }>{ headers[measure].title }</Button>
-        })}
-      </ButtonGroup>
+      <Row>
+        <Col xs={12}>
+          <ButtonGroup justified={true} id="measures">
+            {_.keys(measures).map(function (measure) {
+              let isSelected = _.contains(selected, measure);
+              return <Button active={isSelected}
+                             bsStyle={isSelected ? 'success' : 'default'}
+                             href={'javascript:void(0)'}
+                             className="text-ellipsis"
+                             title={ headers[measure].title }
+                             key={measure}
+                             onClick={ (event) => self.toggleMeasure(event, measure) }>{ headers[measure].title }</Button>
+            })}
+          </ButtonGroup>
+        </Col>
+      </Row>
     )
   }
 }

@@ -22,17 +22,20 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['babel'],
-        exclude: function(path) {
-          if (path.indexOf('node_modules/fiscaldata-js') > -1) {
-            return false;
-          }
-          if (path.indexOf('node_modules') > -1) {
-            return true;
-          }
-          return false;
-        },
-        include: __dirname
+        exclude: /(node_modules)/,
+        loader: 'babel'
+        //test: /\.js$/,
+        //loaders: ['babel'],
+        //exclude: function(path) {
+        //  if (path.indexOf('node_modules/fiscaldata-js') > -1) {
+        //    return false;
+        //  }
+        //  if (path.indexOf('node_modules') > -1) {
+        //    return true;
+        //  }
+        //  return false;
+        //},
+        //include: __dirname
       },
       {
         test: /\.(css|scss)$/,

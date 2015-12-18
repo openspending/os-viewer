@@ -4,6 +4,7 @@
   "description": "A frontend data/views app powered directly from a Fiscal Data Package.",
   "main": "src/scripts/index.js",
   "scripts": {
+    "test": "mocha --require babel-core/register --timeout 5000 test/*",
     "build": "webpack --progress --colors",
     "develop": "webpack-dev-server --progress --colors --watch",
     "review": "jscs src"
@@ -32,6 +33,7 @@
     "babel-runtime": "^6.3.13",
     "bluebird": "^3.0.5",
     "bootstrap-sass": "^3.3.5",
+    "bubbletree": "git+https://github.com/kravets-levko/bubbletree",
     "d3": "^3.5.9",
     "express": "^4.13.3",
     "fiscaldata-js": "git+https://github.com/openspending/fiscal-data-js",
@@ -60,7 +62,11 @@
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.4",
     "jscs": "^2.7.0",
+    "jsdom": "^7.2.1",
     "mocha": "^2.3.3",
+    "mocha-jsdom": "^1.0.0",
+    "react-addons-test-utils": "^0.14.3",
+    "skin-deep": "^0.13.0",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-dev-server": "^1.12.1",
     "webpack-hot-middleware": "^2.5.0"

@@ -12,17 +12,20 @@ class DimensionsGroups extends Component {
 
     return false;
   }
+
   render() {
     const { dimensions, headers, selected } = this.props;
     const self = this;
     return (
       <Row>
         <Col xs={12}>
-          <ButtonGroup>
+          <ButtonGroup id="dimensions-group">
             {_.map(dimensions, function (value, key) {
               let isSelected = _.contains(selected, key);
-              return <Button active={isSelected} bsStyle={isSelected ? 'success' : 'default'}
-                key={ key } onClick={(event) => self.toggleGroups(event, key)}>{headers[key].title}</Button>
+              return <Button active={isSelected}
+                             bsStyle={isSelected ? 'success' : 'default'}
+                             key={ key }
+                             onClick={(event) => self.toggleGroups(event, key)}>{headers[key].title}</Button>
             })}
           </ButtonGroup>
         </Col>
