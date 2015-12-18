@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import { Treemap as D3Treemap } from 'react-d3'
 import { chartDataMappers } from '../../utils'

@@ -13,7 +13,8 @@ class MoreInformation extends Component {
           { metaInfo.resources && metaInfo.resources.length &&
           <div>
             <h4>Resources</h4>
-            <p>This data package contains a resource called { _.pluck(metaInfo.resources, 'name').join(',') }</p>
+            <p id="package-resources">This data package contains a resource
+              called { _.pluck(metaInfo.resources, 'name').join(',') }</p>
           </div>
           }
         </Col>

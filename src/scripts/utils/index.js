@@ -25,8 +25,8 @@ export function formatAmountWithSuffix(n) {
   return prefix + n;
 }
 
-chartDataMappers.collectData = function(collection, value, label) {
-  return _.map(collection, function(item) {
+chartDataMappers.collectData = function (collection, value, label) {
+  return _.map(collection, function (item) {
     let val = item[value];
     let lbl = val;
     if (_.isString(label) || (_.isArray(label) && label.length)) {
@@ -39,20 +39,20 @@ chartDataMappers.collectData = function(collection, value, label) {
   });
 };
 
-chartDataMappers.reduceData = function(collection, reduceLimit) {
+chartDataMappers.reduceData = function (collection, reduceLimit) {
   if (collection.length > reduceLimit) {
     collection = _.chain(collection)
       .sortBy('value')
       .reverse()
       .value();
 
-    let compare = collection[reduceLimit].value;
+    let compare = collection[reduceLimit - 1].value;
     let result = [];
     let aggr = {
       value: 0.0,
       label: 'Other'
     };
-    _.each(collection, function(item) {
+    _.each(collection, function (item) {
       if (item.value >= compare) {
         result.push(item);
       } else {
@@ -65,9 +65,9 @@ chartDataMappers.reduceData = function(collection, reduceLimit) {
   return collection;
 };
 
-chartDataMappers.pie = function(collection, value, label) {
+chartDataMappers.pie = function (collection, value, label) {
   let result = _.chain(chartDataMappers.collectData(collection, value, label))
-    .filter(function(item) {
+    .filter(function (item) {
       return item.value > 0;
     })
     .value();
@@ -76,9 +76,9 @@ chartDataMappers.pie = function(collection, value, label) {
   return chartDataMappers.reduceData(result, 20);
 };
 
-chartDataMappers.treeMap = function(collection, value, label) {
+chartDataMappers.treeMap = function (collection, value, label) {
   let result = _.chain(chartDataMappers.collectData(collection, value, label))
-    .filter(function(item) {
+    .filter(function (item) {
       return item.value > 0;
     })
     .value();
@@ -86,9 +86,9 @@ chartDataMappers.treeMap = function(collection, value, label) {
   return chartDataMappers.reduceData(result, 50);
 };
 
-chartDataMappers.bubbleTree = function(collection, value, label) {
+chartDataMappers.bubbleTree = function (collection, value, label) {
   let result = _.chain(chartDataMappers.collectData(collection, value, label))
-    .filter(function(item) {
+    .filter(function (item) {
       return item.value > 0;
     })
     .value();
@@ -97,7 +97,7 @@ chartDataMappers.bubbleTree = function(collection, value, label) {
   return {
     label: 'Total',
     amount: _.sum(_.pluck(result, 'value')),
-    children: _.map(result, function(item) {
+    children: _.map(result, function (item) {
       return {
         label: item.label,
         amount: item.value
@@ -109,7 +109,7 @@ chartDataMappers.bubbleTree = function(collection, value, label) {
 export function bindActions(dispatch) {
   let result = {};
 
-  result.loadFiscalDataPackage = function(url) {
+  result.loadFiscalDataPackage = function (url) {
     dispatch(actions.resetStateTree());
     dispatch(actions.fdpLoading());
     loaders.fdp(url, {}, {
@@ -117,35 +117,35 @@ export function bindActions(dispatch) {
       onMetaInfoLoaded: (meta) => {
         dispatch(actions.fdpMetaInfoLoaded(meta))
       }
-    }).then(function(data) {
+    }).then(function (data) {
       dispatch(actions.setDefaultState(data));
       dispatch(actions.fdpLoaded());
     });
   };
 
-  result.changeMeasure = function(fieldName, isSelected) {
+  result.changeMeasure = function (fieldName, isSelected) {
     let measures = {};
     measures[fieldName] = !!isSelected;
     dispatch(actions.selectMeasure(measures));
   };
 
-  result.changeFilter = function(fieldName, value) {
+  result.changeFilter = function (fieldName, value) {
     let filters = {};
     filters[fieldName] = value || null;
     dispatch(actions.setDimensionFilter(filters));
   };
 
-  result.changeGroup = function(fieldName, isSelected) {
+  result.changeGroup = function (fieldName, isSelected) {
     let groups = {};
     groups[fieldName] = !!isSelected;
     dispatch(actions.setGroupField(groups));
   };
 
-  result.undo = function() {
+  result.undo = function () {
     dispatch(ActionCreators.undo());
   };
 
-  result.redo = function() {
+  result.redo = function () {
     dispatch(ActionCreators.redo());
   };
 
