@@ -1,0 +1,70 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+{% raw %}
+    <div ng-controller="main">
+        <div ng-if="!isStarting">
+            <available-packages></available-packages>
+            <div ng-if="!isPackageLoading">
+                <div class="row">
+                    <measures measures="measures"></measures>
+                    <dimensions dimensions="dimensions"></dimensions>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                    <h2>
+                        <span>Views</span>
+                        <div class="pull-right btn-group">
+                            <button class="fa fa-arrow-left btn btn-default" disabled="" type="button"></button>
+                            <button class="fa fa-arrow-right btn btn-default" disabled="" type="button"></button>
+                        </div>
+                    </h2>
+                </div>
+
+                <div class="col-md-12 col-xs-12 charts">
+                    <uib-tabset>
+                        <uib-tab heading="Treemap">
+                            <babbage ng-if="!flag.renderingCharts"
+                                     endpoint="http://s145.okserver.org/api/3/"
+                                     cube="{{availablePackages.current}}"
+                                     state="babbageTreeMap">
+                                <babbage-treemap></babbage-treemap>
+                            </babbage>
+                        </uib-tab>
+                        <uib-tab heading="Pie Chart">
+                            <babbage ng-if="!flag.renderingCharts"
+                                     endpoint="http://s145.okserver.org/api/3/"
+                                     cube="{{availablePackages.current}}"
+                                     >
+<!--                                <babbage-chart chart-type="bar"></babbage-chart> -->
+                            </babbage>
+                        </uib-tab>
+                        <uib-tab heading="Bar Chart">
+                            <babbage ng-if="!flag.renderingCharts"
+                                     endpoint="http://s145.okserver.org/api/3/"
+                                     cube="{{availablePackages.current}}"
+                                     state="babbageBar">
+                                <babbage-chart chart-type="bar"></babbage-chart>
+                            </babbage>
+                        </uib-tab>
+                        <uib-tab heading="Bubble Tree">
+                            More Tab Content
+                        </uib-tab>
+                        <uib-tab heading="Table">
+                            <babbage ng-if="!flag.renderingCharts"
+                                     endpoint="http://s145.okserver.org/api/3/"
+                                     cube="{{availablePackages.current}}"
+                                     >
+                                <!--<babbage-crosstab></babbage-crosstab>-->
+                            </babbage>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+        <div class="waiter text-center" ng-if="(isPackageLoading || isStarting)">
+            <i class="fa fa-spinner fa-pulse fa-4x"></i>
+            <span>Loading...</span>
+        </div>
+    </div>
+{% endraw %}
+{% endblock %}
