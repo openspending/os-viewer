@@ -1,5 +1,5 @@
 /**
- * Created by user on 22.01.16.
+ * Created by Ihor Borysyuk on 22.01.16.
  */
 ;(function(angular) {
 

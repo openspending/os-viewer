@@ -1,12 +1,11 @@
 /**
- * Created by user on 26.01.16.
+ * Created by Ihor Borysyuk on 26.01.16.
  */
 
 ;(function(angular) {
 
   var app = angular.module('Application');
 
-  console.log('----------downloader--------------');
   app.factory('downloader', ['$q', '_', '$http', function($q, _, $http) {
     var proxy = 'http://gobetween.oklabs.org/pipe/{url}';
     function getUrl(url, options) {

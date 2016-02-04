@@ -6,9 +6,9 @@
                 <button
                     type="button"
                     class="btn"
-                    ng-repeat="(key, group) in dimensions.items"
-                    ng-class="{'btn-success active': (dimensions.current.groups.indexOf(key) >= 0), 'btn-default': (dimensions.current.groups.indexOf(key) < 0)}"
-                    ng-click="dimensions.current.changeGroup(key)"
+                    ng-repeat="group in dimensions.items | orderBy:'name'"
+                    ng-class="{'btn-success active': (dimensions.current.groups.indexOf(group.key) >= 0), 'btn-default': (dimensions.current.groups.indexOf(group.key) < 0)}"
+                    ng-click="dimensions.current.changeGroup(group.key)"
                 >{{group.name}}</button>
             </div>
         </div>

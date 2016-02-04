@@ -1,12 +1,10 @@
 /**
- * Created by user on 26.01.16.
+ * Created by Ihor Borysyuk on 26.01.16.
  */
 
 ;(function (angular) {
 
   var app = angular.module('Application');
-  console.log('----------packageApi--------------');
-
   app.factory('ApiService', ['$q', '_', 'downloader', function ($q, _, downloader) {
     var url_api_host = 'http://s145.okserver.org/api/3';
     var url_api_all_packages = url_api_host + '/cubes';
@@ -55,6 +53,7 @@
 
         return that.getPackageModelInfo(packageName).then(function (packageModelInfo){
           //fill measures
+          console.log(packageModelInfo);
           packageModel.measures.items = {};
           _.each(packageModelInfo.model.aggregates, function (value, key) {
             packageModel.measures.items[key] = value.label;
@@ -63,12 +62,10 @@
 
           //fill dimensions
           var promises = [];
-          var items = {};
+          var items = [];
           _.each(packageModelInfo.model.dimensions, function (value, key) {
             var dimension_values_key_field = value.key_ref;
             var dimension_values_label_field = value.label_ref;
-            //var dimension_values_key_field = value.label_ref;
-            //var dimension_values_label_field = value.key_attribute;
             promises.push(that.getDimensionValues(packageName, key).then(function (values) {
               var result = {};
 
@@ -81,24 +78,21 @@
               });
 
               if (_.keys(result).length > 1){
-                items[value.label] = {
+                items.push( {
+                  key: value.label,
                   code: value.label,
                   name: value.label,
                   label: value.hierarchy + '.' + value.label_attribute,
                   values: result
-                };
-                //items[key] = {
-                //  code: key,
-                //  name: value.label,
-                //  values: result
-                //};
-
+                });
               }
             }));
           });
 
           return $q.all(promises).then(function(){
-            packageModel.dimensions.items = items;
+            packageModel.dimensions.items = _.sortBy(items, function(item){
+              return item.name;
+            });
             return packageModel;
           });
         });
@@ -117,8 +111,6 @@
           return result;
         })
       },
-
-
     }
   }]);
 

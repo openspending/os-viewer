@@ -34,6 +34,7 @@ var modules = [
   'bluebird',
   'd3',
   'c3',
+  'raphael',
   'redux/dist/redux.js',
   'ng-redux/dist/ng-redux.js'
 ];
@@ -105,6 +106,8 @@ gulp.task('vendor.scripts', function() {
     path.join(nodeModulesDir, '/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js'),
     path.join(nodeModulesDir, '/angular-filter/dist/angular-filter.min.js'),
     path.join(frontScriptsDir, '/ext-libs/babbage.ui.js'),
+    path.join(nodeModulesDir, '/bubbletree/node_modules/tween.js/src/Tween.js'),
+    path.join(nodeModulesDir, '/bubbletree/dist/bubbletree.min.js'),
   ];
   return gulp.src(files)
     .pipe(concat('vendor.js'))
@@ -118,6 +121,7 @@ gulp.task('vendor.styles', function() {
     path.join(nodeModulesDir, '/angular/angular-csp.css'),
     path.join(frontScriptsDir, '/ext-libs/babbage.ui.css'),
     path.join(nodeModulesDir, '/angular-ui-bootstrap/dist/angular.csp.css'),
+    path.join(nodeModulesDir, '/bubbletree/dist/bubbletree.css'),
     path.join(nodeModulesDir, '/c3/c3.min.css')
   ];
   return gulp.src(files)

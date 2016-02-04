@@ -54,6 +54,7 @@
     "ng-redux": "^3.3.3",
     "nunjucks": "^2.1.0",
     "papaparse": "^4.1.2",
+    "raphael": "^2.1.4",
     "redux": "^3.0.6",
     "redux-undo": "^0.6.0",
     "request": "^2.65.0",
