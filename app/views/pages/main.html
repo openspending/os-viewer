@@ -3,70 +3,80 @@
 {% block content %}
 {% raw %}
     <div ng-controller="main">
-        <div ng-if="!isStarting">
+        <div ng-if="!state.isStarting">
             <available-packages></available-packages>
-            <div ng-if="!isPackageLoading">
+            <div ng-if="!state.isPackageLoading">
                 <div class="row">
-                    <measures measures="measures"></measures>
-                    <dimensions dimensions="dimensions"></dimensions>
+                    <measures measures="state.measures" events="events"></measures>
+                    <dimensions dimensions="state.dimensions" events="events"></dimensions>
                 </div>
                 <div class="col-md-12 col-xs-12">
                     <h2>
                         <span>Views</span>
                         <div class="pull-right btn-group">
-                            <button class="fa fa-arrow-left btn btn-default" disabled="" type="button"></button>
-                            <button class="fa fa-arrow-right btn btn-default" disabled="" type="button"></button>
+                            <button
+                                    class="fa fa-arrow-left btn btn-default"
+                                    ng-disabled="!events.canBack()"
+                                    type="button"
+                                    ng-click="events.back()"
+                            ></button>
+                            <button
+                                    class="fa fa-arrow-right btn btn-default"
+                                    ng-disabled="!events.canForward()"
+                                    type="button"
+                                    ng-click="events.forward()"
+                            ></button>
                         </div>
                     </h2>
                 </div>
 
                 <div class="col-md-12 col-xs-12 charts">
                     <uib-tabset>
-                        <uib-tab heading="Treemap" ng-click="setTab('Treemap')">
-                            <babbage ng-if="!flag.renderingCharts && currentTab == 'Treemap'"
+                        <uib-tab heading="Treemap" ng-click="events.setTab('Treemap')">
+                            <babbage ng-if="!state.flag.renderingCharts && currentTab == 'Treemap'"
                                      endpoint="http://s145.okserver.org/api/3/"
-                                     cube="{{availablePackages.current}}"
-                                     state="babbageTreeMap">
+                                     cube="{{state.availablePackages.current}}"
+                                     state="state.babbageTreeMap">
                                 <babbage-treemap></babbage-treemap>
                             </babbage>
                         </uib-tab>
-                        <uib-tab heading="Pie Chart" ng-click="setTab('PieChart')">
-                            <babbage ng-if="!flag.renderingCharts && currentTab == 'PieChart'"
+                        <uib-tab heading="Pie Chart" ng-click="events.setTab('PieChart')">
+                            <babbage ng-if="!state.flag.renderingCharts && currentTab == 'PieChart'"
                                      endpoint="http://s145.okserver.org/api/3/"
-                                     cube="{{availablePackages.current}}"
-                                     state="babbageBar">
+                                     cube="{{state.availablePackages.current}}"
+                                     state="state.babbageBar">
                                 <pie-chart></pie-chart>
                             </babbage>
                         </uib-tab>
-                        <uib-tab heading="Bar Chart" ng-click="setTab('BarChart')">
-                            <babbage ng-if="!flag.renderingCharts && currentTab == 'BarChart'"
+                        <uib-tab heading="Bar Chart" ng-click="events.setTab('BarChart')">
+                            <babbage ng-if="!state.flag.renderingCharts && currentTab == 'BarChart'"
                                      endpoint="http://s145.okserver.org/api/3/"
-                                     cube="{{availablePackages.current}}"
-                                     state="babbageBar">
+                                     cube="{{state.availablePackages.current}}"
+                                     state="state.babbageBar">
                                 <babbage-chart chart-type="bar"></babbage-chart>
                             </babbage>
                         </uib-tab>
-                        <uib-tab heading="Line Chart" ng-click="setTab('LineChart')">
-                            <babbage ng-if="!flag.renderingCharts && currentTab == 'LineChart'"
+                        <uib-tab heading="Line Chart" ng-click="events.setTab('LineChart')">
+                            <babbage ng-if="!state.flag.renderingCharts && currentTab == 'LineChart'"
                                      endpoint="http://s145.okserver.org/api/3/"
-                                     cube="{{availablePackages.current}}"
-                                     state="babbageBar">
+                                     cube="{{state.availablePackages.current}}"
+                                     state="state.babbageBar">
                                 <babbage-chart chart-type="line"></babbage-chart>
                             </babbage>
                         </uib-tab>
-                        <uib-tab heading="Bubble Tree" ng-click="setTab('BubbleTree')">
-                            <babbage ng-if="!flag.renderingCharts && currentTab == 'BubbleTree'"
+                        <uib-tab heading="Bubble Tree" ng-click="events.setTab('BubbleTree')">
+                            <babbage ng-if="!state.flag.renderingCharts && currentTab == 'BubbleTree'"
                                      endpoint="http://s145.okserver.org/api/3/"
-                                     cube="{{availablePackages.current}}"
-                                     state="babbageBar">
+                                     cube="{{state.availablePackages.current}}"
+                                     state="state.babbageBar">
                                 <bubble-tree></bubble-tree>
                             </babbage>
                         </uib-tab>
-                        <uib-tab heading="Table" ng-click="setTab('Table')">
-                            <babbage ng-if="!flag.renderingCharts && currentTab == 'Table'"
+                        <uib-tab heading="Table" ng-click="events.setTab('Table')">
+                            <babbage ng-if="!state.flag.renderingCharts && currentTab == 'Table'"
                                      endpoint="http://s145.okserver.org/api/3/"
-                                     cube="{{availablePackages.current}}"
-                                     state="babbageTable">
+                                     cube="{{state.availablePackages.current}}"
+                                     state="state.babbageTable">
                                 <babbage-crosstab></babbage-crosstab>
                             </babbage>
                         </uib-tab>
@@ -74,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <div class="waiter text-center" ng-if="(isPackageLoading || isStarting)">
+        <div class="waiter text-center" ng-if="(state.isPackageLoading || state.isStarting)">
             <i class="fa fa-spinner fa-pulse fa-4x"></i>
             <span>Loading...</span>
         </div>

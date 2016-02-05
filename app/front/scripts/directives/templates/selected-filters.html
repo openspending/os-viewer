@@ -2,11 +2,11 @@
     <div class="row">
         <div id="selected-filters" class="col-xs-12">
             <span class="margin-right-4 label label-success" ng-repeat="(key, item) in dimensions.current.filters">
-                <span>{{ (dimensions.find(key)).name }}</span>
+                <span>{{ (events.findDimension(key)).name }}</span>
                 <span>:&nbsp;</span>
-                <span>{{ (dimensions.find(key)).values[item] }}</span>
+                <span>{{ (events.findDimension(key)).values[item] }}</span>
                 <span>&nbsp;</span>
-                <i class="fa fa-remove cursor-pointer" ng-click="dimensions.current.dropFilter(key)"></i>
+                <i class="fa fa-remove cursor-pointer" ng-click="events.dropFilter(key)"></i>
             </span>
         </div>
     </div>
