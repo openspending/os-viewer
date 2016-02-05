@@ -46,6 +46,14 @@
                                 <babbage-chart chart-type="bar"></babbage-chart>
                             </babbage>
                         </uib-tab>
+                        <uib-tab heading="Line Chart" ng-click="setTab('LineChart')">
+                            <babbage ng-if="!flag.renderingCharts && currentTab == 'LineChart'"
+                                     endpoint="http://s145.okserver.org/api/3/"
+                                     cube="{{availablePackages.current}}"
+                                     state="babbageBar">
+                                <babbage-chart chart-type="line"></babbage-chart>
+                            </babbage>
+                        </uib-tab>
                         <uib-tab heading="Bubble Tree" ng-click="setTab('BubbleTree')">
                             <babbage ng-if="!flag.renderingCharts && currentTab == 'BubbleTree'"
                                      endpoint="http://s145.okserver.org/api/3/"
