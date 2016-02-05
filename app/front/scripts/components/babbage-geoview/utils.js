@@ -65,7 +65,7 @@ function createPath(options) {
 
 function updateDimensions(geoJson, options) {
   var path = options.path;
-  _.each(geoJson.features, function(item, index) {
+  _.each(geoJson.features, function(item) {
     item.dimensions = calculateDimensions(item);
     item.center = calculateCenter(item.dimensions);
     item.unscaledBounds = path.bounds(item);
@@ -74,9 +74,6 @@ function updateDimensions(geoJson, options) {
   geoJson.dimensions = calculateDimensions(geoJson);
   geoJson.center = calculateCenter(geoJson.dimensions);
   geoJson.unscaledBounds = path.bounds(geoJson);
-
-  updateScales(geoJson, options);
-  updateValues(geoJson, options);
 }
 
 function updateValues(geoJson, options) {
@@ -171,7 +168,7 @@ module.exports.getOrdinalColorScale = getOrdinalColorScale;
 module.exports.getLinearColorScale = getLinearColorScale;
 module.exports.createPath = createPath;
 module.exports.prepareGeoJson = prepareGeoJson;
-module.exports.updateDimensions = updateScales;
+module.exports.updateDimensions = updateDimensions;
 module.exports.updateScales = updateScales;
 module.exports.updateValues = updateValues;
 module.exports.setSelection = setSelection;
