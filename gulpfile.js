@@ -74,6 +74,8 @@ gulp.task('app.modules', function() {
     bundler.require(resolve.sync(id), {expose: id});
   });
 
+  bundler.require(resolve.sync('./app/front/scripts/components'), {expose: 'components'});
+
   bundler.add(path.join(frontScriptsDir, '/modules.js')); // Init modules
 
   return bundler.bundle()
