@@ -8,15 +8,6 @@
       replace: true,
       transclude: false,
       restrict: 'E',
-//      scope: false,
-      //compile: function compile(tElement, tAttrs, transclude) {
-      //  return {
-      //    pre: function preLink(scope, iElement, iAttrs, controller) { ... },
-      //    post: function postLink(scope, iElement, iAttrs, controller) { ... }
-      //  }
-      //},
-      link: function postLink(scope, iElement, iAttrs) {
-      }
     };
     return directiveDefinitionObject;
   });
