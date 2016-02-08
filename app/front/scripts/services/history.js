@@ -14,9 +14,7 @@
       back: function(){
         if (this.canBack()) {
           _index--;
-          console.log('----History Log Start-------');
           console.log(_index);
-          console.log('----History Log End-------');
           return JSON.parse(_histories[_index]);
         }
       },
