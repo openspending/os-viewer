@@ -6,120 +6,148 @@
   angular.module('Application')
     .controller(
       'main',
-      ['$scope', '_', 'ApiService', '$q', '$timeout',
-        function ($scope, _, ApiService, $q, $timeout) {
+      ['$scope', '_', 'ApiService', 'HistoryService', '$q', '$timeout',
+        function ($scope, _, ApiService, HistoryService, $q, $timeout) {
 
 
-          $scope.isStarting = true;
-          $scope.flag = {};
+          function initScopeEvents(){
+            $scope.events = {};
+            $scope.events.changePackage = function (packageNameIndex) {
+              changePackage($scope.state.availablePackages.items[packageNameIndex]);
+            };
+            $scope.events.changeMeasure = function (measure) {
+              $scope.state.measures.current = measure;
+              updateBabbage();
+            };
+            $scope.events.findDimension = function(key) {
+              return _.find($scope.state.dimensions.items, {key: key});
+            };
+            $scope.events.isGroupSelected = function(key) {
+              return $scope.state.dimensions.current.groups.indexOf(key) >= 0
+            };
+            $scope.events.changeGroup = function (group) {
+              var index = $scope.state.dimensions.current.groups.indexOf(group);
+              if (index > -1) {
+                if ($scope.state.dimensions.current.groups.length > 1) {
+                  $scope.state.dimensions.current.groups.splice(index, 1);
+                }
+              } else {
+//              $scope.state.dimensions.current.groups.push(group);//babbage.ui doesn't support multy-drilldown
+                $scope.state.dimensions.current.groups = [group];
+              }
+              updateBabbage();
+            };
+            $scope.events.changeFilter = function (filter, value) {
+              $scope.state.dimensions.current.filters[filter] = value;
+              updateBabbage();
+            }
+            $scope.events.dropFilter = function (filter) {
+              delete $scope.state.dimensions.current.filters[filter];
+              updateBabbage();
+            };
+            $scope.events.setTab = function (aTab){
+              $scope.currentTab = aTab;
+            };
+            $scope.events.canBack = function (){
+              return HistoryService.canBack();
+            };
+            $scope.events.canForward = function (){
+              return HistoryService.canForward();
+            }
+            $scope.events.back = function (){
+              var history = HistoryService.back();
+              setState(history);
+            };
+            $scope.events.forward = function (){
+              var history = HistoryService.forward();
+              setState(history);
+            }
+          }
+
+          function setState(state) {
+            $scope.state = _.extend($scope.state, state);
+            $timeout(function(){
+              $scope.state.flag.renderingCharts = true;
+              $timeout(function() {
+                $scope.state.flag.renderingCharts = false;
+              })
+            });
+          }
 
           function changePackage(packageName) {
             $scope.currentTab = 'Treemap';
-            $scope.isPackageLoading = true;
-            $scope.availablePackages.current = packageName;
+            $scope.state.isPackageLoading = true;
+            $scope.state.availablePackages.current = packageName;
 
             ApiService.getPackage(packageName).then(function (package) {
-              $scope.availablePackages.description = (package.description) ? package.description : package.title;
+              $scope.state.availablePackages.description = (package.description) ? package.description : package.title;
             });
 
-            $scope.measures.current = '';
-            $scope.dimensions.current.groups = [];
-            $scope.dimensions.current.filters = {};
+            $scope.state.measures.current = '';
+            $scope.state.dimensions.current.groups = [];
+            $scope.state.dimensions.current.filters = {};
 
             ApiService.getPackageModel(packageName).then(function (packageModel){
-              $scope.dimensions.items = packageModel.dimensions.items;
-              $scope.measures.items = packageModel.measures.items;
-              $scope.measures.current = packageModel.measures.current;
-              $scope.dimensions.current.groups = [(_.first(packageModel.dimensions.items)).key];
+              $scope.state.dimensions.items = packageModel.dimensions.items;
+              $scope.state.measures.items = packageModel.measures.items;
+              $scope.state.measures.current = packageModel.measures.current;
+              $scope.state.dimensions.current.groups = [(_.first(packageModel.dimensions.items)).key];
 
             }).finally(function(){
-              $scope.isPackageLoading = false;
+              $scope.state.isPackageLoading = false;
               updateBabbage();
             });
           }
 
           function updateBabbage(){
             $timeout(function(){
-              $scope.flag.renderingCharts = true;
+              $scope.state.flag.renderingCharts = true;
               $timeout(function() {
 
-                var labelField = (_.find($scope.dimensions.items, {key: _.first($scope.dimensions.current.groups)})).label;
-//                var labelField = $scope.dimensions.items[_.first($scope.dimensions.current.groups)].label;
-                var cut = _.map($scope.dimensions.current.filters, function(value, key){ return key+':"'+value+'"'});
-                $scope.babbageTreeMap = {
-                  grouping: _.first($scope.dimensions.current.groups),
-                  area: $scope.measures.current,
+                var labelField = (_.find($scope.state.dimensions.items, {key: _.first($scope.state.dimensions.current.groups)})).label;
+                var cut = _.map($scope.state.dimensions.current.filters, function(value, key){ return key+':"'+value+'"'});
+                $scope.state.babbageTreeMap = {
+                  grouping: _.first($scope.state.dimensions.current.groups),
+                  area: $scope.state.measures.current,
                   tile: labelField,
                   cut: cut,
                 };
-                $scope.babbageBar = {
-                  value: $scope.measures.current,
-                  area: $scope.measures.current,
+                $scope.state.babbageBar = {
+                  value: $scope.state.measures.current,
+                  area: $scope.state.measures.current,
                   category: labelField,
                   cut: cut,
                 };
-                $scope.babbageTable = {
+                $scope.state.babbageTable = {
                   category: labelField,
                   rows : [labelField],
                   cut: cut,
                 }
 
-                $scope.flag.renderingCharts = false;
+                $scope.state.flag.renderingCharts = false;
+                HistoryService.pushState($scope.state);
               });
             });
           }
 
 
           ApiService.getPackages().then(function (packages) {
-            $scope.availablePackages.items = packages;
-            $scope.isStarting = false;
-            $timeout(changePackage(_.first($scope.availablePackages.items)));
+            $scope.state.availablePackages.items = packages;
+            $scope.state.isStarting = false;
+            $timeout(changePackage(_.first($scope.state.availablePackages.items)));
           });
 
-          $scope.availablePackages = {};
-          $scope.measures = {};
-          $scope.dimensions = {};
-          $scope.dimensions.current = {};
-          $scope.dimensions.current.groups = [];
-          $scope.dimensions.current.filters = {};
+          $scope.state = {};
+          $scope.state.isStarting = true;
+          $scope.state.flag = {};
+          $scope.state.availablePackages = {};
+          $scope.state.measures = {};
+          $scope.state.dimensions = {};
+          $scope.state.dimensions.current = {};
+          $scope.state.dimensions.current.groups = [];
+          $scope.state.dimensions.current.filters = {};
 
-          $scope.availablePackages.changePackage = function (packageNameIndex) {
-            changePackage($scope.availablePackages.items[packageNameIndex]);
-          };
+          initScopeEvents();
 
-          $scope.measures.changeMeasure = function (measure) {
-            $scope.measures.current = measure;
-            updateBabbage();
-          };
-
-          $scope.dimensions.find = function(key) {
-            return _.find($scope.dimensions.items, {key: key});
-          };
-
-          $scope.dimensions.current.changeGroup = function (group) {
-            var index = $scope.dimensions.current.groups.indexOf(group);
-            if (index > -1) {
-              if ($scope.dimensions.current.groups.length > 1) {
-                $scope.dimensions.current.groups.splice(index, 1);
-              }
-            } else {
-//              $scope.dimensions.current.groups.push(group);//babbage.ui doesn't support multy-drilldown
-              $scope.dimensions.current.groups = [group];
-            }
-            updateBabbage();
-          };
-          $scope.dimensions.current.changeFilter = function (filter, value) {
-            $scope.dimensions.current.filters[filter] = value;
-            updateBabbage();
-          }
-
-          $scope.dimensions.current.dropFilter = function (filter) {
-            delete $scope.dimensions.current.filters[filter];
-            updateBabbage();
-          };
-
-          $scope.setTab = function (aTab){
-            $scope.currentTab = aTab;
-          };
         }]);
 })(angular);

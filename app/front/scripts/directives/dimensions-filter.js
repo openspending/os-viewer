@@ -12,7 +12,8 @@
       transclude: false,
       restrict: 'E',
       scope: {
-        dimensions: '='
+        dimensions: '=',
+        events: '='
       }
     };
     return directiveDefinitionObject;

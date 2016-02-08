@@ -12,14 +12,9 @@
       transclude: false,
       restrict: 'E',
       scope: {
-        dimensions: '='
+        dimensions: '=',
+        events: '='
       },
-      //compile: function compile(tElement, tAttrs, transclude) {
-      //  return {
-      //    pre: function preLink(scope, iElement, iAttrs, controller) { ... },
-      //    post: function postLink(scope, iElement, iAttrs, controller) { ... }
-      //  }
-      //},
       link: function postLink(scope, iElement, iAttrs) {
       }
     };

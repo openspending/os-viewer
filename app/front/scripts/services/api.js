@@ -56,7 +56,9 @@
           console.log(packageModelInfo);
           packageModel.measures.items = {};
           _.each(packageModelInfo.model.aggregates, function (value, key) {
-            packageModel.measures.items[key] = value.label;
+            if (value.measure) {
+              packageModel.measures.items[key] = value.label;
+            }
           });
           packageModel.measures.current = _.first(_.keys(packageModel.measures.items));
 
