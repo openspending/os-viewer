@@ -83,7 +83,7 @@
                 items.push( {
                   key: value.label,
                   code: value.label,
-                  name: value.label,
+                  name: value.attributes[value.key_attribute].column ,
                   label: value.hierarchy + '.' + value.label_attribute,
                   values: result
                 });
