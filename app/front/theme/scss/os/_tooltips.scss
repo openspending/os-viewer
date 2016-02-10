@@ -1,0 +1,78 @@
+// Mixins
+
+@mixin tooltip($background-colour: white,
+               $arrow-base: 2em,
+               $arrow-length: 1em,
+               $border-width: 0,
+               $border-colour: false) {
+
+  position: absolute;
+  box-sizing: border-box;
+  margin-bottom: $arrow-length;
+  background-color: $background-colour;
+  cursor: default;
+  visibility: hidden;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 100%; left: 50%;
+    width: 0; height: 0;
+    border-top: ($arrow-length - $border-width) solid $background-colour;
+    border-left: ($arrow-base / 2 - $border-width) solid transparent;
+    border-right: ($arrow-base / 2 - $border-width) solid transparent;
+    margin-left: ($border-width - $arrow-base / 2);
+  }
+
+  @if $border-width {
+    border: $border-width solid $border-colour;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 100%; left: 50%;
+      width: 0; height: 0;
+      border-top: $arrow-length solid $border-colour;
+      border-left: ($arrow-base / 2) solid transparent;
+      border-right: ($arrow-base / 2) solid transparent;
+      margin-left: ($arrow-base / -2);
+    }
+  }
+}
+
+// Animations
+
+@include keyframes(slide-up) {
+  0% {
+    opacity: 0;
+    @include transform(translateY(1em));
+  }
+  100% {
+    opacity: 1;
+    @include transform(translateY(0));
+  }
+}
+
+
+.tooltip-attached {
+  position: relative;
+	cursor: pointer;
+
+  &:hover {
+    .tooltip {
+      visibility: visible;
+      @include animation(slide-up .3s);
+    }
+  }
+}
+
+.tooltip {
+  left: 50%;
+  bottom: 100%; // on top
+  width: 12em;
+  margin-left: -6em; // center the tooltip
+  padding: .5em .75em;
+  box-shadow: 0 .05em .15em rgba(black, .1);
+  @include tooltip($colour-1, 1em, .5em);
+  color: #fff;
+}
