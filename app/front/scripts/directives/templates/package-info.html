@@ -1,0 +1,9 @@
+<div>
+  <h2 ng-if="!!packageUrl || !!resourceUrl">Data Resources</h2>
+  <div ng-if="!!packageUrl">
+    <a href="{{ packageUrl }}" target="_blank">Download Data Package</a>
+  </div>
+  <div ng-if="!!resourceUrl">
+    <a href="{{ resourceUrl }}" target="_blank">View Raw Source Data</a>
+  </div>
+</div>

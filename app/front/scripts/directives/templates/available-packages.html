@@ -1,14 +1,14 @@
-<div class="margin-bottom-16 row">
-    <div class="col-xs-12">
-        <h4>{{state.availablePackages.description}}</h4>
+<div class="x-available-packages row">
+    <div class="col-xs-12 col-md-6 col-lg-8">
+        <h2>{{ state.availablePackages.title }}</h2>
+        <h4>{{ state.availablePackages.description }}</h4>
     </div>
-
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-md-6 col-lg-4 text-right">
         <dropdown
-                selected="state.currentPackageIndex"
-                title="{{state.availablePackages.current}}"
-                items="state.availablePackages.items"
-                on-click="events.changePackage(state.currentPackageIndex)"
+          selected="state.currentPackageIndex"
+          title="{{state.availablePackages.current}}"
+          items="state.availablePackages.items"
+          on-click="events.changePackage(state.currentPackageIndex)"
         ></dropdown>
     </div>
 </div>
