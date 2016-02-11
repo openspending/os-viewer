@@ -5,46 +5,51 @@
 ;(function (angular) {
 
   var app = angular.module('Application');
-  app.factory('ApiService', ['$q', '_', 'downloader', function ($q, _, downloader) {
-    var url_api_host = 'http://s145.okserver.org/api/3';
-    var url_api_all_packages = url_api_host + '/cubes';
-    var url_api_package = url_api_host + '/info/{packageName}/package';
-    var url_api_package_model = url_api_host + '/cubes/{packageName}/model';
-    var url_api_dimension_values = url_api_host + '/cubes/{packageName}/members/{dimension}';
-
+  app.factory('ApiService', ['$q', '_', 'downloader', 'SettingsService', function ($q, _, downloader, SettingsService) {
     return {
       getPackages: function () {
-        return downloader.get(url_api_all_packages).then(function (text) {
-          var result = [];
-          try {
-            var packages = JSON.parse(text);
-            result = _.pluck(packages.data, 'name');
-          } catch (e) {
-          }
-          return result;
-        })
+        return SettingsService.get('api').then(function(api_settings){
+          var url_api_all_packages = api_settings.url + '/cubes';
+
+          return downloader.get(url_api_all_packages).then(function (text) {
+            var result = [];
+            try {
+              var packages = JSON.parse(text);
+              result = _.pluck(packages.data, 'name');
+            } catch (e) {
+            }
+            return result;
+          })
+
+        });
       },
 
       getPackage: function (packageName) {
-        return downloader.get(url_api_package.replace('{packageName}', packageName)).then(function (text) {
-          var result = {};
-          try {
-            result = JSON.parse(text);
-          } catch (e) {
-          }
-          return result;
-        })
+        return SettingsService.get('api').then(function(api_settings){
+          var url_api_package = api_settings.url + '/info/{packageName}/package';
+          return downloader.get(url_api_package.replace('{packageName}', packageName)).then(function (text) {
+            var result = {};
+            try {
+              result = JSON.parse(text);
+            } catch (e) {
+            }
+            return result;
+          })
+        });
       },
 
       getPackageModelInfo: function (packageName) {
-        return downloader.get(url_api_package_model.replace('{packageName}', packageName)).then(function (text) {
-          var result = {};
-          try {
-            result = JSON.parse(text);
-          } catch (e) {
-          }
-          return result;
-        })
+        return SettingsService.get('api').then(function(api_settings){
+          var url_api_package_model = api_settings.url + '/cubes/{packageName}/model';
+          return downloader.get(url_api_package_model.replace('{packageName}', packageName)).then(function (text) {
+            var result = {};
+            try {
+              result = JSON.parse(text);
+            } catch (e) {
+            }
+            return result;
+          })
+        });
       },
 
       getPackageModel: function (packageName) {
@@ -101,17 +106,21 @@
       },
 
       getDimensionValues: function (packageName, dimension) {
-        return downloader.get(
-          url_api_dimension_values.replace('{packageName}', packageName)
-            .replace('{dimension}', dimension)
-        ).then(function (text) {
-          var result = {};
-          try {
-            result = JSON.parse(text);
-          } catch (e) {
-          }
-          return result;
-        })
+        return SettingsService.get('api').then(function(api_settings) {
+
+          var url_api_dimension_values = api_settings.url + '/cubes/{packageName}/members/{dimension}';
+          return downloader.get(
+            url_api_dimension_values.replace('{packageName}', packageName)
+              .replace('{dimension}', dimension)
+          ).then(function (text) {
+            var result = {};
+            try {
+              result = JSON.parse(text);
+            } catch (e) {
+            }
+            return result;
+          })
+        });
       },
     }
   }]);

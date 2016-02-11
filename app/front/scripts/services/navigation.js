@@ -28,7 +28,8 @@
           filterList.push(key+'|'+value);
         });
 
-        $location.path('/'+state.availablePackages.current);
+        var embed = (state.isEmbeded)? '/embed': '';
+        $location.path(embed + '/'+state.availablePackages.current);
         $location.search({
           measure: state.measures.current,
           groups: state.dimensions.current.groups,
