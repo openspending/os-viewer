@@ -8,5 +8,7 @@ module.exports = function() {
 
   router.get('/', pages.main);
 
+  router.get(/(.*)/, pages.main);
+
   return router;
 };

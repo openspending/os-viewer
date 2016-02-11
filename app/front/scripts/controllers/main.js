@@ -6,9 +6,8 @@
   angular.module('Application')
     .controller(
       'main',
-      ['$scope', '_', 'ApiService', 'HistoryService', '$q', '$timeout',
-        function ($scope, _, ApiService, HistoryService, $q, $timeout) {
-
+      ['$scope', 'NavigationService', '_', 'ApiService', 'HistoryService', '$q', '$timeout',
+        function ($scope, NavigationService, _, ApiService, HistoryService, $q, $timeout) {
 
           function initScopeEvents(){
             $scope.events = {};
@@ -17,6 +16,7 @@
             };
             $scope.events.changeMeasure = function (measure) {
               $scope.state.measures.current = measure;
+              NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
             $scope.events.findDimension = function(key) {
@@ -35,10 +35,12 @@
 //              $scope.state.dimensions.current.groups.push(group);//babbage.ui doesn't support multy-drilldown
                 $scope.state.dimensions.current.groups = [group];
               }
+              NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
             $scope.events.changeFilter = function (filter, value) {
               $scope.state.dimensions.current.filters[filter] = value;
+              NavigationService.updateLocation($scope.state);
               updateBabbage();
             }
             $scope.events.dropFilter = function (filter) {
@@ -64,8 +66,7 @@
             }
           }
 
-          function setState(state) {
-            $scope.state = _.extend($scope.state, state);
+          function refreshBabbleComponents() {
             $timeout(function(){
               $scope.state.flag.renderingCharts = true;
               $timeout(function() {
@@ -74,68 +75,130 @@
             });
           }
 
-          function changePackage(packageName) {
+          function setState(state) {
+            $scope.state = _.extend($scope.state, state);
+            NavigationService.updateLocation($scope.state);
+            refreshBabbleComponents();
+          }
+
+          function chooseStateParams(defaultParams) {
+            //validate and populate default params
+            $scope.state.measures.current = '';
+            $scope.state.dimensions.current.groups = [];
+            $scope.state.dimensions.current.filters = {};
+            $scope.isEmbeded = defaultParams.isEmbeded;
+
+            if ($scope.state.measures.items[defaultParams.measure]){
+              $scope.state.measures.current = defaultParams.measure;
+            }
+
+            _.each(defaultParams.groups, function (value){
+              var dimension = $scope.events.findDimension(value);
+              if (dimension) {
+                $scope.state.dimensions.current.groups.push(value);
+              }
+            });
+
+
+            _.each(defaultParams.filters, function (value, key){
+              var dimension = $scope.events.findDimension(key);
+              if (dimension) {
+                $scope.state.dimensions.current.filters[key] = value;
+              }
+            });
+          }
+
+          function changePackage(packageName, defaultParams) {
+            defaultParams = defaultParams || {};
             $scope.currentTab = 'Treemap';
             $scope.state.isPackageLoading = true;
             $scope.state.availablePackages.current = packageName;
 
             ApiService.getPackage(packageName).then(function (package) {
-              $scope.state.availablePackages.description = (package.description) ? package.description : package.title;
+              $scope.state.availablePackages.description = package.description;
+              $scope.state.availablePackages.title = package.title;
             });
-
-            $scope.state.measures.current = '';
-            $scope.state.dimensions.current.groups = [];
-            $scope.state.dimensions.current.filters = {};
 
             ApiService.getPackageModel(packageName).then(function (packageModel){
               $scope.state.dimensions.items = packageModel.dimensions.items;
               $scope.state.measures.items = packageModel.measures.items;
-              $scope.state.measures.current = packageModel.measures.current;
-              $scope.state.dimensions.current.groups = [(_.first(packageModel.dimensions.items)).key];
+
+              chooseStateParams(defaultParams);
+
+              if ($scope.state.measures.current == ''){
+                $scope.state.measures.current = packageModel.measures.current;
+              }
+
+              if ($scope.state.dimensions.current.groups.length == 0){
+                $scope.state.dimensions.current.groups = [(_.first(packageModel.dimensions.items)).key];
+              }
+
 
             }).finally(function(){
               $scope.state.isPackageLoading = false;
               updateBabbage();
+              NavigationService.updateLocation($scope.state);
             });
           }
 
           function updateBabbage(){
-            $timeout(function(){
-              $scope.state.flag.renderingCharts = true;
-              $timeout(function() {
+            var labelField = (_.find($scope.state.dimensions.items, {key: _.first($scope.state.dimensions.current.groups)})).label;
+            var cut = _.map($scope.state.dimensions.current.filters, function(value, key){ return key+':"'+value+'"'});
+            $scope.state.babbageTreeMap = {
+              grouping: _.first($scope.state.dimensions.current.groups),
+              area: $scope.state.measures.current,
+              tile: labelField,
+              cut: cut,
+            };
+            $scope.state.babbageBar = {
+              value: $scope.state.measures.current,
+              area: $scope.state.measures.current,
+              category: labelField,
+              cut: cut,
+            };
+            $scope.state.babbageTable = {
+              category: labelField,
+              rows : [labelField],
+              cut: cut,
+            }
+            HistoryService.pushState($scope.state);
 
-                var labelField = (_.find($scope.state.dimensions.items, {key: _.first($scope.state.dimensions.current.groups)})).label;
-                var cut = _.map($scope.state.dimensions.current.filters, function(value, key){ return key+':"'+value+'"'});
-                $scope.state.babbageTreeMap = {
-                  grouping: _.first($scope.state.dimensions.current.groups),
-                  area: $scope.state.measures.current,
-                  tile: labelField,
-                  cut: cut,
-                };
-                $scope.state.babbageBar = {
-                  value: $scope.state.measures.current,
-                  area: $scope.state.measures.current,
-                  category: labelField,
-                  cut: cut,
-                };
-                $scope.state.babbageTable = {
-                  category: labelField,
-                  rows : [labelField],
-                  cut: cut,
-                }
-
-                $scope.state.flag.renderingCharts = false;
-                HistoryService.pushState($scope.state);
-              });
-            });
+            refreshBabbleComponents();
           }
 
+          function applyLocationParams(){
+            var params = NavigationService.getParams();
+            if (!params.dataPackage.length || ($scope.state.availablePackages.items.indexOf(params.dataPackage) < 0)){
+              params.dataPackage = _.first($scope.state.availablePackages.items);
+            }
+
+            if ((params.dataPackage !== $scope.state.availablePackages.current)) {
+              $timeout(changePackage(params.dataPackage, params));
+            } else {
+              chooseStateParams(params);
+              updateBabbage();
+            }
+          }
 
           ApiService.getPackages().then(function (packages) {
             $scope.state.availablePackages.items = packages;
             $scope.state.isStarting = false;
-            $timeout(changePackage(_.first($scope.state.availablePackages.items)));
+
+            applyLocationParams();
           });
+
+          var changeLocationEvent = $scope.$on('$locationChangeSuccess', function(angularEvent, newUrl, oldUrl, newState, oldState) {
+            if (NavigationService.isChanging()) {
+              NavigationService.changed();
+              return;
+            }
+            console.log(newUrl, oldUrl);
+            if ((newUrl == oldUrl)){
+              return;
+            }
+            applyLocationParams();
+          });
+
 
           $scope.state = {};
           $scope.state.isStarting = true;
@@ -148,6 +211,5 @@
           $scope.state.dimensions.current.filters = {};
 
           initScopeEvents();
-
         }]);
 })(angular);
