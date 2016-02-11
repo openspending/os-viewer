@@ -1,5 +1,5 @@
 {
-  "name": "fiscal-data-package-viewer",
+  "name": "os-viewer",
   "version": "0.0.1-alpha",
   "description": "A frontend data/views app powered directly from a Fiscal Data Package.",
   "keywords": [],
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openspending/fiscal-data-package-viewer.git"
+    "url": "git+https://github.com/openspending/os-viewer.git"
   },
   "author": {
     "name": "Open Knowledge",
@@ -31,8 +31,8 @@
     }
   ],
   "license": "MIT",
-  "bugs": "https://github.com/openspending/fiscal-data-package-viewer/issues",
-  "homepage": "https://github.com/openspending/fiscal-data-package-viewer#readme",
+  "bugs": "https://github.com/openspending/os-viewer/issues",
+  "homepage": "https://github.com/openspending/os-viewer#readme",
   "dependencies": {
     "angular-filter": "^0.5.8",
     "angular-ui-bootstrap": "^1.1.2",
@@ -42,23 +42,15 @@
     "bubbletree": "git+https://github.com/okfn/bubbletree.git",
     "c3": "git+https://github.com/masayuki0812/c3.git",
     "d3": "^3.5.14",
-    "datapackage-registry": "^0.1.0",
-    "datapackage-validate": "git+https://github.com/okfn/datapackage-validate.git",
     "express": "^4.13.3",
     "font-awesome": "^4.5.0",
-    "goodtables": "git+https://github.com/okfn/goodtables-js.git",
-    "inflected": "^1.1.6",
     "isomorphic-fetch": "^2.2.1",
     "js-polyfills": "^0.1.12",
-    "json-table-schema": "0.0.2-alpha",
-    "marked": "^0.3.5",
     "nconf": "^0.8.2",
     "ng-redux": "^3.3.3",
     "nunjucks": "^2.1.0",
     "papaparse": "^4.1.2",
     "raphael": "^2.1.4",
-    "redux": "^3.0.6",
-    "redux-undo": "^0.6.0",
     "request": "^2.65.0",
     "underscore": "^1.8.3",
     "validator": "^4.2.1"
