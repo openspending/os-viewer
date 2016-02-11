@@ -1,0 +1,6 @@
+<div class="margin-top-8 col-xs-12">
+    <div>Filter</div>
+    <div id="data-filter-buttons" class="btn-group" ng-repeat="filter in dimensions.items">
+        <dropdown title="{{filter.name}}" selected="currentValue" items="filter.values" on-click="events.changeFilter(filter.code, currentValue)"></dropdown>
+    </div>
+</div>

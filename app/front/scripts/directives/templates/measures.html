@@ -1,0 +1,22 @@
+<div class="row">
+<div class="col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">Measures</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="measures" class="btn-group btn-group-justified">
+                        <a ng-repeat="(key, item) in measures.items"
+                           href="javascript:void(0)"
+                           class="text-ellipsis btn"
+                           ng-class="{'btn-success active': (key == measures.current), 'btn-default': (key != measures.current)}"
+                           title="{{item}}" role="button"
+                           ng-click="events.changeMeasure(key)"
+                        >{{item}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
