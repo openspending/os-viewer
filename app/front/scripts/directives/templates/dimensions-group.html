@@ -5,7 +5,7 @@
             <div id="dimensions-group" class="btn-group">
                 <button
                     type="button"
-                    class="btn"
+                    class="btn margin-bottom-4"
                     ng-repeat="group in dimensions.items | orderBy:'name'"
                     ng-class="{'btn-success active': (events.isGroupSelected(group.key)), 'btn-default': (!events.isGroupSelected(group.key))}"
                     ng-click="events.changeGroup(group.key)"

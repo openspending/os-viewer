@@ -1,0 +1,51 @@
+.btn {
+	border: none;
+	box-shadow: none;
+	border-radius: .2em;
+	font: {
+		size: 1.4rem;
+	}
+	color: $colour-5;
+	padding: .6em 2.2em;
+	cursor: pointer;
+	background: $primary-colour;
+
+	&:focus {
+		outline: none;
+	}
+
+	.no-touch &:hover {
+		background: lighten($primary-colour, 5%);
+	}
+
+	&.btn-secondary {
+		background: $colour-1;
+
+		.no-touch &:hover {
+			background: lighten($colour-1, 5%);
+		}
+	}
+
+	&.btn-alert {
+		background: $alert;
+
+		.no-touch &:hover {
+			background: lighten($alert, 5%);
+		}
+	}
+
+	&.btn-outline {
+		color: $primary-colour;
+		background: transparent;
+		box-shadow: inset 0 0 0 1px $primary-colour;
+
+		.no-touch &:hover {
+			color: $colour-5;
+			background: $primary-colour;
+		}
+	}
+
+	@include MQ(S) {
+		font-size: 1.6rem;
+	}
+}
