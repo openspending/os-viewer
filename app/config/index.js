@@ -13,6 +13,9 @@ nconf.defaults({
   debug: process.env.DEBUG || false,
   app: {
     port: process.env.PORT || 5000
+  },
+  api: {
+    url: process.env.API_URL || 'http://s145.okserver.org/api/3'
   }
 });
 

@@ -6,8 +6,8 @@
   angular.module('Application')
     .controller(
       'main',
-      ['$scope', 'NavigationService', '_', 'ApiService', 'HistoryService', '$q', '$timeout',
-        function ($scope, NavigationService, _, ApiService, HistoryService, $q, $timeout) {
+      ['$scope', '$rootScope', 'NavigationService', '_', 'ApiService', 'HistoryService', '$q', '$timeout', 'SettingsService',
+        function ($scope, $rootScope, NavigationService, _, ApiService, HistoryService, $q, $timeout, SettingsService) {
 
           function initScopeEvents(){
             $scope.events = {};
@@ -86,7 +86,7 @@
             $scope.state.measures.current = '';
             $scope.state.dimensions.current.groups = [];
             $scope.state.dimensions.current.filters = {};
-            $scope.isEmbeded = defaultParams.isEmbeded;
+            $scope.state.isEmbeded = defaultParams.isEmbeded;
 
             if ($scope.state.measures.items[defaultParams.measure]){
               $scope.state.measures.current = defaultParams.measure;
@@ -180,12 +180,6 @@
             }
           }
 
-          ApiService.getPackages().then(function (packages) {
-            $scope.state.availablePackages.items = packages;
-            $scope.state.isStarting = false;
-
-            applyLocationParams();
-          });
 
           var changeLocationEvent = $scope.$on('$locationChangeSuccess', function(angularEvent, newUrl, oldUrl, newState, oldState) {
             if (NavigationService.isChanging()) {
@@ -196,6 +190,13 @@
             if ((newUrl == oldUrl)){
               return;
             }
+            applyLocationParams();
+          });
+
+
+          ApiService.getPackages().then(function (packages) {
+            $scope.state.availablePackages.items = packages;
+            $scope.state.isStarting = false;
             applyLocationParams();
           });
 

@@ -2,9 +2,12 @@
 
 var express = require('express');
 var pages = require('../controllers/pages');
+var settings = require('../controllers/settings');
 
 module.exports = function() {
   var router = express.Router();
+
+  router.get('/settings.json', settings.main);
 
   router.get('/', pages.main);
 
