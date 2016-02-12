@@ -31,6 +31,31 @@
   }
 }
 
+.dropdown .dropdown-menu li.package-search-input {
+  & > span {
+    padding: 0.75em 1.5em;
+    display: block;
+    position: relative;
+  }
+
+  cursor: text;
+
+  .form-control-static {
+    display: block;
+    padding: 0.6em 1em 0.4em;
+  }
+
+  &.pinned {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    background: inherit;
+    padding-top: 0.75em;
+  }
+}
+
 #data-filter-buttons .dropdown-menu {
   max-height: 300px;
   overflow: auto;

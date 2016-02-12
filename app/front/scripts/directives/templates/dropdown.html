@@ -1,12 +1,30 @@
 <div>
-<div uib-dropdown class="btn-group">
+<div uib-dropdown class="btn-group" auto-close="outsideClick" is-open="state.isOpen">
     <button uib-dropdown-toggle class="btn btn-default" type="button" aria-haspopup="true" aria-expanded="false">
         {{title}}
         <span class="caret"></span>
     </button>
-    <ul uib-dropdown-menu role="menu" aria-labelledby="package-selector">
-        <li role="menuitem" ng-repeat="(key, item) in items">
-            <a href="" ng-click="onItemClick(key)">{{item}}</a>
+    <ul ng-if="!allowSearch" uib-dropdown-menu role="menu"
+        ng-class="{'pull-left': alignment == 'left', 'pull-right': alignment == 'right'}">
+        <li role="menuitem" ng-repeat="item in preparedItems">
+            <a href="javascript:void(0)" title="{{ item.value }}" ng-click="onItemClick(item.key)">{{item.value}}</a>
+        </li>
+    </ul>
+    <ul ng-if="allowSearch" uib-dropdown-menu role="menu"
+        ng-class="{'pull-left': alignment == 'left', 'pull-right': alignment == 'right'}">
+        <li class="package-search-input pinned">
+            <span>
+                <input type="text" class="form-control"
+                    placeholder="Search for data package"
+                    ng-model="filter.value">
+            </span>
+        </li>
+        <!-- Placeholder for search control since it is fixed to top -->
+        <li class="package-search-input placeholder">
+            <span><span class="form-control-static"></span></span>
+        </li>
+        <li role="menuitem" ng-repeat="item in (preparedItems | filter:filter)">
+            <a href="javascript:void(0)" title="{{ item.value }}" ng-click="onItemClick(item.key)">{{item.value}}</a>
         </li>
     </ul>
 </div>

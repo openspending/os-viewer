@@ -38,6 +38,7 @@ var modules = [
   'd3',
   'c3',
   'raphael',
+  'marked',
   'redux/dist/redux.js',
   'ng-redux/dist/ng-redux.js'
 ];
@@ -112,6 +113,7 @@ gulp.task('vendor.scripts', function() {
     path.join(nodeModulesDir, '/angular/angular.min.js'),
     path.join(nodeModulesDir, '/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js'),
     path.join(nodeModulesDir, '/angular-filter/dist/angular-filter.min.js'),
+    path.join(nodeModulesDir, '/angular-marked/dist/angular-marked.min.js'),
     path.join(frontScriptsDir, '/ext-libs/babbage.ui.js'),
     path.join(nodeModulesDir, '/bubbletree/node_modules/tween.js/src/Tween.js'),
     path.join(nodeModulesDir, '/bubbletree/dist/bubbletree.min.js'),
