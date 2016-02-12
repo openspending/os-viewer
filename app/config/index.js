@@ -7,6 +7,8 @@ nconf.file({
   file: path.join(__dirname, '/../../settings.json')
 });
 
+var apiHost = process.env.OS_VIEWER_API_HOST || 's145.okserver.org';
+
 // this is the object that you want to override in your own local config
 nconf.defaults({
   env: process.env.NODE_ENV || 'development',
@@ -15,8 +17,9 @@ nconf.defaults({
     port: process.env.PORT || 5000
   },
   api: {
-    url: process.env.API_URL || 'http://s145.okserver.org/api/3'
-  }
+    url: 'http://'+apiHost+'/api/3'
+  },
+  basePath: process.env.OS_VIEWER_BASE_PATH || ''
 });
 
 module.exports = {

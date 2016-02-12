@@ -222,6 +222,9 @@
           $scope.state.dimensions.current = {};
           $scope.state.dimensions.current.groups = [];
           $scope.state.dimensions.current.filters = {};
+          SettingsService.get('api').then(function(api) {
+            $scope.state.apiUrl = api.url;
+          });
 
           initScopeEvents();
         }]);

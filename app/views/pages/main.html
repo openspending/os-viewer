@@ -35,7 +35,7 @@
                         <uib-tabset>
                             <uib-tab heading="Treemap" ng-click="events.setTab('Treemap')">
                                 <babbage ng-if="!state.flag.renderingCharts && currentTab == 'Treemap'"
-                                         endpoint="http://s145.okserver.org/api/3/"
+                                         endpoint="{{state.apiUrl}}"
                                          cube="{{state.availablePackages.current}}"
                                          state="state.babbageTreeMap">
                                     <babbage-treemap></babbage-treemap>
@@ -43,7 +43,7 @@
                             </uib-tab>
                             <uib-tab heading="Pie Chart" ng-click="events.setTab('PieChart')">
                                 <babbage ng-if="!state.flag.renderingCharts && currentTab == 'PieChart'"
-                                         endpoint="http://s145.okserver.org/api/3/"
+                                         endpoint="{{state.apiUrl}}"
                                          cube="{{state.availablePackages.current}}"
                                          state="state.babbageBar">
                                     <pie-chart></pie-chart>
@@ -51,7 +51,7 @@
                             </uib-tab>
                             <uib-tab heading="Bar Chart" ng-click="events.setTab('BarChart')">
                                 <babbage ng-if="!state.flag.renderingCharts && currentTab == 'BarChart'"
-                                         endpoint="http://s145.okserver.org/api/3/"
+                                         endpoint="{{state.apiUrl}}"
                                          cube="{{state.availablePackages.current}}"
                                          state="state.babbageBar">
                                     <babbage-chart chart-type="bar"></babbage-chart>
@@ -59,7 +59,7 @@
                             </uib-tab>
                             <uib-tab heading="Line Chart" ng-click="events.setTab('LineChart')">
                                 <babbage ng-if="!state.flag.renderingCharts && currentTab == 'LineChart'"
-                                         endpoint="http://s145.okserver.org/api/3/"
+                                         endpoint="{{state.apiUrl}}"
                                          cube="{{state.availablePackages.current}}"
                                          state="state.babbageBar">
                                     <babbage-chart chart-type="line"></babbage-chart>
@@ -67,7 +67,7 @@
                             </uib-tab>
                             <uib-tab heading="Bubble Tree" ng-click="events.setTab('BubbleTree')">
                                 <babbage ng-if="!state.flag.renderingCharts && currentTab == 'BubbleTree'"
-                                         endpoint="http://s145.okserver.org/api/3/"
+                                         endpoint="{{state.apiUrl}}"
                                          cube="{{state.availablePackages.current}}"
                                          state="state.babbageBar">
                                     <bubble-tree></bubble-tree>
@@ -75,7 +75,7 @@
                             </uib-tab>
                             <uib-tab heading="Table" ng-click="events.setTab('Table')">
                                 <babbage ng-if="!state.flag.renderingCharts && currentTab == 'Table'"
-                                         endpoint="http://s145.okserver.org/api/3/"
+                                         endpoint="{{state.apiUrl}}"
                                          cube="{{state.availablePackages.current}}"
                                          state="state.babbageTable">
                                     <babbage-crosstab></babbage-crosstab>

@@ -7,7 +7,7 @@
 
   app.directive('dimensionsFilter', function() {
     var directiveDefinitionObject = {
-      templateUrl: '/templates/dimensions-filter.html',
+      templateUrl: 'templates/dimensions-filter.html',
       replace: true,
       transclude: false,
       restrict: 'E',

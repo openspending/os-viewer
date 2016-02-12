@@ -7,7 +7,7 @@
 
   app.directive('dimensionsGroup', function() {
     var directiveDefinitionObject = {
-      templateUrl: '/templates/dimensions-group.html',
+      templateUrl: 'templates/dimensions-group.html',
       replace: true,
       transclude: false,
       restrict: 'E',
