@@ -16,15 +16,6 @@ module.exports = function(ngModule) {
         template: '<div class="babbage-geoview"></div>',
         replace: false,
         link: function($scope, element) {
-          $timeout(function() {
-            $scope.data = {
-              'District Council Cantemir': 100,
-              'District Council ATU Gagauzia': 50,
-              'District Council Cahul': 340,
-              'District Council Taraclia': 300
-            };
-          }, 5000);
-
           var handle = null;
 
           var resizeHandlers = [];
