@@ -7,7 +7,8 @@
   angular.module('Application', [
     'ngBabbage',
     'angular.filter',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'hc.marked'
 //    'ngRedux'
   ]);
 

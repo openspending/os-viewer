@@ -35,6 +35,7 @@
   "homepage": "https://github.com/openspending/os-viewer#readme",
   "dependencies": {
     "angular-filter": "^0.5.8",
+    "angular-marked": "^1.0.1",
     "angular-ui-bootstrap": "^1.1.2",
     "babbage.ui": "0.0.1-alpha",
     "bluebird": "^3.0.5",
@@ -46,6 +47,7 @@
     "font-awesome": "^4.5.0",
     "isomorphic-fetch": "^2.2.1",
     "js-polyfills": "^0.1.12",
+    "marked": "^0.3.5",
     "nconf": "^0.8.2",
     "ng-redux": "^3.3.3",
     "nunjucks": "^2.1.0",
