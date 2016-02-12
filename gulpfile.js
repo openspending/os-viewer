@@ -20,8 +20,6 @@ var frontStylesDir = path.join(frontSrcDir, '/styles');
 var frontImagesDir = path.join(frontSrcDir, '/images');
 var frontFontsDir = path.join(frontSrcDir, '/fonts');
 
-var themeDir = path.join(frontSrcDir, '/theme');
-
 var publicDir = path.join(__dirname, '/app/public');
 var publicScriptsDir = path.join(publicDir, '/');
 var publicStylesDir = path.join(publicDir, '/');
@@ -30,6 +28,8 @@ var publicImagesDir = path.join(publicDir, '/images');
 var publicIconsDir = path.join(publicDir, '/icons');
 
 var nodeModulesDir = path.join(__dirname, '/node_modules');
+
+var themeDir = path.join(nodeModulesDir, '/os-style-guide');
 
 var modules = [
   'jquery',
