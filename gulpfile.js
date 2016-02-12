@@ -25,8 +25,11 @@ var publicScriptsDir = path.join(publicDir, '/');
 var publicStylesDir = path.join(publicDir, '/');
 var publicFontsDir = path.join(publicDir, '/fonts');
 var publicImagesDir = path.join(publicDir, '/images');
+var publicIconsDir = path.join(publicDir, '/icons');
 
 var nodeModulesDir = path.join(__dirname, '/node_modules');
+
+var themeDir = path.join(nodeModulesDir, '/os-style-guide');
 
 var modules = [
   'jquery',
@@ -45,6 +48,7 @@ gulp.task('default', [
   'app.styles',
   'app.fonts',
   'app.images',
+  'app.icons',
   'vendor.scripts',
   'vendor.styles',
   'vendor.fonts'
@@ -74,6 +78,8 @@ gulp.task('app.modules', function() {
     bundler.require(resolve.sync(id), {expose: id});
   });
 
+  bundler.require(resolve.sync('./app/front/scripts/components'), {expose: 'components'});
+
   bundler.add(path.join(frontScriptsDir, '/modules.js')); // Init modules
 
   return bundler.bundle()
@@ -86,7 +92,8 @@ gulp.task('app.modules', function() {
 gulp.task('app.styles', function() {
   var files = [
     path.join(frontStylesDir, '/main.css'),
-    path.join(frontStylesDir, '/styles.less')
+    path.join(frontStylesDir, '/styles.less'),
+    path.join(themeDir, '/css/style-guide.css')
   ];
   return gulp.src(files)
     .pipe(sourcemaps.init())
@@ -146,7 +153,19 @@ gulp.task('app.images', function() {
     .pipe(gulp.dest(publicImagesDir));
 });
 
+gulp.task('app.icons', function() {
+  return gulp.src([
+    path.join(themeDir, '/assets/icons/*'),
+    path.join(themeDir, '/assets/icon-download.svg'),
+    path.join(themeDir, '/assets/logo.svg')
+  ])
+  .pipe(gulp.dest(publicIconsDir));
+});
+
 gulp.task('app.fonts', function() {
-  return gulp.src(path.join(frontFontsDir, '/*'))
+  return gulp.src([
+    path.join(frontFontsDir, '/*'),
+    path.join(themeDir, '/assets/fonts/*')
+  ])
     .pipe(gulp.dest(publicFontsDir));
 });
