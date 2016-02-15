@@ -11,6 +11,17 @@
 
           function initScopeEvents(){
             $scope.events = {};
+
+            $scope.$on('drillDown', function(event, info){
+              var dimension = _.find($scope.state.dimensions.items, {label: info.field});
+              if (dimension && dimension.drillDown) {
+                $scope.state.dimensions.current.groups = [dimension.drillDown];
+                $scope.state.dimensions.current.filters[dimension.key] = dimension.values_keys[info.value];
+                NavigationService.updateLocation($scope.state);
+                updateBabbage();
+              }
+            });
+
             $scope.events.changePackage = function (packageNameIndex) {
               changePackage($scope.state.availablePackages.items[packageNameIndex]);
             };
@@ -45,6 +56,7 @@
             }
             $scope.events.dropFilter = function (filter) {
               delete $scope.state.dimensions.current.filters[filter];
+              NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
             $scope.events.setTab = function (aTab){
