@@ -12,7 +12,7 @@
           function initScopeEvents(){
             $scope.events = {};
             $scope.events.changePackage = function (packageNameIndex) {
-              changePackage($scope.state.availablePackages.items[packageNameIndex]);
+              changePackage($scope.state.availablePackages.items[packageNameIndex], {isEmbedded: $scope.state.isEmbedded});
             };
             $scope.events.changeMeasure = function (measure) {
               $scope.state.measures.current = measure;
@@ -86,7 +86,7 @@
             $scope.state.measures.current = '';
             $scope.state.dimensions.current.groups = [];
             $scope.state.dimensions.current.filters = {};
-            $scope.state.isEmbeded = defaultParams.isEmbeded;
+            $scope.state.isEmbedded = defaultParams.isEmbedded;
 
             if ($scope.state.measures.items[defaultParams.measure]){
               $scope.state.measures.current = defaultParams.measure;
@@ -202,6 +202,7 @@
 
 
           $scope.state = {};
+          $scope.state.isEmbedded = NavigationService.isEmbedded();
           $scope.state.isStarting = true;
           $scope.state.flag = {};
           $scope.state.availablePackages = {};

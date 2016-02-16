@@ -17,8 +17,8 @@
         _isChangingLocation = false;
       },
 
-      isEmbeded: function (){
-        return (this.getParams()).isEmbeded;
+      isEmbedded: function (){
+        return (this.getParams()).isEmbedded;
       },
 
       updateLocation: function(state) {
@@ -28,7 +28,7 @@
           filterList.push(key+'|'+value);
         });
 
-        var embed = (state.isEmbeded)? '/embed': '';
+        var embed = (state.isEmbedded)? '/embed': '';
         $location.path(embed + '/'+state.availablePackages.current);
         $location.search({
           measure: state.measures.current,
@@ -55,7 +55,7 @@
 
         var params = {
           dataPackage: '',
-          isEmbeded: false,
+          isEmbedded: false,
           measure: (searchParams.measure) ? searchParams.measure : '',
           groups: groups,
           filters: filters
@@ -63,15 +63,16 @@
 
         var path = $location.path();
         var sections = path.substr(1).split('/');
-        if (sections.length = 1){
+        if (sections.length == 1){
           params.dataPackage = sections[0];
         } else {
-          if ((sections.length = 2) && (sections[0] == 'embed')){
+          if ((sections.length == 2) && (sections[0] == 'embed')){
             params.dataPackage = sections[1];
-            params.isEmbeded = true;
+            params.isEmbedded = true;
           }
         }
 
+        console.log(params);
         return params;
       }
     }
