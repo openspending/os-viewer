@@ -67,6 +67,15 @@
           });
           packageModel.measures.current = _.first(_.keys(packageModel.measures.items));
 
+          //hierarchy
+          var hierarchies = {};
+          _.each(packageModelInfo.model.hierarchies, function (hierarchy, key) {
+            hierarchies[key] = {};
+            for(var i=1; i<hierarchy.levels.length; i++){
+              hierarchies[key][hierarchy.levels[i-1]] = packageModelInfo.model.dimensions[hierarchy.levels[i]];
+            }
+          });
+
           //fill dimensions
           var promises = [];
           var items = [];
@@ -75,8 +84,11 @@
             var dimension_values_label_field = value.label_ref;
             promises.push(that.getDimensionValues(packageName, key).then(function (values) {
               var result = {};
+              var values_keys = {};
 
               _.each(values.data, function (value) {
+                values_keys[value[dimension_values_label_field]] = value[dimension_values_key_field];
+
                 result[value[dimension_values_key_field]] =
                   (dimension_values_key_field == dimension_values_label_field) ?
                     value[dimension_values_key_field] :
@@ -85,12 +97,23 @@
               });
 
               if (_.keys(result).length > 1){
+                var drillDownDimension = undefined;
+                if (
+                  value.hierarchy &&
+                  hierarchies[value.hierarchy] &&
+                  hierarchies[value.hierarchy][key]
+                ){
+                  drillDownDimension = hierarchies[value.hierarchy][key].label;
+                }
+
                 items.push( {
                   key: value.label,
                   code: value.label,
                   name: value.attributes[value.key_attribute].column ,
                   label: value.hierarchy + '.' + value.label_attribute,
-                  values: result
+                  drillDown: drillDownDimension,
+                  values: result,
+                  values_keys: values_keys
                 });
               }
             }));

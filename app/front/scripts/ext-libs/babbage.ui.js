@@ -1408,6 +1408,7 @@ ngBabbage.directive('babbageTreemap', ['$rootScope', '$http', '$document', funct
         var cell = data.cells[i];
         cell._area_fmt = ngBabbageGlobals.numberFormat(Math.round(cell[areaRef]));
         cell._name = cell[tileRef];
+        cell._field = tileRef;
         cell._color = ngBabbageGlobals.colorScale(i);
         cell._percentage = cell[areaRef] / Math.max(data.summary[areaRef], 1);
         root.children.push(cell);
@@ -1434,6 +1435,7 @@ ngBabbage.directive('babbageTreemap', ['$rootScope', '$http', '$document', funct
             d3.select(this).transition().duration(500)
               .style({'background': d._color});
           })
+          .on("click", treeMapClick)
           .transition()
           .duration(500)
           .delay(function(d, i) { return Math.min(i * 30, 1500); })
@@ -1442,6 +1444,10 @@ ngBabbage.directive('babbageTreemap', ['$rootScope', '$http', '$document', funct
       scope.cutoffWarning = data.total_cell_count > q.pagesize;
       scope.cutoff = q.pagesize;
     };
+
+    function treeMapClick(d){
+      scope.$emit('drillDown', {field: d._field, value: d._name});
+    }
 
     function positionNode() {
       this.style("left", function(d) { return d.x + "px"; })
