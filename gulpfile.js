@@ -22,7 +22,7 @@ var frontFontsDir = path.join(frontSrcDir, '/fonts');
 
 var publicDir = path.join(__dirname, '/app/public');
 var publicScriptsDir = path.join(publicDir, '/');
-var publicStylesDir = path.join(publicDir, '/');
+var publicStylesDir = path.join(publicDir, '/styles');
 var publicFontsDir = path.join(publicDir, '/fonts');
 var publicImagesDir = path.join(publicDir, '/images');
 var publicIconsDir = path.join(publicDir, '/icons');

@@ -4,7 +4,7 @@
 
   app.directive('availablePackages', function() {
     var directiveDefinitionObject = {
-      templateUrl: '/templates/available-packages.html',
+      templateUrl: 'templates/available-packages.html',
       replace: true,
       transclude: false,
       restrict: 'E',

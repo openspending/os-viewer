@@ -3,7 +3,7 @@
   angular.module('Application')
     .directive('packageInfo', function() {
       return {
-        templateUrl: '/templates/package-info.html',
+        templateUrl: 'templates/package-info.html',
         replace: true,
         restrict: 'E',
         scope: {
