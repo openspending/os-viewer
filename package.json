@@ -51,7 +51,7 @@
     "nconf": "^0.8.2",
     "ng-redux": "^3.3.3",
     "nunjucks": "^2.1.0",
-    "os-style-guide": "git+https://github.com/kravets-levko/os-style-guide.git#os-viewer",
+    "os-style-guide": "git+https://github.com/openspending/os-style-guide.git#dev",
     "papaparse": "^4.1.2",
     "raphael": "^2.1.4",
     "request": "^2.65.0",

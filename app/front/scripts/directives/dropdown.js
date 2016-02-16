@@ -9,7 +9,7 @@
     '$timeout', '_',
     function($timeout, _) {
       return {
-        templateUrl: '/templates/dropdown.html',
+        templateUrl: 'templates/dropdown.html',
         replace: true,
         restrict: 'E',
         scope: {
