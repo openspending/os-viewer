@@ -22,13 +22,17 @@
     'http://datastore.openspending.org/__tests/boost-rio-grande-do-sul-state-revenue/datapackage.json'
   ];
 </script>
-{% include "partials/header.html" %}
+{% if not isEmbedded %}
+  {% include "partials/header.html" %}
+{% endif %}
 
 <div class="container">
 {% block content %}{% endblock %}
 </div>
 
-{% include "partials/footer.html" %}
+{% if not isEmbedded %}
+  {% include "partials/footer.html" %}
+{% endif %}
 
 <script src="modules.js?{{ sessionSalt }}"></script>
 <script src="vendor.js?{{ sessionSalt }}"></script>
