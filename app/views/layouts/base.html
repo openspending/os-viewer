@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="styles/vendor.css?{{ sessionSalt }}">
   <link rel="stylesheet" href="styles/app.css?{{ sessionSalt }}">
 </head>
-<body ng-app="Application" ng-controller="main">
+<body ng-app="Application" ng-controller="main" class="ng-cloak">
 <div id="root"></div>
 <script type="text/javascript">
   var dataPackages = [
@@ -22,13 +22,17 @@
     'http://datastore.openspending.org/__tests/boost-rio-grande-do-sul-state-revenue/datapackage.json'
   ];
 </script>
-{% include "partials/header.html" %}
+{% if not isEmbedded %}
+  {% include "partials/header.html" %}
+{% endif %}
 
 <div class="container">
 {% block content %}{% endblock %}
 </div>
 
-{% include "partials/footer.html" %}
+{% if not isEmbedded %}
+  {% include "partials/footer.html" %}
+{% endif %}
 
 <script src="modules.js?{{ sessionSalt }}"></script>
 <script src="vendor.js?{{ sessionSalt }}"></script>

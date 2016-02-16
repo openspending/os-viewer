@@ -98,7 +98,6 @@
             $scope.state.measures.current = '';
             $scope.state.dimensions.current.groups = [];
             $scope.state.dimensions.current.filters = {};
-            $scope.state.isEmbeded = defaultParams.isEmbeded;
 
             if ($scope.state.measures.items[defaultParams.measure]){
               $scope.state.measures.current = defaultParams.measure;

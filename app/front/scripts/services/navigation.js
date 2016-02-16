@@ -17,10 +17,6 @@
         _isChangingLocation = false;
       },
 
-      isEmbeded: function (){
-        return (this.getParams()).isEmbeded;
-      },
-
       updateLocation: function(state) {
         _isChangingLocation = true;
         var filterList = [];
@@ -28,8 +24,7 @@
           filterList.push(key+'|'+value);
         });
 
-        var embed = (state.isEmbeded)? '/embed': '';
-        $location.path(embed + '/'+state.availablePackages.current);
+        $location.path('/'+state.availablePackages.current);
         $location.search({
           measure: state.measures.current,
           groups: state.dimensions.current.groups,
@@ -55,7 +50,6 @@
 
         var params = {
           dataPackage: '',
-          isEmbeded: false,
           measure: (searchParams.measure) ? searchParams.measure : '',
           groups: groups,
           filters: filters
@@ -63,15 +57,15 @@
 
         var path = $location.path();
         var sections = path.substr(1).split('/');
-        if (sections.length = 1){
+        if (sections.length == 1){
           params.dataPackage = sections[0];
         } else {
-          if ((sections.length = 2) && (sections[0] == 'embed')){
+          if ((sections.length == 2) && (sections[0] == 'embed')){
             params.dataPackage = sections[1];
-            params.isEmbeded = true;
           }
         }
 
+        console.log(params);
         return params;
       }
     }

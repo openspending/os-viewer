@@ -4,7 +4,8 @@ module.exports.main = function(req, res) {
   var config = req.app.get('config');
   res.render('pages/main.html', {
     title: 'Open Spending Viewer',
-    basePath: config.get('basePath')
+    basePath: config.get('basePath'),
+    isEmbedded: (req.isEmbedded || false)
   });
 };
 
