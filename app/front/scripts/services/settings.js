@@ -8,7 +8,7 @@
     var _settings = {};
     return {
       load: function () {
-        return downloader.get('/settings.json').then(function (data) {
+        return downloader.get('settings.json').then(function (data) {
           var result  = {};
           try {
             result = JSON.parse(data);

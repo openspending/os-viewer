@@ -2,15 +2,15 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <base href="/"/>
+  <base href="/{{basePath}}"/>
   <meta http-equiv="x-ua-compatible" content="ie=edge"/>
   <meta name="description" content="A frontend data/views app powered directly from a Fiscal Data Package."/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fiscal Data Package Viewer | Open Knowledge</title>
   <link href="//fonts.googleapis.com/css?family=Hind:400,300,500,600,700" rel="stylesheet" type="text/css">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png"/>
-  <link rel="stylesheet" href="/vendor.css?{{ sessionSalt }}">
-  <link rel="stylesheet" href="/app.css?{{ sessionSalt }}">
+  <link rel="stylesheet" href="styles/vendor.css?{{ sessionSalt }}">
+  <link rel="stylesheet" href="styles/app.css?{{ sessionSalt }}">
 </head>
 <body ng-app="Application" ng-controller="main" class="ng-cloak">
 <div id="root"></div>
@@ -30,9 +30,9 @@
 
 {% include "partials/footer.html" %}
 
-<script src="/modules.js?{{ sessionSalt }}"></script>
-<script src="/vendor.js?{{ sessionSalt }}"></script>
-<script src="/app.js?{{ sessionSalt }}"></script>
+<script src="modules.js?{{ sessionSalt }}"></script>
+<script src="vendor.js?{{ sessionSalt }}"></script>
+<script src="app.js?{{ sessionSalt }}"></script>
 
 {% block footerScript %}{% endblock %}
 

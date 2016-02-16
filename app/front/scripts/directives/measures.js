@@ -7,7 +7,7 @@
 
   app.directive('measures', function() {
     var directiveDefinitionObject = {
-      templateUrl: '/templates/measures.html',
+      templateUrl: 'templates/measures.html',
       replace: true,
       transclude: false,
       restrict: 'E',
