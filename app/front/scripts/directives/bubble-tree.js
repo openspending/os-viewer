@@ -7,7 +7,7 @@ ngBabbage.directive('bubbleTree', ['$rootScope', '$http', '_', function($rootSco
     require: '^babbage',
     scope: {
     },
-    templateUrl: '/templates/bubble-tree.html',
+    templateUrl: 'templates/bubble-tree.html',
     link: function(scope, element, attrs, babbageCtrl) {
       scope.queryLoaded = false;
       scope.cutoffWarning = false;

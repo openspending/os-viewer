@@ -7,7 +7,7 @@
 
   app.directive('selectedFilters', function() {
     var directiveDefinitionObject = {
-      templateUrl: '/templates/selected-filters.html',
+      templateUrl: 'templates/selected-filters.html',
       replace: true,
       transclude: false,
       restrict: 'E',

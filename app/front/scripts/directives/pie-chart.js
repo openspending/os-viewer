@@ -8,7 +8,7 @@ ngBabbage.directive('pieChart', ['$rootScope', '$http', '_', function($rootScope
     scope: {
       chartType: '@'
     },
-    templateUrl: '/templates/pie-chart.html',
+    templateUrl: 'templates/pie-chart.html',
     link: function(scope, element, attrs, babbageCtrl) {
       scope.queryLoaded = false;
       scope.cutoffWarning = false;
