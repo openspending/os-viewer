@@ -12,6 +12,7 @@
       transclude: false,
       restrict: 'E',
       scope: {
+        hierarchy: '=',
         dimensions: '=',
         events: '='
       }
