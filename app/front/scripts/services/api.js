@@ -8,7 +8,7 @@
   app.factory('ApiService', ['$q', '_', 'downloader', 'SettingsService', function ($q, _, downloader, SettingsService) {
     return {
       getPackages: function () {
-        return SettingsService.get('api').then(function(api_settings){
+        return SettingsService.get('api').then(function (api_settings) {
           var url_api_all_packages = api_settings.url + '/cubes';
 
           return downloader.get(url_api_all_packages).then(function (text) {
@@ -25,7 +25,7 @@
       },
 
       getPackage: function (packageName) {
-        return SettingsService.get('api').then(function(api_settings){
+        return SettingsService.get('api').then(function (api_settings) {
           var url_api_package = api_settings.url + '/info/{packageName}/package';
           return downloader.get(url_api_package.replace('{packageName}', packageName)).then(function (text) {
             var result = {};
@@ -39,7 +39,7 @@
       },
 
       getPackageModelInfo: function (packageName) {
-        return SettingsService.get('api').then(function(api_settings){
+        return SettingsService.get('api').then(function (api_settings) {
           var url_api_package_model = api_settings.url + '/cubes/{packageName}/model';
           return downloader.get(url_api_package_model.replace('{packageName}', packageName)).then(function (text) {
             var result = {};
@@ -54,9 +54,9 @@
 
       getPackageModel: function (packageName) {
         var that = this;
-        var packageModel = {dimensions:{}, measures: {}};
+        var packageModel = {dimensions: {}, measures: {}, hierarchies: {}};
 
-        return that.getPackageModelInfo(packageName).then(function (packageModelInfo){
+        return that.getPackageModelInfo(packageName).then(function (packageModelInfo) {
           //fill measures
           console.log(packageModelInfo);
           packageModel.measures.items = {};
@@ -71,8 +71,8 @@
           var hierarchies = {};
           _.each(packageModelInfo.model.hierarchies, function (hierarchy, key) {
             hierarchies[key] = {};
-            for(var i=1; i<hierarchy.levels.length; i++){
-              hierarchies[key][hierarchy.levels[i-1]] = packageModelInfo.model.dimensions[hierarchy.levels[i]];
+            for (var i = 1; i < hierarchy.levels.length; i++) {
+              hierarchies[key][hierarchy.levels[i - 1]] = packageModelInfo.model.dimensions[hierarchy.levels[i]];
             }
           });
 
@@ -96,20 +96,21 @@
 
               });
 
-              if (_.keys(result).length > 1){
+              if (_.keys(result).length > 1) {
                 var drillDownDimension = undefined;
                 if (
                   value.hierarchy &&
                   hierarchies[value.hierarchy] &&
                   hierarchies[value.hierarchy][key]
-                ){
+                ) {
                   drillDownDimension = hierarchies[value.hierarchy][key].label;
                 }
 
-                items.push( {
+                items.push({
                   key: value.label,
                   code: value.label,
-                  name: value.attributes[value.key_attribute].column ,
+                  hierarchy: value.hierarchy,
+                  name: value.attributes[value.key_attribute].column,
                   label: value.hierarchy + '.' + value.label_attribute,
                   drillDown: drillDownDimension,
                   values: result,
@@ -119,17 +120,57 @@
             }));
           });
 
-          return $q.all(promises).then(function(){
-            packageModel.dimensions.items = _.sortBy(items, function(item){
+          return $q.all(promises).then(function () {
+            packageModel.dimensions.items = _.sortBy(items, function (item) {
               return item.name;
             });
+
+            packageModel.hierarchies = that.buildHierarchies(packageModelInfo.model, packageModel.dimensions.items);
             return packageModel;
           });
         });
       },
 
-      getDimensionValues: function (packageName, dimension) {
-        return SettingsService.get('api').then(function(api_settings) {
+      getDimensionsSortingIndexes: function (model) {
+        var results = {};
+        var i=0;
+        _.each(model.hierarchies, function (hierarchy) {
+          _.each(hierarchy.levels, function(dimension){
+            results[model.dimensions[dimension].label] = i++;
+          });
+        });
+        return results;
+      },
+
+      buildHierarchies: function (model, dimensionItems) {
+        var result = {};
+        _.each(dimensionItems, function (dimension) {
+          var hierarchy_key = (model.hierarchies[dimension.hierarchy]) ? dimension.hierarchy : 'withoutHierarchy';
+          if (_.isUndefined(result[hierarchy_key])) {
+            result[hierarchy_key] = {
+              key: hierarchy_key,
+              name: (model.hierarchies[dimension.hierarchy]) ? model.hierarchies[dimension.hierarchy].label : 'Without hierarchy',
+              dimensions: [],
+              common: !(model.hierarchies[dimension.hierarchy])
+            };
+          }
+          result[hierarchy_key].dimensions.push(dimension);
+        });
+        //sorting
+        var sortIndexes = this.getDimensionsSortingIndexes(model);
+        _.each(result, function(hierarchy, hierarchy_key) {
+          result[hierarchy_key].dimensions = _.sortBy(hierarchy.dimensions, function(dimension) {
+            return sortIndexes[dimension.key];
+          });
+        });
+
+        console.log(_.values(result));
+
+        return _.values(result);
+      },
+
+      getDimensionValues: function(packageName, dimension) {
+        return SettingsService.get('api').then(function (api_settings) {
 
           var url_api_dimension_values = api_settings.url + '/cubes/{packageName}/members/{dimension}';
           return downloader.get(

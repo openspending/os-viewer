@@ -8,7 +8,9 @@
             <div ng-if="!state.isPackageLoading">
                 <div class="row">
                     <measures measures="state.measures" events="events"></measures>
-                    <dimensions dimensions="state.dimensions" events="events"></dimensions>
+                    <div ng-repeat="hierarchy in state.hierarchies">
+                        <dimensions hierarchy="hierarchy" dimensions="state.dimensions" events="events"></dimensions>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-xs-12">

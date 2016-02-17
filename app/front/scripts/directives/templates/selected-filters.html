@@ -1,12 +1,13 @@
 <div class="margin-top-8 col-xs-12">
     <div class="row">
+        {{dimensions.current.filters}}
         <div id="selected-filters" class="col-xs-12">
-            <span class="margin-right-4 label label-success" ng-repeat="(key, item) in dimensions.current.filters">
-                <span>{{ (events.findDimension(key)).name }}</span>
+            <span class="margin-right-4 label label-success" ng-repeat="dimension in dimensions" ng-if="events.isFilterSelected(dimension.key)">
+                <span>{{ dimension.name }}</span>
                 <span>:&nbsp;</span>
-                <span>{{ (events.findDimension(key)).values[item] }}</span>
+                <span>{{ dimension.values[events.getFilterSelected(dimension.key)] }}</span>
                 <span>&nbsp;</span>
-                <i class="fa fa-remove cursor-pointer" ng-click="events.dropFilter(key)"></i>
+                <i class="fa fa-remove cursor-pointer" ng-click="events.dropFilter(dimension.key)"></i>
             </span>
         </div>
     </div>

@@ -33,9 +33,19 @@
             $scope.events.findDimension = function(key) {
               return _.find($scope.state.dimensions.items, {key: key});
             };
+
             $scope.events.isGroupSelected = function(key) {
               return $scope.state.dimensions.current.groups.indexOf(key) >= 0
             };
+
+            $scope.events.isFilterSelected = function(key) {
+              return !_.isUndefined($scope.state.dimensions.current.filters[key]);
+            };
+
+            $scope.events.getFilterSelected = function(key) {
+              return $scope.state.dimensions.current.filters[key];
+            };
+
             $scope.events.changeGroup = function (group) {
               var index = $scope.state.dimensions.current.groups.indexOf(group);
               if (index > -1) {
@@ -133,6 +143,7 @@
             ApiService.getPackageModel(packageName).then(function (packageModel){
               $scope.state.dimensions.items = packageModel.dimensions.items;
               $scope.state.measures.items = packageModel.measures.items;
+              $scope.state.hierarchies = packageModel.hierarchies;
 
               chooseStateParams(defaultParams);
 
@@ -190,7 +201,6 @@
               updateBabbage();
             }
           }
-
 
           var changeLocationEvent = $scope.$on('$locationChangeSuccess', function(angularEvent, newUrl, oldUrl, newState, oldState) {
             if (NavigationService.isChanging()) {
