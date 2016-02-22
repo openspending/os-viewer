@@ -8,8 +8,8 @@
     'ngBabbage',
     'angular.filter',
     'ui.bootstrap',
-    'hc.marked'
-//    'ngRedux'
+    'hc.marked',
+    'authClient.services'
   ]);
 
   customComponents.babbageGeoView(angular.module('ngBabbage'));
