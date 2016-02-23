@@ -34,8 +34,8 @@
 
           scope.$watchCollection('items', function(values) {
             var size = 0;
-            _.each(values, function(value) {
-              var len = ('' + value).length;
+            _.each(values, function(node) {
+              var len = ('' + node.value).length;
               if (len > size) {
                 size = len;
               }
@@ -48,10 +48,10 @@
             }
             element.find('ul').css('min-width', size + 'em');
 
-            scope.preparedItems = _.map(values, function(value, key) {
+            scope.preparedItems = _.map(values, function(node) {
               return {
-                key: key,
-                value: value
+                key: node.key,
+                value: node.value
               };
             });
           });

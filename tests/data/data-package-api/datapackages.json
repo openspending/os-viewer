@@ -1,0 +1,14 @@
+{
+  "status": "ok",
+  "data": [
+    {
+      "name": "Package1"
+    },
+    {
+      "name": "Package2"
+    },
+    {
+      "name": "Package3"
+    }
+  ]
+}

@@ -1,6 +1,4 @@
 ;(function(angular) {
-  var redux = require('redux/dist/redux.js');
-  var ngRedux = require('ng-redux/dist/ng-redux.js');
 
   var customComponents = require('components');
 
@@ -8,8 +6,8 @@
     'ngBabbage',
     'angular.filter',
     'ui.bootstrap',
-    'hc.marked'
-//    'ngRedux'
+    'hc.marked',
+    'authClient.services'
   ]);
 
   customComponents.babbageGeoView(angular.module('ngBabbage'));

@@ -1,0 +1,15 @@
+{
+  "order": [],
+  "fields": ["other_fin_source.fin_source"],
+  "page": 1,
+  "status": "ok",
+  "data": [
+    {"other_fin_source.fin_source": "Base component"},
+    {"other_fin_source.fin_source": "Investment projects"},
+    {"other_fin_source.fin_source": "Special funds"},
+    {"other_fin_source.fin_source": "Special means"}
+  ],
+  "total_member_count": 4,
+  "page_size": 10000,
+  "cell": []
+}

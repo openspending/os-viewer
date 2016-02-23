@@ -3,47 +3,62 @@
  */
 ;(function (angular) {
 
+  var components = require('components');
+  var viewerService = {};
+
   angular.module('Application')
     .controller(
       'main',
-      ['$scope', '$rootScope', 'NavigationService', '_', 'ApiService', 'HistoryService', '$q', '$timeout', 'SettingsService',
-        function ($scope, $rootScope, NavigationService, _, ApiService, HistoryService, $q, $timeout, SettingsService) {
+      ['$scope', 'NavigationService', '_', 'HistoryService', '$q', '$timeout', 'SettingsService',
+        function ($scope, NavigationService, _, HistoryService, $q, $timeout, SettingsService) {
 
-          function initScopeEvents(){
+          function initScopeEvents() {
             $scope.events = {};
 
-            $scope.$on('drillDown', function(event, info){
+            $scope.$on('drillDown', function (event, info) {
               var dimension = _.find($scope.state.dimensions.items, {label: info.field});
               if (dimension && dimension.drillDown) {
                 $scope.state.dimensions.current.groups = [dimension.drillDown];
-                $scope.state.dimensions.current.filters[dimension.key] = dimension.values_keys[info.value];
+                var item = _.find(dimension.values, {value: info.value});
+                if (item) {
+                  $scope.state.dimensions.current.filters[dimension.key] = item.key;
+                }
                 NavigationService.updateLocation($scope.state);
                 updateBabbage();
               }
             });
 
             $scope.events.changePackage = function (packageNameIndex) {
-              changePackage($scope.state.availablePackages.items[packageNameIndex]);
+              changePackage(packageNameIndex);
             };
+
             $scope.events.changeMeasure = function (measure) {
               $scope.state.measures.current = measure;
               NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
-            $scope.events.findDimension = function(key) {
-              return _.find($scope.state.dimensions.items, {key: key});
+            $scope.events.findDimension = function (key) {
+              return _.findWhere($scope.state.dimensions.items, {key: key});
             };
 
-            $scope.events.isGroupSelected = function(key) {
+            $scope.events.isGroupSelected = function (key) {
               return $scope.state.dimensions.current.groups.indexOf(key) >= 0
             };
 
-            $scope.events.isFilterSelected = function(key) {
+            $scope.events.isFilterSelected = function (key) {
               return !_.isUndefined($scope.state.dimensions.current.filters[key]);
             };
 
-            $scope.events.getFilterSelected = function(key) {
-              return $scope.state.dimensions.current.filters[key];
+            $scope.events.getSelectedValue = function (dimension) {
+              var valueKey = $scope.state.dimensions.current.filters[dimension.key];
+              var result = _.find(dimension.values, function (item) {
+                return item.key == valueKey
+              });
+              if (result) {
+                return result.value;
+              } else {
+                return '';
+              }
             };
 
             $scope.events.changeGroup = function (group) {
@@ -63,35 +78,35 @@
               $scope.state.dimensions.current.filters[filter] = value;
               NavigationService.updateLocation($scope.state);
               updateBabbage();
-            }
+            };
             $scope.events.dropFilter = function (filter) {
               delete $scope.state.dimensions.current.filters[filter];
               NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
-            $scope.events.setTab = function (aTab){
+            $scope.events.setTab = function (aTab) {
               $scope.currentTab = aTab;
             };
-            $scope.events.canBack = function (){
+            $scope.events.canBack = function () {
               return HistoryService.canBack();
             };
-            $scope.events.canForward = function (){
+            $scope.events.canForward = function () {
               return HistoryService.canForward();
-            }
-            $scope.events.back = function (){
+            };
+            $scope.events.back = function () {
               var history = HistoryService.back();
               setState(history);
             };
-            $scope.events.forward = function (){
+            $scope.events.forward = function () {
               var history = HistoryService.forward();
               setState(history);
             }
           }
 
           function refreshBabbleComponents() {
-            $timeout(function(){
+            $timeout(function () {
               $scope.state.flag.renderingCharts = true;
-              $timeout(function() {
+              $timeout(function () {
                 $scope.state.flag.renderingCharts = false;
               })
             });
@@ -109,19 +124,18 @@
             $scope.state.dimensions.current.groups = [];
             $scope.state.dimensions.current.filters = {};
 
-            if ($scope.state.measures.items[defaultParams.measure]){
+            if (_.where($scope.state.measures.items, {key: defaultParams.measure})) {
               $scope.state.measures.current = defaultParams.measure;
             }
 
-            _.each(defaultParams.groups, function (value){
+            _.each(defaultParams.groups, function (value) {
               var dimension = $scope.events.findDimension(value);
               if (dimension) {
                 $scope.state.dimensions.current.groups.push(value);
               }
             });
 
-
-            _.each(defaultParams.filters, function (value, key){
+            _.each(defaultParams.filters, function (value, key) {
               var dimension = $scope.events.findDimension(key);
               if (dimension) {
                 $scope.state.dimensions.current.filters[key] = value;
@@ -135,37 +149,46 @@
             $scope.state.isPackageLoading = true;
             $scope.state.availablePackages.current = packageName;
 
-            ApiService.getPackage(packageName).then(function (package) {
+
+            $q(function (resolve, reject) {
+              viewerService.getPackageInfo(packageName)
+                .then(resolve)
+                .catch(reject);
+            }).then(function (package) {
               $scope.state.availablePackages.description = package.description;
               $scope.state.availablePackages.title = package.title;
             });
 
-            ApiService.getPackageModel(packageName).then(function (packageModel){
-              $scope.state.dimensions.items = packageModel.dimensions.items;
-              $scope.state.measures.items = packageModel.measures.items;
-              $scope.state.hierarchies = packageModel.hierarchies;
-
+            $q(function (resolve, reject) {
+              viewerService.buildState(packageName)
+                .then(resolve)
+                .catch(reject);
+            }).then(function (state) {
+              $scope.state.dimensions.items = state.dimensions.items;
+              $scope.state.measures.items = state.measures.items;
+              $scope.state.hierarchies = state.hierarchies;
               chooseStateParams(defaultParams);
 
-              if ($scope.state.measures.current == ''){
-                $scope.state.measures.current = packageModel.measures.current;
+
+              if ($scope.state.measures.current == '') {
+                $scope.state.measures.current = state.measures.current;
               }
 
-              if ($scope.state.dimensions.current.groups.length == 0){
-                $scope.state.dimensions.current.groups = [(_.first(packageModel.dimensions.items)).key];
+              if ($scope.state.dimensions.current.groups.length == 0) {
+                $scope.state.dimensions.current.groups = [_.first(_.first(state.hierarchies).dimensions).key];
               }
-
-
-            }).finally(function(){
+            }).finally(function () {
               $scope.state.isPackageLoading = false;
               updateBabbage();
               NavigationService.updateLocation($scope.state);
             });
           }
 
-          function updateBabbage(){
+          function updateBabbage() {
             var labelField = (_.find($scope.state.dimensions.items, {key: _.first($scope.state.dimensions.current.groups)})).label;
-            var cut = _.map($scope.state.dimensions.current.filters, function(value, key){ return key+':"'+value+'"'});
+            var cut = _.map($scope.state.dimensions.current.filters, function (value, key) {
+              return key + ':"' + value + '"'
+            });
             $scope.state.babbageTreeMap = {
               grouping: _.first($scope.state.dimensions.current.groups),
               area: $scope.state.measures.current,
@@ -180,7 +203,7 @@
             };
             $scope.state.babbageTable = {
               category: labelField,
-              rows : [labelField],
+              rows: [labelField],
               cut: cut,
             }
             HistoryService.pushState($scope.state);
@@ -188,10 +211,12 @@
             refreshBabbleComponents();
           }
 
-          function applyLocationParams(){
+          function applyLocationParams() {
             var params = NavigationService.getParams();
-            if (!params.dataPackage.length || ($scope.state.availablePackages.items.indexOf(params.dataPackage) < 0)){
-              params.dataPackage = _.first($scope.state.availablePackages.items);
+            if (!params.dataPackage.length || (_.isUndefined(_.find($scope.state.availablePackages.items, function (item) {
+                return item.key == params.dataPackage
+              })))) {
+              params.dataPackage = (_.first($scope.state.availablePackages.items)).key;
             }
 
             if ((params.dataPackage !== $scope.state.availablePackages.current)) {
@@ -202,37 +227,36 @@
             }
           }
 
-          var changeLocationEvent = $scope.$on('$locationChangeSuccess', function(angularEvent, newUrl, oldUrl, newState, oldState) {
+          $scope.$on('$locationChangeSuccess', function (angularEvent, newUrl, oldUrl) {
             if (NavigationService.isChanging()) {
               NavigationService.changed();
               return;
             }
-            console.log(newUrl, oldUrl);
-            if ((newUrl == oldUrl)){
+            if ((newUrl == oldUrl)) {
               return;
             }
             applyLocationParams();
           });
 
+          function init() {
+            $scope.state = {};
+            $scope.state.isStarting = true;
 
-          ApiService.getPackages().then(function (packages) {
-            $scope.state.availablePackages.items = packages;
-            $scope.state.isStarting = false;
+            return SettingsService.get('api').then(function (api_settings) {
+              $scope.state.apiUrl = api_settings.url;
+              viewerService = components.osViewerService(api_settings);
+              return $q(function (resolve, reject) {
+                viewerService.start({}).then(function (state) {
+                  resolve(state);
+                });
+              });
+            });
+          };
+
+
+          init().then(function (state) {
+            $scope.state = _.extend($scope.state, state);
             applyLocationParams();
-          });
-
-
-          $scope.state = {};
-          $scope.state.isStarting = true;
-          $scope.state.flag = {};
-          $scope.state.availablePackages = {};
-          $scope.state.measures = {};
-          $scope.state.dimensions = {};
-          $scope.state.dimensions.current = {};
-          $scope.state.dimensions.current.groups = [];
-          $scope.state.dimensions.current.filters = {};
-          SettingsService.get('api').then(function(api) {
-            $scope.state.apiUrl = api.url;
           });
 
           initScopeEvents();

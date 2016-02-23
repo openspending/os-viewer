@@ -1,0 +1,184 @@
+{
+  "__origin_url": "https://s3.amazonaws.com/datastore.openspending.org/Tieske/00_01_uganda/datapackage.json",
+  "additional_owners": [],
+  "countryCode": [
+    "UG"
+  ],
+  "description": "aaaaaaaaaaaaaaa",
+  "mapping": {
+    "dimensions": {
+      "from": {
+        "attributes": {
+          "label": {
+            "labelfor": "name",
+            "source": "from_label"
+          },
+          "name": {
+            "source": "from_name"
+          }
+        },
+        "dimensionType": "entity",
+        "primaryKey": "name"
+      },
+      "time": {
+        "attributes": {
+          "day": {
+            "source": "time_day"
+          },
+          "label": {
+            "source": "time_name"
+          },
+          "month": {
+            "source": "time_month"
+          },
+          "year": {
+            "source": "time_year"
+          },
+          "yearmonth": {
+            "source": "time_yearmonth"
+          }
+        },
+        "dimensionType": "datetime",
+        "primaryKey": [
+          "year",
+          "month",
+          "day"
+        ]
+      },
+      "to": {
+        "attributes": {
+          "label": {
+            "labelfor": "name",
+            "source": "to_label"
+          },
+          "name": {
+            "source": "to_name"
+          }
+        },
+        "dimensionType": "entity",
+        "primaryKey": "name"
+      }
+    },
+    "measures": {
+      "amount": {
+        "currency": "UGX",
+        "source": "amount"
+      }
+    }
+  },
+  "name": "Package1",
+  "owner": "Tieske",
+  "profiles": {
+    "fiscal": "*",
+    "tabular": "*"
+  },
+  "resources": [
+    {
+      "name": "dataset",
+      "path": "dataset.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "",
+            "format": "default",
+            "name": "openspending_id",
+            "title": "",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "from_name",
+            "title": "",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "from_label",
+            "title": "",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "amount",
+            "title": "",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "time_name",
+            "title": "",
+            "type": "date"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "time_year",
+            "title": "",
+            "type": "integer"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "time_month",
+            "title": "",
+            "type": "integer"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "time_day",
+            "title": "",
+            "type": "integer"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "time_week",
+            "title": "",
+            "type": "integer"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "time_yearmonth",
+            "title": "",
+            "type": "integer"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "time_quarter",
+            "title": "",
+            "type": "integer"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "time",
+            "title": "",
+            "type": "date"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "to_name",
+            "title": "",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "format": "default",
+            "name": "to_label",
+            "title": "",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "title": "approved_ugandan_budget_00_01"
+}
