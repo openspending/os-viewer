@@ -7,7 +7,8 @@ describe('UI Components', function() {
 
   describe('GeoView', function() {
 
-    var utils = require('../app/front/scripts/components/babbage-geoview/utils');
+    var utils = require('../app/front/scripts/components/' +
+      'babbage-geoview/utils');
     var moldova = require('./data/moldova.json');
 
     it('Should create ordinal color scale as singletone', function(done) {

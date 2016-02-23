@@ -30,7 +30,9 @@
               that.isLoggedIn = true;
               that.name = response.profile.name;
               that.email = response.profile.email;
+              // jscs:disable
               that.avatar = response.profile.avatar_url;
+              // jscs:enable
 
               authorize.check(token, 'os.datastore')
                 .then(function(permissionData) {
@@ -39,7 +41,7 @@
                 });
             })
             .catch(function(providers) {
-              if (!isEventRegistered ) {
+              if (!isEventRegistered) {
                 $window.addEventListener('focus', function() {
                   if (!that.isLoggedIn && attempting) {
                     that.check();
@@ -49,7 +51,7 @@
               }
               href = providers.google.url;
             });
-          };
+        };
         this.check();
 
         this.login = function() {

@@ -1,36 +1,34 @@
-/**
- * Created by Ihor Borysyuk on 22.02.16.
- */
-
 var nock = require('nock');
 var assert = require('chai').assert;
 var _ = require('underscore');
 
-var api_config = {
+var apiConfig = {
   url: 'http://some-server-api.com'
 };
 
-var osViewerService = require('../app/front/scripts/components/os-viewer-service/')(api_config);
-var api = require('../app/front/scripts/components/data-package-api/')(api_config);
+var osViewerService = require('../app/front/scripts/components/' +
+  'os-viewer-service/')(apiConfig);
+var api = require('../app/front/scripts/components/' +
+  'data-package-api/')(apiConfig);
 
-describe('osViewerService', function () {
+describe('osViewerService', function() {
 
-  it("Should exists", function (done) {
+  it('Should exists', function(done) {
     assert(_.isObject(osViewerService));
     assert(_.isFunction(osViewerService.getState));
     assert(_.isFunction(osViewerService.initState));
     done();
   });
 
-  it("Should return current state", function (done) {
+  it('Should return current state', function(done) {
     osViewerService.initState({name: 'test'});
     var state = osViewerService.getState();
     assert.deepEqual(state, {name: 'test'});
     done();
   });
 
-  it("Should return sorting indexes for dimensions", function (done) {
-    api.getDataPackageModel('Package2').then(function (model) {
+  it('Should return sorting indexes for dimensions', function(done) {
+    api.getDataPackageModel('Package2').then(function(model) {
       var sortIndexes = osViewerService._getDimensionsSortingIndexes(model);
       assert.deepEqual(sortIndexes, {
         'administrative_classification.admin1': 0,
@@ -44,8 +42,8 @@ describe('osViewerService', function () {
     });
   });
 
-  it("Should build hierarchy object", function (done) {
-    api.getDataPackageModel('Package1').then(function (model) {
+  it('Should build hierarchy object', function(done) {
+    api.getDataPackageModel('Package1').then(function(model) {
       var dimensions = api.getDimensionsFromModel(model);
       var hierarchies = osViewerService._buildHierarchies(model, dimensions);
 
@@ -117,21 +115,20 @@ describe('osViewerService', function () {
 
   });
 
-  it("Should build state object", function(done) {
-    osViewerService.buildState('Package1').then(function (state) {
+  it('Should build state object', function(done) {
+    osViewerService.buildState('Package1').then(function(state) {
       assert(_.isObject(state.measures));
       assert(_.isObject(state.dimensions));
       assert(_.isObject(state.hierarchies));
 
       _.each(state.dimensions.items, function(item) {
         assert(_.isArray(item.values));
-      } )
+      });
       done();
     });
   });
 
-
-  it("Should start state initialization", function (done) {
+  it('Should start state initialization', function(done) {
     osViewerService.start({});
     done();
   });

@@ -1,6 +1,3 @@
-/**
- * Created by Ihor Borysyuk on 22.01.16.
- */
 ;(function(angular) {
 
   var app = angular.module('Application');
@@ -42,8 +39,7 @@
             });
             if (size > 50) {
               size = Math.ceil(size * 0.5);
-            } else
-            if (size > 20) {
+            } else if (size > 20) {
               size = Math.ceil(size * 0.7);
             }
             element.find('ul').css('min-width', size + 'em');

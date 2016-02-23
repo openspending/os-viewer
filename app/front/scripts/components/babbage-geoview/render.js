@@ -152,7 +152,7 @@ function renderInfoCard(layer, options) {
       card
         .style('display', 'none');
     }
-  }
+  };
 }
 
 function render(options) {
@@ -204,7 +204,7 @@ function render(options) {
     destroy: function() {
       map.destroy();
     }
-  }
+  };
 }
 
 module.exports = render;

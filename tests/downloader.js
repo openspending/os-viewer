@@ -2,10 +2,10 @@ var nock = require('nock');
 var assert = require('chai').assert;
 var _ = require('underscore');
 
-describe('Downloader', function () {
+describe('Downloader', function() {
   var downloader = require('../app/front/scripts/components/downloader/');
 
-  before(function (done) {
+  before(function(done) {
     nock('http://site.com/')
       .persist()
       .get('/some.page')
@@ -19,21 +19,21 @@ describe('Downloader', function () {
     done();
   });
 
-  it('Should exists', function (done) {
+  it('Should exists', function(done) {
     assert.isObject(downloader);
     assert.isFunction(downloader.get);
     done();
   });
 
-  it('Should download a page', function (done) {
-    downloader.get('http://site.com/some.page').then(function (text) {
+  it('Should download a page', function(done) {
+    downloader.get('http://site.com/some.page').then(function(text) {
       assert.equal(text, 'test string');
       done();
     });
   });
 
-  it('Should cache a page', function (done) {
-    downloader.get('http://site.com/some.page').then(function (text) {
+  it('Should cache a page', function(done) {
+    downloader.get('http://site.com/some.page').then(function(text) {
       assert.equal(text, 'test string');
 
       nock('http://site.com/')
@@ -41,18 +41,18 @@ describe('Downloader', function () {
         .get('/some.page')
         .reply(200, 'other test string', {'access-control-allow-origin': '*'});
 
-      downloader.get('http://site.com/some.page').then(function (text) {
+      downloader.get('http://site.com/some.page').then(function(text) {
         assert.equal(text, 'test string');
         done();
       });
     });
   });
 
-  it('Should download different pages', function (done) {
-    downloader.get('http://site.com/some.page').then(function (text) {
+  it('Should download different pages', function(done) {
+    downloader.get('http://site.com/some.page').then(function(text) {
       assert.equal(text, 'test string');
 
-      downloader.get('http://site.com/some.page2').then(function (text) {
+      downloader.get('http://site.com/some.page2').then(function(text) {
         assert.equal(text, 'test string2');
         done();
       });

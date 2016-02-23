@@ -28,7 +28,9 @@ module.exports.start = function() {
 
     app.use(
       '/templates',
-      express.static(path.join(__dirname, '/front/scripts/directives/templates'))
+      express.static(
+        path.join(__dirname, '/front/scripts/directives/templates')
+      )
     );
 
     // Controllers
