@@ -9,3 +9,8 @@ npm install
 clear && npm run build && npm start
 open http://127.0.0.1:5000
 ```
+## Issues
+
+All issues are tracked out of the main OpenSpending issue tracker:
+
+* https://github.com/openspending/openspending/issues
