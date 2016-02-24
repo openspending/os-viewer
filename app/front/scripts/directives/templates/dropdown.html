@@ -6,8 +6,10 @@
     </button>
     <ul ng-if="!allowSearch" uib-dropdown-menu role="menu"
         ng-class="{'pull-left': alignment == 'left', 'pull-right': alignment == 'right'}">
-        <li role="menuitem" ng-repeat="item in preparedItems">
-            <a href="javascript:void(0)" title="{{ item.value }}" ng-click="onItemClick(item.key)">{{item.value}}</a>
+        <li role="menuitem" ng-repeat="item in (state.isOpen ? preparedItems : [])">
+            <a href="javascript:void(0)" title="{{ item.value }}" ng-click="onItemClick(item.key)">
+                {{(item.value == item.key) ? item.value : item.key + ' : ' + item.value}}
+            </a>
         </li>
     </ul>
     <ul ng-if="allowSearch" uib-dropdown-menu role="menu"

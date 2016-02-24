@@ -1,0 +1,34 @@
+{
+  "order": [],
+  "fields": [
+    "administrative_classification_admin2_code.admin2_code",
+    "administrative_classification_admin2_code.admin2_label"
+  ],
+  "page": 1,
+  "status": "ok",
+  "data": [
+    {
+      "administrative_classification_admin2_code.admin2_label": "Council of the municipality of Chisinau",
+      "administrative_classification_admin2_code.admin2_code": "001"
+    },
+    {
+      "administrative_classification_admin2_code.admin2_label": "Council of the municipality of Balti",
+      "administrative_classification_admin2_code.admin2_code": "012"
+    },
+    {
+      "administrative_classification_admin2_code.admin2_label": "District Council Anenii Noi",
+      "administrative_classification_admin2_code.admin2_code": "030"
+    },
+    {
+      "administrative_classification_admin2_code.admin2_label": "District Council Basarabeasca",
+      "administrative_classification_admin2_code.admin2_code": "031"
+    },
+    {
+      "administrative_classification_admin2_code.admin2_label": "District Council Briceni",
+      "administrative_classification_admin2_code.admin2_code": "032"
+    }
+  ],
+  "total_member_count": 88,
+  "page_size": 10000,
+  "cell": []
+}

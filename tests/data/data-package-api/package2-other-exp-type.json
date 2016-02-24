@@ -1,0 +1,15 @@
+{
+  "order": [],
+  "fields": ["other_exp_type.exp_type"],
+  "page": 1,
+  "status": "ok",
+  "data": [
+    {"other_exp_type.exp_type": "Capital"},
+    {"other_exp_type.exp_type": "Non-personnel recurrent"},
+    {"other_exp_type.exp_type": "Other"},
+    {"other_exp_type.exp_type": "Personnel"}
+  ],
+  "total_member_count": 4,
+  "page_size": 10000,
+  "cell": []
+}

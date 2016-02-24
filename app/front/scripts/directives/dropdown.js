@@ -1,6 +1,3 @@
-/**
- * Created by Ihor Borysyuk on 22.01.16.
- */
 ;(function(angular) {
 
   var app = angular.module('Application');
@@ -34,24 +31,23 @@
 
           scope.$watchCollection('items', function(values) {
             var size = 0;
-            _.each(values, function(value) {
-              var len = ('' + value).length;
+            _.each(values, function(node) {
+              var len = ('' + node.value).length;
               if (len > size) {
                 size = len;
               }
             });
             if (size > 50) {
               size = Math.ceil(size * 0.5);
-            } else
-            if (size > 20) {
+            } else if (size > 20) {
               size = Math.ceil(size * 0.7);
             }
             element.find('ul').css('min-width', size + 'em');
 
-            scope.preparedItems = _.map(values, function(value, key) {
+            scope.preparedItems = _.map(values, function(node) {
               return {
-                key: key,
-                value: value
+                key: node.key,
+                value: node.value
               };
             });
           });

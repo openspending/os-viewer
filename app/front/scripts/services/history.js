@@ -1,7 +1,3 @@
-/**
- * Created by Ihor Borysyuk on 05.02.16.
- */
-
 ;(function(angular) {
 
   var app = angular.module('Application');
@@ -11,7 +7,7 @@
     var _index = -1;
 
     return {
-      back: function(){
+      back: function() {
         if (this.canBack()) {
           _index--;
           return JSON.parse(_histories[_index]);
@@ -27,10 +23,10 @@
 
       pushState: function(state) {
         if (_index >= 0) {
-          _histories.splice(_index+1, Number.MAX_VALUE);
+          _histories.splice(_index + 1, Number.MAX_VALUE);
         }
         _histories.push(JSON.stringify(state));
-        _index = _histories.length-1;
+        _index = _histories.length - 1;
       },
 
       canBack: function() {
@@ -38,7 +34,7 @@
       },
 
       canForward: function() {
-        return _index < _histories.length-1;
+        return _index < _histories.length - 1;
       }
     };
   }]);

@@ -5,7 +5,7 @@
             <span class="margin-right-4 label label-success" ng-repeat="dimension in dimensions" ng-if="events.isFilterSelected(dimension.key)">
                 <span>{{ dimension.name }}</span>
                 <span>:&nbsp;</span>
-                <span>{{ dimension.values[events.getFilterSelected(dimension.key)] }}</span>
+                <span>{{ events.getSelectedValue(dimension) }}</span>
                 <span>&nbsp;</span>
                 <i class="fa fa-remove cursor-pointer" ng-click="events.dropFilter(dimension.key)"></i>
             </span>

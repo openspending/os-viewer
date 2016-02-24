@@ -1,6 +1,4 @@
 ;(function(angular) {
-  var redux = require('redux/dist/redux.js');
-  var ngRedux = require('ng-redux/dist/ng-redux.js');
 
   var customComponents = require('components');
 
