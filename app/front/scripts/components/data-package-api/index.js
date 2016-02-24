@@ -29,30 +29,43 @@ module.exports = function(config) {
     //returns data package
     getDataPackage: function(packageName) {
       var urlApiPackage = _config.url + '/info/{packageName}/package';
-      return downloader.get(
+      return downloader.getJson(
         urlApiPackage.replace('{packageName}', packageName)
-      ).then(function(text) {
-        var result = {};
-        try {
-          result = JSON.parse(text);
-        } catch (e) {
-        }
-        return result;
-      });
+      );
     },
 
     //returns model of data package
     getDataPackageModel: function(packageName) {
+      var that = this;
       var urlApiPackageModel = _config.url + '/cubes/{packageName}/model';
-      return downloader.get(
+      var model = null;
+
+      return downloader.getJson(
         urlApiPackageModel.replace('{packageName}', packageName)
-      ).then(function(text) {
-        var result = {};
-        try {
-          result = JSON.parse(text).model;
-        } catch (e) {
+      ).then(function(data) {
+        model = data.model;
+        return that.getDataPackage(packageName);
+      }).then(function(dataPackage) {
+        var dimensionMappings = null;
+        if (_.isObject(dataPackage.mapping)) {
+          if (_.isObject(dataPackage.mapping.dimensions)) {
+            dimensionMappings = dataPackage.mapping.dimensions;
+          }
         }
-        return result;
+
+        if (dimensionMappings) {
+          _.each(model.dimensions, function(dimension) {
+            // jscs:disable
+            var originalDimension =
+              dimensionMappings[dimension.orig_dimension];
+            // jscs:enable
+
+            if (originalDimension) {
+              dimension.dimensionType = originalDimension.dimensionType;
+            }
+          });
+        }
+        return model;
       });
     },
 
@@ -65,14 +78,7 @@ module.exports = function(config) {
         .replace('{packageName}', packageName)
         .replace('{dimension}', dimension);
 
-      return downloader.get(url).then(function(text) {
-        var result = {};
-        try {
-          result = JSON.parse(text);
-        } catch (e) {
-        }
-        return result;
-      });
+      return downloader.getJson(url);
     },
 
     getMeasuresFromModel: function(model) {
@@ -134,6 +140,7 @@ module.exports = function(config) {
           key: that.getDimensionKeyById(model, id),
           code: value.label,
           hierarchy: value.hierarchy,
+          dimensionType: value.dimensionType,
           name: value.attributes[keyAttribute].column,
           label: value.hierarchy + '.' + labelAttribute,
           drillDown: that.getDrillDownDimensionKey(model, id)

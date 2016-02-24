@@ -83,6 +83,18 @@
                                     <babbage-crosstab></babbage-crosstab>
                                 </babbage>
                             </uib-tab>
+
+                            <uib-tab heading="Map" ng-click="events.setTab('Map')"
+                                ng-if="state.availablePackages.locationAvailable && state.availablePackages.locationSelected">
+                                <babbage ng-if="!state.flag.renderingCharts && currentTab == 'Map'"
+                                  endpoint="{{state.apiUrl}}"
+                                  cube="{{state.availablePackages.current}}"
+                                  state="state.babbageBar">
+                                    <babbage-geoview class="geoview-container"
+                                      country-code="{{ state.availablePackages.locationCountry }}">
+                                    </babbage-geoview>
+                                </babbage>
+                            </uib-tab>
                         </uib-tabset>
                     </div>
                 </div>
