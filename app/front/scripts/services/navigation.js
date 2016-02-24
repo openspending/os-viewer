@@ -67,7 +67,6 @@
           }
         }
 
-        console.log(params);
         return params;
       }
     };

@@ -78,22 +78,33 @@ function updateDimensions(geoJson, options) {
 
 function updateValues(geoJson, options) {
   var sum = 0;
+  var min = null;
   var max = null;
   _.each(geoJson.features, function(item) {
-    item.value = options.data[item.properties.name] || 0;
-    sum += item.value;
-    if ((max === null) || (item.value > max)) {
-      max = item.value;
+    item.value = options.data[item.properties.name];
+    if (!_.isUndefined(item.value)) {
+      sum += item.value;
+      if ((min === null) || (item.value < min)) {
+        min = item.value;
+      }
+      if ((max === null) || (item.value > max)) {
+        max = item.value;
+      }
     }
   });
 
-  _.each(geoJson.features, function(item) {
-    item.percentValue = item.value / (sum || 1);
-    item.normalizedValue = item.value / (max || 1);
+  var scale = d3.scale.linear()
+    .domain([min, max])
+    .range([0, 1]);
 
-    //item.color = d3.rgb(options.color(index));
-    //item.color = d3.rgb(options.color(item.percentValue));
-    item.color = d3.rgb(options.color(item.normalizedValue));
+  _.each(geoJson.features, function(item) {
+    item.percentValue = _.isUndefined(item.value) ? 0 :
+      item.value / (sum || 1);
+    item.normalizedValue = (_.isUndefined(item.value) ? min : item.value) /
+      (max || 1);
+    item.scaledValue = _.isUndefined(item.value) ? 0 : scale(item.value);
+
+    item.color = d3.rgb(options.color(item.scaledValue));
   });
 }
 
@@ -108,6 +119,13 @@ function prepareGeoJson(geoJson, options) {
   updateDimensions(geoJson, options);
   updateScales(geoJson, options);
   updateValues(geoJson, options);
+}
+
+function formatValue(value) {
+  if (_.isUndefined(value)) {
+    return 'N/A';
+  }
+  return value;
 }
 
 function setSelection(datum, options) {
@@ -137,7 +155,7 @@ function setSelection(datum, options) {
       return '#fafafa';
     },
     title: function(d) {
-      return d.properties.name + ': ' + d.value;
+      return d.properties.name + ': ' + formatValue(d.value);
     },
     text: function(d) {
       return d.properties.name;
@@ -159,7 +177,7 @@ function setSelection(datum, options) {
         return false;
       }
       return '<span>' + datum.properties.name + '</span>: <b>' +
-        datum.value + '</b>';
+        formatValue(datum.value) + '</b>';
     }
   };
 }

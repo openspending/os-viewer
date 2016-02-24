@@ -15,12 +15,12 @@
         'SettingsService',
 
         function($scope,
-                 NavigationService,
-                 _,
-                 HistoryService,
-                 $q,
-                 $timeout,
-                 SettingsService) {
+          NavigationService,
+          _,
+          HistoryService,
+          $q,
+          $timeout,
+          SettingsService) {
 
           function initScopeEvents() {
             $scope.events = {};
@@ -179,6 +179,11 @@
                 packageInfo.description;
 
               $scope.state.availablePackages.title = packageInfo.title;
+
+              $scope.state.availablePackages.locationCountry =
+                _.isArray(packageInfo.countryCode) ?
+                  _.first(packageInfo.countryCode) : packageInfo.countryCode;
+              $scope.state.availablePackages.locationAvailable = false;
             });
 
             $q(function(resolve, reject) {
@@ -191,7 +196,6 @@
               $scope.state.hierarchies = state.hierarchies;
               chooseStateParams(defaultParams);
 
-              console.log($scope.state.measures);
               if (!$scope.state.measures.current) {
                 $scope.state.measures.current = state.measures.current;
               }
@@ -202,6 +206,13 @@
                     _.first(state.hierarchies).dimensions
                   ).key];
               }
+
+              $scope.state.availablePackages.locationAvailable =
+                !!$scope.state.availablePackages.locationCountry &&
+                !!_.findWhere(state.dimensions.items, {
+                  dimensionType: 'location'
+                });
+              $scope.state.availablePackages.locationSelected = false;
             }).finally(function() {
               $scope.state.isPackageLoading = false;
               updateBabbage();
@@ -259,6 +270,17 @@
               updateBabbage();
             }
           }
+
+          $scope.$watch('state.dimensions.current.groups', function(value) {
+            if ($scope.state && $scope.state.availablePackages) {
+              var currentGroup = _.findWhere($scope.state.dimensions.items, {
+                key: _.first(value)
+              });
+              $scope.state.availablePackages.locationSelected =
+                _.isObject(currentGroup) &&
+                (currentGroup.dimensionType == 'location');
+            }
+          });
 
           $scope.$on('$locationChangeSuccess',
             function(angularEvent, newUrl, oldUrl) {

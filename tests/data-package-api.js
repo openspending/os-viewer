@@ -14,6 +14,8 @@ describe('DataPackage API', function() {
     'datapackages.json');
   var dataPackage1 = require('./data/data-package-api/' +
     'datapackage-package1.json');
+  var dataPackage2 = require('./data/data-package-api/' +
+    'datapackage-package2.json');
   var model1 = require('./data/data-package-api/' +
     'model1.json');
   var model2 = require('./data/data-package-api/' +
@@ -58,6 +60,10 @@ describe('DataPackage API', function() {
     nock(apiConfig.url)
       .persist()
       .get('/info/Package1/package')
+      .reply(200, dataPackage1, {'access-control-allow-origin': '*'});
+    nock(apiConfig.url)
+      .persist()
+      .get('/info/Package2/package')
       .reply(200, dataPackage1, {'access-control-allow-origin': '*'});
 
     //mock model1
@@ -247,6 +253,7 @@ describe('DataPackage API', function() {
           hierarchy: 'from',
           name: 'from_name',
           label: 'from.name',
+          dimensionType: undefined,
           drillDown: undefined
         },
         {
@@ -256,6 +263,7 @@ describe('DataPackage API', function() {
           hierarchy: 'time',
           name: 'time_day',
           label: 'time.day',
+          dimensionType: undefined,
           drillDown: undefined
         },
         {
@@ -265,6 +273,7 @@ describe('DataPackage API', function() {
           hierarchy: 'time',
           name: 'time_month',
           label: 'time.month',
+          dimensionType: undefined,
           drillDown: 'time.day'
         },
         {
@@ -274,6 +283,7 @@ describe('DataPackage API', function() {
           hierarchy: 'time',
           name: 'time_year',
           label: 'time.year',
+          dimensionType: undefined,
           drillDown: 'time.month'
         },
         {
@@ -283,6 +293,7 @@ describe('DataPackage API', function() {
           hierarchy: 'to',
           name: 'to_name',
           label: 'to.name',
+          dimensionType: undefined,
           drillDown: undefined
         }]
       );
@@ -294,7 +305,6 @@ describe('DataPackage API', function() {
     api.getDataPackageModel('Package2').then(function(model) {
       var dimensions = api.getDimensionsFromModel(model);
       assert.isArray(dimensions);
-
       assert.deepEqual(dimensions, [
         {
           id: 'administrative_classification_admin1',
@@ -303,6 +313,7 @@ describe('DataPackage API', function() {
           hierarchy: 'administrative_classification',
           name: 'admin1',
           label: 'administrative_classification.admin1',
+          dimensionType: undefined,
           drillDown: 'administrative_classification.admin2_code'
         },
         {
@@ -312,6 +323,7 @@ describe('DataPackage API', function() {
           hierarchy: 'administrative_classification',
           name: 'admin2_code',
           label: 'administrative_classification.admin2_label',
+          dimensionType: undefined,
           drillDown: 'administrative_classification.admin3_code'
         },
         {
@@ -321,6 +333,7 @@ describe('DataPackage API', function() {
           hierarchy: 'administrative_classification',
           name: 'admin3_code',
           label: 'administrative_classification.admin3_label',
+          dimensionType: undefined,
           drillDown: undefined
         },
         {
@@ -330,6 +343,7 @@ describe('DataPackage API', function() {
           hierarchy: 'location',
           name: 'admin2_label',
           label: 'location.title',
+          dimensionType: undefined,
           drillDown: undefined
         },
         {
@@ -339,6 +353,7 @@ describe('DataPackage API', function() {
           hierarchy: 'other',
           name: 'exp_type',
           label: 'other.exp_type',
+          dimensionType: undefined,
           drillDown: 'other.transfer'
         },
         {
@@ -348,6 +363,7 @@ describe('DataPackage API', function() {
           hierarchy: 'other',
           name: 'fin_source',
           label: 'other.fin_source',
+          dimensionType: undefined,
           drillDown: 'other.exp_type'
         },
         {
@@ -357,6 +373,7 @@ describe('DataPackage API', function() {
           hierarchy: 'other',
           name: 'transfer',
           label: 'other.transfer',
+          dimensionType: undefined,
           drillDown: undefined
         }
       ]);

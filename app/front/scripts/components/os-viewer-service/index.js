@@ -64,33 +64,34 @@ module.exports = function(config) {
 
     buildState: function(packageName) {
       var that = this;
-      return new Promise(function(resolve, reject) {
-        var result = {dimensions: {}, measures: {}, hierarchies: {}};
-        api.getDataPackageModel(packageName).then(function(model) {
+      var model = null;
 
-          api.getAllDimensionValues(packageName, model)
-            .then(function(possibleValues) {
+      return api.getDataPackageModel(packageName)
+        .then(function(result) {
+          model = result;
+          return api.getAllDimensionValues(packageName, model);
+        })
+        .then(function(possibleValues) {
+          var result = {dimensions: {}, measures: {}, hierarchies: {}};
 
-              //init measures
-              result.measures.items = api.getMeasuresFromModel(model);
-              result.measures.current = (_.first(result.measures.items)).key;
+          //init measures
+          result.measures.items = api.getMeasuresFromModel(model);
+          result.measures.current = (_.first(result.measures.items)).key;
 
-              result.dimensions.items = api.getDimensionsFromModel(model);
+          result.dimensions.items = api.getDimensionsFromModel(model);
 
-              //combine dimensions with possible values
-              _.each(result.dimensions.items, function(dimension) {
-                dimension.values = possibleValues[dimension.key];
-              });
+          //combine dimensions with possible values
+          _.each(result.dimensions.items, function(dimension) {
+            dimension.values = possibleValues[dimension.key];
+          });
 
-              result.hierarchies = that._buildHierarchies(
-                model,
-                result.dimensions.items
-              );
+          result.hierarchies = that._buildHierarchies(
+            model,
+            result.dimensions.items
+          );
 
-              resolve(result);
-            });
+          return result;
         });
-      });
     },
 
     getPackageInfo: function(packageName) {
@@ -98,24 +99,21 @@ module.exports = function(config) {
     },
 
     start: function(initState) {
-      var that = this;
-      return new Promise(function(resolve, reject) {
-        initState.isStarting = true;
-        initState.flag = {};
-        initState.availablePackages = {};
-        initState.measures = {};
-        initState.dimensions = {};
-        initState.dimensions.current = {};
-        initState.dimensions.current.groups = [];
-        initState.dimensions.current.filters = {};
+      initState.isStarting = true;
+      initState.flag = {};
+      initState.availablePackages = {};
+      initState.measures = {};
+      initState.dimensions = {};
+      initState.dimensions.current = {};
+      initState.dimensions.current.groups = [];
+      initState.dimensions.current.filters = {};
 
-        that.initState(initState);
-        api.getPackages().then(function(dataPackages) {
-          _state.availablePackages.items = dataPackages;
-          _state.isStarting = false;
-          resolve(_state);
-        });
+      this.initState(initState);
+      return api.getPackages().then(function(dataPackages) {
+        _state.availablePackages.items = dataPackages;
+        _state.isStarting = false;
+        return _state;
       });
-    },
+    }
   };
 };
