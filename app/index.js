@@ -28,7 +28,9 @@ module.exports.start = function() {
 
     app.use(
       '/templates',
-      express.static(path.join(__dirname, '/front/scripts/directives/templates'))
+      express.static(
+        path.join(__dirname, '/front/scripts/directives/templates')
+      )
     );
 
     // Controllers
@@ -43,6 +45,7 @@ module.exports.start = function() {
     env.addGlobal('marked', marked);
     env.addGlobal('sessionSalt', '' + Date.now() +
       Math.round(Math.random() * 10000));
+    env.addGlobal('authLibraryUrl', config.get('authLibraryUrl'));
 
     var server = app.listen(app.get('port'), function() {
       console.log('Listening on :' + app.get('port'));

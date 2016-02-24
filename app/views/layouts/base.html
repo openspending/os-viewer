@@ -14,14 +14,6 @@
 </head>
 <body ng-app="Application" ng-controller="main" class="ng-cloak">
 <div id="root"></div>
-<script type="text/javascript">
-  var dataPackages = [
-    'https://s3.amazonaws.com/datastore.openspending.org/__tests/boost-paraguay/datapackage.json',
-    'http://datastore.openspending.org/__tests/boost-paraguay/datapackage.json',
-    'http://datastore.openspending.org/__tests/boost-peru-national/datapackage.json',
-    'http://datastore.openspending.org/__tests/boost-rio-grande-do-sul-state-revenue/datapackage.json'
-  ];
-</script>
 {% if not isEmbedded %}
   {% include "partials/header.html" %}
 {% endif %}
@@ -36,6 +28,7 @@
 
 <script src="modules.js?{{ sessionSalt }}"></script>
 <script src="vendor.js?{{ sessionSalt }}"></script>
+<script src="{{ authLibraryUrl }}"></script>
 <script src="app.js?{{ sessionSalt }}"></script>
 
 {% block footerScript %}{% endblock %}

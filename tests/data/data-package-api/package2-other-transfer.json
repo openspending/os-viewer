@@ -1,0 +1,13 @@
+{
+  "order": [],
+  "fields": ["other_transfer.transfer"],
+  "page": 1,
+  "status": "ok",
+  "data": [
+    {"other_transfer.transfer": "Excluding transfers"},
+    {"other_transfer.transfer": "Intrabudgetary transfers"}
+  ],
+  "total_member_count": 2,
+  "page_size": 10000,
+  "cell": []
+}

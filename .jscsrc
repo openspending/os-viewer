@@ -1,4 +1,4 @@
 {
   "preset": "google",
-  "excludeFiles": ["app/public/*"]
+  "excludeFiles": ["app/public/*", "app/front/scripts/ext-libs"]
 }
