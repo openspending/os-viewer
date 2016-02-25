@@ -1,0 +1,242 @@
+{
+  "__origin_url": "http://s3.amazonaws.com/datastore.openspending.org/__tests/boost-moldova/datapackage.json",
+  "countryCode": "MD",
+  "description": "",
+  "fiscalPeriod": {
+    "end": "2014-12-31",
+    "start": "2014-01-01"
+  },
+  "granularity": "aggregated",
+  "mapping": {
+    "dimensions": {
+      "administrative-classification": {
+        "attributes": {
+          "admin1": {
+            "source": "admin1"
+          },
+          "admin2_code": {
+            "parent": "admin1",
+            "source": "admin2 (code)"
+          },
+          "admin2_label": {
+            "labelfor": "admin2_code",
+            "source": "admin2 (label)"
+          },
+          "admin3_code": {
+            "parent": "admin2_code",
+            "source": "admin3 (code)"
+          },
+          "admin3_label": {
+            "labelfor": "admin3_code",
+            "source": "admin3 (label)"
+          }
+        },
+        "classificationType": "administrative",
+        "dimensionType": "classification",
+        "primaryKey": [
+          "admin1",
+          "admin2_code",
+          "admin3_code"
+        ]
+      },
+      "location": {
+        "attributes": {
+          "title": {
+            "source": "admin2 (label)"
+          }
+        },
+        "dimensionType": "location",
+        "primaryKey": "title"
+      },
+      "other": {
+        "attributes": {
+          "exp_type": {
+            "source": "exp_type"
+          },
+          "fin_source": {
+            "source": "fin_source"
+          },
+          "transfer": {
+            "source": "transfer"
+          }
+        },
+        "dimensionType": "other",
+        "primaryKey": [
+          "fin_source",
+          "exp_type",
+          "transfer"
+        ]
+      }
+    },
+    "measures": {
+      "adjusted": {
+        "currency": "MDL",
+        "direction": "expenditure",
+        "phase": "adjusted",
+        "source": "adjusted"
+      },
+      "approved": {
+        "currency": "MDL",
+        "direction": "expenditure",
+        "phase": "approved",
+        "source": "approved"
+      },
+      "executed": {
+        "currency": "MDL",
+        "direction": "expenditure",
+        "phase": "executed",
+        "source": "executed"
+      }
+    }
+  },
+  "name": "boost-moldova",
+  "profiles": {
+    "fiscal": "*",
+    "tabular": "*"
+  },
+  "resources": [
+    {
+      "bytes": 69163271,
+      "format": "csv",
+      "mediatype": "text/csv",
+      "name": "boost-moldova-2014",
+      "path": "data/boost-moldova-2014.csv",
+      "schema": {
+        "fields": [
+          {
+            "description": "",
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "description": "",
+            "name": "admin1",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin2_code",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin2_label",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin3_code",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin3_label",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin4_code",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin4_label",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin5_code",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin5_label",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin6_code",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "admin6_label",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "func1_code",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "func1_label",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "func2_code",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "func2_label",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "econ1_code",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "econ1_label",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "econ2_code",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "econ2_label",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "fin_source",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "exp_type",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "transfer",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "approved",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "adjusted",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "executed",
+            "type": "number"
+          }
+        ]
+      }
+    }
+  ],
+  "title": "Moldova BOOST",
+  "version": "0.1.0"
+}

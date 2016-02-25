@@ -59,6 +59,7 @@ describe('osViewerService', function() {
               hierarchy: 'from',
               name: 'from_name',
               label: 'from.name',
+              dimensionType: undefined,
               drillDown: undefined
             },
             {
@@ -68,6 +69,7 @@ describe('osViewerService', function() {
               hierarchy: 'to',
               name: 'to_name',
               label: 'to.name',
+              dimensionType: undefined,
               drillDown: undefined
             }
           ],
@@ -84,6 +86,7 @@ describe('osViewerService', function() {
               hierarchy: 'time',
               name: 'time_year',
               label: 'time.year',
+              dimensionType: undefined,
               drillDown: 'time.month'
             },
             {
@@ -93,6 +96,7 @@ describe('osViewerService', function() {
               hierarchy: 'time',
               name: 'time_month',
               label: 'time.month',
+              dimensionType: undefined,
               drillDown: 'time.day'
             },
             {
@@ -102,6 +106,7 @@ describe('osViewerService', function() {
               hierarchy: 'time',
               name: 'time_day',
               label: 'time.day',
+              dimensionType: undefined,
               drillDown: undefined
             }
           ],

@@ -8,9 +8,7 @@ var _cache = {};
 module.exports = {
   get: function(url) {
     if (_cache[url]) {
-      return new Promise(function(resolve, reject) {
-        resolve(_cache[url]);
-      });
+      return Promise.resolve(_cache[url]);
     } else {
       return fetch(url).then(function(response) {
         return response.text();
@@ -19,5 +17,8 @@ module.exports = {
         return text;
       });
     }
+  },
+  getJson: function(url) {
+    return this.get(url).then(JSON.parse);
   }
 };
