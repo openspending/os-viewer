@@ -41,6 +41,9 @@ function renderMap(layer, options) {
       .ease('cubic-in-out')
       .attr('d', path);
 
+    textLayer
+      .attr('hidden', selection.hideLabels);
+
     textLayer.selectAll('text')
       .attr('fill', selection.textFill)
       .transition()

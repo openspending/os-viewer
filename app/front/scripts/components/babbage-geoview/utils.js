@@ -140,6 +140,9 @@ function setSelection(datum, options) {
       return '';
     },
     hideLabels: function() {
+      if (!datum) {
+        return 'on';
+      }
       return options.width < 600 ? 'on' : null;
     },
     strokeColor: function(d) {
