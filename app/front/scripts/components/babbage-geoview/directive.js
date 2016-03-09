@@ -39,7 +39,7 @@ module.exports = function(ngModule) {
                     container: element.find('.babbage-geoview').get(0),
                     code: countryCode,
                     geoObject: geoJson,
-                    data: data,
+                    data: data(),
                     bindResize: function(callback) {
                       resizeHandlers.push(callback);
                       $window.addEventListener('resize', callback);
@@ -50,7 +50,9 @@ module.exports = function(ngModule) {
           }
 
           if ($scope.countryCode) {
-            handle = createHandle($scope.countryCode, $scope.values || {});
+            handle = createHandle($scope.countryCode, function() {
+              return $scope.values || {};
+            });
           }
 
           $scope.$watch('values', function(newValue, oldValue) {
@@ -66,7 +68,9 @@ module.exports = function(ngModule) {
             if (newValue === oldValue) {
               return;
             }
-            createHandle(newValue, $scope.values || {});
+            createHandle(newValue, function() {
+              return $scope.values || {};
+            });
           });
 
           $scope.$on('$destroy', function() {
