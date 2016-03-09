@@ -117,8 +117,10 @@ function renderMap(layer, options) {
   }
 
   return {
-    updateData: function(data) {
+    updateData: function(data, currencySign) {
       options.data = data || {};
+      selection.currencySign(currencySign);
+
       utils.updateValues(geoObject, options);
 
       options.updateInfoCard(selection.info());
@@ -163,18 +165,27 @@ function renderLegend(layer, options) {
     .append('div')
     .attr('class', 'babbage-geoview-legend');
 
-  legend.append('div')
-    .attr('class', 'babbage-geoview-legend-colors')
-    .style('background', function() {
-      var colors = [options.color(1), options.color(0)];
-      return 'linear-gradient(' + colors.join(',') + ')';
+  var update = function(range, currencySign) {
+    var items = [];
+    _.each(utils.generateValueRanges(range), function(item) {
+      var color = options.color(item.scaledValue);
+      var title = utils.formatAmount(item.value, currencySign);
+      if (item.isMin) {
+        title += ' and less';
+      }
+      if (item.isMax) {
+        title += ' and more';
+      }
+      items.push(
+        '<div>' +
+        '<i style="background-color: ' + color + '"></i>' +
+        '<span>' + title + '</span>' +
+        '</div>'
+      );
     });
-
-  var update = function(range) {
-    legend.attr('data-min', range[0] + ' and less')
-      .attr('data-max', range[1] + ' and more');
+    legend.html(items.reverse().join(''));
   };
-  update(options.range);
+  update(options.range, options.currencySign);
 
   return {
     update: update
@@ -216,6 +227,7 @@ function render(options) {
     width: bounds.width,
     height: bounds.height,
     color: colorScale,
+    currencySign: options.currencySign,
     range: options.geoObject.valueRange
   });
 
@@ -227,14 +239,15 @@ function render(options) {
     color: colorScale,
     width: bounds.width,
     height: bounds.height,
+    currencySign: options.currencySign,
     updateInfoCard: infoCard,
     bindResize: options.bindResize
   });
 
   return {
-    updateData: function(data) {
-      map.updateData(data);
-      legend.update(options.geoObject.valueRange);
+    updateData: function(data, currencySign) {
+      map.updateData(data, currencySign);
+      legend.update(options.geoObject.valueRange, currencySign);
     },
     destroy: function() {
       map.destroy();

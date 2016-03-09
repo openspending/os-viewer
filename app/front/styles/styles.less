@@ -123,37 +123,30 @@
   padding: 0.5em 1em;
   background: #fcfcfc;
   border-radius: 3px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+  border: 1px solid #bbb;
 }
 
 .babbage-geoview-legend {
   position: absolute;
   left: 8px;
   bottom: 8px;
-  padding: 0.5em 1em 0.5em 3em;
+  padding: 0.5em 1em;
   background: #fcfcfc;
   border-radius: 3px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+  border: 1px solid #bbb;
 
-  & .babbage-geoview-legend-colors {
-    display: block;
-    width: 1.5em;
-    position: absolute;
-    left: 1em;
-    top: 1em;
-    bottom: 1em;
+  & i {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.7em;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
   }
 
-  &:before {
-    content: attr(data-max);
-    display: block;
-    margin-bottom: 2em;
-  }
-
-  &:after {
-    content: attr(data-min);
-    display: block;
-    margin-top: 2em;
+  & span {
+    display: inline-block;
+    vertical-align: middle;
   }
 }
 
