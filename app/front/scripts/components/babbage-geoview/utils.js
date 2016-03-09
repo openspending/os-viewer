@@ -97,6 +97,8 @@ function updateValues(geoJson, options) {
     .domain([min, max])
     .range([0, 1]);
 
+  geoJson.valueRange = [min, max];
+
   _.each(geoJson.features, function(item) {
     item.percentValue = _.isUndefined(item.value) ? 0 :
       item.value / (sum || 1);

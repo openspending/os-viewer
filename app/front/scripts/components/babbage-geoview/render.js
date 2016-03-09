@@ -158,6 +158,29 @@ function renderInfoCard(layer, options) {
   };
 }
 
+function renderLegend(layer, options) {
+  var legend = options.container
+    .append('div')
+    .attr('class', 'babbage-geoview-legend');
+
+  legend.append('div')
+    .attr('class', 'babbage-geoview-legend-colors')
+    .style('background', function() {
+      var colors = [options.color(1), options.color(0)];
+      return 'linear-gradient(' + colors.join(',') + ')';
+    });
+
+  var update = function(range) {
+    legend.attr('data-min', range[0] + ' and less')
+      .attr('data-max', range[1] + ' and more');
+  };
+  update(options.range);
+
+  return {
+    update: update
+  };
+}
+
 function render(options) {
   var container = d3.select(options.container);
   var bounds = container.node().getBoundingClientRect();
@@ -188,6 +211,14 @@ function render(options) {
     height: bounds.height
   });
 
+  var legend = renderLegend(svg.append('g'), {
+    container: container,
+    width: bounds.width,
+    height: bounds.height,
+    color: colorScale,
+    range: options.geoObject.valueRange
+  });
+
   var map = renderMap(svg.append('g'), {
     container: container,
     svg: svg,
@@ -203,6 +234,7 @@ function render(options) {
   return {
     updateData: function(data) {
       map.updateData(data);
+      legend.update(options.geoObject.valueRange);
     },
     destroy: function() {
       map.destroy();
