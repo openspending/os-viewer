@@ -383,6 +383,10 @@ ngBabbage.directive('babbageChart', ['$rootScope', '$http', function($rootScope,
         q.page = 0;
         q.pagesize = 10000;
 
+        if (category && scope.chartType == 'line') {
+          q.order = [{ref: category, direction: 'asc'}];
+        }
+
         var dfd = $http.get(babbageCtrl.getApiUrl('aggregate'),
                             babbageCtrl.queryParams(q));
         dfd.then(function(res) {
