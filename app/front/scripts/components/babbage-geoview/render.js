@@ -142,7 +142,7 @@ function renderMap(layer, options) {
   };
 }
 
-function renderInfoCard(layer, options) {
+function renderInfoCard(options) {
   var card = options.container
     .append('div')
     .attr('class', 'babbage-geoview-infocard')
@@ -160,7 +160,7 @@ function renderInfoCard(layer, options) {
   };
 }
 
-function renderLegend(layer, options) {
+function renderLegend(options) {
   var legend = options.container
     .append('div')
     .attr('class', 'babbage-geoview-legend');
@@ -216,13 +216,13 @@ function render(options) {
     data: options.data
   });
 
-  var infoCard = renderInfoCard(svg.append('g'), {
+  var infoCard = renderInfoCard({
     container: container,
     width: bounds.width,
     height: bounds.height
   });
 
-  var legend = renderLegend(svg.append('g'), {
+  var legend = renderLegend({
     container: container,
     width: bounds.width,
     height: bounds.height,

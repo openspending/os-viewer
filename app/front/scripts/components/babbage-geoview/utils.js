@@ -80,10 +80,20 @@ function updateDimensions(geoJson, options) {
   geoJson.unscaledBounds = path.bounds(geoJson);
 }
 
+// This algorithm is used to find min and max value for coloring range.
+// Values array may contain several values that are 100 or more times larger
+// then other values. In this case, we'll have few fully colored regions
+// on map, and other ones will be desaturated (because all of them has
+// 100 times less values, comparing to max). So this function applies
+// median filter with adaptive window to array of values, and then takes min
+// and max values. This makes min/max range much closer to most values in array.
 function findMedianRange(values) {
-  var radius = Math.ceil(values.length / 5);
   var min = null;
   var max = null;
+  var radius = Math.ceil(values.length / 5);
+  if (radius > 10) {
+    radius = 10;
+  }
 
   if (values.length > 0) {
     _.each(values, function(value, index) {
@@ -173,7 +183,7 @@ function formatValue(value, currencySign) {
 
 function formatAmount(value, currencySign) {
   var suffixes = [
-    [1000000000, ' Milliards'],
+    [1000000000, ' Billions'],
     [1000000, ' Millions'],
     [1000, ' Thousands']
   ];
