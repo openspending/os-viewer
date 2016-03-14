@@ -139,18 +139,13 @@ function updateValues(geoJson, options) {
 
   var scale = d3.scale.linear()
     .domain(range)
-    .range([0, 1]);
+    .range([0, 1])
+    .clamp(true);
 
   geoJson.valueRange = range;
 
   _.each(geoJson.features, function(item) {
     var scaledValue = _.isUndefined(item.value) ? 0 : scale(item.value);
-    if (scaledValue < 0) {
-      scaledValue = 0;
-    }
-    if (scaledValue > 1) {
-      scaledValue = 1;
-    }
 
     if (options.coloringStepsCount !== false) {
       var n = options.coloringStepsCount || defaultOptions.coloringStepsCount;
