@@ -84,46 +84,44 @@ function updateDimensions(geoJson, options) {
 // Values array may contain several values that are 100 or more times larger
 // then other values. In this case, we'll have few fully colored regions
 // on map, and other ones will be desaturated (because all of them has
-// 100 times less values, comparing to max). So this function applies
-// median filter with adaptive window to array of values, and then takes min
-// and max values. This makes min/max range much closer to most values in array.
+// 100 times less values, comparing to max). So this function calculates mean
+// value (m) and deviation (d) for values array. Calculated range is
+// (m - d; m + d) and it is includes most values in array.
+
 function findMedianRange(values) {
-  var min = null;
-  var max = null;
-  var radius = Math.ceil(values.length / 5);
-  if (radius > 10) {
-    radius = 10;
-  }
+  var result = [null, null];
 
   if (values.length > 0) {
-    _.each(values, function(value, index) {
-      var sum = 0;
-      var j = 0;
-      for (var i = index - radius; i <= index + radius; i++) {
-        j = i;
-        // Normalize index to array bounds
-        if (j < 0) {
-          j = values.length + j;
-        }
-        if (j >= values.length) {
-          j = j - values.length;
-        }
-        // Use value
-        sum += values[j];
-      }
-      sum = sum / (2 * radius + 1);
-      if ((min === null) || (sum < min)) {
-        min = sum;
-      }
-      if ((max === null) || (sum > max)) {
-        max = sum;
-      }
-    });
+    var n = values.length;
+
+    // Calculate mean value
+    var mean = _.reduce(values, function(memo, value) {
+      return memo + value / n;
+    }, 0);
+
+    // Calculate deviation
+    var deviation = _.reduce(values, function(memo, value) {
+      var d = Math.abs(value - mean);
+      return memo + d / n;
+    }, 0);
+
+    result[0] = mean - deviation;
+    result[1] = mean + deviation;
+
+    // Calculate min and max values in array and clamp calculated range
+    var min = _.min(values);
+    var max = _.max(values);
+
+    if (result[0] < min) {
+      result[0] = min;
+    }
+    if (result[1] > max) {
+      result[1] = max;
+    }
   }
 
-  var result = [min, max];
-  result.min = min;
-  result.max = max;
+  result.min = result[0];
+  result.max = result[1];
   return result;
 }
 
