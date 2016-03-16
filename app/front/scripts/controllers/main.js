@@ -13,6 +13,7 @@
         '$q',
         '$timeout',
         'SettingsService',
+        '$window',
 
         function($scope,
           NavigationService,
@@ -20,7 +21,8 @@
           HistoryService,
           $q,
           $timeout,
-          SettingsService) {
+          SettingsService,
+          $window) {
 
           function initScopeEvents() {
             $scope.events = {};
@@ -166,7 +168,7 @@
 
           function changePackage(packageName, defaultParams) {
             defaultParams = defaultParams || {};
-            $scope.currentTab = 'Treemap';
+            $scope.currentTab = defaultParams.currentTab || 'treemap';
             $scope.state.isPackageLoading = true;
             $scope.state.availablePackages.current = packageName;
 
@@ -270,6 +272,8 @@
               updateBabbage();
             }
           }
+
+          $scope.isEmbeded = $window.isEmbeded;
 
           $scope.$watch('state.dimensions.current.groups', function(value) {
             if ($scope.state && $scope.state.availablePackages) {
