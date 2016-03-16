@@ -42,31 +42,51 @@ module.exports = function(config) {
 
       return downloader.getJson(
         urlApiPackageModel.replace('{packageName}', packageName)
-      ).then(function(data) {
-        model = data.model;
-        return that.getDataPackage(packageName);
-      }).then(function(dataPackage) {
-        var dimensionMappings = null;
-        if (_.isObject(dataPackage.mapping)) {
-          if (_.isObject(dataPackage.mapping.dimensions)) {
-            dimensionMappings = dataPackage.mapping.dimensions;
-          }
-        }
-
-        if (dimensionMappings) {
-          _.each(model.dimensions, function(dimension) {
-            // jscs:disable
-            var originalDimension =
-              dimensionMappings[dimension.orig_dimension];
-            // jscs:enable
-
-            if (originalDimension) {
-              dimension.dimensionType = originalDimension.dimensionType;
+      )
+        .then(function(data) {
+          model = data.model;
+          return that.getDataPackage(packageName);
+        })
+        .then(function(dataPackage) {
+          // Populate some additional mapping properties
+          var dimensionMappings = null;
+          var measureMappings = null;
+          if (_.isObject(dataPackage.mapping)) {
+            if (_.isObject(dataPackage.mapping.dimensions)) {
+              dimensionMappings = dataPackage.mapping.dimensions;
             }
-          });
-        }
-        return model;
-      });
+            if (_.isObject(dataPackage.mapping.measures)) {
+              measureMappings = dataPackage.mapping.measures;
+            }
+          }
+
+          if (dimensionMappings) {
+            _.each(model.dimensions, function(dimension) {
+              // jscs:disable
+              var originalDimension =
+                dimensionMappings[dimension.orig_dimension];
+              // jscs:enable
+
+              if (originalDimension) {
+                dimension.dimensionType = originalDimension.dimensionType;
+              }
+            });
+          }
+
+          if (measureMappings) {
+            _.each(model.measures, function(measure) {
+              // jscs:disable
+              var originalMeasure = measureMappings[measure.orig_measure];
+              // jscs:enable
+
+              if (originalMeasure) {
+                measure.currency = originalMeasure.currency;
+              }
+            });
+          }
+
+          return model;
+        });
     },
 
     //returns possible values of some dimension
@@ -87,7 +107,8 @@ module.exports = function(config) {
         if (value.measure) {
           result.push({
             key: key,
-            value: value.label
+            value: value.label,
+            currency: model.measures[value.measure].currency
           });
         }
       });
