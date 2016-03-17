@@ -1,6 +1,5 @@
-<div class="margin-top-8 col-xs-12">
-    <div>Filter</div>
-    <div id="data-filter-buttons" class="btn-group margin-right-4 margin-bottom-4" ng-repeat="filter in dimensions">
-        <dropdown title="{{filter.name}}" selected="currentValue" items="filter.values" on-click="events.changeFilter(filter.code, currentValue)"></dropdown>
-    </div>
+<div>
+  <div ng-repeat="filter in hierarchy.dimensions">
+    <sidebar-list items="filter.values" selected="[]" title="{{ filter.name }}"></sidebar-list>
+  </div>
 </div>

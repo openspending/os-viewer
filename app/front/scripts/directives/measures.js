@@ -2,17 +2,18 @@
 
   var app = angular.module('Application');
 
-  app.directive('measures', function() {
-    var directiveDefinitionObject = {
-      templateUrl: 'templates/measures.html',
-      replace: true,
-      transclude: false,
-      restrict: 'E',
-      scope: {
-        measures: '=',
-        events: '='
-      }
-    };
-    return directiveDefinitionObject;
-  });
+  app.directive('measures', [
+    '_',
+    function(_) {
+      return {
+        templateUrl: 'templates/measures.html',
+        replace: true,
+        restrict: 'E',
+        scope: {
+          measures: '=',
+          events: '='
+        }
+      };
+    }
+  ]);
 })(angular);

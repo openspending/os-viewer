@@ -34,6 +34,7 @@
   "bugs": "https://github.com/openspending/os-viewer/issues",
   "homepage": "https://github.com/openspending/os-viewer#readme",
   "dependencies": {
+    "angular-animate": "^1.5.1",
     "angular-filter": "^0.5.8",
     "angular-marked": "^1.0.1",
     "angular-ui-bootstrap": "^1.1.2",

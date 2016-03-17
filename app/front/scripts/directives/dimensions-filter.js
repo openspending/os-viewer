@@ -3,16 +3,15 @@
   var app = angular.module('Application');
 
   app.directive('dimensionsFilter', function() {
-    var directiveDefinitionObject = {
+    return {
       templateUrl: 'templates/dimensions-filter.html',
       replace: true,
-      transclude: false,
       restrict: 'E',
       scope: {
+        hierarchy: '=',
         dimensions: '=',
         events: '='
       }
     };
-    return directiveDefinitionObject;
   });
 })(angular);

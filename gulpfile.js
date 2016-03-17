@@ -62,7 +62,8 @@ gulp.task('app.scripts', function() {
     path.join(frontScriptsDir, '/controllers/*.js'),
     path.join(frontScriptsDir, '/directives/*.js'),
     path.join(frontScriptsDir, '/filters/*.js'),
-    path.join(frontScriptsDir, '/services/*.js')
+    path.join(frontScriptsDir, '/services/*.js'),
+    path.join(frontScriptsDir, '/animations/*.js')
   ];
   return gulp.src(files)
     .pipe(sourcemaps.init())
@@ -111,6 +112,7 @@ gulp.task('vendor.scripts', function() {
     path.join(nodeModulesDir, '/js-polyfills/xhr.js'),
     path.join(nodeModulesDir, '/bootstrap/dist/js/bootstrap.min.js'),
     path.join(nodeModulesDir, '/angular/angular.min.js'),
+    path.join(nodeModulesDir, '/angular-animate/angular-animate.min.js'),
     path.join(nodeModulesDir, '/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js'),
     path.join(nodeModulesDir, '/angular-filter/dist/angular-filter.min.js'),
     path.join(nodeModulesDir, '/angular-marked/dist/angular-marked.min.js'),

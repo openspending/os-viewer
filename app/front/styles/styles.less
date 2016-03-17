@@ -1,3 +1,89 @@
+.x-page-header {
+  margin-bottom: 0;
+
+  .navbar-brand {
+    width: 23%;
+  }
+}
+
+.x-page-footer {
+  margin-bottom: 0;
+}
+
+.x-page-container {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+
+  > div {
+    display: table-row;
+  }
+
+  .x-sidebar {
+    background: #2a2d34;
+    display: table-cell;
+    width: 23%;
+    padding: 0.5em 0;
+
+    strong {
+      font-size: 70%;
+      color: #777;
+      margin: 0 15px;
+    }
+
+    hr {
+      border-color: #666;
+      margin: 0.5em 0;
+    }
+
+    .list-group {
+      margin-bottom: 0;
+    }
+
+    .os-icon-cancel {
+      font-size: 130%;
+    }
+
+    .os-icon-chevron_right {
+      font-size: 130%;
+      transition: transform 0.35s linear;
+
+      &.expanded {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .x-content {
+    display: table-cell;
+    width: 77%;
+  }
+}
+
+.navbar.navbar-footer {
+
+  .x-footer-icons {
+    margin-left: 1em;
+
+    img {
+      max-height: 1.5em;
+      vertical-align: middle;
+      margin-left: -0.5em;
+    }
+  }
+
+  .x-footer-okfn-logo {
+    path {
+      fill: #999;
+    }
+
+    &:hover path {
+      fill: #fff;
+    }
+  }
+
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
