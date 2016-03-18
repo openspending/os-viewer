@@ -7,8 +7,10 @@
   <div ng-repeat="hierarchy in state.hierarchies">
     <hr>
     <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }}</strong>
-    <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions" events="events"></dimensions-filter>
-    <dimensions-group hierarchy="hierarchy" dimensions="state.dimensions" events="events"></dimensions-group>
+    <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+      events="events"></dimensions-filter>
+    <dimensions-group hierarchy="hierarchy" dimensions="state.dimensions"
+      events="events"></dimensions-group>
   </div>
 </div>
 {% endraw %}

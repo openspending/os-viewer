@@ -11,7 +11,18 @@
       scope: {
         items: '=',
         selected: '=',
-        title: '@'
+        title: '@',
+        canClear: '@?'
+      },
+      link: function($scope) {
+        $scope.selectItem = function($event, item) {
+          $scope.$emit('sidebarList.changeItemSelection', item, true);
+          $event.stopPropagation();
+        };
+        $scope.unselectItem = function($event, item) {
+          $scope.$emit('sidebarList.changeItemSelection', item, false);
+          $event.stopPropagation();
+        };
       }
     };
   });

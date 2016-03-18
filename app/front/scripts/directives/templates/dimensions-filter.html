@@ -1,5 +1,6 @@
 <div>
   <div ng-repeat="filter in hierarchy.dimensions">
-    <sidebar-list items="filter.values" selected="[]" title="{{ filter.name }}"></sidebar-list>
+    <sidebar-list items="getFilterItems(filter)" selected="[dimensions.current.filters[filter.code]]"
+      title="{{ filter.name }}" can-clear="{{ true }}"></sidebar-list>
   </div>
 </div>

@@ -9,8 +9,9 @@
   <div ng-if="!list.isCollapsed" class="list-group list-group-inverse slide-animation">
     <a ng-repeat="item in items track by $index" href="javascript:void(0);"
       ng-class="{active: selected.indexOf(item.key) >= 0}"
+      ng-click="selectItem($event, item)"
       class="list-group-item">{{ item.name || item.value }}
-      <i ng-if="selected.indexOf(item.key) >= 0" class="os-icon os-icon-cancel pull-right"></i>
+      <i ng-if="canClear && (selected.indexOf(item.key) >= 0)" ng-click="unselectItem($event, item)" class="os-icon os-icon-cancel pull-right"></i>
     </a>
   </div>
 </div>
