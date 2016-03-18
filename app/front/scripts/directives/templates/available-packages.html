@@ -1,8 +1,9 @@
 <div class="row x-available-packages">
   <div class="col-xs-12 dropdown" ng-class="{open: dropdownState.isOpen}">
     <h3 ng-click="dropdownState.isOpen = !dropdownState.isOpen">
+      <i class="os-icon os-icon-box"></i>
       {{ selected.title || selected.current }}
-      <i class="os-icon os-icon-arrow_drop_down pull-right"></i>
+      <i class="os-icon os-icon-arrow-drop-down pull-right"></i>
     </h3>
     <ul class="dropdown-menu col-xs-12">
       <li class="package-search-input pinned">
@@ -16,7 +17,7 @@
       <li class="package-search-input placeholder">
         <span><span class="form-control-static"></span></span>
       </li>
-      <li role="menuitem" ng-repeat="item in (items | filter:filter)">
+      <li role="menuitem" ng-repeat="item in (items | filter:filter) track by item.key">
         <a href="javascript:void(0)" title="{{ item.value }}"
           ng-click="dropdownState.isOpen = false; events.changePackage(item.key);">{{item.value}}</a>
       </li>
