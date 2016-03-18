@@ -6,7 +6,6 @@
     'ngAnimate',
     'ngBabbage',
     'angular.filter',
-    'ui.bootstrap',
     'hc.marked',
     'authClient.services'
   ]);

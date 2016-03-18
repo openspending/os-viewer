@@ -20,7 +20,8 @@
 {% raw %}
 <div>
   <div ng-if="!state.isStarting">
-    <available-packages></available-packages>
+    <available-packages items="state.availablePackages.items"
+      selected="state.availablePackages" events="events"></available-packages>
     <div ng-if="!state.isPackageLoading">
       <div class="row">
         <div class="col-md-12 col-xs-12">

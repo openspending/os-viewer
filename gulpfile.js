@@ -18,18 +18,14 @@ var frontSrcDir = path.join(__dirname, '/app/front');
 var frontScriptsDir = path.join(frontSrcDir, '/scripts');
 var frontStylesDir = path.join(frontSrcDir, '/styles');
 var frontImagesDir = path.join(frontSrcDir, '/images');
-var frontFontsDir = path.join(frontSrcDir, '/fonts');
 
 var publicDir = path.join(__dirname, '/app/public');
 var publicScriptsDir = path.join(publicDir, '/');
 var publicStylesDir = path.join(publicDir, '/styles');
 var publicFontsDir = path.join(publicDir, '/fonts');
 var publicImagesDir = path.join(publicDir, '/images');
-var publicIconsDir = path.join(publicDir, '/icons');
 
 var nodeModulesDir = path.join(__dirname, '/node_modules');
-
-var themeDir = path.join(nodeModulesDir, '/os-style-guide');
 
 var modules = [
   'jquery',
@@ -47,9 +43,7 @@ gulp.task('default', [
   'app.scripts',
   'app.modules',
   'app.styles',
-  'app.fonts',
   'app.images',
-  'app.icons',
   'vendor.scripts',
   'vendor.styles',
   'vendor.fonts'
@@ -93,9 +87,7 @@ gulp.task('app.modules', function() {
 
 gulp.task('app.styles', function() {
   var files = [
-    path.join(frontStylesDir, '/main.css'),
-    path.join(frontStylesDir, '/styles.less'),
-    path.join(themeDir, '/css/style-guide.css')
+    path.join(frontStylesDir, '/styles.less')
   ];
   return gulp.src(files)
     .pipe(sourcemaps.init())
@@ -113,12 +105,11 @@ gulp.task('vendor.scripts', function() {
     path.join(nodeModulesDir, '/bootstrap/dist/js/bootstrap.min.js'),
     path.join(nodeModulesDir, '/angular/angular.min.js'),
     path.join(nodeModulesDir, '/angular-animate/angular-animate.min.js'),
-    path.join(nodeModulesDir, '/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js'),
     path.join(nodeModulesDir, '/angular-filter/dist/angular-filter.min.js'),
     path.join(nodeModulesDir, '/angular-marked/dist/angular-marked.min.js'),
     path.join(frontScriptsDir, '/ext-libs/babbage.ui.js'),
     path.join(nodeModulesDir, '/bubbletree/node_modules/tween.js/src/Tween.js'),
-    path.join(nodeModulesDir, '/bubbletree/dist/bubbletree.min.js'),
+    path.join(nodeModulesDir, '/bubbletree/dist/bubbletree.min.js')
   ];
   return gulp.src(files)
     .pipe(concat('vendor.js'))
@@ -131,7 +122,6 @@ gulp.task('vendor.styles', function() {
     path.join(nodeModulesDir, '/bootstrap/dist/css/bootstrap.min.css'),
     path.join(nodeModulesDir, '/angular/angular-csp.css'),
     path.join(frontScriptsDir, '/ext-libs/babbage.ui.css'),
-    path.join(nodeModulesDir, '/angular-ui-bootstrap/dist/angular.csp.css'),
     path.join(nodeModulesDir, '/bubbletree/dist/bubbletree.css'),
     path.join(nodeModulesDir, '/c3/c3.min.css')
   ];
@@ -155,21 +145,4 @@ gulp.task('app.images', function() {
     path.join(frontImagesDir, '/**/*')
   ])
     .pipe(gulp.dest(publicImagesDir));
-});
-
-gulp.task('app.icons', function() {
-  return gulp.src([
-    path.join(themeDir, '/assets/icons/*'),
-    path.join(themeDir, '/assets/icon-download.svg'),
-    path.join(themeDir, '/assets/logo.svg')
-  ])
-  .pipe(gulp.dest(publicIconsDir));
-});
-
-gulp.task('app.fonts', function() {
-  return gulp.src([
-    path.join(frontFontsDir, '/*'),
-    path.join(themeDir, '/assets/fonts/*')
-  ])
-    .pipe(gulp.dest(publicFontsDir));
 });
