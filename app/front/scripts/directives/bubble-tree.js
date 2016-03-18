@@ -82,10 +82,6 @@ ngBabbage.directive('bubbleTree',
                 value
               );
 
-            var colors = _.chain(data).values().map(function(value, index) {
-              return [value[0], colors(index)];
-            }).object().value();
-
             this.bubbleTree = new BubbleTree({
               autoColors: true,
               data: data,

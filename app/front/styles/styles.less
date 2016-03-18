@@ -123,7 +123,31 @@
   padding: 0.5em 1em;
   background: #fcfcfc;
   border-radius: 3px;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+  border: 1px solid #bbb;
+}
+
+.babbage-geoview-legend {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  padding: 0.5em 1em;
+  background: #fcfcfc;
+  border-radius: 3px;
+  border: 1px solid #bbb;
+
+  & i {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.7em;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+  }
+
+  & span {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 
 .charts .tab-content {

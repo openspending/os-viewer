@@ -50,6 +50,8 @@ gulp.task('default', [
   'app.fonts',
   'app.images',
   'app.icons',
+  'embedded.scripts',
+  'embedded.styles',
   'vendor.scripts',
   'vendor.styles',
   'vendor.fonts'
@@ -105,6 +107,29 @@ gulp.task('app.styles', function() {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(publicStylesDir));
 });
+
+gulp.task('embedded.scripts', function() {
+  var files = [
+    path.join(nodeModulesDir, '/babbage.ui/dist/babbage.js'),
+//    path.join(nodeModulesDir, '/angular/angular.min.js'),
+//    path.join(nodeModulesDir, '/angular-filter/dist/angular-filter.min.js'),
+//    path.join(nodeModulesDir, '/angular-marked/dist/angular-marked.min.js'),
+//    path.join(frontScriptsDir, '/ext-libs/babbage.ui.js'),
+  ];
+  return gulp.src(files)
+    .pipe(concat('embedded.js'))
+    .pipe(gulp.dest(publicScriptsDir));
+});
+
+gulp.task('embedded.styles', function() {
+  var files = [
+    path.join(nodeModulesDir, '/babbage.ui/dist/lib.css')
+  ];
+  return gulp.src(files)
+    .pipe(concat('embedded.css'))
+    .pipe(gulp.dest(publicStylesDir));
+});
+
 
 gulp.task('vendor.scripts', function() {
   var files = [

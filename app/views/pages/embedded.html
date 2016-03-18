@@ -1,74 +1,94 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/embedded.html" %}
 
 {% block content %}
-{% raw %}
 <style>
   .alert {
-    display: none; !important;
+    display: none;
+  !important;
+  }
+
+  .container {
+    padding: 0px;
+  !important;
+    margin: 0px;
+  !important;
   }
 </style>
 
-<div>
-  <div class="waiter text-center"
-    ng-if="(state.isPackageLoading || state.isStarting)">
-    <i class="fa fa-spinner fa-pulse fa-4x"></i>
-    <span>Loading...</span>
+  <div>
+    {% if view == 'piechart' %}
+    {% raw %}
+    <pie-chart cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
+    </pie-chart>
+    {% endraw %}
+    {% endif %}
+
+    {% if view == 'barchart' %}
+    {% raw %}
+    <chart cube="{{cube}}" type="bar" state="params" endpoint="{{apiUrl}}">
+    </chart>
+    {% endraw %}
+    {% endif %}
+
+    {% if view == 'linechart' %}
+    {% raw %}
+    <chart cube="{{cube}}" type="line" state="params" endpoint="{{apiUrl}}">
+    </chart>
+    {% endraw %}
+    {% endif %}
+
+    {% if view == 'treemap' %}
+    {% raw %}
+    <tree-map cube="{{cube}}" state="params" endpoint="{{apiUrl}}"></tree-map>
+    {% endraw %}
+    {% endif %}
+
+    {% if view == 'bubbletree' %}
+    {% raw %}
+    <bubbletree cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
+    </bubbletree>
+    {% endraw %}
+    {% endif %}
+
+    {% if view == 'table' %}
+    {% raw %}
+    <babbage-table cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
+    </babbage-table>
+    {% endraw %}
+    {% endif %}
   </div>
-  <div ng-if="!state.isStarting">
-    <div class="col-md-12 col-xs-12 charts">
-      <babbage
-              ng-if="!state.flag.renderingCharts && currentTab == 'treemap'"
-              endpoint="{{state.apiUrl}}"
-              cube="{{state.availablePackages.current}}"
-              state="state.babbageTreeMap">
-              <babbage-treemap></babbage-treemap>
-            </babbage>
-      <babbage
-              ng-if="!state.flag.renderingCharts && currentTab == 'piechart'"
-              endpoint="{{state.apiUrl}}"
-              cube="{{state.availablePackages.current}}"
-              state="state.babbageBar">
-              <pie-chart></pie-chart>
-            </babbage>
-      <babbage
-              ng-if="!state.flag.renderingCharts && currentTab == 'barchart'"
-              endpoint="{{state.apiUrl}}"
-              cube="{{state.availablePackages.current}}"
-              state="state.babbageBar">
-              <babbage-chart chart-type="bar"></babbage-chart>
-            </babbage>
-      <babbage
-              ng-if="!state.flag.renderingCharts && currentTab == 'linechart'"
-              endpoint="{{state.apiUrl}}"
-              cube="{{state.availablePackages.current}}"
-              state="state.babbageBar">
-              <babbage-chart chart-type="line"></babbage-chart>
-            </babbage>
-      <babbage
-              ng-if="!state.flag.renderingCharts && currentTab == 'bubbletree'"
-              endpoint="{{state.apiUrl}}"
-              cube="{{state.availablePackages.current}}"
-              state="state.babbageBar">
-              <bubble-tree></bubble-tree>
-            </babbage>
-      <babbage
-              ng-if="!state.flag.renderingCharts && currentTab == 'table'"
-              endpoint="{{state.apiUrl}}"
-              cube="{{state.availablePackages.current}}"
-              state="state.babbageTable">
-              <babbage-crosstab></babbage-crosstab>
-            </babbage>
-      <babbage
-              ng-if="!state.flag.renderingCharts && currentTab == 'map'"
-              endpoint="{{state.apiUrl}}"
-              cube="{{state.availablePackages.current}}"
-              state="state.babbageBar">
-              <babbage-geoview class="geoview-container"
-                country-code="{{ state.availablePackages.locationCountry }}">
-              </babbage-geoview>
-            </babbage>
-    </div>
-  </div>
-</div>
-{% endraw %}
+
+<script>
+  var pieDirective = new window.Babbage.BabbageClasses.PieChartDirective();
+  var chartDirective = new window.Babbage.BabbageClasses.ChartDirective();
+  var treemapDirective = new window.Babbage.BabbageClasses.TreemapDirective();
+  var bubbleTreeDirective = new window.Babbage.BabbageClasses.BubbleTreeDirective();
+  var tableDirective = new window.Babbage.BabbageClasses.BabbageTableDirective();
+
+  var embedded = angular.module('Application', ['ngRoute', 'angular.filter']);
+
+  pieDirective.init(embedded);
+  chartDirective.init(embedded);
+  treemapDirective.init(embedded);
+  tableDirective.init(embedded);
+  bubbleTreeDirective.init(embedded);
+
+//  embedded.config(['$routeProvider',
+//    function($routeProvider) {
+//      $routeProvider.
+//      when('(.*)', {
+//        templateUrl: 'demo.html',
+//        controller: 'EmbeddedCtrl',
+//        reloadOnSearch: false
+//      });
+//    }]);
+
+  embedded.controller('EmbeddedCtrl', ['$scope', function($scope) {
+    $scope.cube = '{{cube | safe}}';
+    $scope.apiUrl = '{{apiUrl | safe}}';
+    $scope.params = {{params | safe}};
+    $scope.view = '{{view | safe}}';
+  }]);
+</script>
+
 {% endblock %}

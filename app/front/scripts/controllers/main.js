@@ -168,7 +168,7 @@
 
           function changePackage(packageName, defaultParams) {
             defaultParams = defaultParams || {};
-            $scope.currentTab = defaultParams.currentTab || 'treemap';
+            $scope.currentTab = defaultParams.currentTab || 'Treemap';
             $scope.state.isPackageLoading = true;
             $scope.state.availablePackages.current = packageName;
 
@@ -283,6 +283,17 @@
               $scope.state.availablePackages.locationSelected =
                 _.isObject(currentGroup) &&
                 (currentGroup.dimensionType == 'location');
+            }
+          });
+
+          $scope.$watch('state.measures.current', function(value) {
+            if ($scope.state && $scope.state.availablePackages) {
+              var currentMeasure = _.findWhere($scope.state.measures.items, {
+                key: value
+              });
+
+              $scope.state.availablePackages.currencySign =
+                _.isObject(currentMeasure) ? currentMeasure.currency : null;
             }
           });
 

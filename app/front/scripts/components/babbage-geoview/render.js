@@ -41,6 +41,9 @@ function renderMap(layer, options) {
       .ease('cubic-in-out')
       .attr('d', path);
 
+    textLayer
+      .attr('hidden', selection.hideLabels);
+
     textLayer.selectAll('text')
       .attr('fill', selection.textFill)
       .transition()
@@ -114,8 +117,10 @@ function renderMap(layer, options) {
   }
 
   return {
-    updateData: function(data) {
+    updateData: function(data, currencySign) {
       options.data = data || {};
+      selection.currencySign(currencySign);
+
       utils.updateValues(geoObject, options);
 
       options.updateInfoCard(selection.info());
@@ -137,7 +142,7 @@ function renderMap(layer, options) {
   };
 }
 
-function renderInfoCard(layer, options) {
+function renderInfoCard(options) {
   var card = options.container
     .append('div')
     .attr('class', 'babbage-geoview-infocard')
@@ -152,6 +157,38 @@ function renderInfoCard(layer, options) {
       card
         .style('display', 'none');
     }
+  };
+}
+
+function renderLegend(options) {
+  var legend = options.container
+    .append('div')
+    .attr('class', 'babbage-geoview-legend');
+
+  var update = function(range, currencySign) {
+    var items = [];
+    _.each(utils.generateValueRanges(range), function(item) {
+      var color = options.color(item.scaledValue);
+      var title = utils.formatAmount(item.value, currencySign);
+      if (item.isMin) {
+        title += ' and less';
+      }
+      if (item.isMax) {
+        title += ' and more';
+      }
+      items.push(
+        '<div>' +
+        '<i style="background-color: ' + color + '"></i>' +
+        '<span>' + title + '</span>' +
+        '</div>'
+      );
+    });
+    legend.html(items.reverse().join(''));
+  };
+  update(options.range, options.currencySign);
+
+  return {
+    update: update
   };
 }
 
@@ -179,10 +216,19 @@ function render(options) {
     data: options.data
   });
 
-  var infoCard = renderInfoCard(svg.append('g'), {
+  var infoCard = renderInfoCard({
     container: container,
     width: bounds.width,
     height: bounds.height
+  });
+
+  var legend = renderLegend({
+    container: container,
+    width: bounds.width,
+    height: bounds.height,
+    color: colorScale,
+    currencySign: options.currencySign,
+    range: options.geoObject.valueRange
   });
 
   var map = renderMap(svg.append('g'), {
@@ -193,13 +239,15 @@ function render(options) {
     color: colorScale,
     width: bounds.width,
     height: bounds.height,
+    currencySign: options.currencySign,
     updateInfoCard: infoCard,
     bindResize: options.bindResize
   });
 
   return {
-    updateData: function(data) {
-      map.updateData(data);
+    updateData: function(data, currencySign) {
+      map.updateData(data, currencySign);
+      legend.update(options.geoObject.valueRange, currencySign);
     },
     destroy: function() {
       map.destroy();

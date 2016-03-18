@@ -37,7 +37,7 @@
     "angular-filter": "^0.5.8",
     "angular-marked": "^1.0.1",
     "angular-ui-bootstrap": "^1.1.2",
-    "babbage.ui": "0.0.1-alpha",
+    "babbage.ui": "git+https://github.com/borysyuk/babbage.ui.git#feature/modern-components",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "bubbletree": "git+https://github.com/okfn/bubbletree.git",
