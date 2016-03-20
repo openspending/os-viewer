@@ -8,4 +8,4 @@ An app to view data packages loaded to OpenSpending. Provides access to raw data
 
 ## Quick start
 
-Clone the repo, install dependencies from npm, and run the server. See the docs for more information.
+Clone the repo, install dependencies from npm, and run the server. See the [docs](http://docs.openspending.org/en/latest/developers/viewer/) for more information.
