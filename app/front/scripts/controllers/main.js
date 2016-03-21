@@ -103,9 +103,6 @@
               NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
-            $scope.events.setTab = function(aTab) {
-              $scope.currentTab = aTab;
-            };
             $scope.events.canBack = function() {
               return HistoryService.canBack();
             };
@@ -166,7 +163,6 @@
 
           function changePackage(packageName, defaultParams) {
             defaultParams = defaultParams || {};
-            $scope.currentTab = 'Treemap';
             $scope.state.isPackageLoading = true;
             $scope.state.availablePackages.current = packageName;
 
