@@ -33,10 +33,8 @@ var modules = [
   'bluebird',
   'd3',
   'c3',
-  'raphael',
   'marked',
-  'redux/dist/redux.js',
-  'ng-redux/dist/ng-redux.js'
+  'raphael'
 ];
 
 gulp.task('default', [
