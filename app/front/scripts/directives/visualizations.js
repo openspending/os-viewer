@@ -14,7 +14,7 @@
           events: '='
         },
         link: function($scope, element) {
-          $scope.selectedVisualizations = [];
+          $scope.selectedVisualizations = ['Treemap'];
 
           var modal = element.find('.x-visualization-add-modal').modal({
             show: false
