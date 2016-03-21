@@ -1,5 +1,58 @@
-.navbar .navbar-brand {
-  width: 23%;
+.navbar.x-page-header {
+  .navbar-brand {
+    width: 23%;
+  }
+
+  .os-icon-arrow-drop-down {
+    font-size: 130%;
+  }
+}
+
+.x-user-info {
+  position: absolute;
+  right: 0;
+  z-index: 999;
+  background: #131518;
+  display: table;
+  table-layout: auto;
+  width: auto;
+
+  .x-avatar {
+    vertical-align: top;
+    display: table-cell;
+    width: 1%;
+    padding: 1em;
+
+    img {
+      max-width: 5em;
+      max-height: 5em;
+    }
+  }
+
+  .x-info {
+    vertical-align: top;
+    display: table-cell;
+    padding: 1em;
+    padding-left: 0;
+
+    div {
+      white-space: nowrap;
+    }
+
+    strong {
+      color: #fff;
+    }
+
+    a {
+      color: darken(#fff, 40%);
+      text-decoration: none;
+
+      &:hover,
+      &:active {
+        color: #fff;
+      }
+    }
+  }
 }
 
 .x-page-container {

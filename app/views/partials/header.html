@@ -1,19 +1,31 @@
 {% raw %}
-<nav class="navbar navbar-inverse" ng-controller="HeaderController">
+<nav class="navbar navbar-inverse x-page-header" ng-controller="HeaderController">
   <div class="navbar-header navbar-header-full-width">
     <ul class="nav navbar-nav pull-right">
       <li><a href="http://fiscal.dataprotocols.org/spec/">Fiscal Data Package Spec</a></li>
       <li><a href="http://community.openspending.org/next/">OpenSpending Next</a></li>
 
-      <li ng-if="!login.isLoggedIn" class="user"><a ng-click="login.login()">Login / Register</a></li>
-      <li ng-if="login.isLoggedIn" class="user dropdown">
-        <a href="javascript:void(0);" ng-click="isLoginMenuShown = !isLoginMenuShown">{{ login.name }}</a>
-        <ul class="user-menu"
-          ng-show="isLoginMenuShown"
-          ng-style="{'background-image': 'url(' + login.avatar + ')'}">
-            <li class="name">{{ login.name }}</li>
-            <li class="logout"><a href="javascript:void(0);" ng-click="login.logout()">Logout</a></li>
-        </ul>
+      <li ng-if="!login.isLoggedIn" class="user">
+        <a href="javascript:void(0)" ng-click="login.login()">
+          <i class="os-icon os-icon-user"></i>
+          Login / Register
+        </a>
+      </li>
+      <li ng-if="login.isLoggedIn">
+        <a href="javascript:void(0);" ng-click="isLoginMenuShown = !isLoginMenuShown">
+          <i class="os-icon os-icon-user"></i>
+          {{ login.name }}
+          <i class="os-icon os-icon-arrow-drop-down"></i>
+        </a>
+        <div ng-show="isLoginMenuShown" class="x-user-info">
+          <div class="x-avatar">
+            <img class="pull-left" ng-if="!!login.avatar" ng-src="{{ login.avatar }}">
+          </div>
+          <div class="x-info">
+            <div><strong>{{ login.name }}</strong></div>
+            <div><a href="javascript:void(0);" ng-click="login.logout()">Logout</a></div>
+          </div>
+        </div>
       </li>
     </ul>
     <a class="navbar-brand navbar-brand-black" href="#">OS Viewer</a>
