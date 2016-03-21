@@ -3,12 +3,15 @@
 var path = require('path');
 var nconf = require('nconf');
 
+const DEFAULT_HOST = 'http://next.openspending.org';
+const DEFAULT_BASE_PATH = '';
+
 nconf.file({
   file: path.join(__dirname, '/../../settings.json')
 });
 
-var apiHost = process.env.OS_VIEWER_API_HOST || 'http://s145.okserver.org';
-var authHost = process.env.OS_VIEWER_AUTH_HOST || 'http://s145.okserver.org';
+var apiHost = process.env.OS_VIEWER_API_HOST || DEFAULT_HOST;
+var authHost = process.env.OS_VIEWER_AUTH_HOST || DEFAULT_HOST;
 
 // this is the object that you want to override in your own local config
 nconf.defaults({
@@ -21,7 +24,7 @@ nconf.defaults({
     url: apiHost + '/api/3'
   },
   authLibraryUrl: authHost + '/permit/lib',
-  basePath: process.env.OS_VIEWER_BASE_PATH || ''
+  basePath: process.env.OS_VIEWER_BASE_PATH || DEFAULT_BASE_PATH
 });
 
 module.exports = {
