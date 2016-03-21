@@ -12,10 +12,11 @@ module.exports = function(ngModule) {
         restrict: 'EA',
         require: '^babbage',
         scope: {
-          countryCode: '@'
+          countryCode: '@',
+          currencySign: '@?',
         },
         template: '<geoview country-code="{{ countryCode }}" ' +
-          'values="values"></geoview>',
+          'currency-sign="{{ currencySign }}" values="values"></geoview>',
         replace: false,
         link: function($scope, element, attrs, babbageCtrl) {
           $scope.queryLoaded = false;

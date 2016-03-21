@@ -5,6 +5,10 @@ var d3 = require('d3');
 
 var ordinalColorScale = null;
 
+var defaultOptions = {
+  coloringStepsCount: 5
+};
+
 function getOrdinalColorScale() {
   if (!ordinalColorScale) {
     var categoryColors = [
@@ -76,35 +80,77 @@ function updateDimensions(geoJson, options) {
   geoJson.unscaledBounds = path.bounds(geoJson);
 }
 
+// This algorithm is used to find min and max value for coloring range.
+// Values array may contain several values that are 100 or more times larger
+// then other values. In this case, we'll have few fully colored regions
+// on map, and other ones will be desaturated (because all of them has
+// 100 times less values, comparing to max). So this function calculates mean
+// value (m) and deviation (d) for values array. Calculated range is
+// (m - d; m + d) and it is includes most values in array.
+
+function findMedianRange(values) {
+  var result = [null, null];
+
+  if (values.length > 0) {
+    var n = values.length;
+
+    // Calculate mean value
+    var mean = _.reduce(values, function(memo, value) {
+      return memo + value / n;
+    }, 0);
+
+    // Calculate deviation
+    var deviation = _.reduce(values, function(memo, value) {
+      var d = Math.abs(value - mean);
+      return memo + d / n;
+    }, 0);
+
+    result[0] = mean - deviation;
+    result[1] = mean + deviation;
+
+    // Calculate min and max values in array and clamp calculated range
+    var min = _.min(values);
+    var max = _.max(values);
+
+    if (result[0] < min) {
+      result[0] = min;
+    }
+    if (result[1] > max) {
+      result[1] = max;
+    }
+  }
+
+  result.min = result[0];
+  result.max = result[1];
+  return result;
+}
+
 function updateValues(geoJson, options) {
-  var sum = 0;
-  var min = null;
-  var max = null;
+  var values = [];
   _.each(geoJson.features, function(item) {
     item.value = options.data[item.properties.name];
     if (!_.isUndefined(item.value)) {
-      sum += item.value;
-      if ((min === null) || (item.value < min)) {
-        min = item.value;
-      }
-      if ((max === null) || (item.value > max)) {
-        max = item.value;
-      }
+      values.push(item.value);
     }
   });
+  var range = findMedianRange(values);
 
   var scale = d3.scale.linear()
-    .domain([min, max])
-    .range([0, 1]);
+    .domain(range)
+    .range([0, 1])
+    .clamp(true);
+
+  geoJson.valueRange = range;
 
   _.each(geoJson.features, function(item) {
-    item.percentValue = _.isUndefined(item.value) ? 0 :
-      item.value / (sum || 1);
-    item.normalizedValue = (_.isUndefined(item.value) ? min : item.value) /
-      (max || 1);
-    item.scaledValue = _.isUndefined(item.value) ? 0 : scale(item.value);
+    var scaledValue = _.isUndefined(item.value) ? 0 : scale(item.value);
 
-    item.color = d3.rgb(options.color(item.scaledValue));
+    if (options.coloringStepsCount !== false) {
+      var n = options.coloringStepsCount || defaultOptions.coloringStepsCount;
+      scaledValue = Math.ceil(scaledValue * n) / n;
+    }
+
+    item.color = d3.rgb(options.color(scaledValue));
   });
 }
 
@@ -121,11 +167,34 @@ function prepareGeoJson(geoJson, options) {
   updateValues(geoJson, options);
 }
 
-function formatValue(value) {
+function formatValue(value, currencySign) {
   if (_.isUndefined(value)) {
     return 'N/A';
   }
-  return value;
+  return formatAmount(value, currencySign);
+}
+
+function formatAmount(value, currencySign) {
+  var suffixes = [
+    [1000000000, ' Billions'],
+    [1000000, ' Millions'],
+    [1000, ' Thousands']
+  ];
+  var suffix = '';
+  for (var i = 0; i < suffixes.length; i++) {
+    if (value > suffixes[i][0]) {
+      value = value / suffixes[i][0];
+      suffix = suffixes[i][1];
+      break;
+    }
+  }
+
+  var result = (new Number(value)).toFixed(2) + suffix;
+  if (currencySign) {
+    result += ' ' + currencySign;
+  }
+
+  return result;
 }
 
 function setSelection(datum, options) {
@@ -140,6 +209,9 @@ function setSelection(datum, options) {
       return '';
     },
     hideLabels: function() {
+      if (!datum) {
+        return 'on';
+      }
       return options.width < 600 ? 'on' : null;
     },
     strokeColor: function(d) {
@@ -155,7 +227,12 @@ function setSelection(datum, options) {
       return '#fafafa';
     },
     title: function(d) {
-      return d.properties.name + ': ' + formatValue(d.value);
+      var result = '';
+      if (d.properties.name) {
+        result += d.properties.name + ': ';
+      }
+      result += formatValue(d.value, options.currencySign);
+      return result;
     },
     text: function(d) {
       return d.properties.name;
@@ -176,12 +253,53 @@ function setSelection(datum, options) {
       if (!datum) {
         return false;
       }
-      return '<span>' + datum.properties.name + '</span>: <b>' +
-        formatValue(datum.value) + '</b>';
+      var result = '';
+      if (datum.properties.name) {
+        result += '<span>' + datum.properties.name + '</span>: ';
+      }
+      result += '<b>' + formatValue(datum.value, options.currencySign) + '</b>';
+
+      return result;
+    },
+    currencySign: function(value) {
+      if (arguments.length > 0) {
+        options.currencySign = value;
+      } else {
+        return options.currencySign;
+      }
     }
   };
 }
 
+function generateValueRanges(range, stepCount) {
+  stepCount = stepCount || defaultOptions.coloringStepsCount;
+  var scale = d3.scale.linear()
+    .domain([0, 1])
+    .range(range);
+  var result = [];
+
+  result.push({
+    scaledValue: 0,
+    value: scale(0),
+    isMin: true
+  });
+  stepCount --;
+  for (var i = 1; i < stepCount; i++) {
+    var v = i / stepCount;
+    result.push({
+      scaledValue: v,
+      value: scale(v)
+    });
+  }
+  result.push({
+    scaledValue: 1,
+    value: scale(1),
+    isMax: true
+  });
+  return result;
+}
+
+module.exports.defaults = defaultOptions;
 module.exports.getOrdinalColorScale = getOrdinalColorScale;
 module.exports.getLinearColorScale = getLinearColorScale;
 module.exports.createPath = createPath;
@@ -190,3 +308,5 @@ module.exports.updateDimensions = updateDimensions;
 module.exports.updateScales = updateScales;
 module.exports.updateValues = updateValues;
 module.exports.setSelection = setSelection;
+module.exports.formatAmount = formatAmount;
+module.exports.generateValueRanges = generateValueRanges;

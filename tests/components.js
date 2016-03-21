@@ -80,7 +80,6 @@ describe('UI Components', function() {
       });
 
       assert.isArray(geoObject.features);
-      assert.property(geoObject.features[0], 'normalizedValue');
       assert.property(geoObject.features[0], 'value');
       assert.property(geoObject.features[0], 'color');
 
@@ -107,7 +106,6 @@ describe('UI Components', function() {
       assert.property(geoObject, 'unscaledBounds');
       assert.property(geoObject, 'scale');
       assert.isArray(geoObject.features);
-      assert.property(geoObject.features[0], 'normalizedValue');
       assert.property(geoObject.features[0], 'value');
       assert.property(geoObject.features[0], 'color');
 

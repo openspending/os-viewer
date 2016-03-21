@@ -192,7 +192,11 @@ describe('DataPackage API', function() {
   it('Should return measures from model', function(done) {
     api.getDataPackageModel('Package1').then(function(model) {
       var measures = api.getMeasuresFromModel(model);
-      assert.deepEqual(measures, [{key: 'amount.sum', value: 'amount'}]);
+      assert.deepEqual(measures, [{
+        key: 'amount.sum',
+        value: 'amount',
+        currency: 'UGX'
+      }]);
       done();
     });
   });

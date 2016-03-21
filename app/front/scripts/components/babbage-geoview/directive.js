@@ -11,7 +11,8 @@ module.exports = function(ngModule) {
         restrict: 'EA',
         scope: {
           countryCode: '@',
-          values: '='
+          currencySign: '@?',
+          values: '=?'
         },
         template: '<div class="babbage-geoview"></div>',
         replace: false,
@@ -26,7 +27,7 @@ module.exports = function(ngModule) {
             resizeHandlers = [];
           }
 
-          function createHandle(countryCode, data) {
+          function createHandle(countryCode, data, currencySign) {
             api.loadGeoJson(countryCode)
               .then(function(geoJson) {
                 // Check if countryCode did not change while loading data
@@ -39,7 +40,8 @@ module.exports = function(ngModule) {
                     container: element.find('.babbage-geoview').get(0),
                     code: countryCode,
                     geoObject: geoJson,
-                    data: data,
+                    data: data(),
+                    currencySign: currencySign(),
                     bindResize: function(callback) {
                       resizeHandlers.push(callback);
                       $window.addEventListener('resize', callback);
@@ -50,7 +52,11 @@ module.exports = function(ngModule) {
           }
 
           if ($scope.countryCode) {
-            handle = createHandle($scope.countryCode, $scope.values || {});
+            handle = createHandle($scope.countryCode, function() {
+              return $scope.values || {};
+            }, function() {
+              return $scope.currencySign;
+            });
           }
 
           $scope.$watch('values', function(newValue, oldValue) {
@@ -58,7 +64,16 @@ module.exports = function(ngModule) {
               return;
             }
             if (handle) {
-              handle.updateData(newValue || {});
+              handle.updateData(newValue || {}, $scope.currencySign);
+            }
+          }, true);
+
+          $scope.$watch('currencySign', function(newValue, oldValue) {
+            if (newValue === oldValue) {
+              return;
+            }
+            if (handle) {
+              handle.updateData($scope.values || {}, newValue);
             }
           }, true);
 
@@ -66,7 +81,11 @@ module.exports = function(ngModule) {
             if (newValue === oldValue) {
               return;
             }
-            createHandle(newValue, $scope.values || {});
+            createHandle(newValue, function() {
+              return $scope.values || {};
+            }, function() {
+              return $scope.currencySign;
+            });
           });
 
           $scope.$on('$destroy', function() {
