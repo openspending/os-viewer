@@ -1,6 +1,6 @@
 <div ng-repeat="visualization in selectedVisualizations" class="well x-visualization-container">
-  <div ng-if="visualization == 'Treemap'">
-    <div class="x-visualization-chart">
+  <div ng-if="visualization == 'Treemap'" class="row">
+    <div class="x-visualization-chart col-xs-12 col-sm-9">
       <babbage ng-if="!state.flag.renderingCharts"
         endpoint="{{state.apiUrl}}"
         cube="{{state.availablePackages.current}}"
@@ -8,6 +8,10 @@
         <babbage-treemap></babbage-treemap>
       </babbage>
     </div>
+    <div ng-init="info = getVisualizationById(visualization)" class="x-visualization-info col-sm-3 hidden-xs">
+      <h3>{{ info.name }}</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
     <div class="x-visualization-buttons">
       <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization }}" class="os-icon os-icon-trashcan"></a>
       <a href="javascript:void(0);" class="os-icon os-icon-embed"></a>
@@ -19,8 +23,8 @@
       </div>
     </div>
   </div>
-  <div ng-if="visualization == 'PieChart'" class="x-visualization-container">
-    <div class="x-visualization-chart">
+  <div ng-if="visualization == 'PieChart'" class="row">
+    <div class="x-visualization-chart col-xs-12 col-sm-9">
       <babbage ng-if="!state.flag.renderingCharts"
         endpoint="{{state.apiUrl}}"
         cube="{{state.availablePackages.current}}"
@@ -28,6 +32,10 @@
         <pie-chart></pie-chart>
       </babbage>
     </div>
+    <div ng-init="info = getVisualizationById(visualization)" class="x-visualization-info col-sm-3 hidden-xs">
+      <h3>{{ info.name }}</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
     <div class="x-visualization-buttons">
       <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization }}" class="os-icon os-icon-trashcan"></a>
       <a href="javascript:void(0);" class="os-icon os-icon-embed"></a>
@@ -39,8 +47,8 @@
       </div>
     </div>
   </div>
-  <div ng-if="visualization == 'BarChart'" class="x-visualization-container">
-    <div class="x-visualization-chart">
+  <div ng-if="visualization == 'BarChart'" class="row">
+    <div class="x-visualization-chart col-xs-12 col-sm-9">
       <babbage ng-if="!state.flag.renderingCharts"
         endpoint="{{state.apiUrl}}"
         cube="{{state.availablePackages.current}}"
@@ -48,6 +56,10 @@
         <babbage-chart chart-type="bar"></babbage-chart>
       </babbage>
     </div>
+    <div ng-init="info = getVisualizationById(visualization)" class="x-visualization-info col-sm-3 hidden-xs">
+      <h3>{{ info.name }}</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
     <div class="x-visualization-buttons">
       <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization }}" class="os-icon os-icon-trashcan"></a>
       <a href="javascript:void(0);" class="os-icon os-icon-embed"></a>
@@ -59,8 +71,8 @@
       </div>
     </div>
   </div>
-  <div ng-if="visualization == 'LineChart'" class="x-visualization-container">
-    <div class="x-visualization-chart">
+  <div ng-if="visualization == 'LineChart'" class="row">
+    <div class="x-visualization-chart col-xs-12 col-sm-9">
       <babbage ng-if="!state.flag.renderingCharts"
         endpoint="{{state.apiUrl}}"
         cube="{{state.availablePackages.current}}"
@@ -68,6 +80,10 @@
         <babbage-chart chart-type="line"></babbage-chart>
       </babbage>
     </div>
+    <div ng-init="info = getVisualizationById(visualization)" class="x-visualization-info col-sm-3 hidden-xs">
+      <h3>{{ info.name }}</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
     <div class="x-visualization-buttons">
       <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization }}" class="os-icon os-icon-trashcan"></a>
       <a href="javascript:void(0);" class="os-icon os-icon-embed"></a>
@@ -79,8 +95,8 @@
       </div>
     </div>
   </div>
-  <div ng-if="visualization == 'BubbleTree'" class="x-visualization-container">
-    <div class="x-visualization-chart">
+  <div ng-if="visualization == 'BubbleTree'" class="row">
+    <div class="x-visualization-chart col-xs-12 col-sm-9">
       <babbage ng-if="!state.flag.renderingCharts"
         endpoint="{{state.apiUrl}}"
         cube="{{state.availablePackages.current}}"
@@ -88,6 +104,10 @@
         <bubble-tree></bubble-tree>
       </babbage>
     </div>
+    <div ng-init="info = getVisualizationById(visualization)" class="x-visualization-info col-sm-3 hidden-xs">
+      <h3>{{ info.name }}</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
     <div class="x-visualization-buttons">
       <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization }}" class="os-icon os-icon-trashcan"></a>
       <a href="javascript:void(0);" class="os-icon os-icon-embed"></a>
@@ -99,33 +119,33 @@
       </div>
     </div>
   </div>
-  <div ng-if="(visualization == 'Map')" class="x-visualization-container">
-    <div ng-if="state.availablePackages.locationAvailable && state.availablePackages.locationSelected">
-      <div class="x-visualization-chart">
-        <babbage ng-if="!state.flag.renderingCharts"
-          endpoint="{{state.apiUrl}}"
-          cube="{{state.availablePackages.current}}"
-          state="state.babbageBar">
-          <babbage-geoview class="geoview-container"
-            currency-sign="{{ state.availablePackages.currencySign }}"
-            country-code="{{ state.availablePackages.locationCountry }}">
-          </babbage-geoview>
-        </babbage>
-      </div>
-      <div class="x-visualization-buttons">
-        <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization }}" class="os-icon os-icon-trashcan"></a>
-        <a href="javascript:void(0);" class="os-icon os-icon-embed"></a>
-        <div id="{{ 'visualization-popover-' + visualization }}" class="hidden">
-          <div class="visualization-popover">
-            <button ng-click="removeVisualization(visualization)" type="button" class="btn btn-danger">Remove this visualization</button>
-            <button ng-click="removeAllVisualizations()" type="button" class="btn btn-danger">Remove all visualizations</button>
-          </div>
-        </div>
-      </div>
+  <div ng-if="(visualization == 'Map')" class="row">
+    <div class="x-visualization-chart col-xs-12 col-sm-9" ng-if="state.availablePackages.locationAvailable && state.availablePackages.locationSelected">
+      <babbage ng-if="!state.flag.renderingCharts"
+        endpoint="{{state.apiUrl}}"
+        cube="{{state.availablePackages.current}}"
+        state="state.babbageBar">
+        <babbage-geoview class="geoview-container"
+          currency-sign="{{ state.availablePackages.currencySign }}"
+          country-code="{{ state.availablePackages.locationCountry }}">
+        </babbage-geoview>
+      </babbage>
     </div>
-    <div ng-if="!(state.availablePackages.locationAvailable && state.availablePackages.locationSelected)">
-      <div class="alert alert-warning">
-        Please, group your data by <code>location</code> dimension to enable this visualization.
+    <div class="alert alert-warning col-xs-12 col-sm-9" ng-if="!(state.availablePackages.locationAvailable && state.availablePackages.locationSelected)">
+      Please, group your data by <code>location</code> dimension to enable this visualization.
+    </div>
+    <div ng-init="info = getVisualizationById(visualization)" class="x-visualization-info col-sm-3 hidden-xs" ng-if="state.availablePackages.locationAvailable && state.availablePackages.locationSelected">
+        <h3>{{ info.name }}</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    <div class="x-visualization-buttons">
+      <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization }}" class="os-icon os-icon-trashcan"></a>
+      <a href="javascript:void(0);" class="os-icon os-icon-embed"></a>
+      <div id="{{ 'visualization-popover-' + visualization }}" class="hidden">
+        <div class="visualization-popover">
+          <button ng-click="removeVisualization(visualization)" type="button" class="btn btn-danger">Remove this visualization</button>
+          <button ng-click="removeAllVisualizations()" type="button" class="btn btn-danger">Remove all visualizations</button>
+        </div>
       </div>
     </div>
   </div>
@@ -154,12 +174,11 @@
       </div>
       <div class="modal-body">
         <div>
-          <a ng-click="addVisualization('Treemap')" href="javascript:void(0);">Treemap</a>
-          <a ng-click="addVisualization('PieChart')" href="javascript:void(0);">PieChart</a>
-          <a ng-click="addVisualization('BarChart')" href="javascript:void(0);">BarChart</a>
-          <a ng-click="addVisualization('LineChart')" href="javascript:void(0);">LineChart</a>
-          <a ng-click="addVisualization('BubbleTree')" href="javascript:void(0);">BubbleTree</a>
-          <a ng-click="addVisualization('Map')" href="javascript:void(0);">Map</a>
+          <a ng-repeat="item in getAvailableVisualizations()"
+            class="x-visualization-item"
+            ng-click="addVisualization(item.id)" href="javascript:void(0);">
+            {{ item.name }}
+          </a>
         </div>
         <div ng-if="selectedVisualizations.length > 0">
           <p>

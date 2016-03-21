@@ -308,14 +308,20 @@
   }
 
   .x-visualization-chart {
-    max-width: 700px;
     position: relative;
+  }
+
+  .x-visualization-info {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 990;
   }
 
   .x-visualization-buttons {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 15px;
     white-space: nowrap;
     font-size: 200%;
     z-index: 999;
@@ -349,6 +355,24 @@
 
 .x-visualization-add-modal {
   left: 23%;
+
+  .x-visualization-item {
+    display: inline-block;
+    width: 5em;
+    height: 5em;
+    margin: 0.5em;
+    border: 1px solid darken(#fff, 40%);
+    border-radius: 0.2em;
+    text-decoration: none;
+    vertical-align: top;
+    text-align: center;
+
+    &:hover,
+    &:active {
+      color: #fff;
+      border-color: #fff;
+    }
+  }
 }
 
 .geoview-container {
