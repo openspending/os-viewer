@@ -17,13 +17,12 @@ var _ = require('underscore');
 var frontSrcDir = path.join(__dirname, '/app/front');
 var frontScriptsDir = path.join(frontSrcDir, '/scripts');
 var frontStylesDir = path.join(frontSrcDir, '/styles');
-var frontImagesDir = path.join(frontSrcDir, '/images');
 
 var publicDir = path.join(__dirname, '/app/public');
 var publicScriptsDir = path.join(publicDir, '/');
 var publicStylesDir = path.join(publicDir, '/styles');
 var publicFontsDir = path.join(publicDir, '/fonts');
-var publicImagesDir = path.join(publicDir, '/images');
+var publicAssetsDir = path.join(publicDir, '/assets');
 
 var nodeModulesDir = path.join(__dirname, '/node_modules');
 
@@ -41,7 +40,7 @@ gulp.task('default', [
   'app.scripts',
   'app.modules',
   'app.styles',
-  'app.images',
+  'app.assets',
   'vendor.scripts',
   'vendor.styles',
   'vendor.fonts'
@@ -137,10 +136,11 @@ gulp.task('vendor.fonts', function() {
     .pipe(gulp.dest(publicFontsDir));
 });
 
-gulp.task('app.images', function() {
+gulp.task('app.assets', function() {
   return gulp.src([
-    path.join(frontImagesDir, '/*'),
-    path.join(frontImagesDir, '/**/*')
+      path.join(nodeModulesDir, '/bootstrap/dist/assets/os-branding/vector/light/os.svg'),
+      path.join(nodeModulesDir, '/bootstrap/dist/assets/os-branding/vector/light/viewer.svg'),
+      path.join(nodeModulesDir, '/bootstrap/dist/assets/os-branding/vector/light/osviewer.svg'),
   ])
-    .pipe(gulp.dest(publicImagesDir));
+    .pipe(gulp.dest(publicAssetsDir));
 });
