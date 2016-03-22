@@ -79,7 +79,7 @@
               }
             };
 
-            $scope.events.changeGroup = function(group) {
+            $scope.events.changeGroup = function(group, dropFilters) {
               var index = $scope.state.dimensions.current.groups.indexOf(group);
               if (index > -1) {
                 if ($scope.state.dimensions.current.groups.length > 1) {
@@ -89,6 +89,9 @@
                 //babbage.ui doesn't support multy-drilldown
                 //$scope.state.dimensions.current.groups.push(group);
                 $scope.state.dimensions.current.groups = [group];
+              }
+              if (!!dropFilters) {
+                $scope.state.dimensions.current.filters = {};
               }
               NavigationService.updateLocation($scope.state);
               updateBabbage();

@@ -1,0 +1,22 @@
+<measures ng-if="state.measures.items.length > 1" measures="state.measures" events="events"></measures>
+
+<div ng-if="type != 'drilldown'">
+  <div ng-repeat="hierarchy in state.hierarchies">
+    <hr>
+    <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }}</strong>
+    <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+      events="events"></dimensions-filter>
+    <dimensions-group hierarchy="hierarchy" dimensions="state.dimensions"
+      events="events"></dimensions-group>
+  </div>
+</div>
+
+<div ng-if="type == 'drilldown'">
+  <hr ng-if="state.measures.items.length > 1">
+  <sidebar-list items="hierarchies" selected="selectedHierarchies" title="Hierarchies"></sidebar-list>
+  <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
+    <hr>
+    <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+      events="events"></dimensions-filter>
+  </div>
+</div>

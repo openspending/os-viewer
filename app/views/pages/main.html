@@ -3,15 +3,7 @@
 {% block sidebar %}
 {% raw %}
 <div ng-if="!(state.isPackageLoading || state.isStarting)">
-  <measures measures="state.measures" events="events"></measures>
-  <div ng-repeat="hierarchy in state.hierarchies">
-    <hr>
-    <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }}</strong>
-    <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-      events="events"></dimensions-filter>
-    <dimensions-group hierarchy="hierarchy" dimensions="state.dimensions"
-      events="events"></dimensions-group>
-  </div>
+  <sidebar state="state" events="events" type="drilldown"></sidebar>
 </div>
 {% endraw %}
 {% endblock %}
