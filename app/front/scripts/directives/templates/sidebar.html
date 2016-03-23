@@ -43,7 +43,7 @@
     </div>
     <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
       <hr>
-      <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }} series</strong>
+      <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }}</strong>
       <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
         events="events"></dimensions-filter>
     </div>
@@ -53,6 +53,17 @@
     <div ng-if="state.measures.items.length > 1">
       <measures measures="state.measures" events="events"></measures>
       <hr>
+    </div>
+    <strong>Series</strong>
+    <div ng-repeat="hierarchy in datetimeHierarchies">
+      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
+        title="{{ (hierarchy.common) ? 'Dimension' : hierarchy.name }}"></sidebar-list>
+    </div>
+    <div ng-repeat="hierarchy in datetimeHierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
+      <hr>
+      <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }}</strong>
+      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+        events="events"></dimensions-filter>
     </div>
   </div>
 

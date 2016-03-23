@@ -33,6 +33,20 @@
               })
               .filter()
               .value();
+
+            $scope.datetimeHierarchies = _.chain(items)
+              .map(function(hierarchy) {
+                var result = _.extend({}, hierarchy);
+                result.dimensions = _.filter(hierarchy.dimensions,
+                  function(item) {
+                    return item.dimensionType == 'datetime';
+                  });
+                if (result.dimensions.length > 0) {
+                  return result;
+                }
+              })
+              .filter()
+              .value();
           }
 
           if ($scope.state && $scope.state.hierarchies) {
@@ -79,21 +93,16 @@
               if ($scope.events) {
                 switch ($scope.type) {
                   case 'drilldown':
-                  {
                     var dimension = _.first(item.dimensions);
                     if (dimension) {
                       $scope.events.changeGroup(dimension.key, true);
                     }
                     break;
-                  }
-                  case 'location': {
+                  case 'sortable-series':
+                  case 'time-series':
+                  case 'location':
                     $scope.events.changeGroup(item.key, true);
                     break;
-                  }
-                  case 'sortable-series': {
-                    $scope.events.changeGroup(item.key, true);
-                    break;
-                  }
                 }
               }
               $event.stopPropagation();

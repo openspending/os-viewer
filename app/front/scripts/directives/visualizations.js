@@ -64,19 +64,64 @@
           $scope.selectedVisualizations = [];
 
           function updateAvailableVisualizations() {
-            $scope.availableVisualizations = _.map(availableVisualizations,
-              function(item) {
+            $scope.availableVisualizations = _.chain(availableVisualizations)
+              .map(function(item) {
+                if ((item.id == 'Map') && !$scope.geoViewAvailable) {
+                  return null;
+                }
+                if ((item.id == 'LineChart') && !$scope.lineChartAvailable) {
+                  return null;
+                }
+
                 var result = _.extend({}, item);
                 result.isEnabled = true;
                 if ($scope.type && (item.type != $scope.type)) {
                   result.isEnabled = false;
                 }
                 return result;
-              });
+              })
+              .filter()
+              .value();
           }
 
           updateAvailableVisualizations();
           $scope.$watch('type', updateAvailableVisualizations);
+
+          function updateSpecialChartTypes() {
+            $scope.geoViewAvailable = false;
+            $scope.lineChartAvailable = false;
+
+            // GeoView
+            if (
+              $scope.state &&
+              $scope.state.availablePackages &&
+              $scope.state.availablePackages.locationAvailable
+            ) {
+              $scope.geoViewAvailable =
+                $scope.state.availablePackages.locationAvailable;
+            }
+
+            // Line Chart
+            if (
+              $scope.state &&
+              $scope.state.dimensions &&
+              $scope.state.dimensions.items
+            ) {
+              $scope.lineChartAvailable = !!_.find(
+                $scope.state.dimensions.items,
+                function(dimension) {
+                  return dimension.dimensionType == 'datetime';
+                });
+            }
+
+            updateAvailableVisualizations();
+          }
+
+          updateSpecialChartTypes();
+          $scope.$watch('state.availablePackages.locationAvailable',
+            updateSpecialChartTypes);
+          $scope.$watch('state.state.dimensions',
+            updateSpecialChartTypes);
 
           $scope.getVisualizationById = function(visualization) {
             return _.find(availableVisualizations, function(item) {
@@ -92,7 +137,7 @@
             modal.modal('show');
           };
 
-          $scope.addVisualization = function(visualization) {
+          $scope.addVisualization = function(visualization, removeIfAdded) {
             var alreadyAdded = !!_.find(
               $scope.selectedVisualizations,
               function(item) {
@@ -102,11 +147,15 @@
 
             if (!alreadyAdded) {
               $scope.selectedVisualizations.push(visualization);
-            }
 
-            $scope.type = _.find(availableVisualizations, function(item) {
-              return item.id == visualization;
-            }).type;
+              $scope.type = _.find(availableVisualizations, function(item) {
+                return item.id == visualization;
+              }).type;
+              updateAvailableVisualizations();
+            } else
+            if (removeIfAdded) {
+              $scope.removeVisualization(visualization);
+            }
           };
 
           $scope.removeVisualization = function(visualization) {
@@ -119,11 +168,13 @@
             if ($scope.selectedVisualizations.length == 0) {
               $scope.type = null;
             }
+            updateAvailableVisualizations();
           };
 
           $scope.removeAllVisualizations = function() {
             $scope.selectedVisualizations = [];
             $scope.type = null;
+            updateAvailableVisualizations();
           };
         }
       };
