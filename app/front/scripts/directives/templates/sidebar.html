@@ -24,6 +24,18 @@
   </div>
 
   <div ng-switch-when="sortable-series">
+    <hr ng-if="state.measures.items.length > 1">
+    <strong>X-Axis</strong>
+    <div ng-repeat="hierarchy in state.hierarchies">
+      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
+        title="{{ (hierarchy.common) ? 'Dimension' : hierarchy.name }}"></sidebar-list>
+    </div>
+    <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
+      <hr>
+      <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }} series</strong>
+      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+        events="events"></dimensions-filter>
+    </div>
   </div>
 
   <div ng-switch-when="time-series">

@@ -90,6 +90,10 @@
                     $scope.events.changeGroup(item.key, true);
                     break;
                   }
+                  case 'sortable-series': {
+                    $scope.events.changeGroup(item.key, true);
+                    break;
+                  }
                 }
               }
               $event.stopPropagation();

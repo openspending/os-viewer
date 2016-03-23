@@ -57,12 +57,6 @@
           $scope.selectedVisualizations = [];
 
           function updateAvailableVisualizations() {
-            var canShowMap = false;
-            if ($scope.state && $scope.state.availablePackages) {
-              canShowMap = $scope.state.availablePackages.locationAvailable &&
-                $scope.state.availablePackages.locationSelected;
-            }
-
             $scope.availableVisualizations = _.map(availableVisualizations,
               function(item) {
                 var result = _.extend({}, item);
