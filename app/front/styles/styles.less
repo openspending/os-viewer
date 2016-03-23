@@ -80,6 +80,7 @@ html {
       font-size: 70%;
       color: #777;
       margin: 0 15px;
+      display: block;
     }
 
     hr {
@@ -165,7 +166,6 @@ html {
   }
 }
 
-
 .x-available-packages {
   .dropdown > h3 {
     cursor: pointer;
@@ -194,24 +194,8 @@ html {
   }
 }
 
-#data-filter-buttons .dropdown-menu {
-  max-height: 300px;
-  overflow: auto;
-}
-
 .rd3-basic-chart {
   text-align: center;
-}
-
-.x-smaller-font {
-  font-size: 80%;
-}
-
-.text-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  -ms-text-overflow: ellipsis;
-  text-overflow: ellipsis;
 }
 
 .waiter {
@@ -362,6 +346,15 @@ html {
 .x-visualization-add-modal {
   left: 23%;
 
+  p {
+    margin: 0;
+    margin-top: 1em;
+  }
+
+  .x-visualization-items {
+    margin: -0.5em;
+  }
+
   .x-visualization-item {
     display: inline-block;
     width: 5em;
@@ -372,11 +365,37 @@ html {
     text-decoration: none;
     vertical-align: top;
     text-align: center;
+    line-height: 1em;
+
+    .viewer-icon {
+      display: block;
+      font-size: 230%;
+      margin: 3px;
+    }
 
     &:hover,
     &:active {
       color: #fff;
       border-color: #fff;
+    }
+
+    &.disabled {
+      &,
+      &:hover,
+      &:active {
+        cursor: not-allowed;
+        border-color: darken(#fff, 60%);
+        color: darken(#fff, 60%);
+      }
+    }
+
+    &.selected {
+      &,
+      &:hover,
+      &:active {
+        border-color: #fff;
+        color: #fff;
+      }
     }
   }
 }
@@ -401,3 +420,5 @@ html {
     height: 100%;
   }
 }
+
+@import "./viewer-icons.less";

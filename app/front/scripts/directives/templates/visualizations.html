@@ -173,11 +173,12 @@
         <h4 class="modal-title">Available visualizations</h4>
       </div>
       <div class="modal-body">
-        <div>
+        <div class="x-visualization-items">
           <a ng-repeat="item in availableVisualizations"
             class="x-visualization-item"
-            ng-class="{disabled: !item.isEnabled}"
+            ng-class="{disabled: !item.isEnabled, selected: selectedVisualizations.indexOf(item.id) >= 0}"
             ng-click="item.isEnabled ? addVisualization(item.id) : null" href="javascript:void(0);">
+            <i ng-class="item.icon"></i>
             {{ item.name }}
           </a>
         </div>

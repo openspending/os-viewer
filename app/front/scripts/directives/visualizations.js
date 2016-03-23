@@ -6,37 +6,44 @@
     {
       id: 'Treemap',
       name: 'Tree Map',
-      type: 'drilldown'
+      type: 'drilldown',
+      icon: 'viewer-icon viewer-icon-treemap'
     },
     {
       id: 'PieChart',
       name: 'Pie Chart',
-      type: 'drilldown'
-    },
-    {
-      id: 'BarChart',
-      name: 'Bar Chart',
-      type: 'sortable-series'
-    },
-    {
-      id: 'Table',
-      name: 'Table',
-      type: 'sortable-series'
-    },
-    {
-      id: 'LineChart',
-      name: 'Line Chart',
-      type: 'time-series'
+      type: 'drilldown',
+      icon: 'viewer-icon viewer-icon-piechart'
     },
     {
       id: 'BubbleTree',
       name: 'Bubble Tree',
-      type: 'drilldown'
+      type: 'drilldown',
+      icon: 'viewer-icon viewer-icon-bubbletree'
+    },
+    {
+      id: 'BarChart',
+      name: 'Bar Chart',
+      type: 'sortable-series',
+      icon: 'viewer-icon viewer-icon-barchart'
+    },
+    {
+      id: 'Table',
+      name: 'Table',
+      type: 'sortable-series',
+      icon: 'viewer-icon viewer-icon-table'
+    },
+    {
+      id: 'LineChart',
+      name: 'Line Chart',
+      type: 'time-series',
+      icon: 'viewer-icon viewer-icon-linechart'
     },
     {
       id: 'Map',
       name: 'Map',
-      type: 'location'
+      type: 'location',
+      icon: 'viewer-icon viewer-icon-map'
     }
   ];
 

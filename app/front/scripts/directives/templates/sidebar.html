@@ -1,8 +1,13 @@
-<measures ng-if="state.measures.items.length > 1" measures="state.measures" events="events"></measures>
-
 <div ng-switch="type">
 
   <div ng-switch-default>
+    <strong>Add some views by clicking <i class="os-icon os-icon-circle-plus"></i>
+    button to see all available options.</strong>
+  </div>
+
+  <div ng-switch-when="---">
+    <!-- Default sidebar with all possible options -->
+    <measures measures="state.measures" events="events"></measures>
     <div ng-repeat="hierarchy in state.hierarchies">
       <hr>
       <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }}</strong>
@@ -14,7 +19,10 @@
   </div>
 
   <div ng-switch-when="drilldown">
-    <hr ng-if="state.measures.items.length > 1">
+    <div ng-if="state.measures.items.length > 1">
+      <measures measures="state.measures" events="events"></measures>
+      <hr>
+    </div>
     <sidebar-list items="hierarchies" selected="selectedHierarchies" title="Hierarchies"></sidebar-list>
     <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
       <hr>
@@ -24,7 +32,10 @@
   </div>
 
   <div ng-switch-when="sortable-series">
-    <hr ng-if="state.measures.items.length > 1">
+    <div ng-if="state.measures.items.length > 1">
+      <measures measures="state.measures" events="events"></measures>
+      <hr>
+    </div>
     <strong>X-Axis</strong>
     <div ng-repeat="hierarchy in state.hierarchies">
       <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
@@ -39,10 +50,17 @@
   </div>
 
   <div ng-switch-when="time-series">
+    <div ng-if="state.measures.items.length > 1">
+      <measures measures="state.measures" events="events"></measures>
+      <hr>
+    </div>
   </div>
 
   <div ng-switch-when="location">
-    <hr ng-if="state.measures.items.length > 1">
+    <div ng-if="state.measures.items.length > 1">
+      <measures measures="state.measures" events="events"></measures>
+      <hr>
+    </div>
     <div ng-repeat="hierarchy in locationHierarchies">
       <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
         title="{{ (hierarchy.common) ? 'Location' : hierarchy.name }}"></sidebar-list>
