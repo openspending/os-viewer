@@ -6,32 +6,37 @@
     {
       id: 'Treemap',
       name: 'Tree Map',
-      type: ''
+      type: 'drilldown'
     },
     {
       id: 'PieChart',
       name: 'Pie Chart',
-      type: ''
+      type: 'drilldown'
     },
     {
       id: 'BarChart',
       name: 'Bar Chart',
-      type: ''
+      type: 'sortable-series'
+    },
+    {
+      id: 'Table',
+      name: 'Table',
+      type: 'sortable-series'
     },
     {
       id: 'LineChart',
       name: 'Line Chart',
-      type: ''
+      type: 'time-series'
     },
     {
       id: 'BubbleTree',
       name: 'Bubble Tree',
-      type: ''
+      type: 'drilldown'
     },
     {
       id: 'Map',
       name: 'Map',
-      type: ''
+      type: 'location'
     }
   ];
 
@@ -44,26 +49,33 @@
         restrict: 'E',
         scope: {
           state: '=',
-          events: '='
+          events: '=',
+          type: '='
         },
         link: function($scope, element) {
           $scope.availableVisualizations = availableVisualizations;
           $scope.selectedVisualizations = [];
 
-          $scope.getAvailableVisualizations = function() {
+          function updateAvailableVisualizations() {
             var canShowMap = false;
             if ($scope.state && $scope.state.availablePackages) {
               canShowMap = $scope.state.availablePackages.locationAvailable &&
                 $scope.state.availablePackages.locationSelected;
             }
 
-            return _.filter(availableVisualizations, function(item) {
-              if (item.id == 'Map') {
-                return canShowMap;
-              }
-              return true;
-            });
-          };
+            $scope.availableVisualizations = _.map(availableVisualizations,
+              function(item) {
+                var result = _.extend({}, item);
+                result.isEnabled = true;
+                if ($scope.type && (item.type != $scope.type)) {
+                  result.isEnabled = false;
+                }
+                return result;
+              });
+          }
+
+          updateAvailableVisualizations();
+          $scope.$watch('type', updateAvailableVisualizations);
 
           $scope.getVisualizationById = function(visualization) {
             return _.find(availableVisualizations, function(item) {
@@ -90,6 +102,10 @@
             if (!alreadyAdded) {
               $scope.selectedVisualizations.push(visualization);
             }
+
+            $scope.type = _.find(availableVisualizations, function(item) {
+              return item.id == visualization;
+            }).type;
           };
 
           $scope.removeVisualization = function(visualization) {
@@ -99,10 +115,14 @@
                 return item != visualization;
               }
             );
+            if ($scope.selectedVisualizations.length == 0) {
+              $scope.type = null;
+            }
           };
 
           $scope.removeAllVisualizations = function() {
             $scope.selectedVisualizations = [];
+            $scope.type = null;
           };
         }
       };

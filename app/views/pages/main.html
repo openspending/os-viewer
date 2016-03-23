@@ -3,7 +3,7 @@
 {% block sidebar %}
 {% raw %}
 <div ng-if="!(state.isPackageLoading || state.isStarting)">
-  <sidebar state="state" events="events" type="drilldown"></sidebar>
+  <sidebar state="state" events="events" type="{{ state.selectedChartType }}"></sidebar>
 </div>
 {% endraw %}
 {% endblock %}
@@ -36,7 +36,7 @@
       </div>
 
       <div>
-        <visualizations state="state" events="events"></visualizations>
+        <visualizations state="state" events="events" type="state.selectedChartType"></visualizations>
       </div>
 
       <package-info package-url="datapackage.json" resource-url="resource.csv"></package-info>

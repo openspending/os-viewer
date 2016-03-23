@@ -1,22 +1,45 @@
 <measures ng-if="state.measures.items.length > 1" measures="state.measures" events="events"></measures>
 
-<div ng-if="type != 'drilldown'">
-  <div ng-repeat="hierarchy in state.hierarchies">
-    <hr>
-    <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }}</strong>
-    <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-      events="events"></dimensions-filter>
-    <dimensions-group hierarchy="hierarchy" dimensions="state.dimensions"
-      events="events"></dimensions-group>
-  </div>
-</div>
+<div ng-switch="type">
 
-<div ng-if="type == 'drilldown'">
-  <hr ng-if="state.measures.items.length > 1">
-  <sidebar-list items="hierarchies" selected="selectedHierarchies" title="Hierarchies"></sidebar-list>
-  <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-    <hr>
-    <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-      events="events"></dimensions-filter>
+  <div ng-switch-default>
+    <div ng-repeat="hierarchy in state.hierarchies">
+      <hr>
+      <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }}</strong>
+      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+        events="events"></dimensions-filter>
+      <dimensions-group hierarchy="hierarchy" dimensions="state.dimensions"
+        events="events"></dimensions-group>
+    </div>
   </div>
+
+  <div ng-switch-when="drilldown">
+    <hr ng-if="state.measures.items.length > 1">
+    <sidebar-list items="hierarchies" selected="selectedHierarchies" title="Hierarchies"></sidebar-list>
+    <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
+      <hr>
+      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+        events="events"></dimensions-filter>
+    </div>
+  </div>
+
+  <div ng-switch-when="sortable-series">
+  </div>
+
+  <div ng-switch-when="time-series">
+  </div>
+
+  <div ng-switch-when="location">
+    <hr ng-if="state.measures.items.length > 1">
+    <div ng-repeat="hierarchy in locationHierarchies">
+      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
+        title="{{ (hierarchy.common) ? 'Location' : hierarchy.name }}"></sidebar-list>
+    </div>
+    <div ng-repeat="hierarchy in locationHierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
+      <hr>
+      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+        events="events"></dimensions-filter>
+    </div>
+  </div>
+
 </div>

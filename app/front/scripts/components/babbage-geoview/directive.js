@@ -90,7 +90,9 @@ module.exports = function(ngModule) {
 
           $scope.$on('$destroy', function() {
             removeResizeListeners();
-            handle.destroy();
+            if (handle) {
+              handle.destroy();
+            }
           });
         }
       };
