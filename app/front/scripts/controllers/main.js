@@ -174,6 +174,8 @@
                 .then(resolve)
                 .catch(reject);
             }).then(function(packageInfo) {
+              $scope.dataPackageInfo = packageInfo;
+
               $scope.state.availablePackages.description =
                 packageInfo.description;
 

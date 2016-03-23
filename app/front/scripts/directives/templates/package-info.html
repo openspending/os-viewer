@@ -1,9 +1,17 @@
-<div>
-  <h2 ng-if="!!packageUrl || !!resourceUrl">Data Resources</h2>
+<div ng-if="!!packageUrl || (resources.length > 0)" class="x-package-info">
+  <h4>Data Resources</h4>
   <div ng-if="!!packageUrl">
-    <a href="{{ packageUrl }}" target="_blank">Download Data Package</a>
+    <i class="os-icon os-icon-download"></i><a ng-href="{{ packageUrl }}" target="_blank">Download Data Package</a>
   </div>
-  <div ng-if="!!resourceUrl">
-    <a href="{{ resourceUrl }}" target="_blank">View Raw Source Data</a>
+  <div ng-if="resources.length == 1">
+    <i class="os-icon os-icon-download"></i><a ng-href="{{ resources[0].url }}" target="_blank">View Raw Source Data</a>
+  </div>
+  <div ng-if="resources.length > 1">
+    <div><strong>View Raw Source Data:</strong></div>
+    <ul>
+      <li ng-repeat="resource in resources">
+        <i class="os-icon os-icon-download"></i><a ng-href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>
+      </li>
+    </ul>
   </div>
 </div>
