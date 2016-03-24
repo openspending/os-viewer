@@ -13,7 +13,7 @@ nconf.file({
 var apiHost = process.env.OS_VIEWER_API_HOST || DEFAULT_HOST;
 var authHost = process.env.OS_VIEWER_AUTH_HOST || DEFAULT_HOST;
 
-var cosmopolitanHost = process.env.OS_VIEWER_AUTH_HOST || 'http://cosmopolitan.openspending.org/v1/';
+var cosmopolitanHost = process.env.OS_VIEWER_API_COSMO_HOST || 'http://cosmopolitan.openspending.org/v1/';
 
 // this is the object that you want to override in your own local config
 nconf.defaults({
