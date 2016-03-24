@@ -116,7 +116,7 @@ module.exports = function(config) {
     },
 
     getDimensionKeyById: function(model, id) {
-      return model.dimensions[id].label;
+      return model.dimensions[id].key_ref;
     },
 
     getDrillDownDimensionKey: function(model, dimensionId) {

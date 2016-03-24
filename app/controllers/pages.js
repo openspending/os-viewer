@@ -24,6 +24,7 @@ module.exports.embedded = function(req, res) {
     cube: req.cube,
     view: req.view,
     apiUrl: config.get('api').url,
+    cosmoUrl: config.get('api').cosmoUrl,
     params: JSON.stringify({
       aggregates: params.measure,
       group: params.groups,

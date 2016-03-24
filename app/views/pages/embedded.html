@@ -15,80 +15,102 @@
   }
 </style>
 
-  <div>
-    {% if view == 'piechart' %}
-    {% raw %}
-    <pie-chart cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
-    </pie-chart>
-    {% endraw %}
-    {% endif %}
+<div>
+  {% if view == 'piechart' %}
+  {% raw %}
+  <pie-chart cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
+  </pie-chart>
+  {% endraw %}
+  {% endif %}
 
-    {% if view == 'barchart' %}
-    {% raw %}
-    <chart cube="{{cube}}" type="bar" state="params" endpoint="{{apiUrl}}">
-    </chart>
-    {% endraw %}
-    {% endif %}
+  {% if view == 'barchart' %}
+  {% raw %}
+  <chart cube="{{cube}}" type="bar" state="params" endpoint="{{apiUrl}}">
+  </chart>
+  {% endraw %}
+  {% endif %}
 
-    {% if view == 'linechart' %}
-    {% raw %}
-    <chart cube="{{cube}}" type="line" state="params" endpoint="{{apiUrl}}">
-    </chart>
-    {% endraw %}
-    {% endif %}
+  {% if view == 'linechart' %}
+  {% raw %}
+  <chart cube="{{cube}}" type="line" state="params" endpoint="{{apiUrl}}">
+  </chart>
+  {% endraw %}
+  {% endif %}
 
-    {% if view == 'treemap' %}
-    {% raw %}
-    <tree-map cube="{{cube}}" state="params" endpoint="{{apiUrl}}"></tree-map>
-    {% endraw %}
-    {% endif %}
+  {% if view == 'treemap' %}
+  {% raw %}
+  <tree-map cube="{{cube}}" state="params" endpoint="{{apiUrl}}"></tree-map>
+  {% endraw %}
+  {% endif %}
 
-    {% if view == 'bubbletree' %}
-    {% raw %}
-    <bubbletree cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
-    </bubbletree>
-    {% endraw %}
-    {% endif %}
+  {% if view == 'bubbletree' %}
+  {% raw %}
+  <bubbletree cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
+  </bubbletree>
+  {% endraw %}
+  {% endif %}
 
-    {% if view == 'table' %}
-    {% raw %}
-    <babbage-table cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
-    </babbage-table>
-    {% endraw %}
-    {% endif %}
-  </div>
+  {% if view == 'table' %}
+  {% raw %}
+  <babbage-table cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
+  </babbage-table>
+  {% endraw %}
+  {% endif %}
+
+  {% if view == 'map' %}
+  {% raw %}
+  <geo-view
+    cube="{{cube}}"
+    state="params"
+    endpoint="{{apiUrl}}"
+    cosmo-endpoint="{{cosmoEndpoint}}"
+    country-code="{{countryCode}}">
+  </geo-view>
+  {% endraw %}
+  {% endif %}
+</div>
 
 <script>
-  var pieDirective = new window.Babbage.BabbageClasses.PieChartDirective();
-  var chartDirective = new window.Babbage.BabbageClasses.ChartDirective();
-  var treemapDirective = new window.Babbage.BabbageClasses.TreemapDirective();
-  var bubbleTreeDirective = new window.Babbage.BabbageClasses.BubbleTreeDirective();
-  var tableDirective = new window.Babbage.BabbageClasses.BabbageTableDirective();
+  var components = require('components');
 
-  var embedded = angular.module('Application', ['ngRoute', 'angular.filter']);
+  var pieDirective = new components.babbage.PieChartDirective();
+  var chartDirective = new components.babbage.ChartDirective();
+  var treemapDirective = new components.babbage.TreemapDirective();
+  var bubbleTreeDirective = new components.babbage.BubbleTreeDirective();
+  var tableDirective = new components.babbage.BabbageTableDirective();
+  var geoViewDirective = new components.babbage.GeoViewDirective();
+
+  var embedded = angular.module('Application', []);
+
 
   pieDirective.init(embedded);
   chartDirective.init(embedded);
   treemapDirective.init(embedded);
   tableDirective.init(embedded);
   bubbleTreeDirective.init(embedded);
+  geoViewDirective.init(embedded);
 
-//  embedded.config(['$routeProvider',
-//    function($routeProvider) {
-//      $routeProvider.
-//      when('(.*)', {
-//        templateUrl: 'demo.html',
-//        controller: 'EmbeddedCtrl',
-//        reloadOnSearch: false
-//      });
-//    }]);
+  embedded.controller('EmbeddedCtrl', [
+    '$scope', '$q',
+    function($scope, $q) {
+      $scope.apiUrl = '{{apiUrl | safe}}';
+      $scope.cube = '{{cube | safe}}';
+      $scope.view = '{{view | safe}}';
+      $scope.params = {{params | safe }};
+      $scope.cosmoEndpoint = '{{cosmoUrl | safe}}';
 
-  embedded.controller('EmbeddedCtrl', ['$scope', function($scope) {
-    $scope.cube = '{{cube | safe}}';
-    $scope.apiUrl = '{{apiUrl | safe}}';
-    $scope.params = {{params | safe}};
-    $scope.view = '{{view | safe}}';
-  }]);
+      var api = components.dataPackageApi({url: $scope.apiUrl});
+      if ($scope.view == 'map') {
+        $q(function(resolve, reject) {
+          api.getDataPackage($scope.cube).then(resolve).catch(reject);
+        })
+        .then(function(packageInfo) {
+          $scope.countryCode = _.isArray(packageInfo.countryCode) ?
+            _.first(packageInfo.countryCode) : packageInfo.countryCode;
+        });
+      }
+    }
+  ]);
 </script>
 
 {% endblock %}

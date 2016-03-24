@@ -27,14 +27,16 @@
           function initScopeEvents() {
             $scope.events = {};
 
-            $scope.$on('drillDown', function(event, info) {
-              var dimension = _.find(
-                $scope.state.dimensions.items, {label: info.field}
+            $scope.$on('treemap-click', function(event, treeMapComponent, info) {
+                var dimension = _.find(
+                $scope.state.dimensions.items, {key: _.first($scope.state.dimensions.current.groups) }
               );
+
+              console.log(dimension);
 
               if (dimension && dimension.drillDown) {
                 $scope.state.dimensions.current.groups = [dimension.drillDown];
-                var item = _.find(dimension.values, {value: info.value});
+                var item = _.find(dimension.values, {key: info._key});
                 if (item) {
                   $scope.state.dimensions.current.filters[dimension.key] =
                     item.key;
@@ -105,9 +107,6 @@
               NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
-            $scope.events.setTab = function(aTab) {
-              $scope.currentTab = aTab;
-            };
             $scope.events.canBack = function() {
               return HistoryService.canBack();
             };
@@ -168,7 +167,6 @@
 
           function changePackage(packageName, defaultParams) {
             defaultParams = defaultParams || {};
-            $scope.currentTab = defaultParams.currentTab || 'Treemap';
             $scope.state.isPackageLoading = true;
             $scope.state.availablePackages.current = packageName;
 
@@ -232,6 +230,13 @@
               function(value, key) {
                 return key + ':"' + value + '"';
               });
+
+            $scope.state.babbage = {
+              aggregates: $scope.state.measures.current,
+              group: [_.first($scope.state.dimensions.current.groups)],
+              filter: cut
+            };
+
             $scope.state.babbageTreeMap = {
               grouping: _.first($scope.state.dimensions.current.groups),
               area: $scope.state.measures.current,
@@ -315,6 +320,7 @@
 
             return SettingsService.get('api').then(function(apiSettings) {
               $scope.state.apiUrl = apiSettings.url;
+              $scope.state.cosmoUrl = apiSettings.cosmoUrl;
               viewerService = components.osViewerService(apiSettings);
               return $q(function(resolve, reject) {
                 viewerService.start({}).then(function(state) {

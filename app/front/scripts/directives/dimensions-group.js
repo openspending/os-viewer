@@ -3,16 +3,24 @@
   var app = angular.module('Application');
 
   app.directive('dimensionsGroup', function() {
-    var directiveDefinitionObject = {
+    return {
       templateUrl: 'templates/dimensions-group.html',
       replace: true,
-      transclude: false,
       restrict: 'E',
       scope: {
+        hierarchy: '=',
         dimensions: '=',
         events: '='
+      },
+      link: function($scope) {
+        $scope.$on('sidebarList.changeItemSelection',
+          function($event, item, isSelected) {
+            if ($scope.events) {
+              $scope.events.changeGroup(item.key);
+            }
+            $event.stopPropagation();
+          });
       }
     };
-    return directiveDefinitionObject;
   });
 })(angular);

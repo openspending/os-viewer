@@ -11,12 +11,8 @@
 
   <link rel="stylesheet" href="styles/embedded.css">
 
-  <script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.8/angular-filter.min.js"></script>
-
-  <script src='embedded.js'></script>
+  <script src="modules.js?{{ sessionSalt }}"></script>
+  <script src="vendor.js?{{ sessionSalt }}"></script>
 </head>
 <body ng-app="Application" ng-controller="EmbeddedCtrl" class="ng-cloak">
 
