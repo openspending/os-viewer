@@ -60,6 +60,8 @@
           type: '='
         },
         link: function($scope, element) {
+          $scope.type = null;
+
           $scope.availableVisualizations = availableVisualizations;
           $scope.selectedVisualizations = [];
 

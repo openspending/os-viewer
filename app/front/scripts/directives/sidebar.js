@@ -83,6 +83,39 @@
             updateSelectedHierarchies($scope.state.dimensions.current.groups);
           }
 
+          function updateSelections(type) {
+            if (!$scope.events) {
+              return;
+            }
+            var hierarchies = null;
+            if (type) {
+              switch (type) {
+                case 'location':
+                  hierarchies = $scope.locationHierarchies;
+                  break;
+                case 'time-series':
+                  hierarchies = $scope.datetimeHierarchies;
+                  break;
+                default:
+                  hierarchies = $scope.hierarchies;
+                  break;
+              }
+            }
+            var hierarchy = _.first(hierarchies);
+            if (hierarchy && hierarchy.dimensions) {
+              var dimension = _.first(hierarchy.dimensions);
+              if (dimension) {
+                $scope.events.changeGroup(dimension.key, true);
+              }
+            }
+          }
+          updateSelections($scope.type);
+          $scope.$watch('type', function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+              updateSelections($scope.type);
+            }
+          });
+
           $scope.$watchCollection('state.dimensions.current.groups',
             function(currentGroups) {
               updateSelectedHierarchies(currentGroups);
