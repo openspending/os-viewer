@@ -49,7 +49,7 @@ module.exports.start = function() {
 
     var server = app.listen(app.get('port'), function() {
       console.log('Listening on :' + app.get('port'));
-      resolve(app);
+      resolve(server);
     });
     app.shutdown = function() {
       server.close();

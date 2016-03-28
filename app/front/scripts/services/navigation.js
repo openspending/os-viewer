@@ -34,9 +34,9 @@
         searchParams.filters = (searchParams.filters) ?
           searchParams.filters :
           [];
-        searchParams.filters = (_.isArray(searchParams.filters)) ?
-          searchParams.filters :
-          [searchParams.filters];
+        searchParams.filters =
+          (_.isArray(searchParams.filters)) ?
+          searchParams.filters : [searchParams.filters];
 
         _.each(searchParams.filters, function(value) {
           var filter = value.split('|');
@@ -62,8 +62,9 @@
         if (sections.length == 1) {
           params.dataPackage = sections[0];
         } else {
-          if ((sections.length == 2) && (sections[0] == 'embed')) {
-            params.dataPackage = sections[1];
+          if ((sections.length == 3) && (sections[0] == 'embed')) {
+            params.currentTab = sections[1];
+            params.dataPackage = sections[2];
           }
         }
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <base href="/{{basePath}}"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+  <meta name="description" content="A frontend data/views app powered directly from a Fiscal Data Package."/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Fiscal Data Package Viewer | Open Knowledge</title>
+  <link href="//fonts.googleapis.com/css?family=Hind:400,300,500,600,700" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="styles/embedded.css">
+
+  <script src="modules.js?{{ sessionSalt }}"></script>
+  <script src="vendor.js?{{ sessionSalt }}"></script>
+</head>
+<body ng-app="Application" ng-controller="EmbeddedCtrl" class="ng-cloak">
+
+{% block content %}{% endblock %}
+
+
+
+{% block footerScript %}{% endblock %}
+</body>
+</html>

@@ -13,6 +13,7 @@
         '$q',
         '$timeout',
         'SettingsService',
+        '$window',
 
         function($scope,
           NavigationService,
@@ -20,19 +21,22 @@
           HistoryService,
           $q,
           $timeout,
-          SettingsService) {
+          SettingsService,
+          $window) {
 
           function initScopeEvents() {
             $scope.events = {};
 
-            $scope.$on('drillDown', function(event, info) {
-              var dimension = _.find(
-                $scope.state.dimensions.items, {label: info.field}
+            $scope.$on('treemap-click', function(event, treeMapComponent, info) {
+                var dimension = _.find(
+                $scope.state.dimensions.items, {key: _.first($scope.state.dimensions.current.groups) }
               );
+
+              console.log(dimension);
 
               if (dimension && dimension.drillDown) {
                 $scope.state.dimensions.current.groups = [dimension.drillDown];
-                var item = _.find(dimension.values, {value: info.value});
+                var item = _.find(dimension.values, {key: info._key});
                 if (item) {
                   $scope.state.dimensions.current.filters[dimension.key] =
                     item.key;
@@ -226,6 +230,13 @@
               function(value, key) {
                 return key + ':"' + value + '"';
               });
+
+            $scope.state.babbage = {
+              aggregates: $scope.state.measures.current,
+              group: [_.first($scope.state.dimensions.current.groups)],
+              filter: cut
+            };
+
             $scope.state.babbageTreeMap = {
               grouping: _.first($scope.state.dimensions.current.groups),
               area: $scope.state.measures.current,
@@ -267,6 +278,8 @@
             }
           }
 
+          $scope.isEmbeded = $window.isEmbeded;
+
           $scope.$watch('state.dimensions.current.groups', function(value) {
             if ($scope.state && $scope.state.availablePackages) {
               var currentGroup = _.findWhere($scope.state.dimensions.items, {
@@ -307,6 +320,7 @@
 
             return SettingsService.get('api').then(function(apiSettings) {
               $scope.state.apiUrl = apiSettings.url;
+              $scope.state.cosmoUrl = apiSettings.cosmoUrl;
               viewerService = components.osViewerService(apiSettings);
               return $q(function(resolve, reject) {
                 viewerService.start({}).then(function(state) {

@@ -31,10 +31,7 @@ var modules = [
   'jquery',
   'underscore',
   'bluebird',
-  'd3',
-  'c3',
   'marked',
-  'raphael'
 ];
 
 gulp.task('default', [
@@ -42,6 +39,7 @@ gulp.task('default', [
   'app.modules',
   'app.styles',
   'app.images',
+  'embedded.styles',
   'vendor.scripts',
   'vendor.styles',
   'vendor.fonts'
@@ -67,6 +65,7 @@ gulp.task('app.scripts', function() {
 
 gulp.task('app.modules', function() {
   var bundler = browserify({});
+  bundler.external('webpack-raphael');
 
   _.forEach(modules, function (id) {
     bundler.require(resolve.sync(id), {expose: id});
@@ -97,6 +96,16 @@ gulp.task('app.styles', function() {
     .pipe(gulp.dest(publicStylesDir));
 });
 
+gulp.task('embedded.styles', function() {
+  var files = [
+    path.join(nodeModulesDir, '/babbage.ui/dist/lib.css')
+  ];
+  return gulp.src(files)
+    .pipe(concat('embedded.css'))
+    .pipe(gulp.dest(publicStylesDir));
+});
+
+
 gulp.task('vendor.scripts', function() {
   var files = [
     path.join(nodeModulesDir, '/js-polyfills/xhr.js'),
@@ -105,9 +114,6 @@ gulp.task('vendor.scripts', function() {
     path.join(nodeModulesDir, '/angular-animate/angular-animate.min.js'),
     path.join(nodeModulesDir, '/angular-filter/dist/angular-filter.min.js'),
     path.join(nodeModulesDir, '/angular-marked/dist/angular-marked.min.js'),
-    path.join(frontScriptsDir, '/ext-libs/babbage.ui.js'),
-    path.join(nodeModulesDir, '/bubbletree/node_modules/tween.js/src/Tween.js'),
-    path.join(nodeModulesDir, '/bubbletree/dist/bubbletree.min.js')
   ];
   return gulp.src(files)
     .pipe(concat('vendor.js'))
@@ -119,7 +125,7 @@ gulp.task('vendor.styles', function() {
     path.join(nodeModulesDir, '/font-awesome/css/font-awesome.min.css'),
     path.join(nodeModulesDir, '/bootstrap/dist/css/bootstrap.min.css'),
     path.join(nodeModulesDir, '/angular/angular-csp.css'),
-    path.join(frontScriptsDir, '/ext-libs/babbage.ui.css'),
+    path.join(nodeModulesDir, '/babbage.ui/dist/lib.css'),
     path.join(nodeModulesDir, '/bubbletree/dist/bubbletree.css'),
     path.join(nodeModulesDir, '/c3/c3.min.css')
   ];
