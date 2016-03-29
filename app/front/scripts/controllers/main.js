@@ -27,24 +27,26 @@
           function initScopeEvents() {
             $scope.events = {};
 
-            $scope.$on('treemap-click', function(event, treeMapComponent, info) {
+            $scope.$on('treemap-click',
+              function(event, treeMapComponent, info) {
                 var dimension = _.find(
-                $scope.state.dimensions.items, {key: _.first($scope.state.dimensions.current.groups) }
-              );
+                  $scope.state.dimensions.items, {
+                    key: _.first($scope.state.dimensions.current.groups)
+                  });
 
-              console.log(dimension);
-
-              if (dimension && dimension.drillDown) {
-                $scope.state.dimensions.current.groups = [dimension.drillDown];
-                var item = _.find(dimension.values, {key: info._key});
-                if (item) {
-                  $scope.state.dimensions.current.filters[dimension.key] =
-                    item.key;
+                if (dimension && dimension.drillDown) {
+                  $scope.state.dimensions.current.groups = [
+                    dimension.drillDown
+                  ];
+                  var item = _.find(dimension.values, {key: info._key});
+                  if (item) {
+                    $scope.state.dimensions.current.filters[dimension.key] =
+                      item.key;
+                  }
+                  NavigationService.updateLocation($scope.state);
+                  updateBabbage();
                 }
-                NavigationService.updateLocation($scope.state);
-                updateBabbage();
-              }
-            });
+              });
 
             $scope.events.changePackage = function(packageNameIndex) {
               changePackage(packageNameIndex);
@@ -56,7 +58,7 @@
               updateBabbage();
             };
             $scope.events.findDimension = function(key) {
-              return _.findWhere($scope.state.dimensions.items, {key: key});
+              return _.find($scope.state.dimensions.items, {key: key});
             };
 
             $scope.events.isGroupSelected = function(key) {
@@ -83,7 +85,7 @@
               }
             };
 
-            $scope.events.changeGroup = function(group) {
+            $scope.events.changeGroup = function(group, dropFilters) {
               var index = $scope.state.dimensions.current.groups.indexOf(group);
               if (index > -1) {
                 if ($scope.state.dimensions.current.groups.length > 1) {
@@ -93,6 +95,9 @@
                 //babbage.ui doesn't support multy-drilldown
                 //$scope.state.dimensions.current.groups.push(group);
                 $scope.state.dimensions.current.groups = [group];
+              }
+              if (!!dropFilters) {
+                $scope.state.dimensions.current.filters = {};
               }
               NavigationService.updateLocation($scope.state);
               updateBabbage();
@@ -144,20 +149,20 @@
             $scope.state.dimensions.current.groups = [];
             $scope.state.dimensions.current.filters = {};
 
-            if (_.where($scope.state.measures.items, {
+            if (_.find($scope.state.measures.items, {
                 key: defaultParams.measure
               })) {
               $scope.state.measures.current = defaultParams.measure;
             }
 
-            _.each(defaultParams.groups, function(value) {
+            _.forEach(defaultParams.groups, function(value) {
               var dimension = $scope.events.findDimension(value);
               if (dimension) {
                 $scope.state.dimensions.current.groups.push(value);
               }
             });
 
-            _.each(defaultParams.filters, function(value, key) {
+            _.forEach(defaultParams.filters, function(value, key) {
               var dimension = $scope.events.findDimension(key);
               if (dimension) {
                 $scope.state.dimensions.current.filters[key] = value;
@@ -175,6 +180,8 @@
                 .then(resolve)
                 .catch(reject);
             }).then(function(packageInfo) {
+              $scope.dataPackageInfo = packageInfo;
+
               $scope.state.availablePackages.description =
                 packageInfo.description;
 
@@ -209,7 +216,7 @@
 
               $scope.state.availablePackages.locationAvailable =
                 !!$scope.state.availablePackages.locationCountry &&
-                !!_.findWhere(state.dimensions.items, {
+                !!_.find(state.dimensions.items, {
                   dimensionType: 'location'
                 });
               $scope.state.availablePackages.locationSelected = false;
@@ -282,7 +289,7 @@
 
           $scope.$watch('state.dimensions.current.groups', function(value) {
             if ($scope.state && $scope.state.availablePackages) {
-              var currentGroup = _.findWhere($scope.state.dimensions.items, {
+              var currentGroup = _.find($scope.state.dimensions.items, {
                 key: _.first(value)
               });
               $scope.state.availablePackages.locationSelected =
@@ -293,7 +300,7 @@
 
           $scope.$watch('state.measures.current', function(value) {
             if ($scope.state && $scope.state.availablePackages) {
-              var currentMeasure = _.findWhere($scope.state.measures.items, {
+              var currentMeasure = _.find($scope.state.measures.items, {
                 key: value
               });
 

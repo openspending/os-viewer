@@ -1,6 +1,6 @@
 var nock = require('nock');
 var assert = require('chai').assert;
-var _ = require('underscore');
+var _ = require('lodash');
 
 describe('Downloader', function() {
   var downloader = require('../app/front/scripts/components/downloader/');

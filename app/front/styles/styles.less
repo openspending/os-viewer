@@ -1,6 +1,16 @@
+html {
+  background: #131518;
+  height: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
 .navbar.x-page-header {
   .navbar-brand {
     width: 23%;
+    padding: 0;
   }
 
   .os-icon-arrow-drop-down {
@@ -74,6 +84,7 @@
       font-size: 70%;
       color: #777;
       margin: 0 15px;
+      display: block;
     }
 
     hr {
@@ -159,7 +170,6 @@
   }
 }
 
-
 .x-available-packages {
   .dropdown > h3 {
     cursor: pointer;
@@ -188,24 +198,8 @@
   }
 }
 
-#data-filter-buttons .dropdown-menu {
-  max-height: 300px;
-  overflow: auto;
-}
-
 .rd3-basic-chart {
   text-align: center;
-}
-
-.x-smaller-font {
-  font-size: 80%;
-}
-
-.text-ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  -ms-text-overflow: ellipsis;
-  text-overflow: ellipsis;
 }
 
 .waiter {
@@ -296,8 +290,20 @@
   }
 }
 
+.x-visualization-add-modal,
+.x-visualization-share-modal {
+  padding-left: 23%;
+}
+
 .x-visualization-add-modal {
-  left: 23%;
+  p {
+    margin: 0;
+    margin-top: 1em;
+  }
+
+  .x-visualization-items {
+    margin: -0.5em;
+  }
 
   .x-visualization-item {
     display: inline-block;
@@ -309,11 +315,54 @@
     text-decoration: none;
     vertical-align: top;
     text-align: center;
+    line-height: 1em;
+
+    .viewer-icon {
+      display: block;
+      font-size: 230%;
+      margin: 3px;
+    }
 
     &:hover,
     &:active {
       color: #fff;
       border-color: #fff;
     }
+
+    &.disabled {
+      &,
+      &:hover,
+      &:active {
+        cursor: not-allowed;
+        border-color: darken(#fff, 60%);
+        color: darken(#fff, 60%);
+      }
+    }
+
+    &.selected {
+      &,
+      &:hover,
+      &:active {
+        border-color: #fff;
+        color: #fff;
+      }
+    }
   }
 }
+
+.x-package-info {
+  margin: 1em 0;
+  padding: 0;
+  border-top: 1px solid #e7e7e7;
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .os-icon {
+    margin-right: 0.2em;
+  }
+}
+
+@import "./viewer-icons.less";

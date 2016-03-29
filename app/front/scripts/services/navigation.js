@@ -16,7 +16,7 @@
       updateLocation: function(state) {
         _isChangingLocation = true;
         var filterList = [];
-        _.each(state.dimensions.current.filters, function(value, key) {
+        _.forEach(state.dimensions.current.filters, function(value, key) {
           filterList.push(key + '|' + value);
         });
 
@@ -38,7 +38,7 @@
           (_.isArray(searchParams.filters)) ?
           searchParams.filters : [searchParams.filters];
 
-        _.each(searchParams.filters, function(value) {
+        _.forEach(searchParams.filters, function(value) {
           var filter = value.split('|');
           if (filter.length == 2) {
             filters[filter[0]] = filter[1];

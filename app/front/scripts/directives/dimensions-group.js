@@ -10,7 +10,8 @@
       scope: {
         hierarchy: '=',
         dimensions: '=',
-        events: '='
+        events: '=',
+        title: '@?'
       },
       link: function($scope) {
         $scope.$on('sidebarList.changeItemSelection',

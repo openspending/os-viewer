@@ -2,8 +2,8 @@
   <div class="list-group list-group-inverse">
     <a ng-click="list.isCollapsed = !list.isCollapsed" href="javascript:void(0);" class="list-group-item">
       <i class="os-icon os-icon-filter"></i>
-      {{ title }}
       <i class="os-icon os-icon-arrow-down pull-right" ng-class="{expanded: !list.isCollapsed}"></i>
+      {{ title }}
     </a>
   </div>
   <div ng-if="!list.isCollapsed" class="list-group list-group-inverse slide-animation">

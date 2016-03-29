@@ -1,7 +1,7 @@
 'use strict';
 
 var Promise = require('bluebird');
-var _ = require('underscore');
+var _ = require('lodash');
 
 var
   _state = {};
@@ -21,8 +21,8 @@ module.exports = function(config) {
     _getDimensionsSortingIndexes: function(model) {
       var results = {};
       var i = 0;
-      _.each(model.hierarchies, function(hierarchy) {
-        _.each(hierarchy.levels, function(dimension) {
+      _.forEach(model.hierarchies, function(hierarchy) {
+        _.forEach(hierarchy.levels, function(dimension) {
           results[model.dimensions[dimension].label] = i++;
         });
       });
@@ -31,7 +31,7 @@ module.exports = function(config) {
 
     _buildHierarchies: function(model, dimensionItems) {
       var result = {};
-      _.each(dimensionItems, function(dimension) {
+      _.forEach(dimensionItems, function(dimension) {
         var hierarchyKey = (model.hierarchies[dimension.hierarchy]) ?
           dimension.hierarchy :
           'withoutHierarchy';
@@ -52,7 +52,7 @@ module.exports = function(config) {
       });
       //sorting
       var sortIndexes = this._getDimensionsSortingIndexes(model);
-      _.each(result, function(hierarchy, hierarchyKey) {
+      _.forEach(result, function(hierarchy, hierarchyKey) {
         result[hierarchyKey].dimensions = _.sortBy(
           hierarchy.dimensions,
           function(dimension) {
@@ -81,7 +81,7 @@ module.exports = function(config) {
           result.dimensions.items = api.getDimensionsFromModel(model);
 
           //combine dimensions with possible values
-          _.each(result.dimensions.items, function(dimension) {
+          _.forEach(result.dimensions.items, function(dimension) {
             dimension.values = possibleValues[dimension.key];
           });
 

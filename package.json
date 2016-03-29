@@ -34,17 +34,18 @@
   "bugs": "https://github.com/openspending/os-viewer/issues",
   "homepage": "https://github.com/openspending/os-viewer#readme",
   "dependencies": {
+    "babbage.ui": "git+https://github.com/openspending/babbage.ui.git#feature/modern",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "isomorphic-fetch": "^2.2.1",
     "js-polyfills": "^0.1.12",
+    "lodash": "^4.6.1",
     "marked": "^0.3.5",
     "nconf": "^0.8.2",
     "nunjucks": "^2.1.0",
     "papaparse": "^4.1.2",
     "request": "^2.65.0",
-    "underscore": "^1.8.3",
     "validator": "^4.2.1"
   },
   "devDependencies": {

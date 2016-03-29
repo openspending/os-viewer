@@ -32,5 +32,3 @@ module.exports.embedded = function(req, res) {
     })
   });
 };
-
-

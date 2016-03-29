@@ -1,6 +1,6 @@
 var nock = require('nock');
 var assert = require('chai').assert;
-var _ = require('underscore');
+var _ = require('lodash');
 
 var apiConfig = {
   url: 'http://some-server-api.com'
@@ -228,7 +228,8 @@ describe('DataPackage API', function() {
         model,
         'administrative_classification_admin1'
       );
-      assert.equal(dimensionKey, 'administrative_classification_admin2_code.admin2_code');
+      assert.equal(dimensionKey,
+        'administrative_classification_admin2_code.admin2_code');
       done();
     });
   });

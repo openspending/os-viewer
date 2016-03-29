@@ -16,7 +16,7 @@
         },
         link: function($scope) {
           $scope.getFilterItems = function(filter) {
-            _.each(filter.values, function(item) {
+            _.forEach(filter.values, function(item) {
               item.filter = filter.code;
             });
             return filter.values;
@@ -27,7 +27,7 @@
                 if (isSelected) {
                   $scope.events.changeFilter(item.filter, item.key);
                 } else {
-                  $scope.events.dropFilter(item.filter)
+                  $scope.events.dropFilter(item.filter);
                 }
               }
               $event.stopPropagation();
