@@ -1,6 +1,6 @@
 var nock = require('nock');
 var assert = require('chai').assert;
-var _ = require('underscore');
+var _ = require('lodash');
 
 var apiConfig = {
   url: 'http://some-server-api.com'
@@ -46,7 +46,6 @@ describe('osViewerService', function() {
     api.getDataPackageModel('Package1').then(function(model) {
       var dimensions = api.getDimensionsFromModel(model);
       var hierarchies = osViewerService._buildHierarchies(model, dimensions);
-
       var expected = [
         {
           key: 'withoutHierarchy',
@@ -54,24 +53,25 @@ describe('osViewerService', function() {
           dimensions: [
             {
               id: 'from',
-              key: 'from',
+              key: 'from.name',
               code: 'from',
               hierarchy: 'from',
+              dimensionType: undefined,
               name: 'from_name',
               label: 'from.name',
-              dimensionType: undefined,
               drillDown: undefined
             },
             {
               id: 'to',
-              key: 'to',
+              key: 'to.name',
               code: 'to',
               hierarchy: 'to',
+              dimensionType: undefined,
               name: 'to_name',
               label: 'to.name',
-              dimensionType: undefined,
               drillDown: undefined
             }
+
           ],
           common: true
         },
@@ -80,34 +80,34 @@ describe('osViewerService', function() {
           name: 'time',
           dimensions: [
             {
-              id: 'time_year',
-              key: 'time.year',
-              code: 'time.year',
+              id: 'time_day',
+              key: 'time_day.day',
+              code: 'time.day',
               hierarchy: 'time',
-              name: 'time_year',
-              label: 'time.year',
               dimensionType: undefined,
-              drillDown: 'time.month'
+              name: 'time_day',
+              label: 'time.day',
+              drillDown: undefined
             },
             {
               id: 'time_month',
-              key: 'time.month',
+              key: 'time_month.month',
               code: 'time.month',
               hierarchy: 'time',
+              dimensionType: undefined,
               name: 'time_month',
               label: 'time.month',
-              dimensionType: undefined,
-              drillDown: 'time.day'
+              drillDown: 'time_day.day'
             },
             {
-              id: 'time_day',
-              key: 'time.day',
-              code: 'time.day',
+              id: 'time_year',
+              key: 'time_year.year',
+              code: 'time.year',
               hierarchy: 'time',
-              name: 'time_day',
-              label: 'time.day',
               dimensionType: undefined,
-              drillDown: undefined
+              name: 'time_year',
+              label: 'time.year',
+              drillDown: 'time_month.month'
             }
           ],
           common: false

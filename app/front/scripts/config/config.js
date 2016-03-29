@@ -1,6 +1,6 @@
 ;(function(angular) {
 
-  var _ = require('underscore');
+  var _ = require('lodash');
 
   angular.module('Application')
     .constant('_', _)

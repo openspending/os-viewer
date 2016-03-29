@@ -3,15 +3,7 @@
 {% block sidebar %}
 {% raw %}
 <div ng-if="!(state.isPackageLoading || state.isStarting)">
-  <measures measures="state.measures" events="events"></measures>
-  <div ng-repeat="hierarchy in state.hierarchies">
-    <hr>
-    <strong>{{ (hierarchy.common) ? "Dimension" : hierarchy.name }}</strong>
-    <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-      events="events"></dimensions-filter>
-    <dimensions-group hierarchy="hierarchy" dimensions="state.dimensions"
-      events="events"></dimensions-group>
-  </div>
+  <sidebar state="state" events="events" type="{{ state.selectedChartType }}"></sidebar>
 </div>
 {% endraw %}
 {% endblock %}
@@ -44,10 +36,10 @@
       </div>
 
       <div>
-        <visualizations state="state" events="events"></visualizations>
+        <visualizations state="state" events="events" type="state.selectedChartType"></visualizations>
       </div>
 
-      <package-info package-url="datapackage.json" resource-url="resource.csv"></package-info>
+      <package-info datapackage="dataPackageInfo"></package-info>
     </div>
   </div>
   <div class="waiter text-center" ng-if="(state.isPackageLoading || state.isStarting)">

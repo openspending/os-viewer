@@ -2,7 +2,7 @@
 
 var Promise = require('bluebird');
 var downloader = require('../downloader');
-var _ = require('underscore');
+var _ = require('lodash');
 
 module.exports = function(config) {
   var _config = config;
@@ -14,7 +14,7 @@ module.exports = function(config) {
         var result = [];
         try {
           var packages = JSON.parse(text);
-          _.each(packages.data, function(dataPackage) {
+          _.forEach(packages.data, function(dataPackage) {
             result.push({
               key: dataPackage.name,
               value: dataPackage.name
@@ -61,7 +61,7 @@ module.exports = function(config) {
           }
 
           if (dimensionMappings) {
-            _.each(model.dimensions, function(dimension) {
+            _.forEach(model.dimensions, function(dimension) {
               // jscs:disable
               var originalDimension =
                 dimensionMappings[dimension.orig_dimension];
@@ -74,7 +74,7 @@ module.exports = function(config) {
           }
 
           if (measureMappings) {
-            _.each(model.measures, function(measure) {
+            _.forEach(model.measures, function(measure) {
               // jscs:disable
               var originalMeasure = measureMappings[measure.orig_measure];
               // jscs:enable
@@ -103,7 +103,7 @@ module.exports = function(config) {
 
     getMeasuresFromModel: function(model) {
       var result = [];
-      _.each(model.aggregates, function(value, key) {
+      _.forEach(model.aggregates, function(value, key) {
         if (value.measure) {
           result.push({
             key: key,
@@ -116,7 +116,9 @@ module.exports = function(config) {
     },
 
     getDimensionKeyById: function(model, id) {
-      return model.dimensions[id].label;
+      // jscs:disable
+      return model.dimensions[id].key_ref;
+      // jscs:enable
     },
 
     getDrillDownDimensionKey: function(model, dimensionId) {
@@ -138,8 +140,8 @@ module.exports = function(config) {
     getDimensionsSortingIndexes: function(model) {
       var results = {};
       var i = 0;
-      _.each(model.hierarchies, function(hierarchy) {
-        _.each(hierarchy.levels, function(dimension) {
+      _.forEach(model.hierarchies, function(hierarchy) {
+        _.forEach(hierarchy.levels, function(dimension) {
           results[model.dimensions[dimension].label] = i++;
         });
       });
@@ -149,7 +151,7 @@ module.exports = function(config) {
     getDimensionsFromModel: function(model) {
       var that = this;
       var result = [];
-      _.each(model.dimensions, function(value, id) {
+      _.forEach(model.dimensions, function(value, id) {
 
         // jscs:disable
         var keyAttribute = value.key_attribute;
@@ -189,10 +191,10 @@ module.exports = function(config) {
       var result = {};
       var that = this;
 
-      _.each(model.dimensions, function(dimension, id) {
+      _.forEach(model.dimensions, function(dimension, id) {
         var promise = that.getDimensionValues(packageName, id);
         promise.then(function(possibleValues) {
-          _.each(possibleValues.data, function(value) {
+          _.forEach(possibleValues.data, function(value) {
             var dimensionCode = that.getDimensionKeyById(model, id);
             result[dimensionCode] = result[dimensionCode] || [];
             result[dimensionCode].push(

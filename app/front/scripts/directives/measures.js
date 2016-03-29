@@ -3,8 +3,7 @@
   var app = angular.module('Application');
 
   app.directive('measures', [
-    '_',
-    function(_) {
+    function() {
       return {
         templateUrl: 'templates/measures.html',
         replace: true,

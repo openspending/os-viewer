@@ -1,6 +1,6 @@
 var nock = require('nock');
 var assert = require('chai').assert;
-var _ = require('underscore');
+var _ = require('lodash');
 
 var apiConfig = {
   url: 'http://some-server-api.com'
@@ -204,10 +204,10 @@ describe('DataPackage API', function() {
   it('Should return dimension key by id', function(done) {
     api.getDataPackageModel('Package1').then(function(model) {
       var dimensionKey = api.getDimensionKeyById(model, 'from');
-      assert.equal(dimensionKey, 'from');
+      assert.equal(dimensionKey, 'from.name');
 
       var dimensionKey = api.getDimensionKeyById(model, 'time_day');
-      assert.equal(dimensionKey, 'time.day');
+      assert.equal(dimensionKey, 'time_day.day');
 
       done();
     });
@@ -228,7 +228,8 @@ describe('DataPackage API', function() {
         model,
         'administrative_classification_admin1'
       );
-      assert.equal(dimensionKey, 'administrative_classification.admin2_code');
+      assert.equal(dimensionKey,
+        'administrative_classification_admin2_code.admin2_code');
       done();
     });
   });
@@ -252,55 +253,55 @@ describe('DataPackage API', function() {
       assert.deepEqual(dimensions, [
         {
           id: 'from',
-          key: 'from',
+          key: 'from.name',
           code: 'from',
           hierarchy: 'from',
+          dimensionType: undefined,
           name: 'from_name',
           label: 'from.name',
-          dimensionType: undefined,
           drillDown: undefined
         },
         {
           id: 'time_day',
-          key: 'time.day',
+          key: 'time_day.day',
           code: 'time.day',
           hierarchy: 'time',
+          dimensionType: undefined,
           name: 'time_day',
           label: 'time.day',
-          dimensionType: undefined,
           drillDown: undefined
         },
         {
           id: 'time_month',
-          key: 'time.month',
+          key: 'time_month.month',
           code: 'time.month',
           hierarchy: 'time',
+          dimensionType: undefined,
           name: 'time_month',
           label: 'time.month',
-          dimensionType: undefined,
-          drillDown: 'time.day'
+          drillDown: 'time_day.day'
         },
         {
           id: 'time_year',
-          key: 'time.year',
+          key: 'time_year.year',
           code: 'time.year',
           hierarchy: 'time',
+          dimensionType: undefined,
           name: 'time_year',
           label: 'time.year',
-          dimensionType: undefined,
-          drillDown: 'time.month'
+          drillDown: 'time_month.month'
         },
         {
           id: 'to',
-          key: 'to',
+          key: 'to.name',
           code: 'to',
           hierarchy: 'to',
+          dimensionType: undefined,
           name: 'to_name',
           label: 'to.name',
-          dimensionType: undefined,
           drillDown: undefined
-        }]
-      );
+        }
+      ]);
       done();
     });
   });
@@ -312,72 +313,72 @@ describe('DataPackage API', function() {
       assert.deepEqual(dimensions, [
         {
           id: 'administrative_classification_admin1',
-          key: 'administrative_classification.admin1',
+          key: 'administrative_classification_admin1.admin1',
           code: 'administrative_classification.admin1',
           hierarchy: 'administrative_classification',
+          dimensionType: undefined,
           name: 'admin1',
           label: 'administrative_classification.admin1',
-          dimensionType: undefined,
-          drillDown: 'administrative_classification.admin2_code'
+          drillDown: 'administrative_classification_admin2_code.admin2_code'
         },
         {
           id: 'administrative_classification_admin2_code',
-          key: 'administrative_classification.admin2_code',
+          key: 'administrative_classification_admin2_code.admin2_code',
           code: 'administrative_classification.admin2_code',
           hierarchy: 'administrative_classification',
+          dimensionType: undefined,
           name: 'admin2_code',
           label: 'administrative_classification.admin2_label',
-          dimensionType: undefined,
-          drillDown: 'administrative_classification.admin3_code'
+          drillDown: 'administrative_classification_admin3_code.admin3_code'
         },
         {
           id: 'administrative_classification_admin3_code',
-          key: 'administrative_classification.admin3_code',
+          key: 'administrative_classification_admin3_code.admin3_code',
           code: 'administrative_classification.admin3_code',
           hierarchy: 'administrative_classification',
+          dimensionType: undefined,
           name: 'admin3_code',
           label: 'administrative_classification.admin3_label',
-          dimensionType: undefined,
           drillDown: undefined
         },
         {
           id: 'location',
-          key: 'location',
+          key: 'location.title',
           code: 'location',
           hierarchy: 'location',
+          dimensionType: undefined,
           name: 'admin2_label',
           label: 'location.title',
-          dimensionType: undefined,
           drillDown: undefined
         },
         {
           id: 'other_exp_type',
-          key: 'other.exp_type',
+          key: 'other_exp_type.exp_type',
           code: 'other.exp_type',
           hierarchy: 'other',
+          dimensionType: undefined,
           name: 'exp_type',
           label: 'other.exp_type',
-          dimensionType: undefined,
-          drillDown: 'other.transfer'
+          drillDown: 'other_transfer.transfer'
         },
         {
           id: 'other_fin_source',
-          key: 'other.fin_source',
+          key: 'other_fin_source.fin_source',
           code: 'other.fin_source',
           hierarchy: 'other',
+          dimensionType: undefined,
           name: 'fin_source',
           label: 'other.fin_source',
-          dimensionType: undefined,
-          drillDown: 'other.exp_type'
+          drillDown: 'other_exp_type.exp_type'
         },
         {
           id: 'other_transfer',
-          key: 'other.transfer',
+          key: 'other_transfer.transfer',
           code: 'other.transfer',
           hierarchy: 'other',
+          dimensionType: undefined,
           name: 'transfer',
           label: 'other.transfer',
-          dimensionType: undefined,
           drillDown: undefined
         }
       ]);
@@ -429,7 +430,8 @@ describe('DataPackage API', function() {
         .then(function(possibleValues) {
           assert.deepEqual(possibleValues,
             {
-              to: [{key: 'agriculture', value: 'agriculture'},
+              'to.name': [
+                {key: 'agriculture', value: 'agriculture'},
                 {key: 'education', value: 'education'},
                 {key: 'energy-minerals-total', value: 'energy-minerals-total'},
                 {key: 'grand-total', value: 'grand-total'},
@@ -438,7 +440,7 @@ describe('DataPackage API', function() {
                 {key: 'roads-works', value: 'roads-works'},
                 {key: 'security-total', value: 'security-total'},
                 {key: 'water', value: 'water'}],
-              from: [{key: '0', value: '0'},
+              'from.name': [{key: '0', value: '0'},
                 {key: '1', value: '1'},
                 {key: '2', value: '2'},
                 {key: '3', value: '3'},
@@ -447,9 +449,9 @@ describe('DataPackage API', function() {
                 {key: '6', value: '6'},
                 {key: '7', value: '7'},
                 {key: '8', value: '8'}],
-              'time.month': [{key: 1, value: 1}],
-              'time.year': [{key: 2000, value: 2000}],
-              'time.day': [{key: 1, value: 1}]
+              'time_month.month': [{key: 1, value: 1}],
+              'time_year.year': [{key: 2000, value: 2000}],
+              'time_day.day': [{key: 1, value: 1}]
             }
           );
           done();
