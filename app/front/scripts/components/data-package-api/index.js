@@ -116,7 +116,9 @@ module.exports = function(config) {
     },
 
     getDimensionKeyById: function(model, id) {
+      // jscs:disable
       return model.dimensions[id].key_ref;
+      // jscs:enable
     },
 
     getDrillDownDimensionKey: function(model, dimensionId) {

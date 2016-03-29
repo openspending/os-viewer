@@ -16,10 +16,15 @@
               $scope.packageUrl = null;
               $scope.resources = [];
 
-              if (dataPackage && dataPackage.__origin_url) {
-                $scope.packageUrl = dataPackage.__origin_url;
+              // jscs:disable
+              var originUrl = dataPackage && dataPackage.__origin_url ?
+                dataPackage.__origin_url : null;
+              // jscs:enable
 
-                var baseUrl = ('' + dataPackage.__origin_url).split('/');
+              if (originUrl) {
+                $scope.packageUrl = originUrl;
+
+                var baseUrl = ('' + originUrl).split('/');
                 baseUrl.pop();
                 baseUrl = baseUrl.join('/') + '/';
 

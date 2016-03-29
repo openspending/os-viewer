@@ -27,24 +27,26 @@
           function initScopeEvents() {
             $scope.events = {};
 
-            $scope.$on('treemap-click', function(event, treeMapComponent, info) {
+            $scope.$on('treemap-click',
+              function(event, treeMapComponent, info) {
                 var dimension = _.find(
-                $scope.state.dimensions.items, {key: _.first($scope.state.dimensions.current.groups) }
-              );
+                  $scope.state.dimensions.items, {
+                    key: _.first($scope.state.dimensions.current.groups)
+                  });
 
-              console.log(dimension);
-
-              if (dimension && dimension.drillDown) {
-                $scope.state.dimensions.current.groups = [dimension.drillDown];
-                var item = _.find(dimension.values, {key: info._key});
-                if (item) {
-                  $scope.state.dimensions.current.filters[dimension.key] =
-                    item.key;
+                if (dimension && dimension.drillDown) {
+                  $scope.state.dimensions.current.groups = [
+                    dimension.drillDown
+                  ];
+                  var item = _.find(dimension.values, {key: info._key});
+                  if (item) {
+                    $scope.state.dimensions.current.filters[dimension.key] =
+                      item.key;
+                  }
+                  NavigationService.updateLocation($scope.state);
+                  updateBabbage();
                 }
-                NavigationService.updateLocation($scope.state);
-                updateBabbage();
-              }
-            });
+              });
 
             $scope.events.changePackage = function(packageNameIndex) {
               changePackage(packageNameIndex);

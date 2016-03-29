@@ -27,7 +27,7 @@
                 if (isSelected) {
                   $scope.events.changeFilter(item.filter, item.key);
                 } else {
-                  $scope.events.dropFilter(item.filter)
+                  $scope.events.dropFilter(item.filter);
                 }
               }
               $event.stopPropagation();

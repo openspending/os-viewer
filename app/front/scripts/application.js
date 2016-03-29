@@ -2,9 +2,8 @@
 
   var customComponents = require('components');
 
-    angular.module('Application', [
+  angular.module('Application', [
     'ngAnimate',
-    //'ngBabbage',
     'angular.filter',
     'hc.marked',
     'authClient.services'
