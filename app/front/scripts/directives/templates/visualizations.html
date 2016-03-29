@@ -143,7 +143,7 @@
   </div>
   <div ng-if="(visualization == 'Map')" class="row">
     <div class="x-visualization-chart col-xs-12 col-sm-9" ng-if="state.availablePackages.locationAvailable && state.availablePackages.locationSelected">
-      <geo-view
+      <geo-view ng-if="!state.flag.renderingCharts"
         cube="{{state.availablePackages.current}}"
         state="state.babbage"
         endpoint="{{state.apiUrl}}"
