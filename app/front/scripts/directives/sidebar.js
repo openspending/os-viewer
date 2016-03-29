@@ -59,7 +59,7 @@
 
           function updateSelectedHierarchies(currentGroups) {
             var result = [];
-            _.each($scope.state.dimensions.items, function(dimension) {
+            _.forEach($scope.state.dimensions.items, function(dimension) {
               var isSelected = !!_.find(currentGroups, function(group) {
                 return dimension.key == group;
               });
