@@ -13,7 +13,8 @@
           items: '=',
           selected: '=',
           title: '@',
-          canClear: '@?'
+          canClear: '@?',
+          key: '@?'
         },
         link: function($scope) {
           $scope.isSelected = function(key) {
@@ -22,11 +23,13 @@
             }));
           };
           $scope.selectItem = function($event, item) {
-            $scope.$emit('sidebarList.changeItemSelection', item, true);
+            $scope.$emit('sidebarList.changeItemSelection',
+              item, true, $scope.key);
             $event.stopPropagation();
           };
           $scope.unselectItem = function($event, item) {
-            $scope.$emit('sidebarList.changeItemSelection', item, false);
+            $scope.$emit('sidebarList.changeItemSelection',
+              item, false, $scope.key);
             $event.stopPropagation();
           };
         }

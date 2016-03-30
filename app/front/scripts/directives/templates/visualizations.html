@@ -141,7 +141,7 @@
       </div>
     </div>
   </div>
-  <div ng-if="(visualization == 'Map')" class="row">
+  <div ng-if="visualization == 'Map'" class="row">
     <div class="x-visualization-chart col-xs-12 col-sm-9" ng-if="state.availablePackages.locationAvailable && state.availablePackages.locationSelected">
       <geo-view ng-if="!state.flag.renderingCharts"
         cube="{{state.availablePackages.current}}"
@@ -159,6 +159,31 @@
         <h3>{{ info.name }}</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       </div>
+    <div class="x-visualization-buttons">
+      <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization }}" class="os-icon os-icon-trashcan"></a>
+      <a href="javascript:void(0);" ng-click="showShareModal(visualization)" class="os-icon os-icon-embed"></a>
+      <div id="{{ 'visualization-popover-' + visualization }}" class="hidden">
+        <div class="visualization-popover">
+          <button ng-click="removeVisualization(visualization)" type="button" class="btn btn-danger">Remove this visualization</button>
+          <button ng-click="removeAllVisualizations()" type="button" class="btn btn-danger">Remove all visualizations</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="visualization == 'PivotTable'" class="row">
+    <div class="x-visualization-chart col-xs-12 col-sm-9">
+      <div class="table-responsive">
+        <pivot-table ng-if="!state.flag.renderingCharts"
+          cube="{{state.availablePackages.current}}"
+          state="state.babbagePivot"
+          endpoint="{{state.apiUrl}}">
+        </pivot-table>
+      </div>
+    </div>
+    <div ng-init="info = getVisualizationById(visualization)" class="x-visualization-info col-sm-3 hidden-xs">
+      <h3>{{ info.name }}</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
     <div class="x-visualization-buttons">
       <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization }}" class="os-icon os-icon-trashcan"></a>
       <a href="javascript:void(0);" ng-click="showShareModal(visualization)" class="os-icon os-icon-embed"></a>
