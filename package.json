@@ -1,6 +1,6 @@
 {
   "name": "os-viewer",
-  "version": "0.0.1-alpha",
+  "version": "0.1.0-alpha",
   "description": "A frontend data/views app powered directly from a Fiscal Data Package.",
   "keywords": [],
   "main": "index.js",
@@ -34,7 +34,7 @@
   "bugs": "https://github.com/openspending/os-viewer/issues",
   "homepage": "https://github.com/openspending/os-viewer#readme",
   "dependencies": {
-    "babbage.ui": "git+https://github.com/openspending/babbage.ui.git#feature/modern",
+    "babbage.ui": "0.1.4-alpha",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "express": "^4.13.3",
