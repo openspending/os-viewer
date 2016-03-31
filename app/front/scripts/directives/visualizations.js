@@ -51,6 +51,13 @@
       type: 'location',
       embed: 'map',
       icon: 'viewer-icon viewer-icon-map'
+    },
+    {
+      id: 'PivotTable',
+      name: 'Pivot Table',
+      type: 'pivot-table',
+      embed: 'pivottable',
+      icon: 'viewer-icon viewer-icon-layers'
     }
   ];
 

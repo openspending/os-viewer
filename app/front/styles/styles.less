@@ -227,6 +227,7 @@ textarea {
   color: silver;
   cursor: pointer;
   background: #fff;
+  min-height: 0;
 
   &:hover,
   &:active {
@@ -246,6 +247,7 @@ textarea {
 
   .x-visualization-chart {
     position: relative;
+    min-height: 150px;
   }
 
   .x-visualization-info {
@@ -362,6 +364,23 @@ textarea {
 
   .os-icon {
     margin-right: 0.2em;
+  }
+}
+
+table.pvtTable {
+  font-size: inherit;
+  color: inherit;
+
+  tr th, tr td {
+    font-size: inherit;
+    color: inherit;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    padding: 5px;
+
+    &.pvtVal {
+      background-color: #fff;
+    }
   }
 }
 

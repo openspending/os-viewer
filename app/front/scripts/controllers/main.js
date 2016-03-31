@@ -102,6 +102,7 @@
               NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
+
             $scope.events.changeFilter = function(filter, value) {
               $scope.state.dimensions.current.filters[filter] = value;
               NavigationService.updateLocation($scope.state);
@@ -112,6 +113,32 @@
               NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
+
+            $scope.events.changePivot = function(axis, dimension, replace) {
+              var current = $scope.state.dimensions.current;
+              if (!replace) {
+                var isSelected = _.find(current[axis], function(item) {
+                  return item == dimension;
+                });
+                if (!isSelected) {
+                  current[axis].push(dimension);
+                }
+              } else {
+                current[axis] = [dimension];
+              }
+
+              NavigationService.updateLocation($scope.state);
+              updateBabbage();
+            };
+            $scope.events.dropPivot = function(axis, dimension) {
+              var current = $scope.state.dimensions.current;
+              current[axis] = _.filter(current[axis], function(item) {
+                return item != dimension;
+              });
+              NavigationService.updateLocation($scope.state);
+              updateBabbage();
+            };
+
             $scope.events.canBack = function() {
               return HistoryService.canBack();
             };
@@ -147,14 +174,18 @@
             //validate and populate default params
             $scope.state.measures.current = '';
             $scope.state.dimensions.current.groups = [];
+            $scope.state.dimensions.current.rows = [];
+            $scope.state.dimensions.current.columns = [];
             $scope.state.dimensions.current.filters = {};
 
+            // Measures
             if (_.find($scope.state.measures.items, {
                 key: defaultParams.measure
               })) {
               $scope.state.measures.current = defaultParams.measure;
             }
 
+            // Groups
             _.forEach(defaultParams.groups, function(value) {
               var dimension = $scope.events.findDimension(value);
               if (dimension) {
@@ -162,6 +193,23 @@
               }
             });
 
+            // Rows
+            _.forEach(defaultParams.rows, function(value) {
+              var dimension = $scope.events.findDimension(value);
+              if (dimension) {
+                $scope.state.dimensions.current.rows.push(value);
+              }
+            });
+
+            // Columns
+            _.forEach(defaultParams.columns, function(value) {
+              var dimension = $scope.events.findDimension(value);
+              if (dimension) {
+                $scope.state.dimensions.current.columns.push(value);
+              }
+            });
+
+            // Filters
             _.forEach(defaultParams.filters, function(value, key) {
               var dimension = $scope.events.findDimension(key);
               if (dimension) {
@@ -203,12 +251,29 @@
               $scope.state.hierarchies = state.hierarchies;
               chooseStateParams(defaultParams);
 
+              // Measures
               if (!$scope.state.measures.current) {
                 $scope.state.measures.current = state.measures.current;
               }
 
+              // Groups
               if ($scope.state.dimensions.current.groups.length == 0) {
                 $scope.state.dimensions.current.groups = [
+                  _.first(
+                    _.first(state.hierarchies).dimensions
+                  ).key];
+              }
+
+              // Rows
+              if ($scope.state.dimensions.current.rows.length == 0) {
+                $scope.state.dimensions.current.rows = [
+                  _.first(
+                    _.first(state.hierarchies).dimensions
+                  ).key];
+              }
+              // Rows
+              if ($scope.state.dimensions.current.columns.length == 0) {
+                $scope.state.dimensions.current.columns = [
                   _.first(
                     _.first(state.hierarchies).dimensions
                   ).key];
@@ -228,10 +293,6 @@
           }
 
           function updateBabbage() {
-            var labelField = (_.find($scope.state.dimensions.items, {
-              key: _.first($scope.state.dimensions.current.groups)
-            })).label;
-
             var cut = _.map(
               $scope.state.dimensions.current.filters,
               function(value, key) {
@@ -244,23 +305,13 @@
               filter: cut
             };
 
-            $scope.state.babbageTreeMap = {
-              grouping: _.first($scope.state.dimensions.current.groups),
-              area: $scope.state.measures.current,
-              tile: labelField,
-              cut: cut,
+            $scope.state.babbagePivot = {
+              aggregates: $scope.state.measures.current,
+              rows: $scope.state.dimensions.current.rows,
+              cols: $scope.state.dimensions.current.columns,
+              filter: cut
             };
-            $scope.state.babbageBar = {
-              value: $scope.state.measures.current,
-              area: $scope.state.measures.current,
-              category: labelField,
-              cut: cut,
-            };
-            $scope.state.babbageTable = {
-              category: labelField,
-              rows: [labelField],
-              cut: cut,
-            };
+
             HistoryService.pushState($scope.state);
 
             refreshBabbageComponents();

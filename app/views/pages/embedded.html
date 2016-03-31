@@ -68,6 +68,18 @@
   </geo-view>
   {% endraw %}
   {% endif %}
+
+  {% if view == 'pivottable' %}
+  {% raw %}
+  <pivot-table
+    cube="{{cube}}"
+    state="paramsPivot"
+    endpoint="{{apiUrl}}"
+    cosmo-endpoint="{{cosmoEndpoint}}"
+    country-code="{{countryCode}}">
+  </pivot-table>
+  {% endraw %}
+  {% endif %}
 </div>
 
 <script>
@@ -79,9 +91,9 @@
   var bubbleTreeDirective = new components.babbage.BubbleTreeDirective();
   var tableDirective = new components.babbage.BabbageTableDirective();
   var geoViewDirective = new components.babbage.GeoViewDirective();
+  var pivotTableDirective = new components.babbage.PivotTableDirective();
 
   var embedded = angular.module('Application', []);
-
 
   pieDirective.init(embedded);
   chartDirective.init(embedded);
@@ -89,6 +101,7 @@
   tableDirective.init(embedded);
   bubbleTreeDirective.init(embedded);
   geoViewDirective.init(embedded);
+  pivotTableDirective.init(embedded);
 
   embedded.controller('EmbeddedCtrl', [
     '$scope', '$q',
@@ -97,6 +110,7 @@
       $scope.cube = '{{cube | safe}}';
       $scope.view = '{{view | safe}}';
       $scope.params = {{params | safe }};
+      $scope.paramsPivot = {{paramsPivot | safe }};
       $scope.cosmoEndpoint = '{{cosmoUrl | safe}}';
 
       var api = components.dataPackageApi({url: $scope.apiUrl});

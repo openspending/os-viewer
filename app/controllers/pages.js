@@ -29,6 +29,12 @@ module.exports.embedded = function(req, res) {
       aggregates: params.measure,
       group: params.groups,
       filters: params.filters
+    }),
+    paramsPivot: JSON.stringify({
+      aggregates: params.measure,
+      rows: params.rows,
+      cols: params.columns,
+      filters: params.filters
     })
   });
 };

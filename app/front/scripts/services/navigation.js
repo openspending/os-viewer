@@ -23,13 +23,22 @@
         $location.path('/' + state.availablePackages.current);
         $location.search({
           measure: state.measures.current,
-          groups: state.dimensions.current.groups,
+          'groups[]': state.dimensions.current.groups,
+          'rows[]': state.dimensions.current.rows,
+          'columns[]': state.dimensions.current.columns,
           filters: filterList
         });
       },
 
       getParams: function() {
         var searchParams = $location.search();
+
+        // Hack for angular query parser
+        searchParams.groups = searchParams.groups || searchParams['groups[]'];
+        searchParams.rows = searchParams.rows || searchParams['rows[]'];
+        searchParams.columns = searchParams.columns ||
+          searchParams['columns[]'];
+
         var filters = {};
         searchParams.filters = (searchParams.filters) ?
           searchParams.filters :
@@ -50,10 +59,22 @@
             searchParams.groups : [searchParams.groups]) :
           [];
 
+        var rows = (searchParams.rows) ?
+          ((_.isArray(searchParams.rows)) ?
+            searchParams.rows : [searchParams.rows]) :
+          [];
+
+        var columns = (searchParams.columns) ?
+          ((_.isArray(searchParams.columns)) ?
+            searchParams.columns : [searchParams.columns]) :
+          [];
+
         var params = {
           dataPackage: '',
           measure: (searchParams.measure) ? searchParams.measure : '',
           groups: groups,
+          rows: rows,
+          columns: columns,
           filters: filters
         };
 
