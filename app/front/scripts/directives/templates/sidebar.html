@@ -23,11 +23,16 @@
       <measures measures="state.measures" events="events"></measures>
       <hr>
     </div>
-    <sidebar-list items="hierarchies" selected="selectedHierarchies" title="Hierarchies"></sidebar-list>
-    <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-      <hr>
-      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-        events="events"></dimensions-filter>
+    <sidebar-list items="hierarchies" selected="selectedHierarchies" plain-list="yes" title="Hierarchies"></sidebar-list>
+    <hr>
+    <strong>Filters</strong>
+    <div>
+      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator"
+        ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
+        <hr>
+        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+          events="events"></dimensions-filter>
+      </div>
     </div>
   </div>
 
@@ -41,11 +46,16 @@
       <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
         title="{{ getHierarchyName(hierarchy) }}"></sidebar-list>
     </div>
-    <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-      <hr>
-      <strong>{{ getHierarchyName(hierarchy) }}</strong>
-      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-        events="events"></dimensions-filter>
+
+    <hr>
+    <strong>Filters</strong>
+    <div>
+      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator"
+        ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
+        <hr>
+        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+          events="events"></dimensions-filter>
+      </div>
     </div>
   </div>
 
@@ -59,11 +69,16 @@
       <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
         title="{{ getHierarchyName(hierarchy) }}"></sidebar-list>
     </div>
-    <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-      <hr>
-      <strong>{{ getHierarchyName(hierarchy) }}</strong>
-      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-        events="events"></dimensions-filter>
+
+    <hr>
+    <strong>Filters</strong>
+    <div>
+      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator"
+        ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
+        <hr>
+        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+          events="events"></dimensions-filter>
+      </div>
     </div>
   </div>
 
@@ -72,14 +87,22 @@
       <measures measures="state.measures" events="events"></measures>
       <hr>
     </div>
+
+    <strong>Location</strong>
     <div ng-repeat="hierarchy in locationHierarchies">
       <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
         title="{{ getHierarchyName(hierarchy) }}"></sidebar-list>
     </div>
-    <div ng-repeat="hierarchy in state.hierarchies" ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-      <hr>
-      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-        events="events"></dimensions-filter>
+
+    <hr>
+    <strong>Filters</strong>
+    <div>
+      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator"
+        ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
+        <hr>
+        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+          events="events"></dimensions-filter>
+      </div>
     </div>
   </div>
 
@@ -103,11 +126,14 @@
         title="{{ getHierarchyName(hierarchy) }}" can-clear="{{ state.dimensions.current.columns.length > 1 ? 'yes' : '' }}"></sidebar-list>
     </div>
 
-    <div ng-repeat="hierarchy in state.hierarchies">
-      <hr>
-      <strong>{{ getHierarchyName(hierarchy) }}</strong>
-      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-        events="events"></dimensions-filter>
+    <hr>
+    <strong>Filters</strong>
+    <div>
+      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator">
+        <hr>
+        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
+          events="events"></dimensions-filter>
+      </div>
     </div>
   </div>
 

@@ -14,6 +14,7 @@
           selected: '=',
           title: '@',
           canClear: '@?',
+          plainList: '@?',
           key: '@?'
         },
         link: function($scope) {

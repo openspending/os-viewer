@@ -1,12 +1,15 @@
 <div ng-init="list.isCollapsed = true">
-  <div class="list-group list-group-inverse">
+  <div ng-if="!plainList" class="list-group list-group-inverse">
     <a ng-click="list.isCollapsed = !list.isCollapsed" href="javascript:void(0);" class="list-group-item">
       <i class="os-icon os-icon-filter"></i>
       <i class="os-icon os-icon-arrow-down pull-right" ng-class="{expanded: !list.isCollapsed}"></i>
       {{ title }}
     </a>
   </div>
-  <div ng-if="!list.isCollapsed" class="list-group list-group-inverse slide-animation">
+  <div ng-if="plainList">
+    <strong>{{ title }}</strong>
+  </div>
+  <div ng-if="plainList || !list.isCollapsed" class="list-group list-group-inverse slide-animation">
     <a ng-repeat="item in items track by $index" href="javascript:void(0);"
       ng-class="{active: isSelected(item.key)}"
       ng-click="selectItem($event, item)"

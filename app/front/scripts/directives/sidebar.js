@@ -71,11 +71,7 @@
                 return dimension.key == group;
               });
               if (isSelected) {
-                if (dimension.drillDown) {
-                  result.push(dimension.hierarchy);
-                } else {
-                  result.push('withoutHierarchy');
-                }
+                result.push(dimension.hierarchy);
               }
             });
             $scope.selectedHierarchies = result;
