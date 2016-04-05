@@ -3,6 +3,7 @@
 var path = require('path');
 var gulp = require('gulp');
 var concat = require('gulp-concat');
+var rename = require('gulp-rename');
 var less = require('gulp-less');
 var minifyCss = require('gulp-minify-css');
 var prefixer = require('gulp-autoprefixer');
@@ -38,6 +39,7 @@ gulp.task('default', [
   'app.scripts',
   'app.modules',
   'app.styles',
+  'app.favicon',
   'embedded.styles',
   'app.assets',
   'app.fonts',
@@ -159,4 +161,13 @@ gulp.task('app.fonts', function() {
   ];
   return gulp.src(files)
     .pipe(gulp.dest(publicFontsDir));
+});
+
+gulp.task('app.favicon', function() {
+  var files = [
+    path.join(nodeModulesDir, '/bootstrap/dist/assets/os-branding/viewer-favicon.ico')
+  ];
+  return gulp.src(files)
+    .pipe(rename('favicon.ico'))
+    .pipe(gulp.dest(publicDir));
 });
