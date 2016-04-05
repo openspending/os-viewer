@@ -17,9 +17,9 @@
     </a>
     <div class="list-group-item" ng-if="items.length > maxItems">
       <div ng-class="{'input-group': !!filter.displayName}">
-        <input type="text" class="form-control" placeholder="Search for item..." ng-model="filter.displayName">
+        <input type="text" class="form-control form-control-inverse" placeholder="Search for item..." ng-model="filter.displayName">
         <span class="input-group-btn" ng-if="!!filter.displayName">
-          <button class="btn btn-default" type="button" ng-click="filter.displayName = ''"><i class="fa fa-times"></i></button>
+          <button class="btn btn-inverse" type="button" ng-click="filter.displayName = ''"><i class="fa fa-times"></i></button>
         </span>
       </div>
     </div>
