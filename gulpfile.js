@@ -18,7 +18,6 @@ var _ = require('lodash');
 var frontSrcDir = path.join(__dirname, '/app/front');
 var frontScriptsDir = path.join(frontSrcDir, '/scripts');
 var frontStylesDir = path.join(frontSrcDir, '/styles');
-var frontAssetsDir = path.join(frontSrcDir, '/assets');
 
 var publicDir = path.join(__dirname, '/app/public');
 var publicScriptsDir = path.join(publicDir, '/');
@@ -42,7 +41,6 @@ gulp.task('default', [
   'app.favicon',
   'embedded.styles',
   'app.assets',
-  'app.fonts',
   'vendor.scripts',
   'vendor.styles',
   'vendor.fonts'
@@ -153,14 +151,6 @@ gulp.task('app.assets', function() {
       path.join(nodeModulesDir, '/bootstrap/dist/assets/os-branding/vector/light/osviewer.svg'),
   ])
     .pipe(gulp.dest(publicAssetsDir));
-});
-
-gulp.task('app.fonts', function() {
-  var files = [
-    path.join(frontAssetsDir, '/fonts/*')
-  ];
-  return gulp.src(files)
-    .pipe(gulp.dest(publicFontsDir));
 });
 
 gulp.task('app.favicon', function() {
