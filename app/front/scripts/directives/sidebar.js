@@ -15,6 +15,13 @@
           events: '='
         },
         link: function($scope) {
+          $scope.getHierarchyName = function(hierarchy) {
+            if (!hierarchy) {
+              return;
+            }
+            return hierarchy.common ? 'Other Dimensions' : hierarchy.name;
+          };
+
           function updateHierarchies(items) {
             $scope.hierarchies = _.filter(items, function(item) {
               return !item.common;
@@ -64,11 +71,7 @@
                 return dimension.key == group;
               });
               if (isSelected) {
-                if (dimension.drillDown) {
-                  result.push(dimension.hierarchy);
-                } else {
-                  result.push('withoutHierarchy');
-                }
+                result.push(dimension.hierarchy);
               }
             });
             $scope.selectedHierarchies = result;
@@ -106,6 +109,8 @@
               var dimension = _.first(hierarchy.dimensions);
               if (dimension) {
                 $scope.events.changeGroup(dimension.key, true);
+                $scope.events.changePivot('rows', dimension.key, true);
+                $scope.events.changePivot('columns', dimension.key, true);
               }
             }
           }
@@ -122,13 +127,20 @@
             });
 
           $scope.$on('sidebarList.changeItemSelection',
-            function($event, item, isSelected) {
+            function($event, item, isSelected, key) {
               if ($scope.events) {
                 switch ($scope.type) {
                   case 'drilldown':
                     var dimension = _.first(item.dimensions);
                     if (dimension) {
                       $scope.events.changeGroup(dimension.key, true);
+                    }
+                    break;
+                  case 'pivot-table':
+                    if (isSelected) {
+                      $scope.events.changePivot(key, item.key);
+                    } else {
+                      $scope.events.dropPivot(key, item.key);
                     }
                     break;
                   case 'sortable-series':

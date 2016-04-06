@@ -22,9 +22,21 @@ module.exports = {
         params.groups : [params.groups]) :
       [];
 
+    var rows = (params.rows) ?
+      ((_.isArray(params.rows)) ?
+        params.rows : [params.rows]) :
+      [];
+
+    var columns = (params.columns) ?
+      ((_.isArray(params.columns)) ?
+        params.columns : [params.columns]) :
+      [];
+
     var result = {
       measure: (params.measure) ? params.measure : '',
       groups: groups,
+      rows: rows,
+      columns: columns,
       filters: filters
     };
 

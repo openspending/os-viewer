@@ -48,15 +48,15 @@ module.exports = function(config) {
           return that.getDataPackage(packageName);
         })
         .then(function(dataPackage) {
-          // Populate some additional mapping properties
+          // Populate some additional model properties
           var dimensionMappings = null;
           var measureMappings = null;
-          if (_.isObject(dataPackage.mapping)) {
-            if (_.isObject(dataPackage.mapping.dimensions)) {
-              dimensionMappings = dataPackage.mapping.dimensions;
+          if (_.isObject(dataPackage.model)) {
+            if (_.isObject(dataPackage.model.dimensions)) {
+              dimensionMappings = dataPackage.model.dimensions;
             }
-            if (_.isObject(dataPackage.mapping.measures)) {
-              measureMappings = dataPackage.mapping.measures;
+            if (_.isObject(dataPackage.model.measures)) {
+              measureMappings = dataPackage.model.measures;
             }
           }
 

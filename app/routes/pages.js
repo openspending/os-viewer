@@ -11,7 +11,7 @@ module.exports = function() {
 
   router.get('/', pages.main);
 
-  router.get(/embed\/(treemap|piechart|barchart|linechart|bubbletree|table|map)\/(.*)/, function(req, res, next) {
+  router.get(/embed\/(treemap|piechart|barchart|linechart|bubbletree|table|map|pivottable)\/(.*)/, function(req, res, next) {
     req.view = req.params[0];
     req.cube = req.params[1];
     req.isEmbedded = true;
