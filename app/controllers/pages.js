@@ -4,10 +4,12 @@ var paramParser = require('../front/scripts/components/url-param-parser');
 
 module.exports.main = function(req, res) {
   var config = req.app.get('config');
+  req.isEmbedded = req.isEmbedded || false;
 
   res.render('pages/main.html', {
     title: 'Open Spending Viewer',
-    basePath: config.get('basePath')
+    basePath: config.get('basePath'),
+    isEmbedded: req.isEmbedded
   });
 };
 
