@@ -23,7 +23,9 @@
         $location.path('/' + state.availablePackages.current);
         $location.search({
           measure: state.measures.current,
+          'visualizations[]': state.selectedVisualizations,
           'groups[]': state.dimensions.current.groups,
+          'series[]': state.dimensions.current.series,
           'rows[]': state.dimensions.current.rows,
           'columns[]': state.dimensions.current.columns,
           filters: filterList
@@ -34,7 +36,10 @@
         var searchParams = $location.search();
 
         // Hack for angular query parser
+        searchParams.visualizations = searchParams.visualizations ||
+          searchParams['visualizations[]'];
         searchParams.groups = searchParams.groups || searchParams['groups[]'];
+        searchParams.series = searchParams.series || searchParams['series[]'];
         searchParams.rows = searchParams.rows || searchParams['rows[]'];
         searchParams.columns = searchParams.columns ||
           searchParams['columns[]'];
@@ -59,6 +64,11 @@
             searchParams.groups : [searchParams.groups]) :
           [];
 
+        var series = (searchParams.series) ?
+          ((_.isArray(searchParams.series)) ?
+            searchParams.series : [searchParams.series]) :
+          [];
+
         var rows = (searchParams.rows) ?
           ((_.isArray(searchParams.rows)) ?
             searchParams.rows : [searchParams.rows]) :
@@ -69,10 +79,17 @@
             searchParams.columns : [searchParams.columns]) :
           [];
 
+        var visualizations = (searchParams.visualizations) ?
+          ((_.isArray(searchParams.visualizations)) ?
+            searchParams.visualizations : [searchParams.visualizations]) :
+          [];
+
         var params = {
           dataPackage: '',
+          visualizations: visualizations,
           measure: (searchParams.measure) ? searchParams.measure : '',
           groups: groups,
+          series: series,
           rows: rows,
           columns: columns,
           filters: filters

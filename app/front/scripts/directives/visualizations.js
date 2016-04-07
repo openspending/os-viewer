@@ -77,9 +77,24 @@
           $scope.type = null;
 
           $scope.availableVisualizations = availableVisualizations;
-          $scope.selectedVisualizations = [];
+
+          $scope.selectedVisualizations = $scope.state.selectedVisualizations;
+          if (!_.isArray($scope.selectedVisualizations)) {
+            $scope.selectedVisualizations = [];
+          }
+          var visualization = _.first($scope.selectedVisualizations);
+          visualization = _.find(availableVisualizations, function(item) {
+            return item.id == visualization;
+          });
+          if (visualization) {
+            $scope.type = visualization.type;
+          } else {
+            $scope.type = null;
+          }
 
           function updateAvailableVisualizations() {
+            $scope.state.selectedVisualizations = $scope.selectedVisualizations;
+
             $scope.availableVisualizations = _.chain(availableVisualizations)
               .map(function(item) {
                 if ((item.id == 'Map') && !$scope.geoViewAvailable) {

@@ -130,11 +130,15 @@
               NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
-            $scope.events.dropPivot = function(axis, dimension) {
+            $scope.events.dropPivot = function(axis, dimension, clear) {
               var current = $scope.state.dimensions.current;
-              current[axis] = _.filter(current[axis], function(item) {
-                return item != dimension;
-              });
+              if (!clear) {
+                current[axis] = _.filter(current[axis], function(item) {
+                  return item != dimension;
+                });
+              } else {
+                current[axis] = undefined;
+              }
               NavigationService.updateLocation($scope.state);
               updateBabbage();
             };
@@ -172,11 +176,18 @@
 
           function chooseStateParams(defaultParams) {
             //validate and populate default params
+            $scope.state.selectedVisualizations = [];
             $scope.state.measures.current = '';
             $scope.state.dimensions.current.groups = [];
+            $scope.state.dimensions.current.series = [];
             $scope.state.dimensions.current.rows = [];
             $scope.state.dimensions.current.columns = [];
             $scope.state.dimensions.current.filters = {};
+
+            if (_.isArray(defaultParams.visualizations)) {
+              $scope.state.selectedVisualizations =
+                defaultParams.visualizations;
+            }
 
             // Measures
             if (_.find($scope.state.measures.items, {
@@ -190,6 +201,14 @@
               var dimension = $scope.events.findDimension(value);
               if (dimension) {
                 $scope.state.dimensions.current.groups.push(value);
+              }
+            });
+
+            // Series
+            _.forEach(defaultParams.series, function(value) {
+              var dimension = $scope.events.findDimension(value);
+              if (dimension) {
+                $scope.state.dimensions.current.series.push(value);
               }
             });
 
@@ -299,9 +318,15 @@
                 return key + ':"' + value + '"';
               });
 
+            var series = $scope.state.dimensions.current.series;
+            if (series) {
+              series = [series];
+            }
+
             $scope.state.babbage = {
               aggregates: $scope.state.measures.current,
               group: [_.first($scope.state.dimensions.current.groups)],
+              series: series,
               filter: cut
             };
 
@@ -337,6 +362,13 @@
           }
 
           $scope.isEmbeded = $window.isEmbeded;
+
+          $scope.$watchCollection('state.selectedVisualizations',
+            function(value) {
+              if (_.isArray(value)) {
+                NavigationService.updateLocation($scope.state);
+              }
+            });
 
           $scope.$watch('state.dimensions.current.groups', function(value) {
             if ($scope.state && $scope.state.availablePackages) {

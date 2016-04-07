@@ -44,7 +44,14 @@
     <strong>X-Axis</strong>
     <div ng-repeat="hierarchy in state.hierarchies">
       <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
-        title="{{ getHierarchyName(hierarchy) }}"></sidebar-list>
+        title="{{ getHierarchyName(hierarchy) }}" key="group"></sidebar-list>
+    </div>
+
+    <hr>
+    <strong>Series</strong>
+    <div ng-repeat="hierarchy in state.hierarchies">
+      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.series"
+        title="{{ getHierarchyName(hierarchy) }}" can-clear="yes" key="series"></sidebar-list>
     </div>
 
     <hr>
