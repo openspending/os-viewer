@@ -28,12 +28,14 @@
           }
           $scope.isSelected = isSelected;
 
-          var selectedItems = [];
-          $scope.getSelectedItems = function() {
+          $scope.selectedItems = [];
+          function updateSelectedItems() {
+            var selectedItems = [];
             selectedItems.splice(0, selectedItems.length);
 
             var maxItems = parseInt($scope.maxItems);
-            if (_.isFinite(maxItems) && (maxItems > 0)) {
+            if (_.isFinite(maxItems) && (maxItems > 0) &&
+              _.isArray($scope.items) && ($scope.items.length > maxItems)) {
               _.forEach($scope.items, function(item) {
                 if (item && isSelected(item.key)) {
                   selectedItems.push(item);
@@ -41,8 +43,8 @@
               });
             }
 
-            return selectedItems;
-          };
+            $scope.selectedItems = selectedItems;
+          }
 
           function updateItems() {
             var maxItems = parseInt($scope.maxItems);
@@ -50,9 +52,9 @@
               maxItems = 0;
             }
 
-            var items = $scope.items;
+            var items = _.isArray($scope.items) ? $scope.items : [];
 
-            if (maxItems > 0) {
+            if ((maxItems > 0) && (items.length > maxItems)) {
               items = _.filter(items, function(item) {
                 return !isSelected(item.key);
               });
@@ -72,6 +74,7 @@
             }
 
             $scope.itemsToDisplay = items;
+            updateSelectedItems();
           }
 
           $scope.$watchCollection('items', updateItems);
