@@ -86,6 +86,25 @@
             updateSelectedHierarchies($scope.state.dimensions.current.groups);
           }
 
+          function isSelectionValid(selection, hierarchies) {
+            var allowedKeys = [];
+            _.forEach(hierarchies, function(hierarchy) {
+              _.forEach(hierarchy.dimensions, function(dimension) {
+                allowedKeys.push(dimension.key);
+              });
+            });
+
+            var result = true;
+            _.forEach(selection, function(key) {
+              if (allowedKeys.indexOf(key) < 0) {
+                result = false;
+                return false;
+              }
+            });
+
+            return result;
+          }
+
           function updateSelections(type) {
             if (!$scope.events) {
               return;
@@ -104,14 +123,38 @@
                   break;
               }
             }
+
+            if (!hierarchies) {
+              return;
+            }
+
+            var isGroupValid = isSelectionValid(
+              $scope.state.dimensions.current.groups, hierarchies);
+            var isRowsValid = isSelectionValid(
+              $scope.state.dimensions.current.rows, hierarchies);
+            var isColumnsValid = isSelectionValid(
+              $scope.state.dimensions.current.columns, hierarchies);
+            var isSeriesValid = isSelectionValid(
+              $scope.state.dimensions.current.series, hierarchies);
+
             var hierarchy = _.first(hierarchies);
             if (hierarchy && hierarchy.dimensions) {
               var dimension = _.first(hierarchy.dimensions);
               if (dimension) {
-                $scope.events.changeGroup(dimension.key, true);
-                $scope.events.changePivot('rows', dimension.key, true);
-                $scope.events.changePivot('columns', dimension.key, true);
+                if (!isGroupValid) {
+                  $scope.events.changeGroup(dimension.key, true);
+                }
+                if (!isRowsValid) {
+                  $scope.events.changePivot('rows', dimension.key, true);
+                }
+                if (!isColumnsValid) {
+                  $scope.events.changePivot('columns', dimension.key, true);
+                }
               }
+            }
+
+            if (!isSeriesValid) {
+              $scope.events.dropPivot('series', null, true);
             }
           }
           updateSelections($scope.type);
@@ -144,6 +187,16 @@
                     }
                     break;
                   case 'sortable-series':
+                    if (key == 'group') {
+                      $scope.events.changeGroup(item.key, true);
+                    } else {
+                      if (isSelected) {
+                        $scope.events.changePivot(key, item.key, true);
+                      } else {
+                        $scope.events.dropPivot(key, item.key, true);
+                      }
+                    }
+                    break;
                   case 'time-series':
                   case 'location':
                     $scope.events.changeGroup(item.key, true);

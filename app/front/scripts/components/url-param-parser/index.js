@@ -22,6 +22,11 @@ module.exports = {
         params.groups : [params.groups]) :
       [];
 
+    var series = (params.series) ?
+      ((_.isArray(params.series)) ?
+        params.series : [params.series]) :
+      [];
+
     var rows = (params.rows) ?
       ((_.isArray(params.rows)) ?
         params.rows : [params.rows]) :
@@ -32,9 +37,16 @@ module.exports = {
         params.columns : [params.columns]) :
       [];
 
+    var visualizations = (params.visualizations) ?
+      ((_.isArray(params.visualizations)) ?
+        params.visualizations : [params.visualizations]) :
+      [];
+
     var result = {
       measure: (params.measure) ? params.measure : '',
+      visualizations: visualizations,
       groups: groups,
+      series: series,
       rows: rows,
       columns: columns,
       filters: filters

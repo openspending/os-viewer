@@ -30,6 +30,7 @@ module.exports.embedded = function(req, res) {
     params: JSON.stringify({
       aggregates: params.measure,
       group: params.groups,
+      series: params.series,
       filters: params.filters
     }),
     paramsPivot: JSON.stringify({

@@ -10,7 +10,7 @@
     <strong>{{ title }}</strong>
   </div>
   <div ng-if="plainList || !list.isCollapsed" class="list-group list-group-inverse slide-animation">
-    <a ng-repeat="item in getSelectedItems() track by [$index, item.key]" href="javascript:void(0);"
+    <a ng-repeat="item in selectedItems track by [$index, item.key]" href="javascript:void(0);"
       class="list-group-item active">
       <i ng-if="canClear && isSelected(item.key)" ng-click="unselectItem($event, item)" class="os-icon os-icon-remove pull-right"></i>
       {{ item.displayName }}
