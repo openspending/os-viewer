@@ -9,11 +9,11 @@
 {% endblock %}
 
 {% block content %}
-{% raw %}
 <div>
   <div ng-if="!state.isStarting">
     <available-packages items="state.availablePackages.items"
       selected="state.availablePackages" events="events"></available-packages>
+    {% raw %}
     <div ng-if="!state.isPackageLoading">
       <div class="clearfix">
         <h3>

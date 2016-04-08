@@ -13,14 +13,18 @@
         _isChangingLocation = false;
       },
 
-      updateLocation: function(state) {
+      updateLocation: function(state, isEmbedded) {
+        isEmbedded = isEmbedded || false;
+
         _isChangingLocation = true;
         var filterList = [];
         _.forEach(state.dimensions.current.filters, function(value, key) {
           filterList.push(key + '|' + value);
         });
 
-        $location.path('/' + state.availablePackages.current);
+        var embedded = isEmbedded ? 'embed/': '';
+
+        $location.path('/'+ embedded + state.availablePackages.current);
         $location.search({
           measure: state.measures.current,
           'groups[]': state.dimensions.current.groups,
