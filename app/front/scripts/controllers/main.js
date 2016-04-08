@@ -7,6 +7,7 @@
     .controller(
       'main',
       ['$scope',
+        '$rootScope',
         'NavigationService',
         '_',
         'HistoryService',
@@ -16,6 +17,7 @@
         '$window',
 
         function($scope,
+          $rootScope,
           NavigationService,
           _,
           HistoryService,
@@ -23,6 +25,10 @@
           $timeout,
           SettingsService,
           $window) {
+
+          function updateLocation() {
+            NavigationService.updateLocation($scope.state, $rootScope.isEmbedded);
+          }
 
           function initScopeEvents() {
             $scope.events = {};
@@ -43,7 +49,7 @@
                     $scope.state.dimensions.current.filters[dimension.key] =
                       item.key;
                   }
-                  NavigationService.updateLocation($scope.state);
+                  updateLocation();
                   updateBabbage();
                 }
               });
@@ -54,7 +60,7 @@
 
             $scope.events.changeMeasure = function(measure) {
               $scope.state.measures.current = measure;
-              NavigationService.updateLocation($scope.state);
+              updateLocation();
               updateBabbage();
             };
             $scope.events.findDimension = function(key) {
@@ -99,18 +105,18 @@
               if (!!dropFilters) {
                 $scope.state.dimensions.current.filters = {};
               }
-              NavigationService.updateLocation($scope.state);
+              updateLocation();
               updateBabbage();
             };
 
             $scope.events.changeFilter = function(filter, value) {
               $scope.state.dimensions.current.filters[filter] = value;
-              NavigationService.updateLocation($scope.state);
+              updateLocation();
               updateBabbage();
             };
             $scope.events.dropFilter = function(filter) {
               delete $scope.state.dimensions.current.filters[filter];
-              NavigationService.updateLocation($scope.state);
+              updateLocation();
               updateBabbage();
             };
 
@@ -127,7 +133,7 @@
                 current[axis] = [dimension];
               }
 
-              NavigationService.updateLocation($scope.state);
+              updateLocation();
               updateBabbage();
             };
             $scope.events.dropPivot = function(axis, dimension, clear) {
@@ -139,7 +145,7 @@
               } else {
                 current[axis] = undefined;
               }
-              NavigationService.updateLocation($scope.state);
+              updateLocation();
               updateBabbage();
             };
 
@@ -170,7 +176,7 @@
 
           function setState(state) {
             $scope.state = _.extend($scope.state, state);
-            NavigationService.updateLocation($scope.state);
+            updateLocation();
             refreshBabbageComponents();
           }
 
@@ -299,15 +305,14 @@
               }
 
               $scope.state.availablePackages.locationAvailable =
-                !!$scope.state.availablePackages.locationCountry &&
-                !!_.find(state.dimensions.items, {
+                !!$scope.state.availablePackages.locationCountry && !!_.find(state.dimensions.items, {
                   dimensionType: 'location'
                 });
               $scope.state.availablePackages.locationSelected = false;
             }).finally(function() {
               $scope.state.isPackageLoading = false;
               updateBabbage();
-              NavigationService.updateLocation($scope.state);
+              updateLocation();
             });
           }
 
@@ -361,7 +366,7 @@
             }
           }
 
-          $scope.isEmbeded = $window.isEmbeded;
+          $rootScope.isEmbedded = $window.isEmbedded;
 
           $scope.$watchCollection('state.selectedVisualizations',
             function(value) {

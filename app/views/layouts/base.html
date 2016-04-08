@@ -16,7 +16,9 @@
 <body ng-app="Application" ng-controller="main" class="ng-cloak">
 <div id="root"></div>
 
-{% include "partials/header.html" %}
+{% if not isEmbedded %}
+  {% include "partials/header.html" %}
+{% endif %}
 
 <div class="x-page-container">
 <div>
@@ -27,7 +29,9 @@
 </div>
 </div>
 
-{% include "partials/footer.html" %}
+{% if not isEmbedded %}
+  {% include "partials/footer.html" %}
+{% endif %}
 
 <script src="modules.js?{{ sessionSalt }}"></script>
 <script src="vendor.js?{{ sessionSalt }}"></script>
@@ -35,6 +39,10 @@
 <script src="app.js?{{ sessionSalt }}"></script>
 
 {% block footerScript %}{% endblock %}
+
+<script>
+  window.isEmbedded = {{isEmbedded}}
+</script>
 
 </body>
 </html>

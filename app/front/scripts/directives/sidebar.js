@@ -101,6 +101,7 @@
                 return false;
               }
             });
+
             return result;
           }
 
@@ -123,13 +124,17 @@
               }
             }
 
-            var isGroupValid = !isSelectionValid(
+            if (!hierarchies) {
+              return;
+            }
+
+            var isGroupValid = isSelectionValid(
               $scope.state.dimensions.current.groups, hierarchies);
-            var isRowsValid = !isSelectionValid(
+            var isRowsValid = isSelectionValid(
               $scope.state.dimensions.current.rows, hierarchies);
-            var isColumnsValid = !isSelectionValid(
+            var isColumnsValid = isSelectionValid(
               $scope.state.dimensions.current.columns, hierarchies);
-            var isSeriesValid = !isSelectionValid(
+            var isSeriesValid = isSelectionValid(
               $scope.state.dimensions.current.series, hierarchies);
 
             var hierarchy = _.first(hierarchies);

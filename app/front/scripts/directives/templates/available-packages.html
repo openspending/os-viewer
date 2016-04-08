@@ -1,11 +1,11 @@
 <div class="row x-available-packages">
-  <div class="col-xs-12 dropdown" ng-class="{open: dropdownState.isOpen}">
+  <div class="col-xs-12" ng-class="{open: dropdownState.isOpen}">
     <h3 ng-click="dropdownState.isOpen = !dropdownState.isOpen">
       <i class="os-icon os-icon-box"></i>
       {{ selected.title || selected.current }}
-      <i class="os-icon os-icon-arrow-drop-down pull-right"></i>
+      <i ng-if="!isEmbedded" class="os-icon os-icon-arrow-drop-down pull-right"></i>
     </h3>
-    <ul class="dropdown-menu col-xs-12">
+    <ul ng-if="!isEmbedded" class="dropdown-menu col-xs-12">
       <li class="package-search-input pinned">
         <span>
           <input type="text" class="form-control"

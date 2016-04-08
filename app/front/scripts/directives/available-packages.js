@@ -3,12 +3,11 @@
   var app = angular.module('Application');
 
   app.directive('availablePackages', [
-    '$window', '$timeout',
-    function($window, $timeout) {
+    '$window', '$timeout', '$rootScope',
+    function($window, $timeout, $rootScope) {
       return {
         templateUrl: 'templates/available-packages.html',
         replace: true,
-        transclude: false,
         restrict: 'E',
         scope: {
           items: '=',
@@ -17,6 +16,7 @@
         },
         link: function($scope, element) {
           $scope.dropdownState = {};
+          $scope.isEmbedded = $rootScope.isEmbedded;
 
           var block = element.find('.pinned');
           var list = element.find('ul');

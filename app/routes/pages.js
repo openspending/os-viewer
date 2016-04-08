@@ -18,9 +18,14 @@ module.exports = function() {
     next();
   }, pages.embedded);
 
-  router.get(/embed\/(.*)/, function(req, res, next) {
+  router.get(/embed\/(.*)\//, function(req, res, next) {
     res.status(404).send('Can not find view.');
   }, pages.embedded);
+
+  router.get(/embed\/(.*)/, function(req, res, next) {
+    req.isEmbedded = true;
+    next();
+  }, pages.main);
 
   router.get(/(.*)/, pages.main);
 
