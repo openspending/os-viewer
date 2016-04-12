@@ -12,6 +12,7 @@ nconf.file({
 
 var apiHost = process.env.OS_VIEWER_API_HOST || DEFAULT_HOST;
 var authHost = process.env.OS_VIEWER_AUTH_HOST || DEFAULT_HOST;
+var searchHost = process.env.OS_VIEWER_SEARCH_HOST || DEFAULT_HOST;
 
 var cosmopolitanHost = process.env.OS_VIEWER_API_COSMO_HOST ||
   'http://cosmopolitan.openspending.org/v1/';
@@ -26,6 +27,9 @@ nconf.defaults({
   api: {
     url: apiHost + '/api/3',
     cosmoUrl: cosmopolitanHost
+  },
+  search: {
+    url: searchHost + '/search/package'
   },
   authLibraryUrl: authHost + '/permit/lib',
   basePath: process.env.OS_VIEWER_BASE_PATH || DEFAULT_BASE_PATH

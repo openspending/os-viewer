@@ -5,9 +5,12 @@ var _ = require('lodash');
 var apiConfig = {
   url: 'http://some-server-api.com'
 };
+var searchConfig = {
+  url: 'http://some-other-server-api.com/search/package'
+};
 
 var api = require('../app/front/scripts/components/' +
-  'data-package-api/')(apiConfig);
+  'data-package-api/')(apiConfig, searchConfig);
 
 describe('DataPackage API', function() {
   var dataPackages = require('./data/data-package-api/' +
@@ -51,9 +54,9 @@ describe('DataPackage API', function() {
   before(function(done) {
 
     //mock datapackages
-    nock(apiConfig.url)
+    nock('http://some-other-server-api.com')
       .persist()
-      .get('/cubes')
+      .get('/search/package?size=10000')
       .reply(200, dataPackages, {'access-control-allow-origin': '*'});
 
     //mock package
@@ -151,11 +154,39 @@ describe('DataPackage API', function() {
 
   it('Should return list of datapackages', function(done) {
     api.getPackages().then(function(datapackages) {
-      var expectedResult = [
-        {value: 'Package1', key: 'Package1'},
-        {value: 'Package2', key: 'Package2'},
-        {value: 'Package3', key: 'Package3'}
-      ];
+      var expectedResult =
+          [
+            {
+              'key': 'Package1',
+              'value': {
+                'package': {
+                  'author': 'Charles <charlie@sheen.me>'
+                },
+                'id': 'Package1',
+                'author': 'Charles'
+              }
+            },
+            {
+              'value': {
+                'author': 'Charles',
+                'id': 'Package2',
+                'package': {
+                  'author': 'Charles <charlie@sheen.me>'
+                }
+              },
+              'key': 'Package2'
+            },
+            {
+              'key': 'Package3',
+              'value': {
+                'package': {
+                  'author': 'Charles <charlie@sheen.me>'
+                },
+                'author': 'Charles',
+                'id': 'Package3'
+              }
+            }
+          ];
       assert.deepEqual(datapackages, expectedResult);
       done();
     });

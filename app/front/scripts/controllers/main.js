@@ -27,7 +27,8 @@
           $window) {
 
           function updateLocation() {
-            NavigationService.updateLocation($scope.state, $rootScope.isEmbedded);
+            NavigationService.
+              updateLocation($scope.state, $rootScope.isEmbedded);
           }
 
           function initScopeEvents() {
@@ -54,8 +55,8 @@
                 }
               });
 
-            $scope.events.changePackage = function(packageNameIndex) {
-              changePackage(packageNameIndex);
+            $scope.events.changePackage = function(searchPackage, packageInfo) {
+              changePackage(searchPackage, packageInfo);
             };
 
             $scope.events.changeMeasure = function(measure) {
@@ -243,28 +244,23 @@
             });
           }
 
-          function changePackage(packageName, defaultParams) {
+          function changePackage(searchPackage, defaultParams) {
             defaultParams = defaultParams || {};
             $scope.state.isPackageLoading = true;
+            var packageInfo = searchPackage.package;
+            var packageName = searchPackage.id;
             $scope.state.availablePackages.current = packageName;
+            $scope.dataPackageInfo = packageInfo;
 
-            $q(function(resolve, reject) {
-              viewerService.getPackageInfo(packageName)
-                .then(resolve)
-                .catch(reject);
-            }).then(function(packageInfo) {
-              $scope.dataPackageInfo = packageInfo;
+            $scope.state.availablePackages.description =
+              packageInfo.description;
 
-              $scope.state.availablePackages.description =
-                packageInfo.description;
+            $scope.state.availablePackages.title = packageInfo.title;
 
-              $scope.state.availablePackages.title = packageInfo.title;
-
-              $scope.state.availablePackages.locationCountry =
-                _.isArray(packageInfo.countryCode) ?
-                  _.first(packageInfo.countryCode) : packageInfo.countryCode;
-              $scope.state.availablePackages.locationAvailable = false;
-            });
+            $scope.state.availablePackages.locationCountry =
+              _.isArray(packageInfo.countryCode) ?
+                _.first(packageInfo.countryCode) : packageInfo.countryCode;
+            $scope.state.availablePackages.locationAvailable = false;
 
             $q(function(resolve, reject) {
               viewerService.buildState(packageName)
@@ -305,7 +301,8 @@
               }
 
               $scope.state.availablePackages.locationAvailable =
-                !!$scope.state.availablePackages.locationCountry && !!_.find(state.dimensions.items, {
+                !!$scope.state.availablePackages.locationCountry &&
+                !!_.find(state.dimensions.items, {
                   dimensionType: 'location'
                 });
               $scope.state.availablePackages.locationSelected = false;
@@ -349,17 +346,17 @@
 
           function applyLocationParams() {
             var params = NavigationService.getParams();
-            if (
-              !_.find($scope.state.availablePackages.items, {
-                key: params.dataPackage
-              })
-            ) {
-              params.dataPackage =
-                _.first($scope.state.availablePackages.items).key;
+            var foundPackage =
+                _.find($scope.state.availablePackages.items,
+                    {key: params.dataPackage});
+            if (!foundPackage) {
+              foundPackage =
+                _.first($scope.state.availablePackages.items);
+              params.dataPackage = foundPackage.key;
             }
 
             if (params.dataPackage !== $scope.state.availablePackages.current) {
-              $timeout(changePackage(params.dataPackage, params));
+              $timeout(changePackage(foundPackage.value, params));
             } else {
               chooseStateParams(params);
               updateBabbage();
@@ -412,17 +409,25 @@
           function init() {
             $scope.state = {};
             $scope.state.isStarting = true;
+            var searchSettings;
 
-            return SettingsService.get('api').then(function(apiSettings) {
-              $scope.state.apiUrl = apiSettings.url;
-              $scope.state.cosmoUrl = apiSettings.cosmoUrl;
-              viewerService = components.osViewerService(apiSettings);
-              return $q(function(resolve, reject) {
-                viewerService.start({}).then(function(state) {
-                  resolve(state);
+            return SettingsService.get('search')
+                .then(function(_searchSettings) {
+                  searchSettings = _searchSettings;
+                  $scope.state.searchUrl = searchSettings.url;
+                  return SettingsService.get('api');
+                })
+                .then(function(apiSettings) {
+                  $scope.state.apiUrl = apiSettings.url;
+                  $scope.state.cosmoUrl = apiSettings.cosmoUrl;
+                  viewerService =
+                      components.osViewerService(apiSettings, searchSettings);
+                  return $q(function(resolve, reject) {
+                    viewerService.start({}).then(function(state) {
+                      resolve(state);
+                    });
+                  });
                 });
-              });
-            });
           };
 
           init().then(function(state) {

@@ -6,8 +6,8 @@ var _ = require('lodash');
 var
   _state = {};
 
-module.exports = function(config) {
-  var api = require('../data-package-api')(config);
+module.exports = function(apiConfig, searchConfig) {
+  var api = require('../data-package-api')(apiConfig, searchConfig);
 
   return {
     initState: function(state) {
