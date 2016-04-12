@@ -10,16 +10,16 @@
         <span>
           <input type="text" class="form-control"
             placeholder="Search for data package"
-            ng-model="filter.value">
+            ng-model="filter">
         </span>
       </li>
       <!-- Placeholder for search control since it is fixed to top -->
       <li class="package-search-input placeholder">
         <span><span class="form-control-static"></span></span>
       </li>
-      <li role="menuitem" ng-repeat="item in (items | filter:filter) track by item.key">
-        <a href="javascript:void(0)" title="{{ item.value }}"
-          ng-click="dropdownState.isOpen = false; events.changePackage(item.key);">{{item.value}}</a>
+      <li role="menuitem" ng-repeat="item in (items | filter:filter ) track by item.key">
+        <a href="javascript:void(0)" title="{{ item.value.author }} / {{ item.value.package.title }}"
+          ng-click="dropdownState.isOpen = false; events.changePackage(item.value);">{{ item.value.author }} / {{ item.value.package.title }}</a>
       </li>
     </ul>
   </div>

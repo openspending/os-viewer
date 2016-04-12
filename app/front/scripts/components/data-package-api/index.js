@@ -4,20 +4,27 @@ var Promise = require('bluebird');
 var downloader = require('../downloader');
 var _ = require('lodash');
 
-module.exports = function(config) {
-  var _config = config;
+module.exports = function(apiConfig, searchConfig) {
+  var _APIconfig = apiConfig;
+  var _searchConfig = searchConfig;
   return {
     //returns list of packages
     getPackages: function() {
-      var urlApiAllPackages = _config.url + '/cubes';
+      var urlApiAllPackages = _searchConfig.url + '?size=10000';
       return downloader.get(urlApiAllPackages).then(function(text) {
         var result = [];
         try {
           var packages = JSON.parse(text);
-          _.forEach(packages.data, function(dataPackage) {
+          _.forEach(packages, function(dataPackage) {
+            dataPackage.author =
+                _.join(
+                    _.dropRight(
+                        _.split(dataPackage.package.author,' '),
+                        1),
+                    ' ');
             result.push({
-              key: dataPackage.name,
-              value: dataPackage.name
+              key: dataPackage.id,
+              value: dataPackage
             });
           });
         } catch (e) {
@@ -28,7 +35,7 @@ module.exports = function(config) {
 
     //returns data package
     getDataPackage: function(packageName) {
-      var urlApiPackage = _config.url + '/info/{packageName}/package';
+      var urlApiPackage = _APIconfig.url + '/info/{packageName}/package';
       return downloader.getJson(
         urlApiPackage.replace('{packageName}', packageName)
       );
@@ -37,7 +44,7 @@ module.exports = function(config) {
     //returns model of data package
     getDataPackageModel: function(packageName) {
       var that = this;
-      var urlApiPackageModel = _config.url + '/cubes/{packageName}/model';
+      var urlApiPackageModel = _APIconfig.url + '/cubes/{packageName}/model';
       var model = null;
 
       return downloader.getJson(
@@ -91,7 +98,7 @@ module.exports = function(config) {
 
     //returns possible values of some dimension
     getDimensionValues: function(packageName, dimension) {
-      var urlApiDimensionValues = _config.url +
+      var urlApiDimensionValues = _APIconfig.url +
         '/cubes/{packageName}/members/{dimension}';
 
       var url = urlApiDimensionValues

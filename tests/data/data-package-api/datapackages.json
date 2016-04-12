@@ -1,14 +1,20 @@
-{
-  "status": "ok",
-  "data": [
-    {
-      "name": "Package1"
-    },
-    {
-      "name": "Package2"
-    },
-    {
-      "name": "Package3"
+[
+  {
+    "id": "Package1",
+    "package": {
+      "author": "Charles <charlie@sheen.me>"
     }
-  ]
-}
+  },
+  {
+    "id": "Package2",
+    "package": {
+      "author": "Charles <charlie@sheen.me>"
+    }
+  },
+  {
+    "id": "Package3",
+    "package": {
+      "author": "Charles <charlie@sheen.me>"
+    }
+  }
+]

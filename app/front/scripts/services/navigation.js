@@ -22,9 +22,9 @@
           filterList.push(key + '|' + value);
         });
 
-        var embedded = isEmbedded ? 'embed/': '';
+        var embedded = isEmbedded ? 'embed/' : '';
 
-        $location.path('/'+ embedded + state.availablePackages.current);
+        $location.path('/' + embedded + state.availablePackages.current);
         $location.search({
           measure: state.measures.current,
           'visualizations[]': state.selectedVisualizations,

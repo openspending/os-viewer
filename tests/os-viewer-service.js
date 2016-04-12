@@ -5,11 +5,14 @@ var _ = require('lodash');
 var apiConfig = {
   url: 'http://some-server-api.com'
 };
+var searchConfig = {
+  url: 'http://some-other-server-api.com/search/package'
+};
 
 var osViewerService = require('../app/front/scripts/components/' +
-  'os-viewer-service/')(apiConfig);
+  'os-viewer-service/')(apiConfig, searchConfig);
 var api = require('../app/front/scripts/components/' +
-  'data-package-api/')(apiConfig);
+  'data-package-api/')(apiConfig, searchConfig);
 
 describe('osViewerService', function() {
 
