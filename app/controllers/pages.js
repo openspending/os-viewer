@@ -3,13 +3,28 @@
 var _ = require('lodash');
 var paramParser = require('../front/scripts/components/url-param-parser');
 
+function getBasePath(config) {
+  var result = config.get('basePath');
+  if (_.isUndefined(result) || _.isNull(result) || (result == '')) {
+    return '';
+  }
+  result = '' + result;
+  if (result.substr(0, 1) != '/') {
+    result = '/' + result;
+  }
+  if (result.substr(-1, 1) == '/') {
+    result = result.substr(0, result.length - 1);
+  }
+  return result;
+}
+
 module.exports.main = function(req, res) {
   var config = req.app.get('config');
   req.isEmbedded = req.isEmbedded || false;
 
   res.render('pages/main.html', {
     title: 'Open Spending Viewer',
-    basePath: config.get('basePath'),
+    basePath: getBasePath(config),
     isEmbedded: req.isEmbedded
   });
 };
@@ -27,7 +42,7 @@ module.exports.embedded = function(req, res) {
   });
 
   res.render('pages/embedded.html', {
-    basePath: config.get('basePath'),
+    basePath: getBasePath(config),
     cube: req.cube,
     view: req.view,
     apiUrl: config.get('api').url,

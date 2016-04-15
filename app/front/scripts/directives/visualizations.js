@@ -62,8 +62,8 @@
   ];
 
   app.directive('visualizations', [
-    '_', '$location',
-    function(_, $location) {
+    '_', '$location', '$browser',
+    function(_, $location, $browser) {
       return {
         templateUrl: 'templates/visualizations.html',
         replace: false,
@@ -177,13 +177,21 @@
               return item.id == visualization;
             });
             if (visualization && visualization.embed) {
+              var base = $browser.baseHref();
+              if (base.substr(0, 1) != '/') {
+                base = '/' + base;
+              }
+              if (base.substr(-1, 1) == '/') {
+                base = base.substr(0, base.length - 1);
+              }
+
               var protocol = $location.protocol() + '://';
               var host = $location.host();
               var port = $location.port() == '80' ? '' :
                 ':' + $location.port();
               var url = $location.url();
 
-              $scope.shareUrl = protocol + host + port +
+              $scope.shareUrl = protocol + host + port + base +
                 '/embed/' + visualization.embed + url;
               shareModal.modal('show');
             }
