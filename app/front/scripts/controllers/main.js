@@ -65,7 +65,9 @@
               updateBabbage();
             };
             $scope.events.findDimension = function(key) {
-              return _.find($scope.state.dimensions.items, {key: key});
+              return _.find($scope.state.dimensions.items, function(item) {
+                return item.key == key;
+              });
             };
 
             $scope.events.isGroupSelected = function(key) {
@@ -237,7 +239,10 @@
 
             // Filters
             _.forEach(defaultParams.filters, function(value, key) {
-              var dimension = $scope.events.findDimension(key);
+              var dimension = _.find($scope.state.dimensions.items,
+                function(item) {
+                  return item.code == key;
+                });
               if (dimension) {
                 $scope.state.dimensions.current.filters[key] = value;
               }
@@ -428,7 +433,7 @@
                     });
                   });
                 });
-          };
+          }
 
           init().then(function(state) {
             $scope.state = _.extend($scope.state, state);
