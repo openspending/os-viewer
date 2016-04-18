@@ -27,6 +27,7 @@
         $location.path('/' + embedded + state.availablePackages.current);
         $location.search({
           measure: state.measures.current,
+          order: state.orderBy.key + '|' + state.orderBy.direction,
           'visualizations[]': state.selectedVisualizations,
           'groups[]': state.dimensions.current.groups,
           'series[]': state.dimensions.current.series,
@@ -47,6 +48,20 @@
         searchParams.rows = searchParams.rows || searchParams['rows[]'];
         searchParams.columns = searchParams.columns ||
           searchParams['columns[]'];
+
+        var orderBy = [];
+        if (searchParams.order) {
+          orderBy = searchParams.order.split('|');
+        }
+        if (orderBy.length == 2) {
+          orderBy = {
+            key: orderBy[0],
+            direction: ('' + orderBy[1]).toLowerCase() == 'desc' ?
+              'desc' : 'asc'
+          };
+        } else {
+          orderBy = null;
+        }
 
         var filters = {};
         searchParams.filters = (searchParams.filters) ?
@@ -98,6 +113,9 @@
           columns: columns,
           filters: filters
         };
+        if (orderBy) {
+          params.orderBy = orderBy;
+        }
 
         var path = $location.path();
         var sections = path.substr(1).split('/');

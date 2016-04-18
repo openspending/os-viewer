@@ -51,13 +51,15 @@ module.exports.embedded = function(req, res) {
       aggregates: params.measure,
       group: params.groups,
       series: params.series,
-      filter: cut
+      filter: cut,
+      order: params.order
     }),
     paramsPivot: JSON.stringify({
       aggregates: params.measure,
       rows: params.rows,
       cols: params.columns,
-      filter: cut
+      filter: cut,
+      order: params.order
     })
   });
 };
