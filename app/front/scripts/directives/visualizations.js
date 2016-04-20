@@ -78,6 +78,13 @@
 
           $scope.availableVisualizations = availableVisualizations;
 
+          function resetOrderBy() {
+            var state = $scope.state;
+            if ($scope.events && state.measures && state.measures.current) {
+              $scope.events.toggleOrderBy(state.measures.current, true);
+            }
+          }
+
           $scope.selectedVisualizations = $scope.state.selectedVisualizations;
           if (!_.isArray($scope.selectedVisualizations)) {
             $scope.selectedVisualizations = [];
@@ -91,6 +98,17 @@
           } else {
             $scope.type = null;
           }
+
+          $scope.getItemByKey = function(items, keys) {
+            if (_.isArray(items) && !!keys) {
+              if (_.isArray(keys)) {
+                keys = _.first(keys);
+              }
+              return _.find(items, function(item) {
+                return item.key == keys;
+              });
+            }
+          };
 
           function updateAvailableVisualizations() {
             $scope.state.selectedVisualizations = $scope.selectedVisualizations;
@@ -151,8 +169,7 @@
           updateSpecialChartTypes();
           $scope.$watch('state.availablePackages.locationAvailable',
             updateSpecialChartTypes);
-          $scope.$watch('state.state.dimensions',
-            updateSpecialChartTypes);
+          $scope.$watch('state.state.dimensions', updateSpecialChartTypes);
 
           $scope.getVisualizationById = function(visualization) {
             return _.find(availableVisualizations, function(item) {
@@ -212,6 +229,7 @@
                 return item.id == visualization;
               }).type;
               updateAvailableVisualizations();
+              resetOrderBy();
             } else
             if (removeIfAdded) {
               $scope.removeVisualization(visualization);
@@ -227,6 +245,7 @@
             );
             if ($scope.selectedVisualizations.length == 0) {
               $scope.type = null;
+              resetOrderBy();
             }
             updateAvailableVisualizations();
           };
@@ -234,6 +253,7 @@
           $scope.removeAllVisualizations = function() {
             $scope.selectedVisualizations = [];
             $scope.type = null;
+            resetOrderBy();
             updateAvailableVisualizations();
           };
         }

@@ -17,6 +17,20 @@ module.exports = {
       }
     });
 
+    var orderBy = [];
+    if (params.order) {
+      orderBy = params.order.split('|');
+    }
+    if (orderBy.length == 2) {
+      orderBy = {
+        key: orderBy[0],
+        direction: ('' + orderBy[1]).toLowerCase() == 'desc' ?
+          'desc' : 'asc'
+      };
+    } else {
+      orderBy = null;
+    }
+
     var groups = (params.groups) ?
       ((_.isArray(params.groups)) ?
         params.groups : [params.groups]) :
@@ -51,6 +65,11 @@ module.exports = {
       columns: columns,
       filters: filters
     };
+
+    result.order = [orderBy || {
+        key: result.measure,
+        order: 'desc'
+      }];
 
     return result;
   }

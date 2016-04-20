@@ -7,6 +7,19 @@ textarea {
   resize: vertical;
 }
 
+.margin-side-x(@side, @multiplier: 5) when (@multiplier > 0) {
+  @n: @multiplier * 4;
+  .margin-@{side}-@{n} {
+    margin-@{side}: unit(@n, px);
+  }
+  .margin-side-x(@side, (@multiplier - 1));
+}
+
+.margin-side-x(top);
+.margin-side-x(right);
+.margin-side-x(bottom);
+.margin-side-x(left);
+
 .navbar.x-page-header {
   .navbar-brand {
     width: 23%;

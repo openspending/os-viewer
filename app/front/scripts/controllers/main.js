@@ -61,6 +61,7 @@
 
             $scope.events.changeMeasure = function(measure) {
               $scope.state.measures.current = measure;
+              $scope.events.toggleOrderBy(measure);
               updateLocation();
               updateBabbage();
             };
@@ -68,6 +69,23 @@
               return _.find($scope.state.dimensions.items, function(item) {
                 return item.key == key;
               });
+            };
+
+            $scope.events.toggleOrderBy = function(key, updateViews) {
+              var state = $scope.state;
+              if (_.isObject(state.orderBy) && (state.orderBy.key == key)) {
+                var order = ('' + state.orderBy.direction).toLowerCase();
+                state.orderBy.direction = (order == 'desc') ? 'asc' : 'desc';
+              } else {
+                state.orderBy = {
+                  key: key,
+                  direction: 'desc'
+                };
+              }
+              if (!!updateViews) {
+                updateLocation();
+                updateBabbage();
+              }
             };
 
             $scope.events.isGroupSelected = function(key) {
@@ -204,6 +222,12 @@
               })) {
               $scope.state.measures.current = defaultParams.measure;
             }
+            $scope.events.toggleOrderBy($scope.state.measures.current);
+
+            // Order by
+            if (defaultParams.orderBy) {
+              $scope.state.orderBy = defaultParams.orderBy;
+            }
 
             // Groups
             _.forEach(defaultParams.groups, function(value) {
@@ -281,6 +305,9 @@
               if (!$scope.state.measures.current) {
                 $scope.state.measures.current = state.measures.current;
               }
+              if (!$scope.state.orderBy) {
+                $scope.events.toggleOrderBy($scope.state.measures.current);
+              }
 
               // Groups
               if ($scope.state.dimensions.current.groups.length == 0) {
@@ -326,22 +353,28 @@
               });
 
             var series = $scope.state.dimensions.current.series;
-            if (series) {
+            if (series && !_.isArray(series)) {
               series = [series];
             }
 
-            $scope.state.babbage = {
+            var babbageParams = {
               aggregates: $scope.state.measures.current,
               group: [_.first($scope.state.dimensions.current.groups)],
-              series: series,
-              filter: cut
+              filter: cut,
+              order: [$scope.state.orderBy]
             };
+            if (series && series.length) {
+              babbageParams.series = series;
+            }
+
+            $scope.state.babbage = babbageParams;
 
             $scope.state.babbagePivot = {
               aggregates: $scope.state.measures.current,
               rows: $scope.state.dimensions.current.rows,
               cols: $scope.state.dimensions.current.columns,
-              filter: cut
+              filter: cut,
+              order: [$scope.state.orderBy]
             };
 
             HistoryService.pushState($scope.state);
