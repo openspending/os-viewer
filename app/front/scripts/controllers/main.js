@@ -71,16 +71,28 @@
               });
             };
 
-            $scope.events.toggleOrderBy = function(key, updateViews) {
+            $scope.events.toggleOrderBy = function(key, direction,
+              updateViews) {
+              var order = null;
               var state = $scope.state;
-              if (_.isObject(state.orderBy) && (state.orderBy.key == key)) {
-                var order = ('' + state.orderBy.direction).toLowerCase();
-                state.orderBy.direction = (order == 'desc') ? 'asc' : 'desc';
-              } else {
+
+              if (arguments.length > 2) {
+                order = ('' + direction).toLowerCase();
                 state.orderBy = {
                   key: key,
-                  direction: 'desc'
+                  direction: (order == 'desc') ? 'desc' : 'asc'
                 };
+              } else {
+                updateViews = direction;
+                if (_.isObject(state.orderBy) && (state.orderBy.key == key)) {
+                  order = ('' + state.orderBy.direction).toLowerCase();
+                  state.orderBy.direction = (order == 'desc') ? 'asc' : 'desc';
+                } else {
+                  state.orderBy = {
+                    key: key,
+                    direction: 'desc'
+                  };
+                }
               }
               if (!!updateViews) {
                 updateLocation();

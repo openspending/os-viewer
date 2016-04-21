@@ -198,6 +198,9 @@
                     }
                     break;
                   case 'time-series':
+                    $scope.events.changeGroup(item.key, true);
+                    $scope.events.toggleOrderBy(item.key, 'asc', true);
+                    break;
                   case 'location':
                     $scope.events.changeGroup(item.key, true);
                     break;
