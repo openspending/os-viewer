@@ -60,7 +60,7 @@ describe('osViewerService', function() {
               code: 'from',
               hierarchy: 'from',
               dimensionType: undefined,
-              name: 'from_name',
+              name: 'from.name',
               label: 'from.name',
               drillDown: undefined
             },
@@ -70,7 +70,7 @@ describe('osViewerService', function() {
               code: 'to',
               hierarchy: 'to',
               dimensionType: undefined,
-              name: 'to_name',
+              name: 'to.name',
               label: 'to.name',
               drillDown: undefined
             }
@@ -88,8 +88,8 @@ describe('osViewerService', function() {
               code: 'time.day',
               hierarchy: 'time',
               dimensionType: undefined,
-              name: 'time_day',
-              label: 'time.day',
+              name: 'time_day.day',
+              label: 'time_day.day',
               drillDown: undefined
             },
             {
@@ -98,8 +98,8 @@ describe('osViewerService', function() {
               code: 'time.month',
               hierarchy: 'time',
               dimensionType: undefined,
-              name: 'time_month',
-              label: 'time.month',
+              name: 'time_month.month',
+              label: 'time_month.month',
               drillDown: 'time_day.day'
             },
             {
@@ -108,8 +108,8 @@ describe('osViewerService', function() {
               code: 'time.year',
               hierarchy: 'time',
               dimensionType: undefined,
-              name: 'time_year',
-              label: 'time.year',
+              name: 'time_year.year',
+              label: 'time_year.year',
               drillDown: 'time_month.month'
             }
           ],

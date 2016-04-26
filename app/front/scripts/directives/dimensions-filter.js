@@ -17,7 +17,7 @@
         link: function($scope) {
           $scope.getFilterItems = function(filter) {
             _.forEach(filter.values, function(item) {
-              item.filter = filter.code;
+              item.filter = filter.key;
             });
             return filter.values;
           };

@@ -171,8 +171,8 @@ module.exports = function(apiConfig, searchConfig) {
           code: value.label,
           hierarchy: value.hierarchy,
           dimensionType: value.dimensionType,
-          name: value.attributes[keyAttribute].column,
-          label: value.hierarchy + '.' + labelAttribute,
+          name: model.dimensions[id].key_ref,
+          label: model.dimensions[id].label_ref,
           drillDown: that.getDrillDownDimensionKey(model, id)
         });
 
