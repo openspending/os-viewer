@@ -288,7 +288,7 @@ describe('DataPackage API', function() {
           code: 'from',
           hierarchy: 'from',
           dimensionType: undefined,
-          name: 'from_name',
+          name: 'from.name',
           label: 'from.name',
           drillDown: undefined
         },
@@ -298,8 +298,8 @@ describe('DataPackage API', function() {
           code: 'time.day',
           hierarchy: 'time',
           dimensionType: undefined,
-          name: 'time_day',
-          label: 'time.day',
+          name: 'time_day.day',
+          label: 'time_day.day',
           drillDown: undefined
         },
         {
@@ -308,8 +308,8 @@ describe('DataPackage API', function() {
           code: 'time.month',
           hierarchy: 'time',
           dimensionType: undefined,
-          name: 'time_month',
-          label: 'time.month',
+          name: 'time_month.month',
+          label: 'time_month.month',
           drillDown: 'time_day.day'
         },
         {
@@ -318,8 +318,8 @@ describe('DataPackage API', function() {
           code: 'time.year',
           hierarchy: 'time',
           dimensionType: undefined,
-          name: 'time_year',
-          label: 'time.year',
+          name: 'time_year.year',
+          label: 'time_year.year',
           drillDown: 'time_month.month'
         },
         {
@@ -328,7 +328,7 @@ describe('DataPackage API', function() {
           code: 'to',
           hierarchy: 'to',
           dimensionType: undefined,
-          name: 'to_name',
+          name: 'to.name',
           label: 'to.name',
           drillDown: undefined
         }
@@ -348,8 +348,8 @@ describe('DataPackage API', function() {
           code: 'administrative_classification.admin1',
           hierarchy: 'administrative_classification',
           dimensionType: undefined,
-          name: 'admin1',
-          label: 'administrative_classification.admin1',
+          name: 'administrative_classification_admin1.admin1',
+          label: 'administrative_classification_admin1.admin1',
           drillDown: 'administrative_classification_admin2_code.admin2_code'
         },
         {
@@ -358,8 +358,8 @@ describe('DataPackage API', function() {
           code: 'administrative_classification.admin2_code',
           hierarchy: 'administrative_classification',
           dimensionType: undefined,
-          name: 'admin2_code',
-          label: 'administrative_classification.admin2_label',
+          name: 'administrative_classification_admin2_code.admin2_code',
+          label: 'administrative_classification_admin2_code.admin2_label',
           drillDown: 'administrative_classification_admin3_code.admin3_code'
         },
         {
@@ -368,8 +368,8 @@ describe('DataPackage API', function() {
           code: 'administrative_classification.admin3_code',
           hierarchy: 'administrative_classification',
           dimensionType: undefined,
-          name: 'admin3_code',
-          label: 'administrative_classification.admin3_label',
+          name: 'administrative_classification_admin3_code.admin3_code',
+          label: 'administrative_classification_admin3_code.admin3_label',
           drillDown: undefined
         },
         {
@@ -378,7 +378,7 @@ describe('DataPackage API', function() {
           code: 'location',
           hierarchy: 'location',
           dimensionType: undefined,
-          name: 'admin2_label',
+          name: 'location.title',
           label: 'location.title',
           drillDown: undefined
         },
@@ -388,8 +388,8 @@ describe('DataPackage API', function() {
           code: 'other.exp_type',
           hierarchy: 'other',
           dimensionType: undefined,
-          name: 'exp_type',
-          label: 'other.exp_type',
+          name: 'other_exp_type.exp_type',
+          label: 'other_exp_type.exp_type',
           drillDown: 'other_transfer.transfer'
         },
         {
@@ -398,8 +398,8 @@ describe('DataPackage API', function() {
           code: 'other.fin_source',
           hierarchy: 'other',
           dimensionType: undefined,
-          name: 'fin_source',
-          label: 'other.fin_source',
+          name: 'other_fin_source.fin_source',
+          label: 'other_fin_source.fin_source',
           drillDown: 'other_exp_type.exp_type'
         },
         {
@@ -408,8 +408,8 @@ describe('DataPackage API', function() {
           code: 'other.transfer',
           hierarchy: 'other',
           dimensionType: undefined,
-          name: 'transfer',
-          label: 'other.transfer',
+          name: 'other_transfer.transfer',
+          label: 'other_transfer.transfer',
           drillDown: undefined
         }
       ]);
