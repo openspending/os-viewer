@@ -80,7 +80,17 @@
 
           function resetOrderBy() {
             var state = $scope.state;
-            if ($scope.events && state.measures && state.measures.current) {
+            if (!$scope.events) {
+              return;
+            }
+            if ($scope.type == 'time-series') {
+              var dimension = _.first(state.dimensions.current.groups);
+              if (dimension) {
+                $scope.events.toggleOrderBy(dimension, 'asc', true);
+                return;
+              }
+            }
+            if (state.measures && state.measures.current) {
               $scope.events.toggleOrderBy(state.measures.current, true);
             }
           }
@@ -100,14 +110,21 @@
           }
 
           $scope.getItemByKey = function(items, keys) {
+            var result = null;
             if (_.isArray(items) && !!keys) {
               if (_.isArray(keys)) {
                 keys = _.first(keys);
               }
-              return _.find(items, function(item) {
+              result = _.find(items, function(item) {
                 return item.key == keys;
               });
             }
+
+            if (result) {
+              result.displayName = result.displayName || result.name ||
+                result.value;
+            }
+            return result;
           };
 
           function updateAvailableVisualizations() {
