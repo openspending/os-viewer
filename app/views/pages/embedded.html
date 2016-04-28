@@ -122,6 +122,38 @@
           $scope.countryCode = _.isArray(packageInfo.countryCode) ?
             _.first(packageInfo.countryCode) : packageInfo.countryCode;
         });
+      } else {
+        if ($scope.view == 'treemap') {
+//          $scope.$on('treemap-click',
+//            function(event, treeMapComponent, info) {
+//              console.log('++++++++++++++++++++++++++++++++++++++');
+//              console.log(treeMapComponent);
+//              console.log(info);
+//              api.getDataPackageModel($scope.cube).then(function (model) {
+//                console.log('*****************');
+//                console.log(model);
+//                var dimensions = api.getDimensionsFromModel(model);
+//
+//                var dimension = _.find(
+//                  dimensions, {
+//                    key: _.first($scope.params.group)
+//                  });
+//
+//                if (dimension && dimension.drillDown) {
+//                  console.log('-------------dimension-------------');
+//                  console.log(dimension);
+//
+//                  $scope.params.group = [dimension.drillDown];
+//                  var item = _.find(dimension.values, { key: info._key });
+//                  console.log(item);
+//                  if (item) {
+//                    $scope.params.filter[dimension.key] =
+//                      item.key;
+//                  }
+//                }
+//              });
+//            });//not finished yet
+        }
       }
     }
   ]);
