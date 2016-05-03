@@ -96,6 +96,7 @@ textarea {
   .x-sidebar {
     background: #2a2d34;
     display: table-cell;
+    vertical-align: top;
     width: 23%;
     padding: 0.5em 0;
 
@@ -133,6 +134,7 @@ textarea {
   .x-content {
     display: table-cell;
     width: 77%;
+    vertical-align: top;
     background: #f5f5f5;
   }
 }
@@ -308,6 +310,12 @@ textarea {
     &:last-child {
       margin-bottom: 0;
     }
+  }
+}
+
+@-moz-document url-prefix() {
+  .visualization-popover .btn {
+    width: 200px;
   }
 }
 
