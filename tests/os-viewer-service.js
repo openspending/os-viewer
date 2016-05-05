@@ -34,12 +34,12 @@ describe('osViewerService', function() {
     api.getDataPackageModel('Package2').then(function(model) {
       var sortIndexes = osViewerService._getDimensionsSortingIndexes(model);
       assert.deepEqual(sortIndexes, {
-        'administrative_classification.admin1': 0,
-        'administrative_classification.admin2_code': 1,
-        'administrative_classification.admin3_code': 2,
-        'other.fin_source': 3,
-        'other.exp_type': 4,
-        'other.transfer': 5
+        'Administrative_classification-Admin1': 0,
+        'Administrative_classification-Admin2_code': 1,
+        'Administrative_classification-Admin3_code': 2,
+        'Other-Fin_source': 3,
+        'Other-Exp_type': 4,
+        'Other-Transfer': 5
       });
       done();
     });
@@ -57,7 +57,8 @@ describe('osViewerService', function() {
             {
               id: 'from',
               key: 'from.name',
-              code: 'from',
+              code: 'From',
+              displayName: 'From',
               hierarchy: 'from',
               dimensionType: undefined,
               name: 'from.name',
@@ -67,7 +68,8 @@ describe('osViewerService', function() {
             {
               id: 'to',
               key: 'to.name',
-              code: 'to',
+              code: 'To',
+              displayName: 'To',
               hierarchy: 'to',
               dimensionType: undefined,
               name: 'to.name',
@@ -85,7 +87,8 @@ describe('osViewerService', function() {
             {
               id: 'time_day',
               key: 'time_day.day',
-              code: 'time.day',
+              code: 'Time-Day',
+              displayName: 'Time-Day',
               hierarchy: 'time',
               dimensionType: undefined,
               name: 'time_day.day',
@@ -95,7 +98,8 @@ describe('osViewerService', function() {
             {
               id: 'time_month',
               key: 'time_month.month',
-              code: 'time.month',
+              code: 'Time-Month',
+              displayName: 'Time-Month',
               hierarchy: 'time',
               dimensionType: undefined,
               name: 'time_month.month',
@@ -105,7 +109,8 @@ describe('osViewerService', function() {
             {
               id: 'time_year',
               key: 'time_year.year',
-              code: 'time.year',
+              code: 'Time-Year',
+              displayName: 'Time-Year',
               hierarchy: 'time',
               dimensionType: undefined,
               name: 'time_year.year',
@@ -116,7 +121,6 @@ describe('osViewerService', function() {
           common: false
         }
       ];
-
       assert.deepEqual(hierarchies, expected);
       done();
     });

@@ -61,7 +61,7 @@
             }
 
             _.forEach(items, function(item) {
-              item.displayName = item.name || item.value;
+              item.displayName = item.displayName || item.name || item.value;
             });
 
             items = $filter('filter')(items, $scope.filter);

@@ -72,8 +72,9 @@
       <hr>
     </div>
     <strong>Series</strong>
-    <div ng-repeat="hierarchy in datetimeHierarchies">
+    <div ng-repeat="hierarchy in state.hierarchies">
       <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
+                    ng-if="hierarchy.key != 'date'"
         title="{{ getHierarchyName(hierarchy) }}"></sidebar-list>
     </div>
 
