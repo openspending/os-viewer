@@ -8,6 +8,7 @@
   </div>
   <div ng-if="visualizationId == 'Treemap'" class="row">
     <div class="x-visualization-chart col-xs-12 col-sm-9">
+      <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
       <tree-map ng-if="!state.flag.renderingCharts"
         cube="{{state.availablePackages.current}}"
         state="state.babbage"
@@ -126,6 +127,7 @@
   </div>
   <div ng-if="visualizationId == 'BubbleTree'" class="row">
     <div class="x-visualization-chart col-xs-12 col-sm-9">
+      <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
       <bubbletree ng-if="!state.flag.renderingCharts"
         type="line"
         cube="{{state.availablePackages.current}}"

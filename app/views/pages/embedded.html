@@ -15,66 +15,98 @@
   }
 </style>
 
-<div>
+<div  ng-if="!state.isStarting && !state.isPackageLoading">
   {% if view == 'piechart' %}
   {% raw %}
-  <pie-chart cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
-  </pie-chart>
+  <pie-chart
+    ng-if="!state.flag.renderingCharts"
+    cube="{{state.availablePackages.current}}" 
+    state="state.babbage"
+    endpoint="{{state.apiUrl}}"
+  ></pie-chart>
   {% endraw %}
   {% endif %}
 
   {% if view == 'barchart' %}
   {% raw %}
-  <chart cube="{{cube}}" type="bar" state="params" endpoint="{{apiUrl}}">
-  </chart>
+  <chart
+    ng-if="!state.flag.renderingCharts"
+    cube="{{state.availablePackages.current}}" 
+    type="bar"
+    state="state.babbage"
+    endpoint="{{state.apiUrl}}"
+  ></chart>
   {% endraw %}
   {% endif %}
 
   {% if view == 'linechart' %}
   {% raw %}
-  <chart cube="{{cube}}" type="line" state="params" endpoint="{{apiUrl}}">
-  </chart>
+  <chart
+    ng-if="!state.flag.renderingCharts"
+    cube="{{state.availablePackages.current}}" 
+    type="line" 
+    state="state.babbage"
+    endpoint="{{state.apiUrl}}"
+  ></chart>
   {% endraw %}
   {% endif %}
 
   {% if view == 'treemap' %}
   {% raw %}
-  <tree-map cube="{{cube}}" state="params" endpoint="{{apiUrl}}"></tree-map>
+  <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
+  <tree-map
+    ng-if="!state.flag.renderingCharts"
+    cube="{{state.availablePackages.current}}"
+    state="state.babbage"
+    endpoint="{{state.apiUrl}}">
+  </tree-map>
   {% endraw %}
   {% endif %}
 
   {% if view == 'bubbletree' %}
   {% raw %}
-  <bubbletree cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
-  </bubbletree>
+  <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
+  <bubbletree
+    ng-if="!state.flag.renderingCharts"
+    cube="{{state.availablePackages.current}}" 
+    state="state.babbage"
+    endpoint="{{state.apiUrl}}"
+  ></bubbletree>
   {% endraw %}
   {% endif %}
 
   {% if view == 'table' %}
   {% raw %}
-  <babbage-table cube="{{cube}}" state="params" endpoint="{{apiUrl}}">
-  </babbage-table>
+  <babbage-table
+    ng-if="!state.flag.renderingCharts"
+    cube="{{state.availablePackages.current}}" 
+    state="state.babbage"
+    endpoint="{{state.apiUrl}}"
+  ></babbage-table>
   {% endraw %}
   {% endif %}
 
   {% if view == 'map' %}
   {% raw %}
   <geo-view
-    cube="{{cube}}"
-    state="params"
-    endpoint="{{apiUrl}}"
-    cosmo-endpoint="{{cosmoEndpoint}}"
-    country-code="{{countryCode}}">
-  </geo-view>
+    ng-if="!state.flag.renderingCharts"
+    cube="{{state.availablePackages.current}}"
+    state="state.babbage"
+    endpoint="{{state.apiUrl}}"
+    cosmo-endpoint="{{state.cosmoUrl}}"
+    currency-sign="{{ state.availablePackages.currencySign }}"
+    country-code="{{ state.availablePackages.locationCountry }}"
+  ></geo-view>
   {% endraw %}
   {% endif %}
 
   {% if view == 'pivottable' %}
   {% raw %}
   <pivot-table
-    cube="{{cube}}"
-    state="paramsPivot"
-    endpoint="{{apiUrl}}"
+    ng-if="!state.flag.renderingCharts"
+    cube="{{state.availablePackages.current}}"
+    state="state.babbagePivot"
+    endpoint="{{state.apiUrl}}"
     cosmo-endpoint="{{cosmoEndpoint}}"
     country-code="{{countryCode}}">
   </pivot-table>
@@ -83,48 +115,7 @@
 </div>
 
 <script>
-  var components = require('components');
-
-  var pieDirective = new components.babbage.PieChartDirective();
-  var chartDirective = new components.babbage.ChartDirective();
-  var treemapDirective = new components.babbage.TreemapDirective();
-  var bubbleTreeDirective = new components.babbage.BubbleTreeDirective();
-  var tableDirective = new components.babbage.BabbageTableDirective();
-  var geoViewDirective = new components.babbage.GeoViewDirective();
-  var pivotTableDirective = new components.babbage.PivotTableDirective();
-
-  var embedded = angular.module('Application', []);
-
-  pieDirective.init(embedded);
-  chartDirective.init(embedded);
-  treemapDirective.init(embedded);
-  tableDirective.init(embedded);
-  bubbleTreeDirective.init(embedded);
-  geoViewDirective.init(embedded);
-  pivotTableDirective.init(embedded);
-
-  embedded.controller('EmbeddedCtrl', [
-    '$scope', '$q',
-    function($scope, $q) {
-      $scope.apiUrl = '{{apiUrl | safe}}';
-      $scope.cube = '{{cube | safe}}';
-      $scope.view = '{{view | safe}}';
-      $scope.params = {{ params | safe }};
-      $scope.paramsPivot = {{ paramsPivot | safe }};
-      $scope.cosmoEndpoint = '{{cosmoUrl | safe}}';
-
-      var api = components.dataPackageApi({url: $scope.apiUrl});
-      if ($scope.view == 'map') {
-        $q(function(resolve, reject) {
-          api.getDataPackage($scope.cube).then(resolve).catch(reject);
-        })
-        .then(function(packageInfo) {
-          $scope.countryCode = _.isArray(packageInfo.countryCode) ?
-            _.first(packageInfo.countryCode) : packageInfo.countryCode;
-        });
-      }
-    }
-  ]);
+  window.isVisEmbedded = true;
 </script>
 
 {% endblock %}

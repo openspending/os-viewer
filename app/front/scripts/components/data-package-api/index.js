@@ -173,7 +173,8 @@ module.exports = function(apiConfig, searchConfig) {
           dimensionType: value.dimensionType,
           name: model.dimensions[id].key_ref,
           label: model.dimensions[id].label_ref,
-          drillDown: that.getDrillDownDimensionKey(model, id)
+          drillDown: that.getDrillDownDimensionKey(model, id),
+          original: _.clone(value)
         });
 
       });
