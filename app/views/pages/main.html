@@ -17,7 +17,15 @@
     <div ng-if="!state.isPackageLoading">
       <div class="clearfix">
         <h3>
-          <span>Views</span>
+            <div class="x-filtered-by" ng-if="state.displayFilters.length > 0">
+                <strong>Filtered by</strong>
+                <span class="x-single-filter" ng-repeat="flt in state.displayFilters">
+                    {{flt[2]}}: {{ flt[1] }}
+                    <i class="glyphicon glyphicon-remove-circle"
+                       ng-click="events.dropFilter(flt[0])"
+                    ></i>
+                </span>
+            </div>
           <div class="pull-right btn-group">
             <button
               class="os-icon os-icon-chevron-with-circle-left btn btn-default"

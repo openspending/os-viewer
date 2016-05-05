@@ -204,8 +204,20 @@
   </div>
 </div>
 
-<div ng-click="showAddVisualizationDialog()" title="Add visualization" class="well x-visualization-add text-center">
-  <i class="os-icon os-icon-circle-plus"></i>
+<div title="Add visualization" class="well x-visualization-add text-center">
+    <i class="os-icon os-icon-circle-plus"
+       ng-click="showAddVisualizationDialog()"
+    ></i>
+    <p ng-click="showAddVisualizationDialog()">Add Visualization</p>
+    <div>
+      <span ng-repeat="item in availableVisualizations">
+          <span ng-if="item.isEnabled && selectedVisualizations.indexOf(item.id) < 0"
+                ng-click="selectedVisualizations.indexOf(item.id) >= 0 || addVisualization(item.id, true)"
+                class="x-visualization-item">
+              <i ng-class="item.icon"></i>
+          </span>
+      </span>
+    </div>
 </div>
 
 <div class="modal fade x-visualization-add-modal" role="dialog">

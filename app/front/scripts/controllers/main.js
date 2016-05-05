@@ -80,6 +80,22 @@
               });
             };
 
+            $scope.events.getFilters = function() {
+              var ret = _.chain(_.toPairs($scope.state.dimensions.current.filters))
+                .map(function(pair) {
+                  var dimension = $scope.events.findDimension(pair[0]);
+                  if ( dimension ) {
+                    pair.push(dimension.code);
+                  }
+                  if ( pair[2] ) {
+                    return pair;
+                  }
+                })
+                .filter()
+                .value();
+              return ret;
+            };
+
             $scope.events.toggleOrderBy = function(key, direction,
               updateViews) {
               var order = null;
@@ -155,11 +171,13 @@
               $scope.state.dimensions.current.filters[filter] = value;
               updateLocation();
               updateBabbage();
+              $scope.state.displayFilters = $scope.events.getFilters();
             };
             $scope.events.dropFilter = function(filter) {
               delete $scope.state.dimensions.current.filters[filter];
               updateLocation();
               updateBabbage();
+              $scope.state.displayFilters = $scope.events.getFilters();
             };
 
             $scope.events.changePivot = function(axis, dimension, replace) {
@@ -286,12 +304,13 @@
             _.forEach(defaultParams.filters, function(value, key) {
               var dimension = _.find($scope.state.dimensions.items,
                 function(item) {
-                  return item.code == key;
+                  return item.key == key;
                 });
               if (dimension) {
                 $scope.state.dimensions.current.filters[key] = value;
               }
             });
+            $scope.state.displayFilters = $scope.events.getFilters();
           }
 
           function changePackage(searchPackage, defaultParams) {
