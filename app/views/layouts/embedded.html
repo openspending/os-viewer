@@ -13,8 +13,10 @@
 
   <script src="modules.js?{{ sessionSalt }}"></script>
   <script src="vendor.js?{{ sessionSalt }}"></script>
+  <script src="{{ authLibraryUrl }}"></script>
+  <script src="app.js?{{ sessionSalt }}"></script>
 </head>
-<body ng-app="Application" ng-controller="EmbeddedCtrl" class="ng-cloak">
+<body ng-app="Application" ng-controller="main" class="ng-cloak">
 
 {% block content %}{% endblock %}
 

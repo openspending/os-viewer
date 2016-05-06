@@ -1,0 +1,54 @@
+@gray-base:              #2a2d34;
+@gray-darker:            lighten(@gray-base, 13.5%);
+@gray-dark:              lighten(@gray-base, 20%);
+@gray:                   lighten(@gray-base, 33.5%);
+@gray-light:             lighten(@gray-base, 46.7%);
+@gray-lighter:           lighten(@gray-base, 93.5%);
+@breadcrumb-padding-vertical:   8px;
+@breadcrumb-padding-horizontal: 15px;
+//** Breadcrumb background color
+@breadcrumb-bg:                 #f5f5f5;
+//** Breadcrumb text color
+@breadcrumb-color:              #ccc;
+//** Text color of current page in the breadcrumb
+@breadcrumb-active-color:       @gray-light;
+//** Textual separator for between breadcrumb elements
+@breadcrumb-separator:          "/";
+
+body {
+  font-family: Hind,"Open Sans",sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #585e6c;
+  background-color: #fff;
+  margin: 0px;
+}
+
+a {
+  color: #3a99d9;
+  text-decoration: none;
+}
+
+.breadcrumb {
+  padding: 2px 15px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  list-style: none;
+  background-color: @breadcrumb-bg;
+
+  > li {
+    display: inline-block;
+    + li:before {
+      content: "@{breadcrumb-separator}\00a0"; // Unicode space added since inline-block means non-collapsing white-space
+      padding: 0 5px;
+      color: @breadcrumb-color;
+    }
+    a {
+      cursor: pointer;
+    }
+  }
+
+  > .active {
+    color: @breadcrumb-active-color;
+  }
+}

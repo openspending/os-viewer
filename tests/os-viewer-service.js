@@ -49,78 +49,8 @@ describe('osViewerService', function() {
     api.getDataPackageModel('Package1').then(function(model) {
       var dimensions = api.getDimensionsFromModel(model);
       var hierarchies = osViewerService._buildHierarchies(model, dimensions);
-      var expected = [
-        {
-          key: 'withoutHierarchy',
-          name: 'Without hierarchy',
-          dimensions: [
-            {
-              id: 'from',
-              key: 'from.name',
-              code: 'From',
-              displayName: 'From',
-              hierarchy: 'from',
-              dimensionType: undefined,
-              name: 'from.name',
-              label: 'from.name',
-              drillDown: undefined
-            },
-            {
-              id: 'to',
-              key: 'to.name',
-              code: 'To',
-              displayName: 'To',
-              hierarchy: 'to',
-              dimensionType: undefined,
-              name: 'to.name',
-              label: 'to.name',
-              drillDown: undefined
-            }
-
-          ],
-          common: true
-        },
-        {
-          key: 'time',
-          name: 'time',
-          dimensions: [
-            {
-              id: 'time_day',
-              key: 'time_day.day',
-              code: 'Time-Day',
-              displayName: 'Time-Day',
-              hierarchy: 'time',
-              dimensionType: undefined,
-              name: 'time_day.day',
-              label: 'time_day.day',
-              drillDown: undefined
-            },
-            {
-              id: 'time_month',
-              key: 'time_month.month',
-              code: 'Time-Month',
-              displayName: 'Time-Month',
-              hierarchy: 'time',
-              dimensionType: undefined,
-              name: 'time_month.month',
-              label: 'time_month.month',
-              drillDown: 'time_day.day'
-            },
-            {
-              id: 'time_year',
-              key: 'time_year.year',
-              code: 'Time-Year',
-              displayName: 'Time-Year',
-              hierarchy: 'time',
-              dimensionType: undefined,
-              name: 'time_year.year',
-              label: 'time_year.year',
-              drillDown: 'time_month.month'
-            }
-          ],
-          common: false
-        }
-      ];
+      var expected = require('./data/os-viewer-service/expected/' +
+        'hierarchy1.js');
       assert.deepEqual(hierarchies, expected);
       done();
     });

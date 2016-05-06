@@ -169,7 +169,8 @@ module.exports = function(apiConfig, searchConfig) {
           name: value.key_ref,
           label: value.label_ref,
           displayName: value.label,
-          drillDown: that.getDrillDownDimensionKey(model, id)
+          drillDown: that.getDrillDownDimensionKey(model, id),
+          original: _.clone(value)
         });
 
       });

@@ -280,64 +280,10 @@ describe('DataPackage API', function() {
   it('Should return dimensions from model', function(done) {
     api.getDataPackageModel('Package1').then(function(model) {
       var dimensions = api.getDimensionsFromModel(model);
+      var expected = require('./data/data-package-api/expected/' +
+        'model1.js');
       assert.isArray(dimensions);
-      assert.deepEqual(dimensions, [
-        {
-          id: 'from',
-          key: 'from.name',
-          code: 'From',
-          displayName: 'From',
-          hierarchy: 'from',
-          dimensionType: undefined,
-          name: 'from.name',
-          label: 'from.name',
-          drillDown: undefined
-        },
-        {
-          id: 'time_day',
-          key: 'time_day.day',
-          code: 'Time-Day',
-          displayName: 'Time-Day',
-          hierarchy: 'time',
-          dimensionType: undefined,
-          name: 'time_day.day',
-          label: 'time_day.day',
-          drillDown: undefined
-        },
-        {
-          id: 'time_month',
-          key: 'time_month.month',
-          code: 'Time-Month',
-          displayName: 'Time-Month',
-          hierarchy: 'time',
-          dimensionType: undefined,
-          name: 'time_month.month',
-          label: 'time_month.month',
-          drillDown: 'time_day.day'
-        },
-        {
-          id: 'time_year',
-          key: 'time_year.year',
-          code: 'Time-Year',
-          displayName: 'Time-Year',
-          hierarchy: 'time',
-          dimensionType: undefined,
-          name: 'time_year.year',
-          label: 'time_year.year',
-          drillDown: 'time_month.month'
-        },
-        {
-          id: 'to',
-          key: 'to.name',
-          code: 'To',
-          displayName: 'To',
-          hierarchy: 'to',
-          dimensionType: undefined,
-          name: 'to.name',
-          label: 'to.name',
-          drillDown: undefined
-        }
-      ]);
+      assert.deepEqual(dimensions, expected);
       done();
     });
   });
@@ -345,86 +291,10 @@ describe('DataPackage API', function() {
   it('Should return correct dimensions from model', function(done) {
     api.getDataPackageModel('Package2').then(function(model) {
       var dimensions = api.getDimensionsFromModel(model);
+      var expected = require('./data/data-package-api/expected/' +
+        'model2.js');
       assert.isArray(dimensions);
-      assert.deepEqual(dimensions, [
-        {
-          id: 'administrative_classification_admin1',
-          key: 'administrative_classification_admin1.admin1',
-          code: 'Administrative_classification-Admin1',
-          hierarchy: 'administrative_classification',
-          dimensionType: undefined,
-          name: 'administrative_classification_admin1.admin1',
-          label: 'administrative_classification_admin1.admin1',
-          displayName: 'Administrative_classification-Admin1',
-          drillDown: 'administrative_classification_admin2_code.admin2_code'
-        },
-        {
-          id: 'administrative_classification_admin2_code',
-          key: 'administrative_classification_admin2_code.admin2_code',
-          code: 'Administrative_classification-Admin2_code',
-          hierarchy: 'administrative_classification',
-          dimensionType: undefined,
-          name: 'administrative_classification_admin2_code.admin2_code',
-          label: 'administrative_classification_admin2_code.admin2_label',
-          displayName: 'Administrative_classification-Admin2_code',
-          drillDown: 'administrative_classification_admin3_code.admin3_code'
-        },
-        {
-          id: 'administrative_classification_admin3_code',
-          key: 'administrative_classification_admin3_code.admin3_code',
-          code: 'Administrative_classification-Admin3_code',
-          hierarchy: 'administrative_classification',
-          dimensionType: undefined,
-          name: 'administrative_classification_admin3_code.admin3_code',
-          label: 'administrative_classification_admin3_code.admin3_label',
-          displayName: 'Administrative_classification-Admin3_code',
-          drillDown: undefined
-        },
-        {
-          id: 'location',
-          key: 'location.title',
-          code: 'Location',
-          hierarchy: 'location',
-          dimensionType: undefined,
-          name: 'location.title',
-          label: 'location.title',
-          displayName: 'Location',
-          drillDown: undefined
-        },
-        {
-          id: 'other_exp_type',
-          key: 'other_exp_type.exp_type',
-          code: 'Other-Exp_type',
-          hierarchy: 'other',
-          dimensionType: undefined,
-          name: 'other_exp_type.exp_type',
-          label: 'other_exp_type.exp_type',
-          displayName: 'Other-Exp_type',
-          drillDown: 'other_transfer.transfer'
-        },
-        {
-          id: 'other_fin_source',
-          key: 'other_fin_source.fin_source',
-          code: 'Other-Fin_source',
-          hierarchy: 'other',
-          dimensionType: undefined,
-          name: 'other_fin_source.fin_source',
-          label: 'other_fin_source.fin_source',
-          displayName: 'Other-Fin_source',
-          drillDown: 'other_exp_type.exp_type'
-        },
-        {
-          id: 'other_transfer',
-          key: 'other_transfer.transfer',
-          code: 'Other-Transfer',
-          hierarchy: 'other',
-          dimensionType: undefined,
-          name: 'other_transfer.transfer',
-          label: 'other_transfer.transfer',
-          displayName: 'Other-Transfer',
-          drillDown: undefined
-        }
-      ]);
+      assert.deepEqual(dimensions, expected);
       done();
     });
   });

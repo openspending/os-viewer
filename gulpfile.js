@@ -101,10 +101,16 @@ gulp.task('app.styles', function() {
 
 gulp.task('embedded.styles', function() {
   var files = [
-    path.join(nodeModulesDir, '/babbage.ui/dist/lib.css')
+    path.join(nodeModulesDir, '/babbage.ui/dist/lib.css'),
+    path.join(frontStylesDir, '/embedded.less')
   ];
   return gulp.src(files)
+    .pipe(sourcemaps.init())
+    .pipe(less())
+    .pipe(prefixer({browsers: ['last 4 versions']}))
+    .pipe(minifyCss({compatibility: 'ie8'}))
     .pipe(concat('embedded.css'))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(publicStylesDir));
 });
 
