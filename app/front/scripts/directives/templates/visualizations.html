@@ -208,7 +208,10 @@
     <i class="os-icon os-icon-circle-plus"
        ng-click="showAddVisualizationDialog()"
     ></i>
-    <p ng-click="showAddVisualizationDialog()">Add Visualization</p>
+    <p ng-click="showAddVisualizationDialog()"
+       ng-if="selectedVisualizations.length == 0">Create visualisation and select a view of your choice</p>
+    <p ng-click="showAddVisualizationDialog()"
+       ng-if="selectedVisualizations.length > 0">Add Visualization</p>
     <div>
       <span ng-repeat="item in availableVisualizations">
           <span ng-if="item.isEnabled && selectedVisualizations.indexOf(item.id) < 0"
