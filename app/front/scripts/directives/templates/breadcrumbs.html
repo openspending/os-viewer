@@ -1,8 +1,8 @@
 <ol class="breadcrumb">
   <li ng-repeat="breadcrumb in breadcrumbs">
-    <span ng-if="$last">{{ breadcrumb.value }}</span>
+    <span ng-if="$last">{{ breadcrumb.display }}</span>
     <a ng-if="!$last" ng-click="events.clickBreadcrumb(breadcrumb)">
-      {{ breadcrumb.value }}
+      {{ breadcrumb.display }}
     </a>
   </li>
 </ol>

@@ -39,7 +39,8 @@
                 groups: undefined,
                 filters: undefined,
                 key: undefined,
-                value: 'Top level'
+                value: 'Top level',
+                display: 'Top level'
               }
             ];
 
@@ -68,7 +69,8 @@
                 var value = _.find(dimension.values, { key: filters[dimension.key] }).value;
                 result.push({
                   key: dimension.key,
-                  value: value,
+                  value: filters[dimension.key],
+                  display: value,
                   groups: undefined,
                   filters: undefined,
                 });
