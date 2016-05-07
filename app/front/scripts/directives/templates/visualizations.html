@@ -8,6 +8,7 @@
   </div>
   <div ng-if="visualizationId == 'Treemap'" class="row">
     <div class="x-visualization-chart col-xs-12 col-sm-9">
+      <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
       <tree-map ng-if="!state.flag.renderingCharts"
         cube="{{state.availablePackages.current}}"
         state="state.babbage"
@@ -126,6 +127,7 @@
   </div>
   <div ng-if="visualizationId == 'BubbleTree'" class="row">
     <div class="x-visualization-chart col-xs-12 col-sm-9">
+      <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
       <bubbletree ng-if="!state.flag.renderingCharts"
         type="line"
         cube="{{state.availablePackages.current}}"
@@ -204,8 +206,23 @@
   </div>
 </div>
 
-<div ng-click="showAddVisualizationDialog()" title="Add visualization" class="well x-visualization-add text-center">
-  <i class="os-icon os-icon-circle-plus"></i>
+<div title="Add visualization" class="well x-visualization-add text-center">
+    <i class="os-icon os-icon-circle-plus"
+       ng-click="showAddVisualizationDialog()"
+    ></i>
+    <p ng-click="showAddVisualizationDialog()"
+       ng-if="selectedVisualizations.length == 0">Create visualisation and select a view of your choice</p>
+    <p ng-click="showAddVisualizationDialog()"
+       ng-if="selectedVisualizations.length > 0">Add Visualization</p>
+    <div>
+      <span ng-repeat="item in availableVisualizations">
+          <span ng-if="item.isEnabled && selectedVisualizations.indexOf(item.id) < 0"
+                ng-click="selectedVisualizations.indexOf(item.id) >= 0 || addVisualization(item.id, true)"
+                class="x-visualization-item">
+              <i ng-class="item.icon"></i>
+          </span>
+      </span>
+    </div>
 </div>
 
 <div class="modal fade x-visualization-add-modal" role="dialog">

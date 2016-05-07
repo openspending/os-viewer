@@ -27,8 +27,81 @@
           $window) {
 
           function updateLocation() {
-            NavigationService.
+            if (!$window.isVisEmbedded) {
+              NavigationService.
               updateLocation($scope.state, $rootScope.isEmbedded);
+            }
+          }
+
+          function updateBreadcrumbs() {
+            var result = [
+              {
+                groups: undefined,
+                filters: undefined,
+                key: undefined,
+                value: 'Top level',
+                display: 'Top level'
+              }
+            ];
+
+            var filters = $scope.state.dimensions.current.filters;
+            var groups = $scope.state.dimensions.current.groups;
+            var dimension = _.find(
+              $scope.state.dimensions.items, { key: _.first(groups) }
+            );
+            var hierarchy = _.find(
+              $scope.state.hierarchies, { key: dimension.hierarchy }
+            );
+
+            var baseFilters = _.clone(filters);
+            var breadcrumbsDimensions = [];
+
+            _.each(hierarchy.dimensions, function(dimension) {
+              if (filters[dimension.key]) {
+                breadcrumbsDimensions.push(dimension);
+              }
+            });
+
+            lazyLoadManyDimensionValues(breadcrumbsDimensions).then(function(results) {
+              _.each(breadcrumbsDimensions, function(dimension) {
+                baseFilters[dimension.key] = undefined; //delete hierarchy filters
+                result[result.length - 1].groups = dimension.key;
+                var value = _.find(dimension.values, { key: filters[dimension.key] }).value;
+                result.push({
+                  key: dimension.key,
+                  value: filters[dimension.key],
+                  display: value,
+                  groups: undefined,
+                  filters: undefined,
+                });
+              });
+
+              baseFilters = _.pickBy(baseFilters);
+              _.each(result, function(breadcrumb) {
+                if (breadcrumb.key) {
+                  baseFilters[breadcrumb.key] = breadcrumb.value;
+                }
+                breadcrumb.filters = _.clone(baseFilters);
+              });
+
+              $scope.state.breadcrumbs = result;
+            });
+          }
+
+          function lazyLoadManyDimensionValues(dimensions) {
+            var promises = _.map(dimensions, function(dimension) {
+              return lazyLoadDimensionValues(dimension);
+            });
+
+            return $q.all(promises);
+          }
+
+          function lazyLoadDimensionValues(dimension) {
+            return $q(function(resolve, reject) {
+              viewerService.lazyLoadDimensionValues(dimension)
+                .then(resolve)
+                .catch(reject);
+            });
           }
 
           function drillDown(value) {
@@ -41,13 +114,16 @@
               $scope.state.dimensions.current.groups = [
                 dimension.drillDown
               ];
-              var item = _.find(dimension.values, {key: value});
-              if (item) {
-                $scope.state.dimensions.current.filters[dimension.key] =
-                  item.key;
-              }
-              updateLocation();
-              updateBabbage();
+
+              lazyLoadDimensionValues(dimension).then(function(values) {
+                var item = _.find(values, { key: value });
+                if (item) {
+                  $scope.state.dimensions.current.filters[dimension.key] =
+                    item.key;
+                }
+                updateLocation();
+                updateBabbage();
+              })
             }
           }
 
@@ -64,6 +140,13 @@
                 drillDown(info._key);
               });
 
+            $scope.events.clickBreadcrumb = function(breadcrumb) {
+              $scope.state.dimensions.current.groups = [breadcrumb.groups];
+              $scope.state.dimensions.current.filters = _.clone(breadcrumb.filters);
+              updateLocation();
+              updateBabbage();
+            };
+
             $scope.events.changePackage = function(searchPackage, packageInfo) {
               changePackage(searchPackage, packageInfo);
             };
@@ -78,6 +161,22 @@
               return _.find($scope.state.dimensions.items, function(item) {
                 return item.key == key;
               });
+            };
+
+            $scope.events.getFilters = function() {
+              var ret = _.chain(_.toPairs($scope.state.dimensions.current.filters))
+                .map(function(pair) {
+                  var dimension = $scope.events.findDimension(pair[0]);
+                  if ( dimension ) {
+                    pair.push(dimension.code);
+                  }
+                  if ( pair[2] ) {
+                    return pair;
+                  }
+                })
+                .filter()
+                .value();
+              return ret;
             };
 
             $scope.events.toggleOrderBy = function(key, direction,
@@ -155,11 +254,13 @@
               $scope.state.dimensions.current.filters[filter] = value;
               updateLocation();
               updateBabbage();
+              $scope.state.displayFilters = $scope.events.getFilters();
             };
             $scope.events.dropFilter = function(filter) {
               delete $scope.state.dimensions.current.filters[filter];
               updateLocation();
               updateBabbage();
+              $scope.state.displayFilters = $scope.events.getFilters();
             };
 
             $scope.events.changePivot = function(axis, dimension, replace) {
@@ -284,14 +385,12 @@
 
             // Filters
             _.forEach(defaultParams.filters, function(value, key) {
-              var dimension = _.find($scope.state.dimensions.items,
-                function(item) {
-                  return item.code == key;
-                });
+              var dimension = _.find($scope.state.dimensions.items, { key: key });
               if (dimension) {
                 $scope.state.dimensions.current.filters[key] = value;
               }
             });
+            $scope.state.displayFilters = $scope.events.getFilters();
           }
 
           function changePackage(searchPackage, defaultParams) {
@@ -313,7 +412,10 @@
             $scope.state.availablePackages.locationAvailable = false;
 
             $q(function(resolve, reject) {
-              viewerService.buildState(packageName)
+              viewerService.buildState(
+                packageName,
+                { withoutValues: $window.isVisEmbedded }
+                )
                 .then(resolve)
                 .catch(reject);
             }).then(function(state) {
@@ -354,8 +456,7 @@
               }
 
               $scope.state.availablePackages.locationAvailable =
-                !!$scope.state.availablePackages.locationCountry &&
-                !!_.find(state.dimensions.items, {
+                !!$scope.state.availablePackages.locationCountry && !!_.find(state.dimensions.items, {
                   dimensionType: 'location'
                 });
               $scope.state.availablePackages.locationSelected = false;
@@ -398,16 +499,16 @@
               order: [$scope.state.orderBy]
             };
 
+            updateBreadcrumbs();
             HistoryService.pushState($scope.state);
-
             refreshBabbageComponents();
           }
 
           function applyLocationParams() {
             var params = NavigationService.getParams();
             var foundPackage =
-                _.find($scope.state.availablePackages.items,
-                    {key: params.dataPackage});
+              _.find($scope.state.availablePackages.items,
+                { key: params.dataPackage });
             if (!foundPackage) {
               foundPackage =
                 _.first($scope.state.availablePackages.items);
@@ -427,7 +528,7 @@
           $scope.$watchCollection('state.selectedVisualizations',
             function(value) {
               if (_.isArray(value)) {
-                NavigationService.updateLocation($scope.state);
+                updateLocation($scope.state);
               }
             });
 
@@ -471,22 +572,22 @@
             var searchSettings;
 
             return SettingsService.get('search')
-                .then(function(_searchSettings) {
-                  searchSettings = _searchSettings;
-                  $scope.state.searchUrl = searchSettings.url;
-                  return SettingsService.get('api');
-                })
-                .then(function(apiSettings) {
-                  $scope.state.apiUrl = apiSettings.url;
-                  $scope.state.cosmoUrl = apiSettings.cosmoUrl;
-                  viewerService =
-                      components.osViewerService(apiSettings, searchSettings);
-                  return $q(function(resolve, reject) {
-                    viewerService.start({}).then(function(state) {
-                      resolve(state);
-                    });
+              .then(function(_searchSettings) {
+                searchSettings = _searchSettings;
+                $scope.state.searchUrl = searchSettings.url;
+                return SettingsService.get('api');
+              })
+              .then(function(apiSettings) {
+                $scope.state.apiUrl = apiSettings.url;
+                $scope.state.cosmoUrl = apiSettings.cosmoUrl;
+                viewerService =
+                  components.osViewerService(apiSettings, searchSettings);
+                return $q(function(resolve, reject) {
+                  viewerService.start({}).then(function(state) {
+                    resolve(state);
                   });
                 });
+              });
           }
 
           init().then(function(state) {

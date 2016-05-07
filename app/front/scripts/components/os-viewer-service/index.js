@@ -62,14 +62,50 @@ module.exports = function(apiConfig, searchConfig) {
       return _.values(result);
     },
 
-    buildState: function(packageName) {
+    getPossibleValues: function (packageName, dimension) {
+      return api.getDimensionValues(packageName, dimension.key)
+        .then(function (values) {
+          var result = [];
+          _.forEach(values.data, function(value) {
+            result.push(
+              api.buildDimensionValue(dimension.original, value)
+            );
+          });
+          return result;
+        });
+    },
+
+    lazyLoadDimensionValues: function (dimension, packageName) {
+      if (dimension.values) {
+        return new Promise(function (resolve, reject) {
+          resolve(dimension.values);
+        });
+      } else {
+        packageName = packageName || this.currentPackageName;
+        return this.getPossibleValues(packageName, dimension)
+          .then(function(possibleValues) {
+            dimension.values = possibleValues;
+            return dimension.values;
+          })
+      }
+    },
+
+    buildState: function(packageName, options) {
+      options = options || {};
+      this.currentPackageName = packageName;
       var that = this;
       var model = null;
 
       return api.getDataPackageModel(packageName)
         .then(function(result) {
           model = result;
-          return api.getAllDimensionValues(packageName, model);
+          if (options.withoutValues) {
+            return new Promise (function (resolve, reject) {
+              resolve({});
+            });
+          } else {
+            return api.getAllDimensionValues(packageName, model);
+          }
         })
         .then(function(possibleValues) {
           var result = {dimensions: {}, measures: {}, hierarchies: {}};

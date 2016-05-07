@@ -160,20 +160,17 @@ module.exports = function(apiConfig, searchConfig) {
       var result = [];
       _.forEach(model.dimensions, function(value, id) {
 
-        // jscs:disable
-        var keyAttribute = value.key_attribute;
-        var labelAttribute = value.label_attribute;
-        // jscs:enable
-
         result.push({
           id: id,
-          key: that.getDimensionKeyById(model, id),
+          key: value.key_ref,
           code: value.label,
           hierarchy: value.hierarchy,
           dimensionType: value.dimensionType,
-          name: model.dimensions[id].key_ref,
-          label: model.dimensions[id].label_ref,
-          drillDown: that.getDrillDownDimensionKey(model, id)
+          name: value.key_ref,
+          label: value.label_ref,
+          displayName: value.label,
+          drillDown: that.getDrillDownDimensionKey(model, id),
+          original: _.clone(value)
         });
 
       });
