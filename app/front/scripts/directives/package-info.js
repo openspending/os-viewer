@@ -13,12 +13,17 @@
           },
           link: function($scope) {
             function updateInfo(dataPackage) {
+              console.log('UUUU',dataPackage);
               $scope.packageUrl = null;
               $scope.resources = [];
 
               // jscs:disable
               var originUrl = dataPackage && dataPackage.__origin_url ?
-                dataPackage.__origin_url : null;
+                dataPackage.__origin_url :
+                      ['http://datastore.openspending.org',
+                       dataPackage.owner,
+                       dataPackage.name,
+                       'datapackage.json'].join('/');
               // jscs:enable
 
               if (originUrl) {
