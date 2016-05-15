@@ -7,7 +7,7 @@
     </sorting-control>
   </div>
   <div ng-if="visualizationId == 'Treemap'" class="row">
-    <div class="x-visualization-chart col-xs-12 col-sm-9">
+    <div class="x-visualization-chart col-xs-12 col-sm-12">
       <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
       <tree-map ng-if="!state.flag.renderingCharts"
         cube="{{state.availablePackages.current}}"
@@ -31,7 +31,7 @@
     </div>
   </div>
   <div ng-if="visualizationId == 'PieChart'" class="row">
-    <div class="x-visualization-chart col-xs-12 col-sm-9">
+    <div class="x-visualization-chart col-xs-12 col-sm-12">
       <pie-chart ng-if="!state.flag.renderingCharts"
         cube="{{state.availablePackages.current}}"
         state="state.babbage"
@@ -54,7 +54,7 @@
     </div>
   </div>
   <div ng-if="visualizationId == 'BarChart'" class="row">
-    <div class="x-visualization-chart col-xs-12 col-sm-9">
+    <div class="x-visualization-chart col-xs-12 col-sm-12">
       <chart ng-if="!state.flag.renderingCharts"
         type="bar"
         cube="{{state.availablePackages.current}}"
@@ -78,7 +78,7 @@
     </div>
   </div>
   <div ng-if="visualizationId == 'LineChart'" class="row">
-    <div class="x-visualization-chart col-xs-12 col-sm-9">
+    <div class="x-visualization-chart col-xs-12 col-sm-12">
       <chart ng-if="!state.flag.renderingCharts"
         type="line"
         cube="{{state.availablePackages.current}}"
@@ -102,7 +102,7 @@
     </div>
   </div>
   <div ng-if="visualizationId == 'Table'" class="row">
-    <div class="x-visualization-chart col-xs-12 col-sm-9">
+    <div class="x-visualization-chart col-xs-12 col-sm-12">
       <babbage-table ng-if="!state.flag.renderingCharts"
         type="line"
         cube="{{state.availablePackages.current}}"
@@ -126,7 +126,7 @@
     </div>
   </div>
   <div ng-if="visualizationId == 'BubbleTree'" class="row">
-    <div class="x-visualization-chart col-xs-12 col-sm-9">
+    <div class="x-visualization-chart col-xs-12 col-sm-12">
       <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
       <bubbletree ng-if="!state.flag.renderingCharts"
         type="line"
@@ -151,7 +151,7 @@
     </div>
   </div>
   <div ng-if="visualizationId == 'Map'" class="row">
-    <div class="x-visualization-chart col-xs-12 col-sm-9" ng-if="state.availablePackages.locationAvailable && state.availablePackages.locationSelected">
+    <div class="x-visualization-chart col-xs-12 col-sm-12" ng-if="state.availablePackages.locationAvailable && state.availablePackages.locationSelected">
       <geo-view ng-if="!state.flag.renderingCharts"
         cube="{{state.availablePackages.current}}"
         state="state.babbage"
@@ -161,7 +161,7 @@
         country-code="{{ state.availablePackages.locationCountry }}">
       </geo-view>
     </div>
-    <div class="alert alert-warning col-xs-12 col-sm-9" ng-if="!(state.availablePackages.locationAvailable && state.availablePackages.locationSelected)">
+    <div class="alert alert-warning col-xs-12 col-sm-12" ng-if="!(state.availablePackages.locationAvailable && state.availablePackages.locationSelected)">
       Please, group your data by <code>location</code> dimension to enable this visualization.
     </div>
     <div class="x-visualization-info col-sm-3 hidden-xs" ng-if="state.availablePackages.locationAvailable && state.availablePackages.locationSelected">
@@ -180,7 +180,7 @@
     </div>
   </div>
   <div ng-if="visualizationId == 'PivotTable'" class="row">
-    <div class="x-visualization-chart col-xs-12 col-sm-9">
+    <div class="x-visualization-chart col-xs-12 col-sm-12">
       <div class="table-responsive">
         <pivot-table ng-if="!state.flag.renderingCharts"
           cube="{{state.availablePackages.current}}"
