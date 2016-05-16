@@ -382,6 +382,7 @@
                 $scope.state.dimensions.current.columns.push(value);
               }
             });
+            $scope.state.dimensions.current.columns.isDirty = true;
 
             // Filters
             _.forEach(defaultParams.filters, function(value, key) {
@@ -447,12 +448,13 @@
                     _.first(state.hierarchies).dimensions
                   ).key];
               }
-              // Rows
+              // Columns
               if ($scope.state.dimensions.current.columns.length == 0) {
                 $scope.state.dimensions.current.columns = [
                   _.first(
                     _.first(state.hierarchies).dimensions
                   ).key];
+                $scope.state.dimensions.current.columns.isDirty = true;
               }
 
               $scope.state.availablePackages.locationAvailable =

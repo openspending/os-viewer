@@ -13,7 +13,6 @@
           },
           link: function($scope) {
             function updateInfo(dataPackage) {
-              console.log('UUUU',dataPackage);
               $scope.packageUrl = null;
               $scope.resources = [];
 
