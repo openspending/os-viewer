@@ -251,6 +251,21 @@
             if (removeIfAdded) {
               $scope.removeVisualization(visualization);
             }
+
+            if ($scope.availableVisualizations) {
+              var availableVisIds = _.chain($scope.availableVisualizations)
+                .filter(function(item) {
+                  return item.isEnabled;
+                })
+                .map(function(item) {
+                  return item.id;
+                })
+                .difference($scope.selectedVisualizations)
+                .value();
+              if (availableVisIds.length == 0) {
+                addVisModal.modal('hide');
+              }
+            }
           };
 
           $scope.removeVisualization = function(visualization) {
