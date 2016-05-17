@@ -3,8 +3,8 @@
   var app = angular.module('Application');
 
   app.directive('sidebar', [
-    '_',
-    function(_) {
+    '_', 'Configuration',
+    function(_, Configuration) {
       return {
         templateUrl: 'templates/sidebar.html',
         replace: false,
@@ -54,6 +54,21 @@
               })
               .filter()
               .value();
+
+            var x = Configuration.maxDimensionValuesForColumns;
+            $scope.columnsHierarchies = _.chain(items)
+              .map(function(hierarchy) {
+                var result = _.extend({}, hierarchy);
+                result.dimensions = _.filter(hierarchy.dimensions,
+                  function(dimension) {
+                    return dimension.values.length <= x;
+                  });
+                if (result.dimensions.length > 0) {
+                  return result;
+                }
+              })
+              .filter()
+              .value();
           }
 
           if ($scope.state && $scope.state.hierarchies) {
@@ -87,6 +102,10 @@
           }
 
           function isSelectionValid(selection, hierarchies) {
+            if (selection && selection.isDirty) {
+              return false;
+            }
+
             var allowedKeys = [];
             _.forEach(hierarchies, function(hierarchy) {
               _.forEach(hierarchy.dimensions, function(dimension) {
@@ -105,11 +124,62 @@
             return result;
           }
 
+          function chooseColumnDimension(hierarchies) {
+            var result = null;
+
+            // Try to use datetime dimension
+            _.forEach(hierarchies, function(hierarchy) {
+              _.forEach(hierarchy.dimensions, function(dimension) {
+                var isDateTime = dimension.dimensionType == 'datetime';
+                var hasMultiValues = dimension.values.length > 1;
+                if (isDateTime && hasMultiValues) {
+                  result = dimension;
+                  return false;
+                }
+              });
+              if (result) {
+                return false;
+              }
+            });
+            if (result) {
+              return result;
+            }
+
+            // Find dimension with at most X values
+            var x = Configuration.maxDimensionValuesForColumns;
+            _.forEach(hierarchies, function(hierarchy) {
+              _.forEach(hierarchy.dimensions, function(dimension) {
+                var isDateTime = dimension.dimensionType == 'datetime';
+                var hasAtMostValues = dimension.values.length <= x;
+                if (!isDateTime && hasAtMostValues) {
+                  result = dimension;
+                  return false;
+                }
+              });
+              if (result) {
+                return false;
+              }
+            });
+            if (result) {
+              return result;
+            }
+
+            // Choose any
+            var hierarchy = _.first(hierarchies);
+            if (hierarchy && hierarchy.dimensions) {
+              result = _.first(hierarchy.dimensions);
+            }
+            return result;
+          }
+
           function updateSelections(type) {
             if (!$scope.events) {
               return;
             }
+
             var hierarchies = null;
+            var dimension = null;
+
             if (type) {
               switch (type) {
                 case 'location':
@@ -136,21 +206,23 @@
               $scope.state.dimensions.current.columns, hierarchies);
             var isSeriesValid = isSelectionValid(
               $scope.state.dimensions.current.series, hierarchies);
-
             var hierarchy = _.first(hierarchies);
             if (hierarchy && hierarchy.dimensions) {
-              var dimension = _.first(hierarchy.dimensions);
+              dimension = _.first(hierarchy.dimensions);
               if (dimension) {
                 if (!isGroupValid) {
                   $scope.events.changeGroup(dimension.key, true);
                 }
-                if (!isRowsValid) {
-                  $scope.events.changePivot('rows', dimension.key, true);
-                }
-                if (!isColumnsValid) {
-                  $scope.events.changePivot('columns', dimension.key, true);
-                }
               }
+            }
+
+            if (!isRowsValid) {
+              $scope.events.changePivot('rows', dimension.key, true);
+            }
+            if (!isColumnsValid) {
+              dimension = chooseColumnDimension($scope.columnsHierarchies);
+              $scope.events.changePivot('columns', dimension.key, true);
+              $scope.state.dimensions.current.columns.isDirty = false;
             }
 
             if (!isSeriesValid) {

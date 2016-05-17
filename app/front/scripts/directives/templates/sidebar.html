@@ -124,7 +124,7 @@
     <hr>
 
     <strong>Columns</strong>
-    <div ng-repeat="hierarchy in state.hierarchies">
+    <div ng-repeat="hierarchy in columnsHierarchies">
       <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.columns" key="columns"
         title="{{ getHierarchyName(hierarchy) }}" can-clear="{{ state.dimensions.current.columns.length > 1 ? 'yes' : '' }}"></sidebar-list>
     </div>
