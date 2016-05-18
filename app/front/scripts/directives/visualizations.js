@@ -86,6 +86,9 @@
             if (state.measures && state.measures.current) {
               $scope.events.toggleOrderBy(state.measures.current, true);
             }
+            $scope.events.dropPivot('series', null, true);
+            $scope.events.dropPivot('rows', null, true);
+            $scope.events.dropPivot('columns', null, true);
           }
 
           $scope.selectedVisualizations = $scope.state.selectedVisualizations;
@@ -239,7 +242,6 @@
                 return item.id == visualization;
               }).type;
               updateAvailableVisualizations();
-              resetOrderBy();
             } else
             if (removeIfAdded) {
               $scope.removeVisualization(visualization);

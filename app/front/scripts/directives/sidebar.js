@@ -204,7 +204,7 @@
               $scope.state.dimensions.current.rows, $scope.hierarchies);
             var isColumnsValid = isSelectionValid(
               $scope.state.dimensions.current.columns,
-              $scope.columnsHierarchies);
+              $scope.columnsHierarchies, true);
             var isSeriesValid = isSelectionValid(
               $scope.state.dimensions.current.series, $scope.hierarchies);
             var isSeriesReallyValid = isSelectionValid(
@@ -237,13 +237,18 @@
                 if (!isSeriesReallyValid || isSeriesEmpty) {
                   $scope.events.changePivot('series', dimension.key, true);
                 }
-                $scope.events.toggleOrderBy(dimension.key, 'asc', false);
               } else {
-                $scope.events.dropPivot('series', null, true);
+                if (!isSeriesReallyValid) {
+                  $scope.events.dropPivot('series', null, true);
+                }
               }
               if ($scope.state.dimensions.current.series) {
                 $scope.state.dimensions.current.series.isDirty = false;
               }
+            }
+
+            if (type == 'time-series') {
+              $scope.events.toggleOrderBy(dimension.key, 'asc', true);
             }
           }
           updateSelections($scope.type);
@@ -279,6 +284,8 @@
                   case 'sortable-series':
                     if (key == 'group') {
                       $scope.events.changeGroup(item.key, true);
+                      var measure = $scope.state.measures.current;
+                      $scope.events.toggleOrderBy(measure, 'asc', true);
                     } else {
                       if (isSelected) {
                         $scope.events.changePivot(key, item.key, true);

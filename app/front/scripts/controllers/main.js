@@ -349,7 +349,9 @@
               })) {
               $scope.state.measures.current = defaultParams.measure;
             }
-            $scope.events.toggleOrderBy($scope.state.measures.current);
+            if ($scope.state.measures.current) {
+              $scope.events.toggleOrderBy($scope.state.measures.current);
+            }
 
             // Order by
             if (defaultParams.orderBy) {
@@ -436,7 +438,7 @@
               if (!$scope.state.measures.current) {
                 $scope.state.measures.current = state.measures.current;
               }
-              if (!$scope.state.orderBy) {
+              if (!$scope.state.orderBy && $scope.state.measures.current) {
                 $scope.events.toggleOrderBy($scope.state.measures.current);
               }
 
