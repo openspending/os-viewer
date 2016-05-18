@@ -83,13 +83,6 @@
             if (!$scope.events) {
               return;
             }
-            if ($scope.type == 'time-series') {
-              var dimension = _.first(state.dimensions.current.groups);
-              if (dimension) {
-                $scope.events.toggleOrderBy(dimension, 'asc', true);
-                return;
-              }
-            }
             if (state.measures && state.measures.current) {
               $scope.events.toggleOrderBy(state.measures.current, true);
             }

@@ -366,6 +366,7 @@
                 $scope.state.dimensions.current.series.push(value);
               }
             });
+            $scope.state.dimensions.current.series.isDirty = true;
 
             // Rows
             _.forEach(defaultParams.rows, function(value) {
@@ -492,6 +493,17 @@
             }
 
             $scope.state.babbage = babbageParams;
+
+            var babbageTimeSeries = babbageParams;
+            if (babbageParams.series) {
+              var seriesSameAsGroups = (babbageParams.series.length == 1) &&
+                (babbageParams.series[0] == babbageParams.group[0]);
+              if (seriesSameAsGroups) {
+                babbageTimeSeries = _.extend({}, babbageParams);
+                babbageTimeSeries.series = undefined;
+              }
+            }
+            $scope.state.babbageTimeSeries = babbageTimeSeries;
 
             $scope.state.babbagePivot = {
               aggregates: $scope.state.measures.current,

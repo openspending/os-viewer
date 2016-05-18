@@ -68,8 +68,7 @@
     </div>
     <strong>Series</strong>
     <div ng-repeat="hierarchy in state.hierarchies">
-      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
-                    ng-if="hierarchy.key != 'date'"
+      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.series"
         title="{{ getHierarchyName(hierarchy) }}"></sidebar-list>
     </div>
 
