@@ -203,7 +203,8 @@
             var isRowsValid = isSelectionValid(
               $scope.state.dimensions.current.rows, $scope.hierarchies);
             var isColumnsValid = isSelectionValid(
-              $scope.state.dimensions.current.columns, $scope.columnsHierarchies);
+              $scope.state.dimensions.current.columns,
+              $scope.columnsHierarchies);
             var isSeriesValid = isSelectionValid(
               $scope.state.dimensions.current.series, $scope.hierarchies);
             var isSeriesReallyValid = isSelectionValid(

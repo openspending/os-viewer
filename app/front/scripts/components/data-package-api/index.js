@@ -17,11 +17,11 @@ module.exports = function(apiConfig, searchConfig) {
           var packages = JSON.parse(text);
           _.forEach(packages, function(dataPackage) {
             dataPackage.author =
-                _.join(
-                    _.dropRight(
-                        _.split(dataPackage.package.author,' '),
-                        1),
-                    ' ');
+              _.join(
+                _.dropRight(
+                  _.split(dataPackage.package.author,' '),
+                  1),
+                ' ');
             result.push({
               key: dataPackage.id,
               value: dataPackage
@@ -162,12 +162,16 @@ module.exports = function(apiConfig, searchConfig) {
 
         result.push({
           id: id,
+          // jscs:disable
           key: value.key_ref,
+          // jscs:enable
           code: value.label,
           hierarchy: value.hierarchy,
           dimensionType: value.dimensionType,
+          // jscs:disable
           name: value.key_ref,
           label: value.label_ref,
+          // jscs:enable
           displayName: value.label,
           drillDown: that.getDrillDownDimensionKey(model, id),
           original: _.clone(value)

@@ -46,12 +46,12 @@
 
             var filters = $scope.state.dimensions.current.filters;
             var groups = $scope.state.dimensions.current.groups;
-            var dimension = _.find(
-              $scope.state.dimensions.items, { key: _.first(groups) }
-            );
-            var hierarchy = _.find(
-              $scope.state.hierarchies, { key: dimension.hierarchy }
-            );
+            var dimension = _.find($scope.state.dimensions.items, {
+              key: _.first(groups)
+            });
+            var hierarchy = _.find($scope.state.hierarchies, {
+              key: dimension.hierarchy
+            });
 
             var baseFilters = _.clone(filters);
             var breadcrumbsDimensions = [];
@@ -62,30 +62,34 @@
               }
             });
 
-            lazyLoadManyDimensionValues(breadcrumbsDimensions).then(function(results) {
-              _.each(breadcrumbsDimensions, function(dimension) {
-                baseFilters[dimension.key] = undefined; //delete hierarchy filters
-                result[result.length - 1].groups = dimension.key;
-                var value = _.find(dimension.values, { key: filters[dimension.key] }).value;
-                result.push({
-                  key: dimension.key,
-                  value: filters[dimension.key],
-                  display: value,
-                  groups: undefined,
-                  filters: undefined,
+            lazyLoadManyDimensionValues(breadcrumbsDimensions)
+              .then(function(results) {
+                _.each(breadcrumbsDimensions, function(dimension) {
+                  //delete hierarchy filters
+                  baseFilters[dimension.key] = undefined;
+                  result[result.length - 1].groups = dimension.key;
+                  var value = _.find(dimension.values, {
+                    key: filters[dimension.key]
+                  }).value;
+                  result.push({
+                    key: dimension.key,
+                    value: filters[dimension.key],
+                    display: value,
+                    groups: undefined,
+                    filters: undefined
+                  });
                 });
-              });
 
-              baseFilters = _.pickBy(baseFilters);
-              _.each(result, function(breadcrumb) {
-                if (breadcrumb.key) {
-                  baseFilters[breadcrumb.key] = breadcrumb.value;
-                }
-                breadcrumb.filters = _.clone(baseFilters);
-              });
+                baseFilters = _.pickBy(baseFilters);
+                _.each(result, function(breadcrumb) {
+                  if (breadcrumb.key) {
+                    baseFilters[breadcrumb.key] = breadcrumb.value;
+                  }
+                  breadcrumb.filters = _.clone(baseFilters);
+                });
 
-              $scope.state.breadcrumbs = result;
-            });
+                $scope.state.breadcrumbs = result;
+              });
           }
 
           function lazyLoadManyDimensionValues(dimensions) {
@@ -116,14 +120,14 @@
               ];
 
               lazyLoadDimensionValues(dimension).then(function(values) {
-                var item = _.find(values, { key: value });
+                var item = _.find(values, {key: value});
                 if (item) {
                   $scope.state.dimensions.current.filters[dimension.key] =
                     item.key;
                 }
                 updateLocation();
                 updateBabbage();
-              })
+              });
             }
           }
 
@@ -142,7 +146,8 @@
 
             $scope.events.clickBreadcrumb = function(breadcrumb) {
               $scope.state.dimensions.current.groups = [breadcrumb.groups];
-              $scope.state.dimensions.current.filters = _.clone(breadcrumb.filters);
+              $scope.state.dimensions.current.filters = _.clone(
+                breadcrumb.filters);
               updateLocation();
               updateBabbage();
             };
@@ -164,19 +169,19 @@
             };
 
             $scope.events.getFilters = function() {
-              var ret = _.chain(_.toPairs($scope.state.dimensions.current.filters))
+              return _.chain($scope.state.dimensions.current.filters)
+                .toPairs()
                 .map(function(pair) {
                   var dimension = $scope.events.findDimension(pair[0]);
-                  if ( dimension ) {
+                  if (dimension) {
                     pair.push(dimension.code);
                   }
-                  if ( pair[2] ) {
+                  if (pair[2]) {
                     return pair;
                   }
                 })
                 .filter()
                 .value();
-              return ret;
             };
 
             $scope.events.toggleOrderBy = function(key, direction,
@@ -387,7 +392,9 @@
 
             // Filters
             _.forEach(defaultParams.filters, function(value, key) {
-              var dimension = _.find($scope.state.dimensions.items, { key: key });
+              var dimension = _.find($scope.state.dimensions.items, {
+                key: key
+              });
               if (dimension) {
                 $scope.state.dimensions.current.filters[key] = value;
               }
@@ -414,10 +421,9 @@
             $scope.state.availablePackages.locationAvailable = false;
 
             $q(function(resolve, reject) {
-              viewerService.buildState(
-                packageName,
-                { withoutValues: $window.isVisEmbedded }
-                )
+              viewerService.buildState(packageName, {
+                withoutValues: $window.isVisEmbedded
+              })
                 .then(resolve)
                 .catch(reject);
             }).then(function(state) {
@@ -459,7 +465,8 @@
               }
 
               $scope.state.availablePackages.locationAvailable =
-                !!$scope.state.availablePackages.locationCountry && !!_.find(state.dimensions.items, {
+                !!$scope.state.availablePackages.locationCountry &&
+                !!_.find(state.dimensions.items, {
                   dimensionType: 'location'
                 });
               $scope.state.availablePackages.locationSelected = false;
@@ -521,8 +528,9 @@
           function applyLocationParams() {
             var params = NavigationService.getParams();
             var foundPackage =
-              _.find($scope.state.availablePackages.items,
-                { key: params.dataPackage });
+              _.find($scope.state.availablePackages.items, {
+                key: params.dataPackage
+              });
             if (!foundPackage) {
               foundPackage =
                 _.first($scope.state.availablePackages.items);
