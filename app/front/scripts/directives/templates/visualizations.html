@@ -180,9 +180,15 @@
     </div>
   </div>
   <div ng-if="visualizationId == 'PivotTable'" class="row">
-    <div class="x-visualization-chart col-xs-12 col-sm-12">
+    <div class="col-xs-12">
+      <export-control
+        target-selector="#babbage-pivot-table"
+        file-name="{{ state.availablePackages.current }}"
+      ></export-control>
+    </div>
+    <div class="x-visualization-chart col-xs-12">
       <div class="table-responsive">
-        <pivot-table ng-if="!state.flag.renderingCharts"
+        <pivot-table id="babbage-pivot-table" ng-if="!state.flag.renderingCharts"
           cube="{{state.availablePackages.current}}"
           state="state.babbagePivot"
           endpoint="{{state.apiUrl}}">
