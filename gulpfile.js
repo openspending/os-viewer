@@ -117,6 +117,7 @@ gulp.task('embedded.styles', function() {
 
 gulp.task('vendor.scripts', function() {
   var files = [
+    path.join(nodeModulesDir, '/file-saver/FileSaver.js'),
     path.join(nodeModulesDir, '/js-polyfills/xhr.js'),
     path.join(nodeModulesDir, '/os-bootstrap/dist/js/bootstrap.min.js'),
     path.join(nodeModulesDir, '/angular/angular.min.js'),
