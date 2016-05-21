@@ -101,8 +101,8 @@
             updateSelectedHierarchies($scope.state.dimensions.current.groups);
           }
 
-          function isSelectionValid(selection, hierarchies) {
-            if (selection && selection.isDirty) {
+          function isSelectionValid(selection, hierarchies, bypassFlag) {
+            if (!bypassFlag && selection && selection.isDirty) {
               return false;
             }
 
@@ -173,7 +173,7 @@
           }
 
           function updateSelections(type) {
-            if (!$scope.events) {
+            if (!$scope.events || !type) {
               return;
             }
 
@@ -201,11 +201,18 @@
             var isGroupValid = isSelectionValid(
               $scope.state.dimensions.current.groups, hierarchies);
             var isRowsValid = isSelectionValid(
-              $scope.state.dimensions.current.rows, hierarchies);
+              $scope.state.dimensions.current.rows, $scope.hierarchies);
             var isColumnsValid = isSelectionValid(
-              $scope.state.dimensions.current.columns, hierarchies);
+              $scope.state.dimensions.current.columns,
+              $scope.columnsHierarchies, true);
             var isSeriesValid = isSelectionValid(
-              $scope.state.dimensions.current.series, hierarchies);
+              $scope.state.dimensions.current.series, $scope.hierarchies);
+            var isSeriesReallyValid = isSelectionValid(
+              $scope.state.dimensions.current.series, $scope.hierarchies, true);
+            var isSeriesEmpty =
+              !_.isArray($scope.state.dimensions.current.series) ||
+              ($scope.state.dimensions.current.series.length == 0);
+
             var hierarchy = _.first(hierarchies);
             if (hierarchy && hierarchy.dimensions) {
               dimension = _.first(hierarchy.dimensions);
@@ -226,10 +233,26 @@
             }
 
             if (!isSeriesValid) {
-              $scope.events.dropPivot('series', null, true);
+              if (type == 'time-series') {
+                if (!isSeriesReallyValid || isSeriesEmpty) {
+                  $scope.events.changePivot('series', dimension.key, true);
+                }
+              } else {
+                if (!isSeriesReallyValid) {
+                  $scope.events.dropPivot('series', null, true);
+                }
+              }
+              if ($scope.state.dimensions.current.series) {
+                $scope.state.dimensions.current.series.isDirty = false;
+              }
+            }
+
+            if (type == 'time-series') {
+              $scope.events.toggleOrderBy(dimension.key, 'asc', true);
             }
           }
           updateSelections($scope.type);
+
           $scope.$watch('type', function(newValue, oldValue) {
             if (newValue !== oldValue) {
               updateSelections($scope.type);
@@ -261,6 +284,8 @@
                   case 'sortable-series':
                     if (key == 'group') {
                       $scope.events.changeGroup(item.key, true);
+                      var measure = $scope.state.measures.current;
+                      $scope.events.toggleOrderBy(measure, 'asc', true);
                     } else {
                       if (isSelected) {
                         $scope.events.changePivot(key, item.key, true);
@@ -270,8 +295,7 @@
                     }
                     break;
                   case 'time-series':
-                    $scope.events.changeGroup(item.key, true);
-                    $scope.events.toggleOrderBy(item.key, 'asc', true);
+                    $scope.events.changePivot('series', item.key, true);
                     break;
                   case 'location':
                     $scope.events.changeGroup(item.key, true);

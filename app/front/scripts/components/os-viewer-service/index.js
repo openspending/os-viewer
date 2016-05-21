@@ -62,9 +62,9 @@ module.exports = function(apiConfig, searchConfig) {
       return _.values(result);
     },
 
-    getPossibleValues: function (packageName, dimension) {
+    getPossibleValues: function(packageName, dimension) {
       return api.getDimensionValues(packageName, dimension.key)
-        .then(function (values) {
+        .then(function(values) {
           var result = [];
           _.forEach(values.data, function(value) {
             result.push(
@@ -75,9 +75,9 @@ module.exports = function(apiConfig, searchConfig) {
         });
     },
 
-    lazyLoadDimensionValues: function (dimension, packageName) {
+    lazyLoadDimensionValues: function(dimension, packageName) {
       if (dimension.values) {
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
           resolve(dimension.values);
         });
       } else {
@@ -86,7 +86,7 @@ module.exports = function(apiConfig, searchConfig) {
           .then(function(possibleValues) {
             dimension.values = possibleValues;
             return dimension.values;
-          })
+          });
       }
     },
 
@@ -100,7 +100,7 @@ module.exports = function(apiConfig, searchConfig) {
         .then(function(result) {
           model = result;
           if (options.withoutValues) {
-            return new Promise (function (resolve, reject) {
+            return new Promise(function(resolve, reject) {
               resolve({});
             });
           } else {

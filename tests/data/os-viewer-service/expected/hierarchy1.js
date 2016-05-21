@@ -14,28 +14,28 @@ module.exports = [
         label: 'from.name',
         drillDown: undefined,
         original: {
-          "ref": "from",
-          "key_attribute": "name",
-          "cardinality_class": null,
-          "label_ref": "from.name",
-          "label": "From",
-          "hierarchy": "from",
-          "attributes": {
-            "name": {
-              "ref": "from.name",
-              "column": "from_name",
-              "datatype": "string",
-              "label": "Name"
+          'ref': 'from',
+          'key_attribute': 'name',
+          'cardinality_class': null,
+          'label_ref': 'from.name',
+          'label': 'From',
+          'hierarchy': 'from',
+          'attributes': {
+            'name': {
+              'ref': 'from.name',
+              'column': 'from_name',
+              'datatype': 'string',
+              'label': 'Name'
             },
-            "label": {
-              "ref": "from.label",
-              "column": "from_label",
-              "datatype": "string",
-              "label": "Label"
+            'label': {
+              'ref': 'from.label',
+              'column': 'from_label',
+              'datatype': 'string',
+              'label': 'Label'
             }
           },
-          "label_attribute": "name",
-          "key_ref": "from.name"
+          'label_attribute': 'name',
+          'key_ref': 'from.name'
         }
       },
       {
@@ -49,28 +49,28 @@ module.exports = [
         label: 'to.name',
         drillDown: undefined,
         original: {
-          "ref": "to",
-          "key_attribute": "name",
-          "cardinality_class": null,
-          "label_ref": "to.name",
-          "label": "To",
-          "hierarchy": "to",
-          "attributes": {
-            "name": {
-              "ref": "to.name",
-              "column": "to_name",
-              "datatype": "string",
-              "label": "Name"
+          'ref': 'to',
+          'key_attribute': 'name',
+          'cardinality_class': null,
+          'label_ref': 'to.name',
+          'label': 'To',
+          'hierarchy': 'to',
+          'attributes': {
+            'name': {
+              'ref': 'to.name',
+              'column': 'to_name',
+              'datatype': 'string',
+              'label': 'Name'
             },
-            "label": {
-              "ref": "to.label",
-              "column": "to_label",
-              "datatype": "string",
-              "label": "Label"
+            'label': {
+              'ref': 'to.label',
+              'column': 'to_label',
+              'datatype': 'string',
+              'label': 'Label'
             }
           },
-          "label_attribute": "name",
-          "key_ref": "to.name"
+          'label_attribute': 'name',
+          'key_ref': 'to.name'
         }
       }
     ],
@@ -92,22 +92,22 @@ module.exports = [
         drillDown: undefined,
         drillDown: undefined,
         original: {
-          "ref": "time_day",
-          "key_attribute": "day",
-          "cardinality_class": null,
-          "label_ref": "time_day.day",
-          "label": "Time-Day",
-          "hierarchy": "time",
-          "attributes": {
-            "day": {
-              "ref": "time_day.day",
-              "column": "time_day",
-              "datatype": "integer",
-              "label": "Day"
+          'ref': 'time_day',
+          'key_attribute': 'day',
+          'cardinality_class': null,
+          'label_ref': 'time_day.day',
+          'label': 'Time-Day',
+          'hierarchy': 'time',
+          'attributes': {
+            'day': {
+              'ref': 'time_day.day',
+              'column': 'time_day',
+              'datatype': 'integer',
+              'label': 'Day'
             }
           },
-          "label_attribute": "day",
-          "key_ref": "time_day.day"
+          'label_attribute': 'day',
+          'key_ref': 'time_day.day'
         }
       },
       {
@@ -121,22 +121,22 @@ module.exports = [
         label: 'time_month.month',
         drillDown: 'time_day.day',
         original: {
-          "ref": "time_month",
-          "key_attribute": "month",
-          "cardinality_class": null,
-          "label_ref": "time_month.month",
-          "label": "Time-Month",
-          "hierarchy": "time",
-          "attributes": {
-            "month": {
-              "ref": "time_month.month",
-              "column": "time_month",
-              "datatype": "integer",
-              "label": "Month"
+          'ref': 'time_month',
+          'key_attribute': 'month',
+          'cardinality_class': null,
+          'label_ref': 'time_month.month',
+          'label': 'Time-Month',
+          'hierarchy': 'time',
+          'attributes': {
+            'month': {
+              'ref': 'time_month.month',
+              'column': 'time_month',
+              'datatype': 'integer',
+              'label': 'Month'
             }
           },
-          "label_attribute": "month",
-          "key_ref": "time_month.month"
+          'label_attribute': 'month',
+          'key_ref': 'time_month.month'
         }
       },
       {
@@ -150,22 +150,22 @@ module.exports = [
         label: 'time_year.year',
         drillDown: 'time_month.month',
         original: {
-          "ref": "time_year",
-          "key_attribute": "year",
-          "cardinality_class": null,
-          "label_ref": "time_year.year",
-          "label": "Time-Year",
-          "hierarchy": "time",
-          "attributes": {
-            "year": {
-              "ref": "time_year.year",
-              "column": "time_year",
-              "datatype": "integer",
-              "label": "Year"
+          'ref': 'time_year',
+          'key_attribute': 'year',
+          'cardinality_class': null,
+          'label_ref': 'time_year.year',
+          'label': 'Time-Year',
+          'hierarchy': 'time',
+          'attributes': {
+            'year': {
+              'ref': 'time_year.year',
+              'column': 'time_year',
+              'datatype': 'integer',
+              'label': 'Year'
             }
           },
-          "label_attribute": "year",
-          "key_ref": "time_year.year"
+          'label_attribute': 'year',
+          'key_ref': 'time_year.year'
         }
       }
     ],
