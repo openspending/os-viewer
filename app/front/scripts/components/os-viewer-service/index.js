@@ -63,7 +63,7 @@ module.exports = function(apiConfig, searchConfig) {
     },
 
     getPossibleValues: function(packageName, dimension) {
-      return api.getDimensionValues(packageName, dimension.key)
+      return api.getDimensionValues(packageName, dimension.id)
         .then(function(values) {
           var result = [];
           _.forEach(values.data, function(value) {
@@ -77,9 +77,7 @@ module.exports = function(apiConfig, searchConfig) {
 
     lazyLoadDimensionValues: function(dimension, packageName) {
       if (dimension.values) {
-        return new Promise(function(resolve, reject) {
-          resolve(dimension.values);
-        });
+        return Promise.resolve(dimension.values);
       } else {
         packageName = packageName || this.currentPackageName;
         return this.getPossibleValues(packageName, dimension)
@@ -100,9 +98,7 @@ module.exports = function(apiConfig, searchConfig) {
         .then(function(result) {
           model = result;
           if (options.withoutValues) {
-            return new Promise(function(resolve, reject) {
-              resolve({});
-            });
+            return Promise.resolve({});
           } else {
             return api.getAllDimensionValues(packageName, model);
           }
