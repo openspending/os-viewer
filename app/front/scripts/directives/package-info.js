@@ -2,17 +2,34 @@
 
   angular.module('Application')
     .directive('packageInfo', [
-      '_',
-      function(_) {
+      '_', 'LoginService',
+      function(_, login) {
         return {
           templateUrl: 'templates/package-info.html',
           replace: false,
           restrict: 'E',
           scope: {
-            datapackage: '='
+            datapackage: '=',
+            modelInfo: '='
           },
           link: function($scope) {
-            function updateInfo(dataPackage) {
+            $scope.login = login;
+
+            function updateInfo(dataPackage, model) {
+              $scope.datamineUrl = null;
+              if (model && model.fact_table) {
+                var query =
+                  "/* This is a sample query, go ahead and modify it! */\n" +
+                  "SELECT *\n" +
+                  "FROM " + model.fact_table + "\n" +
+                  "LIMIT 10";
+                query = encodeURIComponent(query);
+                $scope.datamineUrl =
+                  "http://rd.openspending.org/queries/new?queryText="+query+
+                  "&focusedTable="+model.fact_table+
+                  "&jwt="+login.getToken();
+              }
+
               $scope.packageUrl = null;
               $scope.resources = [];
 
@@ -53,8 +70,13 @@
                   .value();
               }
             }
-            updateInfo($scope.datapackage);
-            $scope.$watch('datapackage', updateInfo);
+            updateInfo($scope.datapackage, $scope.modelInfo);
+            $scope.$watch('datapackage', function() {
+              updateInfo($scope.datapackage, $scope.modelInfo);
+            });
+            $scope.$watch('login.isLogge', function() {
+              updateInfo($scope.datapackage, $scope.modelInfo);
+            });
           }
         };
       }
