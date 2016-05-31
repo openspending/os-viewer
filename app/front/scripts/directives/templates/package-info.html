@@ -1,3 +1,11 @@
+<a ng-if="login.isLoggedIn && datamineUrl" class="btn btn-primary" ng-href="{{ datamineUrl }}" target="_blank">
+    <i class="fa fa-diamond vertical-align-middle margin-right-4"></i>
+    Analyse this data set in the Data Mine
+</a>
+<a ng-if="!login.isLoggedIn && datamineUrl" class="btn btn-primary" ng-href="{{ datamineUrl }}" target="_blank" disabled>
+    <i class="fa fa-diamond vertical-align-middle margin-right-4"></i>
+    Log-in to analyse this data set in the Data Mine
+</a>
 <div ng-if="!!packageUrl || (resources.length > 0)" class="x-package-info">
   <h4>Data Resources</h4>
   <div ng-if="!!packageUrl">

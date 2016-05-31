@@ -21,6 +21,10 @@
         var attempting = false;
         var href = null;
 
+        this.getToken = function() {
+          return token;
+        };
+
         this.check = function() {
           var next = $window.location.href;
           authenticate.check(next)

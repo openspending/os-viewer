@@ -398,9 +398,11 @@
             defaultParams = defaultParams || {};
             $scope.state.isPackageLoading = true;
             var packageInfo = searchPackage.package;
+            var modelInfo = searchPackage.model;
             var packageName = searchPackage.id;
             $scope.state.availablePackages.current = packageName;
             $scope.dataPackageInfo = packageInfo;
+            $scope.modelInfo = modelInfo;
 
             $scope.state.availablePackages.description =
               packageInfo.description;
