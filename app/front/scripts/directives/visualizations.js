@@ -89,6 +89,7 @@
             $scope.events.dropPivot('series', null, true);
             $scope.events.dropPivot('rows', null, true);
             $scope.events.dropPivot('columns', null, true);
+            $scope.events.dropAllFilters();
           }
 
           $scope.selectedVisualizations = $scope.state.selectedVisualizations;

@@ -153,6 +153,7 @@
             };
 
             $scope.events.changePackage = function(searchPackage, packageInfo) {
+              $scope.state.orderBy = null;
               changePackage(searchPackage, packageInfo);
             };
 
@@ -263,6 +264,12 @@
             };
             $scope.events.dropFilter = function(filter) {
               delete $scope.state.dimensions.current.filters[filter];
+              updateLocation();
+              updateBabbage();
+              $scope.state.displayFilters = $scope.events.getFilters();
+            };
+            $scope.events.dropAllFilters = function() {
+              $scope.state.dimensions.current.filters = {};
               updateLocation();
               updateBabbage();
               $scope.state.displayFilters = $scope.events.getFilters();
