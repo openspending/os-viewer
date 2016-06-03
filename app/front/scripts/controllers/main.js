@@ -531,6 +531,12 @@
               order: [$scope.state.orderBy]
             };
 
+            $scope.state.babbageFacts = {
+              aggregates: $scope.state.measures.current,
+              group: [_.first($scope.state.dimensions.current.groups)],
+              filter: cut
+            };
+
             updateBreadcrumbs();
             HistoryService.pushState($scope.state);
             refreshBabbageComponents();

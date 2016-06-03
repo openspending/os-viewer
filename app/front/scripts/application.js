@@ -30,6 +30,9 @@
   var pivotTableDirective = new
     customComponents.babbage.PivotTableDirective();
 
+  var factsDirective = new
+    customComponents.babbage.FactsDirective();
+
   var app = angular.module('Application');
   pieDirective.init(app);
   chartDirective.init(app);
@@ -38,5 +41,6 @@
   bubbleTreeDirective.init(app);
   geoViewDirective.init(app);
   pivotTableDirective.init(app);
+  factsDirective.init(app);
 
 })(angular);

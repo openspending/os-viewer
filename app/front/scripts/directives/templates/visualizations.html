@@ -230,11 +230,11 @@
 </div>
 
 <div class="well x-visualization-container x-fixed-visualization">
-  <babbage-table ng-if="!state.flag.renderingCharts"
+  <facts ng-if="!state.flag.renderingCharts"
     cube="{{state.availablePackages.current}}"
-    state="state.babbage"
+    state="state.babbageFacts"
     endpoint="{{state.apiUrl}}">
-  </babbage-table>
+  </facts>
 </div>
 
 <div class="modal fade x-visualization-add-modal" role="dialog">
