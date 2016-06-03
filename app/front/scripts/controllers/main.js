@@ -34,16 +34,6 @@
           }
 
           function updateBreadcrumbs() {
-            var result = [
-              {
-                groups: undefined,
-                filters: undefined,
-                key: undefined,
-                value: 'Top level',
-                display: 'Top level'
-              }
-            ];
-
             var filters = $scope.state.dimensions.current.filters;
             var groups = $scope.state.dimensions.current.groups;
             var dimension = _.find($scope.state.dimensions.items, {
@@ -55,6 +45,16 @@
 
             var baseFilters = _.clone(filters);
             var breadcrumbsDimensions = [];
+
+            var result = [
+              {
+                groups: undefined,
+                filters: undefined,
+                key: undefined,
+                value: 'Top level',
+                display: hierarchy.common ? 'Other Dimensions' : hierarchy.name
+              }
+            ];
 
             _.each(hierarchy.dimensions, function(dimension) {
               if (filters[dimension.key]) {
