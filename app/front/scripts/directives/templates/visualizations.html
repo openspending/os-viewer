@@ -104,7 +104,6 @@
   <div ng-if="visualizationId == 'Table'" class="row">
     <div class="x-visualization-chart col-xs-12 col-sm-12">
       <babbage-table ng-if="!state.flag.renderingCharts"
-        type="line"
         cube="{{state.availablePackages.current}}"
         state="state.babbage"
         endpoint="{{state.apiUrl}}">
@@ -129,7 +128,6 @@
     <div class="x-visualization-chart col-xs-12 col-sm-12">
       <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
       <bubbletree ng-if="!state.flag.renderingCharts"
-        type="line"
         cube="{{state.availablePackages.current}}"
         state="state.babbage"
         endpoint="{{state.apiUrl}}">
@@ -229,6 +227,14 @@
           </span>
       </span>
     </div>
+</div>
+
+<div class="well x-visualization-container x-fixed-visualization">
+  <babbage-table ng-if="!state.flag.renderingCharts"
+    cube="{{state.availablePackages.current}}"
+    state="state.babbage"
+    endpoint="{{state.apiUrl}}">
+  </babbage-table>
 </div>
 
 <div class="modal fade x-visualization-add-modal" role="dialog">

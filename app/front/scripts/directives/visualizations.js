@@ -8,56 +8,56 @@
       name: 'Tree Map',
       type: 'drilldown',
       embed: 'treemap',
-      icon: 'viewer-icon viewer-icon-treemap'
+      icon: 'os-icon os-icon-treemap'
     },
     {
       id: 'PieChart',
       name: 'Pie Chart',
       type: 'drilldown',
       embed: 'piechart',
-      icon: 'viewer-icon viewer-icon-piechart'
+      icon: 'os-icon os-icon-piechart'
     },
     {
       id: 'BubbleTree',
       name: 'Bubble Tree',
       type: 'drilldown',
       embed: 'bubbletree',
-      icon: 'viewer-icon viewer-icon-bubbletree'
+      icon: 'os-icon os-icon-bubbletree'
     },
     {
       id: 'BarChart',
       name: 'Bar Chart',
       type: 'sortable-series',
       embed: 'barchart',
-      icon: 'viewer-icon viewer-icon-barchart'
+      icon: 'os-icon os-icon-barchart'
     },
     {
       id: 'Table',
       name: 'Table',
       type: 'sortable-series',
       embed: 'table',
-      icon: 'viewer-icon viewer-icon-table'
+      icon: 'os-icon os-icon-table'
     },
     {
       id: 'LineChart',
       name: 'Line Chart',
       type: 'time-series',
       embed: 'linechart',
-      icon: 'viewer-icon viewer-icon-linechart'
+      icon: 'os-icon os-icon-linechart'
     },
     {
       id: 'Map',
       name: 'Map',
       type: 'location',
       embed: 'map',
-      icon: 'viewer-icon viewer-icon-map'
+      icon: 'os-icon os-icon-map'
     },
     {
       id: 'PivotTable',
       name: 'Pivot Table',
       type: 'pivot-table',
       embed: 'pivottable',
-      icon: 'viewer-icon viewer-icon-layers'
+      icon: 'os-icon os-icon-layers'
     }
   ];
 
