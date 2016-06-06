@@ -257,6 +257,12 @@ textarea {
 }
 
 .x-visualization-container {
+  &.x-fixed-visualization {
+    .table-babbage {
+      min-height: 0;
+    }
+  }
+
   &.well {
     background: #fff;
     margin: 0.5em 0;
@@ -333,7 +339,7 @@ textarea {
     text-align: center;
     line-height: 1em;
 
-    .viewer-icon {
+    .os-icon {
       margin: 3px;
     }
   }
@@ -360,7 +366,7 @@ textarea {
     text-align: center;
     line-height: 1em;
 
-    .viewer-icon {
+    .os-icon {
       display: block;
       font-size: 230%;
       margin: 3px;
@@ -446,5 +452,3 @@ table.pvtTable {
     cursor: pointer;
   }
 }
-
-@import "./viewer-icons.less";
