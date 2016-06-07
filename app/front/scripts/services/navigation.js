@@ -121,11 +121,11 @@
         var sections = path.substr(1).split('/');
         if (sections.length == 1) {
           params.dataPackage = sections[0];
-        } else {
-          if ((sections.length == 3) && (sections[0] == 'embed')) {
-            params.currentTab = sections[1];
-            params.dataPackage = sections[2];
-          }
+        } else if ((sections.length == 2) && (sections[0] == 'embed')) {
+          params.dataPackage = sections[1];
+        } else if ((sections.length == 3) && (sections[0] == 'embed')) {
+          params.currentTab = sections[1];
+          params.dataPackage = sections[2];
         }
 
         return params;
