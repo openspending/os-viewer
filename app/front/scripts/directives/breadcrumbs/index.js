@@ -1,12 +1,13 @@
-;(function(angular) {
+'use strict';
 
-  var app = angular.module('Application');
+var angular = require('angular');
+var template = require('./template.html');
 
-  app.directive('breadcrumbs', [
-    '_',
-    function(_) {
+angular.module('Application')
+  .directive('breadcrumbs', [
+    function() {
       return {
-        templateUrl: 'templates/breadcrumbs.html',
+        template: template,
         replace: true,
         restrict: 'E',
         scope: {
@@ -18,4 +19,3 @@
       };
     }
   ]);
-})(angular);

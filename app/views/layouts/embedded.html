@@ -10,18 +10,10 @@
   <link href="//fonts.googleapis.com/css?family=Hind:400,300,500,600,700" rel="stylesheet" type="text/css">
 
   <link rel="stylesheet" href="styles/embedded.css">
-
-  <script src="modules.js?{{ sessionSalt }}"></script>
-  <script src="vendor.js?{{ sessionSalt }}"></script>
-  <script src="{{ authLibraryUrl }}"></script>
-  <script src="app.js?{{ sessionSalt }}"></script>
 </head>
-<body ng-app="Application" ng-controller="main" class="ng-cloak">
-
-{% block content %}{% endblock %}
-
-
-
-{% block footerScript %}{% endblock %}
+<body ng-controller="MainController" class="ng-cloak">
+  {% block content %}{% endblock %}
+  <script src="app.js?{{ sessionSalt }}"></script>
+  <script src="{{ authLibraryUrl }}"></script>
 </body>
 </html>

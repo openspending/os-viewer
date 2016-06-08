@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="styles/app.css?{{ sessionSalt }}">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body ng-app="Application" ng-controller="main" class="ng-cloak">
+<body ng-controller="MainController" class="ng-cloak">
 <div id="root"></div>
 
 {% if not isEmbedded %}
@@ -33,12 +33,8 @@
   {% include "partials/footer.html" %}
 {% endif %}
 
-<script src="modules.js?{{ sessionSalt }}"></script>
-<script src="vendor.js?{{ sessionSalt }}"></script>
-<script src="{{ authLibraryUrl }}"></script>
 <script src="app.js?{{ sessionSalt }}"></script>
-
-{% block footerScript %}{% endblock %}
+<script src="{{ authLibraryUrl }}"></script>
 
 <script>
   window.isEmbedded = {{isEmbedded}}

@@ -1,8 +1,9 @@
-;(function(angular) {
+'use strict';
 
-  var app = angular.module('Application');
+var angular = require('angular');
 
-  app.factory('HistoryService', ['_', function(_) {
+angular.module('Application').factory('HistoryService', [
+  function() {
     var _histories = [];
     var _index = -1;
 
@@ -37,6 +38,5 @@
         return _index < _histories.length - 1;
       }
     };
-  }]);
-
-})(angular);
+  }
+]);

@@ -1,12 +1,14 @@
-;(function(angular) {
+'use strict';
 
-  var app = angular.module('Application');
+var angular = require('angular');
+var template = require('./template.html');
 
-  app.directive('availablePackages', [
+angular.module('Application')
+  .directive('availablePackages', [
     '$window', '$timeout', '$rootScope',
     function($window, $timeout, $rootScope) {
       return {
-        templateUrl: 'templates/available-packages.html',
+        template: template,
         replace: true,
         restrict: 'E',
         scope: {
@@ -44,4 +46,3 @@
       };
     }
   ]);
-})(angular);

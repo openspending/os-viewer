@@ -1,12 +1,15 @@
-;(function(angular) {
+'use strict';
 
-  var app = angular.module('Application');
+var _ = require('lodash');
+var angular = require('angular');
+var template = require('./template.html');
 
-  app.directive('sidebarList', [
-    '_', '$filter',
-    function(_, $filter) {
+angular.module('Application')
+  .directive('sidebarList', [
+    '$filter',
+    function($filter) {
       return {
-        templateUrl: 'templates/sidebar-list.html',
+        template: template,
         replace: false,
         restrict: 'E',
         scope: {
@@ -96,4 +99,3 @@
       };
     }
   ]);
-})(angular);

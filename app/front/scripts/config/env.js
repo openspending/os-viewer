@@ -1,13 +1,13 @@
-;(function(angular) {
+'use strict';
 
-  var config = {
-    defaultErrorHandler: function(error) {
-      (console.trace || console.log || function() {})(error);
-    },
-    maxDimensionValuesForColumns: 50
-  };
+var angular = require('angular');
 
-  angular.module('Application')
-    .constant('Configuration', config);
+var config = {
+  defaultErrorHandler: function(error) {
+    (console.trace || console.log || function() {})(error);
+  },
+  maxDimensionValuesForColumns: 50
+};
 
-})(angular);
+angular.module('Application')
+  .constant('Configuration', config);

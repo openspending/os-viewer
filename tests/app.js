@@ -1,3 +1,5 @@
+'use strict';
+
 var request = require('supertest');
 
 describe('loading express', function() {

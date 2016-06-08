@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var paramParser = require('../front/scripts/components/url-param-parser');
+var paramParser = require('../front/scripts/services/url-param-parser');
 
 function getBasePath(config) {
   var result = config.get('basePath');

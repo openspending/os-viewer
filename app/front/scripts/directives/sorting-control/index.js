@@ -1,12 +1,13 @@
-;(function(angular) {
+'use strict';
 
-  var app = angular.module('Application');
+var angular = require('angular');
+var template = require('./template.html');
 
-  app.directive('sortingControl', [
-    '_',
-    function(_) {
+angular.module('Application')
+  .directive('sortingControl', [
+    function() {
       return {
-        templateUrl: 'templates/sorting-control.html',
+        template: template,
         replace: false,
         restrict: 'E',
         scope: {
@@ -19,4 +20,3 @@
       };
     }
   ]);
-})(angular);
