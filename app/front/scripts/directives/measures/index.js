@@ -1,11 +1,13 @@
-;(function(angular) {
+'use strict';
 
-  var app = angular.module('Application');
+var angular = require('angular');
+var template = require('./template.html');
 
-  app.directive('measures', [
+angular.module('Application')
+  .directive('measures', [
     function() {
       return {
-        templateUrl: 'templates/measures.html',
+        template: template,
         replace: true,
         restrict: 'E',
         scope: {
@@ -24,4 +26,3 @@
       };
     }
   ]);
-})(angular);

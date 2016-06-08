@@ -1,12 +1,14 @@
-;(function(angular) {
+'use strict';
 
-  var app = angular.module('Application');
+var _ = require('lodash');
+var angular = require('angular');
+var template = require('./template.html');
 
-  app.directive('dimensionsFilter', [
-    '_',
-    function(_) {
+angular.module('Application')
+  .directive('dimensionsFilter', [
+    function() {
       return {
-        templateUrl: 'templates/dimensions-filter.html',
+        template: template,
         replace: true,
         restrict: 'E',
         scope: {
@@ -36,4 +38,3 @@
       };
     }
   ]);
-})(angular);

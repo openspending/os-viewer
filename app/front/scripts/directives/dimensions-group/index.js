@@ -1,10 +1,12 @@
-;(function(angular) {
+'use strict';
 
-  var app = angular.module('Application');
+var angular = require('angular');
+var template = require('./template.html');
 
-  app.directive('dimensionsGroup', function() {
+angular.module('Application')
+  .directive('dimensionsGroup', function() {
     return {
-      templateUrl: 'templates/dimensions-group.html',
+      template: template,
       replace: true,
       restrict: 'E',
       scope: {
@@ -24,4 +26,3 @@
       }
     };
   });
-})(angular);

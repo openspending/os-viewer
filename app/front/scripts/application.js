@@ -1,46 +1,19 @@
-;(function(angular) {
+'use strict';
 
-  var customComponents = require('components');
+var angular = require('angular');
+require('angular-marked');
+require('angular-filter');
+require('angular-animate');
 
-  angular.module('Application', [
-    'ngAnimate',
-    'angular.filter',
-    'hc.marked',
-    'authClient.services'
-  ]);
+angular.module('Application', [
+  'ngAnimate',
+  'hc.marked',
+  'angular.filter',
+  'authClient.services'
+]);
 
-  var pieDirective =
-    new customComponents.babbage.PieChartDirective();
-
-  var chartDirective =
-    new customComponents.babbage.ChartDirective();
-
-  var treemapDirective =
-    new customComponents.babbage.TreemapDirective();
-
-  var bubbleTreeDirective =
-    new customComponents.babbage.BubbleTreeDirective();
-
-  var tableDirective = new
-    customComponents.babbage.BabbageTableDirective();
-
-  var geoViewDirective = new
-    customComponents.babbage.GeoViewDirective();
-
-  var pivotTableDirective = new
-    customComponents.babbage.PivotTableDirective();
-
-  var factsDirective = new
-    customComponents.babbage.FactsDirective();
-
-  var app = angular.module('Application');
-  pieDirective.init(app);
-  chartDirective.init(app);
-  treemapDirective.init(app);
-  tableDirective.init(app);
-  bubbleTreeDirective.init(app);
-  geoViewDirective.init(app);
-  pivotTableDirective.init(app);
-  factsDirective.init(app);
-
-})(angular);
+require('./config');
+require('./controllers');
+require('./directives');
+require('./animations');
+require('./services');

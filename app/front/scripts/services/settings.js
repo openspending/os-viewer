@@ -1,10 +1,15 @@
-;(function(angular) {
-  var downloader = require('components').downloader;
+'use strict';
 
-  var app = angular.module('Application');
-  app.factory('SettingsService',
-    ['_', '$q', function(_, $q) {
-      var _settings = {};
+var _ = require('lodash');
+var angular = require('angular');
+
+var downloader = require('../components/downloader');
+
+angular.module('Application')
+  .factory('SettingsService', [
+    '$q',
+    function($q) {
+      var settings = {};
       return {
         load: function() {
           return downloader.get('settings.json').then(function(data) {
@@ -13,20 +18,20 @@
               result = JSON.parse(data);
             } catch (e) {
             }
-            _settings = result;
-            return _settings;
+            settings = result;
+            return settings;
           });
         },
 
         get: function(key) {
-          if (_.isEmpty(_settings)) {
+          if (_.isEmpty(settings)) {
             return this.load().then(function() {
-              return $q.resolve(_settings[key]);
+              return $q.resolve(settings[key]);
             });
           } else {
-            return $q.resolve(_settings[key]);
+            return $q.resolve(settings[key]);
           }
         }
       };
-    }]);
-})(angular);
+    }
+  ]);

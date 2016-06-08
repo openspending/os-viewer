@@ -1,71 +1,74 @@
-;(function(angular) {
+'use strict';
 
-  var app = angular.module('Application');
+var _ = require('lodash');
+var angular = require('angular');
+var template = require('./template.html');
 
-  var availableVisualizations = [
-    {
-      id: 'Treemap',
-      name: 'Tree Map',
-      type: 'drilldown',
-      embed: 'treemap',
-      icon: 'os-icon os-icon-treemap'
-    },
-    {
-      id: 'PieChart',
-      name: 'Pie Chart',
-      type: 'drilldown',
-      embed: 'piechart',
-      icon: 'os-icon os-icon-piechart'
-    },
-    {
-      id: 'BubbleTree',
-      name: 'Bubble Tree',
-      type: 'drilldown',
-      embed: 'bubbletree',
-      icon: 'os-icon os-icon-bubbletree'
-    },
-    {
-      id: 'BarChart',
-      name: 'Bar Chart',
-      type: 'sortable-series',
-      embed: 'barchart',
-      icon: 'os-icon os-icon-barchart'
-    },
-    {
-      id: 'Table',
-      name: 'Table',
-      type: 'sortable-series',
-      embed: 'table',
-      icon: 'os-icon os-icon-table'
-    },
-    {
-      id: 'LineChart',
-      name: 'Line Chart',
-      type: 'time-series',
-      embed: 'linechart',
-      icon: 'os-icon os-icon-linechart'
-    },
-    {
-      id: 'Map',
-      name: 'Map',
-      type: 'location',
-      embed: 'map',
-      icon: 'os-icon os-icon-map'
-    },
-    {
-      id: 'PivotTable',
-      name: 'Pivot Table',
-      type: 'pivot-table',
-      embed: 'pivottable',
-      icon: 'os-icon os-icon-layers'
-    }
-  ];
+var availableVisualizations = [
+  {
+    id: 'Treemap',
+    name: 'Tree Map',
+    type: 'drilldown',
+    embed: 'treemap',
+    icon: 'os-icon os-icon-treemap'
+  },
+  {
+    id: 'PieChart',
+    name: 'Pie Chart',
+    type: 'drilldown',
+    embed: 'piechart',
+    icon: 'os-icon os-icon-piechart'
+  },
+  {
+    id: 'BubbleTree',
+    name: 'Bubble Tree',
+    type: 'drilldown',
+    embed: 'bubbletree',
+    icon: 'os-icon os-icon-bubbletree'
+  },
+  {
+    id: 'BarChart',
+    name: 'Bar Chart',
+    type: 'sortable-series',
+    embed: 'barchart',
+    icon: 'os-icon os-icon-barchart'
+  },
+  {
+    id: 'Table',
+    name: 'Table',
+    type: 'sortable-series',
+    embed: 'table',
+    icon: 'os-icon os-icon-table'
+  },
+  {
+    id: 'LineChart',
+    name: 'Line Chart',
+    type: 'time-series',
+    embed: 'linechart',
+    icon: 'os-icon os-icon-linechart'
+  },
+  {
+    id: 'Map',
+    name: 'Map',
+    type: 'location',
+    embed: 'map',
+    icon: 'os-icon os-icon-map'
+  },
+  {
+    id: 'PivotTable',
+    name: 'Pivot Table',
+    type: 'pivot-table',
+    embed: 'pivottable',
+    icon: 'os-icon os-icon-layers'
+  }
+];
 
-  app.directive('visualizations', [
-    '_', '$location', '$browser',
-    function(_, $location, $browser) {
+angular.module('Application')
+  .directive('visualizations', [
+    '$location', '$browser',
+    function($location, $browser) {
       return {
-        templateUrl: 'templates/visualizations.html',
+        template: template,
         replace: false,
         restrict: 'E',
         scope: {
@@ -288,4 +291,3 @@
       };
     }
   ]);
-})(angular);

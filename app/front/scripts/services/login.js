@@ -1,80 +1,80 @@
-;(function(angular) {
+'use strict';
 
-  angular.module('Application')
-    .factory('LoginService', [
-      'authenticate', 'authorize', '$window',
-      function(authenticate, authorize, $window) {
-        var that = this;
+var angular = require('angular');
 
-        this.reset = function() {
-          that.isLoggedIn = false;
-          that.name = null;
-          that.email = null;
-          that.avatar = null;
-          that.permissions = null;
-          that.permissionToken = null;
-        };
-        this.reset();
+angular.module('Application')
+  .factory('LoginService', [
+    'authenticate', 'authorize', '$window',
+    function(authenticate, authorize, $window) {
+      var that = this;
 
-        var token = null;
-        var isEventRegistered = false;
-        var attempting = false;
-        var href = null;
+      this.reset = function() {
+        that.isLoggedIn = false;
+        that.name = null;
+        that.email = null;
+        that.avatar = null;
+        that.permissions = null;
+        that.permissionToken = null;
+      };
+      this.reset();
 
-        this.getToken = function() {
-          return token;
-        };
+      var token = null;
+      var isEventRegistered = false;
+      var attempting = false;
+      var href = null;
 
-        this.check = function() {
-          var next = $window.location.href;
-          authenticate.check(next)
-            .then(function(response) {
-              attempting = false;
-              token = response.token;
-              that.isLoggedIn = true;
-              that.name = response.profile.name;
-              that.email = response.profile.email;
-              // jscs:disable
-              that.avatar = response.profile.avatar_url;
-              // jscs:enable
+      this.getToken = function() {
+        return token;
+      };
 
-              authorize.check(token, 'os.datastore')
-                .then(function(permissionData) {
-                  that.permissionToken = permissionData.token;
-                  that.permissions = permissionData.permissions;
-                });
-            })
-            .catch(function(providers) {
-              if (!isEventRegistered) {
-                $window.addEventListener('focus', function() {
-                  if (!that.isLoggedIn && attempting) {
-                    that.check();
-                  }
-                });
-                isEventRegistered = true;
-              }
-              href = providers.google.url;
-            });
-        };
-        this.check();
+      this.check = function() {
+        var next = $window.location.href;
+        authenticate.check(next)
+          .then(function(response) {
+            attempting = false;
+            token = response.token;
+            that.isLoggedIn = true;
+            that.name = response.profile.name;
+            that.email = response.profile.email;
+            // jscs:disable
+            that.avatar = response.profile.avatar_url;
+            // jscs:enable
 
-        this.login = function() {
-          if (that.isLoggedIn || (href === null)) {
-            return true;
-          }
-          attempting = true;
-          authenticate.login(href, '_self');
-        };
+            authorize.check(token, 'os.datastore')
+              .then(function(permissionData) {
+                that.permissionToken = permissionData.token;
+                that.permissions = permissionData.permissions;
+              });
+          })
+          .catch(function(providers) {
+            if (!isEventRegistered) {
+              $window.addEventListener('focus', function() {
+                if (!that.isLoggedIn && attempting) {
+                  that.check();
+                }
+              });
+              isEventRegistered = true;
+            }
+            href = providers.google.url;
+          });
+      };
+      this.check();
 
-        this.logout = function() {
-          if (that.isLoggedIn) {
-            that.reset();
-            authenticate.logout();
-          }
-        };
+      this.login = function() {
+        if (that.isLoggedIn || (href === null)) {
+          return true;
+        }
+        attempting = true;
+        authenticate.login(href, '_self');
+      };
 
-        return this;
-      }
-    ]);
+      this.logout = function() {
+        if (that.isLoggedIn) {
+          that.reset();
+          authenticate.logout();
+        }
+      };
 
-})(angular);
+      return this;
+    }
+  ]);
