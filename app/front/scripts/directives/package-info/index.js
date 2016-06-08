@@ -21,17 +21,20 @@ angular.module('Application')
 
           function updateInfo(dataPackage, model) {
             $scope.datamineUrl = null;
-            if (model && model.fact_table) {
+            // jscs:disable
+            var factTable = model ? model.fact_table : null;
+            // jscs:enable
+            if (factTable) {
               var query =
-                "/* This is a sample query, go ahead and modify it! */\n" +
-                "SELECT *\n" +
-                "FROM " + model.fact_table + "\n" +
-                "LIMIT 10";
+                '/* This is a sample query, go ahead and modify it! */\n' +
+                'SELECT *\n' +
+                'FROM ' + factTable + '\n' +
+                'LIMIT 10';
               query = encodeURIComponent(query);
               $scope.datamineUrl =
-                "http://rd.openspending.org/queries/new?queryText="+query+
-                "&focusedTable="+model.fact_table+
-                "&jwt="+login.getToken();
+                'http://rd.openspending.org/queries/new?queryText=' + query +
+                '&focusedTable=' + factTable +
+                '&jwt=' + login.getToken();
             }
 
             $scope.packageUrl = null;
@@ -40,10 +43,12 @@ angular.module('Application')
             // jscs:disable
             var originUrl = dataPackage && dataPackage.__origin_url ?
               dataPackage.__origin_url :
-                ['http://datastore.openspending.org',
-                 dataPackage.owner,
-                 dataPackage.name,
-                 'datapackage.json'].join('/');
+                [
+                  'http://datastore.openspending.org',
+                  dataPackage.owner,
+                  dataPackage.name,
+                  'datapackage.json'
+                ].join('/');
             // jscs:enable
 
             if (originUrl) {

@@ -13,7 +13,7 @@ function processCell(rows, rowIndex, colspan, rowspan, text) {
   }
 
   for (var rs = 0; rs < rowspan; rs++) {
-    for(var cs = 0; cs < colspan; cs++) {
+    for (var cs = 0; cs < colspan; cs++) {
       rows[rowIndex + rs][colIndex + cs] = text;
       text = '';
     }
@@ -47,7 +47,7 @@ function getCsvDataFromTable(table) {
   // There may be short rows; pad them to avoid PapaParse error
   var maxRowLength = _.max(_.map(rows, function(row) { return row.length; }));
   _.forEach(rows, function(row) {
-    while(row.length < maxRowLength) {
+    while (row.length < maxRowLength) {
       row.push('');
     }
   });
@@ -83,7 +83,7 @@ angular.module('Application')
             });
             var fileName = ($scope.fileName || 'exported') + '.csv';
             $window.saveAs(data, fileName, true);
-          }
+          };
         }
       };
     }

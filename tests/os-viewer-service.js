@@ -1,3 +1,5 @@
+'use strict';
+
 var nock = require('nock');
 var assert = require('chai').assert;
 var _ = require('lodash');
@@ -9,9 +11,9 @@ var searchConfig = {
   url: 'http://some-other-server-api.com/search/package'
 };
 
-var osViewerService = require('../app/front/scripts/components/' +
+var osViewerService = require('../app/front/scripts/services/' +
   'os-viewer-service/')(apiConfig, searchConfig);
-var api = require('../app/front/scripts/components/' +
+var api = require('../app/front/scripts/services/' +
   'data-package-api/')(apiConfig, searchConfig);
 
 describe('osViewerService', function() {
