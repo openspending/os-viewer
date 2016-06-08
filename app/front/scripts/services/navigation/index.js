@@ -7,21 +7,20 @@ angular.module('Application')
   .factory('NavigationService', [
     '$location',
     function($location) {
-      var _isChangingLocation = false;
-
+      var isChangingLocation = false;
       return {
         isChanging: function() {
-          return _isChangingLocation;
+          return isChangingLocation;
         },
 
         changed: function() {
-          _isChangingLocation = false;
+          isChangingLocation = false;
         },
 
         updateLocation: function(state, isEmbedded) {
           isEmbedded = isEmbedded || false;
 
-          _isChangingLocation = true;
+          isChangingLocation = true;
           var filterList = [];
           _.forEach(state.dimensions.current.filters, function(value, key) {
             filterList.push(key + '|' + value);
@@ -74,7 +73,7 @@ angular.module('Application')
             [];
           searchParams.filters =
             (_.isArray(searchParams.filters)) ?
-            searchParams.filters : [searchParams.filters];
+              searchParams.filters : [searchParams.filters];
 
           _.forEach(searchParams.filters, function(value) {
             var filter = value.split('|');
@@ -126,11 +125,11 @@ angular.module('Application')
           var sections = path.substr(1).split('/');
           if (sections.length == 1) {
             params.dataPackage = sections[0];
-          } else {
-            if ((sections.length == 3) && (sections[0] == 'embed')) {
-              params.currentTab = sections[1];
-              params.dataPackage = sections[2];
-            }
+          } else if ((sections.length == 2) && (sections[0] == 'embed')) {
+            params.dataPackage = sections[1];
+          } else if ((sections.length == 3) && (sections[0] == 'embed')) {
+            params.currentTab = sections[1];
+            params.dataPackage = sections[2];
           }
 
           return params;
