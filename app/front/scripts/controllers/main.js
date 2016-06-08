@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var angular = require('angular');
 
-var components = require('../components');
+var osViewerService = require('../services/os-viewer-service');
 var viewerService = {};
 
 angular.module('Application')
@@ -264,6 +264,9 @@ angular.module('Application')
 
         $scope.events.changePivot = function(axis, dimension, replace) {
           var current = $scope.state.dimensions.current;
+          if (!_.isArray(current[axis])) {
+            current[axis] = [];
+          }
           if (!replace) {
             var isSelected = _.find(current[axis], function(item) {
               return item == dimension;
@@ -606,8 +609,7 @@ angular.module('Application')
           .then(function(apiSettings) {
             $scope.state.apiUrl = apiSettings.url;
             $scope.state.cosmoUrl = apiSettings.cosmoUrl;
-            viewerService =
-              components.osViewerService(apiSettings, searchSettings);
+            viewerService = osViewerService(apiSettings, searchSettings);
             return $q(function(resolve, reject) {
               viewerService.start({}).then(function(state) {
                 resolve(state);

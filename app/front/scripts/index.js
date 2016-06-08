@@ -16,14 +16,17 @@ var _ = require('lodash');
   globals.c3 = require('c3');
   globals.Raphael = require('raphael');
 
+  // fetch() polyfill
+  require('isomorphic-fetch/fetch-npm-browserify');
+  // saveAs() polyfill
+  globals.saveAs = require('file-saver/FileSaver.js').saveAs;
+  require('os-bootstrap/dist/js/bootstrap');
+
   var angular = require('angular');
   globals.angular = angular;
   if (typeof globals.Promise != 'function') {
     globals.Promise = require('bluebird');
   }
-  require('isomorphic-fetch/fetch-npm-browserify'); // fetch() polyfill
-  require('file-saver/FileSaver.js'); // saveAs() polyfill
-  require('os-bootstrap/dist/js/bootstrap');
 
   globals.addEventListener('load', function() {
     require('./application');

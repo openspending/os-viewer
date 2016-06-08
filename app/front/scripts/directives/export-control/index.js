@@ -4,7 +4,7 @@ var _ = require('lodash');
 var angular = require('angular');
 var template = require('./template.html');
 
-var components = require('../../components');
+var papaparse = require('papaparse');
 
 function processCell(rows, rowIndex, colspan, rowspan, text) {
   var colIndex = 0;
@@ -52,7 +52,7 @@ function getCsvDataFromTable(table) {
     }
   });
 
-  return components.papaparse.unparse(rows);
+  return papaparse.unparse(rows);
 }
 
 angular.module('Application')

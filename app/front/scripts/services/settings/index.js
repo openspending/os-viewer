@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var angular = require('angular');
 
-var downloader = require('../components/downloader');
+var downloader = require('../downloader');
 
 angular.module('Application')
   .factory('SettingsService', [
