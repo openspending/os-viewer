@@ -23,7 +23,7 @@ module.exports = function(apiConfig, searchConfig) {
       var i = 0;
       _.forEach(model.hierarchies, function(hierarchy) {
         _.forEach(hierarchy.levels, function(dimension) {
-          results[model.dimensions[dimension].label] = i++;
+          results[model.dimensions[dimension].ref] = i++;
         });
       });
       return results;
@@ -56,7 +56,7 @@ module.exports = function(apiConfig, searchConfig) {
         result[hierarchyKey].dimensions = _.sortBy(
           hierarchy.dimensions,
           function(dimension) {
-            return sortIndexes[dimension.key];
+            return sortIndexes[dimension.original.ref];
           });
       });
       return _.values(result);
