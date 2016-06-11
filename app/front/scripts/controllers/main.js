@@ -482,7 +482,7 @@ angular.module('Application')
         var cut = _.map(
           $scope.state.dimensions.current.filters,
           function(value, key) {
-            return key + ':"' + value + '"';
+            return key + ':' + JSON.stringify(value);
           });
 
         var series = $scope.state.dimensions.current.series;

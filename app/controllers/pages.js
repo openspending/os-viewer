@@ -38,7 +38,7 @@ module.exports.embedded = function(req, res) {
   var params = paramParser.parse(req.query);
 
   var cut = _.map(params.filters, function(value, key) {
-    return key + ':"' + value + '"';
+    return key + ':' + JSON.stringify(value);
   });
 
   res.render('pages/embedded.html', {
