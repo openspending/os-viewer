@@ -3,6 +3,8 @@
 var angular = require('angular');
 var template = require('./template.html');
 
+var osViewerService = require('../../../services/os-viewer');
+
 angular.module('Application')
   .directive('visualizationShareModal', [
     '$location', '$browser', 'Configuration',
@@ -12,6 +14,7 @@ angular.module('Application')
         replace: false,
         restrict: 'E',
         scope: {
+          params: '='
         },
         link: function($scope, element) {
           var shareModal = element.find('.x-visualization-share-modal').modal({
@@ -21,22 +24,14 @@ angular.module('Application')
           $scope.$on(Configuration.events.visualizations.showShareModal,
             function($event, visualization) {
               if (visualization && visualization.embed) {
-                var base = $browser.baseHref();
-                if (base.substr(0, 1) != '/') {
-                  base = '/' + base;
-                }
-                if (base.substr(-1, 1) == '/') {
-                  base = base.substr(0, base.length - 1);
-                }
-
-                var protocol = $location.protocol() + '://';
-                var host = $location.host();
-                var port = $location.port() == '80' ? '' :
-                ':' + $location.port();
-                var url = $location.url();
-
-                $scope.shareUrl = protocol + host + port + base +
-                  '/embed/' + visualization.embed + url;
+                $scope.shareUrl = osViewerService.buildUrl(
+                  $scope.params, {
+                    visualization: visualization.embed,
+                    protocol: $location.protocol(),
+                    host: $location.host(),
+                    port: $location.port(),
+                    base: $browser.baseHref()
+                  });
                 shareModal.modal('show');
               }
             });

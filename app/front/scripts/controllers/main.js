@@ -10,6 +10,10 @@ angular.module('Application')
   .controller('MainController', [
     '$scope', '$location', '$browser', 'Configuration',
     function($scope, $location, $browser, Configuration) {
+      // Flag for skipping `$locationChangeSuccess` event when
+      // it is triggered while updating url
+      var isChangingUrl = false;
+
       // This function should be called before updating $scope.state.params
       function updateStateParams(newParams) {
         // Remove all items after current and then store current
@@ -27,6 +31,10 @@ angular.module('Application')
           .getSelectedFilters($scope.state);
 
         osViewerService.history.push($scope.state);
+
+        // Update page URL; set flag to skip nearest location change event
+        isChangingUrl = true;
+        $location.url(osViewerService.buildUrl($scope.state.params));
       }
 
       // Initialization stuff
@@ -58,6 +66,15 @@ angular.module('Application')
       });
       $scope.$on(Configuration.events.history.forward, function() {
         osViewerService.history.forward($scope.state);
+      });
+
+      // Location change event
+      $scope.$on('$locationChangeSuccess', function($event, newUrl, oldUrl) {
+        if (isChangingUrl || (newUrl == oldUrl)) {
+          isChangingUrl = false;
+          return;
+        }
+        console.log('url', newUrl, oldUrl);
       });
 
       // Package selector events

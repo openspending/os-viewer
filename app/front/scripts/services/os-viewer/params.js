@@ -13,6 +13,7 @@ function init(packageModel, initialParams) {
   var anyDateTimeHierarchy = _.first(packageModel.dateTimeHierarchies);
 
   return {
+    isEmbedded: !!initialParams.isEmbedded,
     packageId: packageModel.id,
     countryCode: packageModel.meta.countryCode,
     measures: [_.first(packageModel.measures).key],

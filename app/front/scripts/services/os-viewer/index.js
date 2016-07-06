@@ -222,6 +222,58 @@ function buildBreadcrumbs(state) {
   return result;
 }
 
+// embedParams is an object with options for creating embed url.
+// Allowed properties:
+// `visualization`: value from `<visualization>.embed` property;
+// `protocol`, `host`, `port` - values to be appended to url;
+// `base` - base url to be added to `path` part
+function buildUrl(params, embedParams) {
+  var query = {};
+
+  if (params.measures.length > 0) {
+    query.measure = _.first(params.measures);
+  }
+  _.each(['groups', 'series', 'rows', 'columns'], function(axis) {
+    if (params[axis].length > 0) {
+      query[axis] = params[axis];
+    }
+  });
+  query.filters = _.map(params.filters, function(value, key) {
+    return key + '|' + value;
+  });
+  if ((params.visualizations.length > 0) && !embedParams) {
+    query.visualizations = params.visualizations;
+  }
+
+  var path = '/' + params.packageId;
+  if (embedParams) {
+    path = '/embed/' + embedParams.visualization + path;
+    if (embedParams.base) {
+      var base = embedParams.base;
+      if (base.substr(0, 1) != '/') {
+        base = '/' + base;
+      }
+      if (base.substr(-1, 1) == '/') {
+        base = base.substr(0, base.length - 1);
+      }
+      path = base + path;
+    }
+  }
+
+  embedParams = embedParams || {}; // to simplify next lines
+
+  return url.format({
+    protocol: embedParams.protocol,
+    hostname: embedParams.host,
+    port: embedParams.port,
+    pathname: path,
+    search: qs.stringify(query, {
+      arrayFormat: 'brackets',
+      encode: false
+    })
+  });
+}
+
 module.exports.params = stateParams;
 module.exports.history = history;
 module.exports.loadDataPackages = loadDataPackages;
@@ -232,3 +284,4 @@ module.exports.getAvailableSorting = getAvailableSorting;
 module.exports.getCurrencySign = getCurrencySign;
 module.exports.getSelectedFilters = getSelectedFilters;
 module.exports.buildBreadcrumbs = buildBreadcrumbs;
+module.exports.buildUrl = buildUrl;
