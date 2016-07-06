@@ -1,0 +1,5 @@
+<strong>Series</strong>
+<div ng-repeat="hierarchy in hierarchies">
+  <sidebar-list items="hierarchy.dimensions" selected="params.series"
+    title="{{ hierarchy.label }}" key="series"></sidebar-list>
+</div>

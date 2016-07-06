@@ -1,22 +1,20 @@
 'use strict';
 
-var Promise = require('bluebird');
 require('isomorphic-fetch');
+var Promise = require('bluebird');
 
-var _cache = {};
+var cache = {};
 
 module.exports = {
   get: function(url) {
-    if (_cache[url]) {
-      return Promise.resolve(_cache[url]);
-    } else {
-      return fetch(url).then(function(response) {
+    if (!cache[url]) {
+      cache[url] = fetch(url).then(function(response) {
         return response.text();
-      }).then(function(text) {
-        _cache[url] = text;
-        return text;
       });
     }
+    return new Promise(function(resolve, reject) {
+      cache[url].then(resolve).catch(reject);
+    });
   },
   getJson: function(url) {
     return this.get(url).then(JSON.parse);

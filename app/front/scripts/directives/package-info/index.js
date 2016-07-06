@@ -13,78 +13,35 @@ angular.module('Application')
         replace: false,
         restrict: 'E',
         scope: {
-          datapackage: '=',
-          modelInfo: '='
+          datapackage: '='
         },
         link: function($scope) {
           $scope.login = login;
 
-          function updateInfo(dataPackage, model) {
+          function updateDataMineUrl(dataPackage) {
             $scope.datamineUrl = null;
-            // jscs:disable
-            var factTable = model ? model.fact_table : null;
-            // jscs:enable
-            if (factTable) {
-              var query =
-                '/* This is a sample query, go ahead and modify it! */\n' +
-                'SELECT *\n' +
-                'FROM ' + factTable + '\n' +
-                'LIMIT 10';
-              query = encodeURIComponent(query);
-              $scope.datamineUrl =
-                'http://rd.openspending.org/queries/new?queryText=' + query +
-                '&focusedTable=' + factTable +
-                '&jwt=' + login.getToken();
+            if (!dataPackage) {
+              return;
             }
 
-            $scope.packageUrl = null;
-            $scope.resources = [];
-
-            // jscs:disable
-            var originUrl = dataPackage && dataPackage.__origin_url ?
-              dataPackage.__origin_url :
-                [
-                  'http://datastore.openspending.org',
-                  dataPackage.owner,
-                  dataPackage.name,
-                  'datapackage.json'
-                ].join('/');
-            // jscs:enable
-
-            if (originUrl) {
-              $scope.packageUrl = originUrl;
-
-              var baseUrl = ('' + originUrl).split('/');
-              baseUrl.pop();
-              baseUrl = baseUrl.join('/') + '/';
-
-              $scope.resources = _.chain(dataPackage.resources)
-                .map(function(resource) {
-                  var resourceUrl = null;
-                  if (resource.url) {
-                    resourceUrl = resource.url;
-                  }
-                  if (resource.path) {
-                    resourceUrl = baseUrl + resource.path;
-                  }
-
-                  if (resourceUrl) {
-                    return {
-                      name: resource.name,
-                      url: resourceUrl
-                    };
-                  }
-                })
-                .filter()
-                .value();
+            var token = login.getToken();
+            if (dataPackage.factTable && token) {
+              var query = 'SELECT * FROM ' + dataPackage.factTable +
+                ' LIMIT 10';
+              $scope.datamineUrl =
+                'http://rd.openspending.org/queries/new?queryText=' +
+                encodeURIComponent(query) + '&focusedTable=' +
+                encodeURIComponent(dataPackage.factTable) +
+                '&jwt=' + token;
             }
           }
-          updateInfo($scope.datapackage, $scope.modelInfo);
+
+          updateDataMineUrl($scope.datapackage);
           $scope.$watch('datapackage', function() {
-            updateInfo($scope.datapackage, $scope.modelInfo);
+            updateDataMineUrl($scope.datapackage);
           });
           $scope.$watch('login.isLoggedIn', function() {
-            updateInfo($scope.datapackage, $scope.modelInfo);
+            updateDataMineUrl($scope.datapackage);
           });
         }
       };

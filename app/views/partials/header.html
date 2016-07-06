@@ -5,13 +5,13 @@
       <li><a href="/packager/">Upload Data</a></li>
       <li><a href="/explorer/">Explore Datasets</a></li>
 
-      <li ng-if="!login.isLoggedIn" class="user">
+      <li ng-if="!login.isLoggedIn" class="user" ng-cloak>
         <a href="javascript:void(0)" ng-click="login.login()">
           <i class="os-icon os-icon-user"></i>
           Login / Register
         </a>
       </li>
-      <li ng-if="login.isLoggedIn">
+      <li ng-if="login.isLoggedIn" ng-cloak>
         <a href="javascript:void(0);" ng-click="isLoginMenuShown = !isLoginMenuShown">
           <i class="os-icon os-icon-user"></i>
           {{ login.name }}

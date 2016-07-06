@@ -2,57 +2,37 @@
 
 {% block sidebar %}
 {% raw %}
-<div ng-if="!(state.isPackageLoading || state.isStarting)">
-  <sidebar state="state" events="events" type="{{ state.selectedChartType }}"></sidebar>
+<div ng-if="!(isLoading.application || isLoading.package)" ng-cloak>
+  <sidebar datapackage="state.package" params="state.params"></sidebar>
 </div>
 {% endraw %}
 {% endblock %}
 
 {% block content %}
+{% raw %}
 <div>
-  <div ng-if="!state.isStarting">
-    <available-packages items="state.availablePackages.items"
-      selected="state.availablePackages" events="events"></available-packages>
-    {% raw %}
-    <div ng-if="!state.isPackageLoading">
+  <div ng-if="!isLoading.application" ng-cloak>
+    <package-selector ng-if="state.package.meta" items="availablePackages" datapackage="state.package.meta"></package-selector>
+
+    <div ng-if="!isLoading.package">
       <div class="clearfix">
-        <h3>
-            <div class="x-filtered-by" ng-if="state.displayFilters.length > 0">
-                <strong>Filtered by</strong>
-                <span class="x-single-filter" ng-repeat="flt in state.displayFilters">
-                    {{flt[2]}}: {{ flt[1] }}
-                    <i class="glyphicon glyphicon-remove-circle"
-                       ng-click="events.dropFilter(flt[0])"
-                    ></i>
-                </span>
-            </div>
-          <div class="pull-right btn-group">
-            <button
-              class="os-icon os-icon-chevron-with-circle-left btn btn-default"
-              ng-disabled="!events.canBack()"
-              type="button"
-              ng-click="events.back()"
-            ></button>
-            <button
-              class="os-icon os-icon-chevron-with-circle-left os-icon-rotate-180 btn btn-default"
-              ng-disabled="!events.canForward()"
-              type="button"
-              ng-click="events.forward()"
-            ></button>
-          </div>
-        </h3>
+        <filter-list filters="state.params.selectedFilters"></filter-list>
+        <history-navigation history="state.history"></history-navigation>
       </div>
 
       <div>
-        <visualizations state="state" events="events" type="state.selectedChartType"></visualizations>
+        <visualizations datapackage="state.package" params="state.params"></visualizations>
       </div>
-
-      <package-info datapackage="dataPackageInfo" model-info="modelInfo"></package-info>
     </div>
   </div>
-  <div class="waiter text-center" ng-if="(state.isPackageLoading || state.isStarting)">
+
+  <div class="waiter text-center" ng-if="isLoading.application || isLoading.package">
     <i class="fa fa-spinner fa-pulse fa-4x"></i>
     <span>Loading...</span>
+  </div>
+
+  <div ng-if="!isLoading.application" ng-cloak>
+    <package-info ng-if="state.package.meta" datapackage="state.package.meta"></package-info>
   </div>
 </div>
 {% endraw %}

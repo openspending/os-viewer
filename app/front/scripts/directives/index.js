@@ -24,15 +24,10 @@ pivotTableDirective.init(application);
 factsDirective.init(application);
 
 // Application directives
-require('./available-packages');
-require('./breadcrumbs');
-require('./dimensions-filter');
-require('./dimensions-group');
-require('./export-control');
-require('./measures');
+require('./filter-list');
+require('./history-navigation');
+require('./package-selector');
 require('./package-info');
 require('./popover');
 require('./sidebar');
-require('./sidebar-list');
-require('./sorting-control');
 require('./visualizations');

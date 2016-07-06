@@ -1,0 +1,6 @@
+<ol class="breadcrumb">
+  <li ng-repeat="breadcrumb in breadcrumbs">
+    <span ng-if="$last">{{ breadcrumb.label }}</span>
+    <a ng-if="!$last" ng-click="breadcrumbClick(breadcrumb)">{{ breadcrumb.label }}</a>
+  </li>
+</ol>

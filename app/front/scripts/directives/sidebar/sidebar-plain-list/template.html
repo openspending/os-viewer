@@ -1,0 +1,11 @@
+<div>
+  <div class="list-group list-group-inverse">
+    <a ng-repeat="item in items track by [$index, item.key]" href="javascript:void(0);"
+      ng-class="{active: isSelected(item.key)}"
+      ng-click="selectItem($event, item)"
+      class="list-group-item">
+      <i ng-if="canClear && isSelected(item.key)" ng-click="unselectItem($event, item)" class="os-icon os-icon-remove pull-right"></i>
+      {{ item.label }}
+    </a>
+  </div>
+</div>

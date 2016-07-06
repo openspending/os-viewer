@@ -1,0 +1,15 @@
+<div class="col-xs-12">
+  <export-control
+    target-selector="#babbage-pivot-table"
+    file-name="{{ state.availablePackages.current }}"
+  ></export-control>
+</div>
+<div class="x-visualization-chart col-xs-12">
+  <div class="table-responsive">
+    <pivot-table ng-if="isVisible" id="babbage-pivot-table"
+      cube="{{ params.packageId }}"
+      state="state"
+      endpoint="{{ params.babbageApiUrl }}">
+    </pivot-table>
+  </div>
+</div>

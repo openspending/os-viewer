@@ -1,0 +1,26 @@
+<div class="well x-visualization-container">
+  <div class="row" ng-switch="visualization.id">
+    <treemap-visualization ng-switch-when="Treemap" params="params"></treemap-visualization>
+    <pie-chart-visualization ng-switch-when="PieChart" params="params"></pie-chart-visualization>
+    <bar-chart-visualization ng-switch-when="BarChart" params="params"></bar-chart-visualization>
+    <line-chart-visualization ng-switch-when="LineChart" params="params"></line-chart-visualization>
+    <table-visualization ng-switch-when="Table" params="params"></table-visualization>
+    <bubble-tree-visualization ng-switch-when="BubbleTree" params="params"></bubble-tree-visualization>
+    <map-visualization ng-switch-when="Map" params="params"></map-visualization>
+    <pivot-table-visualization ng-switch-when="PivotTable" params="params"></pivot-table-visualization>
+    <div class="x-visualization-info col-sm-3 hidden-xs">
+      <h3>{{ visualization.name }}</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+    <div class="x-visualization-buttons">
+      <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization.id }}" class="os-icon os-icon-trashcan"></a>
+      <a href="javascript:void(0);" ng-click="showShareModal(visualization)" class="os-icon os-icon-embed"></a>
+      <div id="{{ 'visualization-popover-' + visualization.id }}" class="hidden">
+        <div class="visualization-popover">
+          <button ng-click="removeVisualization(visualization.id)" type="button" class="btn btn-danger">Remove this visualization</button>
+          <button ng-click="removeAllVisualizations()" type="button" class="btn btn-danger">Remove all visualizations</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

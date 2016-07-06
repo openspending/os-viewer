@@ -1,23 +1,25 @@
-<a ng-if="login.isLoggedIn && datamineUrl" class="btn btn-primary" ng-href="{{ datamineUrl }}" target="_blank">
+<div class="margin-top-12 margin-bottom-12">
+  <a ng-if="login.isLoggedIn && datamineUrl" class="btn btn-primary" ng-href="{{ datamineUrl }}" target="_blank">
     <i class="fa fa-diamond vertical-align-middle margin-right-4"></i>
     Analyse this data set in the Data Mine
-</a>
-<a ng-if="!login.isLoggedIn && datamineUrl" class="btn btn-primary" ng-href="{{ datamineUrl }}" target="_blank" disabled>
+  </a>
+  <a ng-if="!login.isLoggedIn" class="btn btn-primary" ng-href="javascript:void(0)" target="_blank" disabled>
     <i class="fa fa-diamond vertical-align-middle margin-right-4"></i>
     Log-in to analyse this data set in the Data Mine
-</a>
-<div ng-if="!!packageUrl || (resources.length > 0)" class="x-package-info">
+  </a>
+</div>
+<div ng-if="!!datapackage.url || (datapackage.resources.length > 0)" class="x-package-info">
   <h4>Data Resources</h4>
-  <div ng-if="!!packageUrl">
-    <i class="os-icon os-icon-download"></i><a ng-href="{{ packageUrl }}" target="_blank">Download Data Package</a>
+  <div ng-if="!!datapackage.url">
+    <i class="os-icon os-icon-download"></i><a ng-href="{{ datapackage.url }}" target="_blank">Download Data Package</a>
   </div>
-  <div ng-if="resources.length == 1">
-    <i class="os-icon os-icon-download"></i><a ng-href="{{ resources[0].url }}" target="_blank">View Raw Source Data</a>
+  <div ng-if="datapackage.resources.length == 1">
+    <i class="os-icon os-icon-download"></i><a ng-href="{{ datapackage.resources[0].url }}" target="_blank">View Raw Source Data</a>
   </div>
-  <div ng-if="resources.length > 1">
+  <div ng-if="datapackage.resources.length > 1">
     <div><strong>View Raw Source Data:</strong></div>
     <ul>
-      <li ng-repeat="resource in resources">
+      <li ng-repeat="resource in datapackage.resources">
         <i class="os-icon os-icon-download"></i><a ng-href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>
       </li>
     </ul>

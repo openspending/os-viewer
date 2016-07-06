@@ -1,221 +1,291 @@
 'use strict';
 
+var url = require('url');
+var _ = require('lodash');
 var Promise = require('bluebird');
 var downloader = require('../downloader');
-var _ = require('lodash');
 
-module.exports = function(apiConfig, searchConfig) {
-  var _APIconfig = apiConfig;
-  var _searchConfig = searchConfig;
+module.exports.apiConfig = {};
+module.exports.searchConfig = {};
+
+function loadConfig() {
+  return downloader.getJson('settings.json').then(function(config) {
+    module.exports.apiConfig = config.api;
+    module.exports.searchConfig = config.search;
+    return config;
+  });
+}
+
+function getDataPackages() {
+  return loadConfig().then(function() {
+    var searchConfig = module.exports.searchConfig;
+    var url = searchConfig.url + '?size=10000';
+    return downloader.getJson(url).then(function(packages) {
+      return _.map(packages, function(dataPackage) {
+        dataPackage.author = _.chain(dataPackage.package.author)
+          .split(' ')
+          .dropRight(1)
+          .join(' ')
+          .value();
+        return {
+          id: dataPackage.id,
+          author: dataPackage.author,
+          title: dataPackage.package.title,
+          description: dataPackage.package.description
+        };
+      });
+    });
+  });
+}
+
+function getDataPackageMetadata(dataPackage, model) {
+  var originUrl = dataPackage.__origin_url ? dataPackage.__origin_url :
+    [
+      'http://datastore.openspending.org',
+      dataPackage.owner,
+      dataPackage.name,
+      'datapackage.json'
+    ].join('/');
+  // jscs:enable
+
   return {
-    //returns list of packages
-    getPackages: function() {
-      var urlApiAllPackages = _searchConfig.url + '?size=10000';
-      return downloader.get(urlApiAllPackages).then(function(text) {
-        var result = [];
-        try {
-          var packages = JSON.parse(text);
-          _.forEach(packages, function(dataPackage) {
-            dataPackage.author =
-              _.join(
-                _.dropRight(
-                  _.split(dataPackage.package.author,' '),
-                  1),
-                ' ');
-            result.push({
-              key: dataPackage.id,
-              value: dataPackage
-            });
-          });
-        } catch (e) {
+    name: dataPackage.name,
+    title: dataPackage.title,
+    description: dataPackage.description,
+    owner: dataPackage.owner,
+    author: dataPackage.author,
+    countryCode: _.isArray(dataPackage.countryCode) ?
+      _.first(dataPackage.countryCode) : dataPackage.countryCode,
+    // jscs:disable
+    factTable: model ? model.fact_table : null,
+    // jscs:enable
+    url: originUrl,
+    resources: _.chain(dataPackage.resources)
+      .map(function(resource) {
+        var resourceUrl = null;
+        if (resource.url) {
+          resourceUrl = resource.url;
         }
-        return result;
-      });
-    },
-
-    //returns data package
-    getDataPackage: function(packageName) {
-      var urlApiPackage = _APIconfig.url + '/info/{packageName}/package';
-      return downloader.getJson(
-        urlApiPackage.replace('{packageName}', packageName)
-      );
-    },
-
-    //returns model of data package
-    getDataPackageModel: function(packageName) {
-      var that = this;
-      var urlApiPackageModel = _APIconfig.url + '/cubes/{packageName}/model';
-      var model = null;
-
-      return downloader.getJson(
-        urlApiPackageModel.replace('{packageName}', packageName)
-      )
-        .then(function(data) {
-          model = data.model;
-          return that.getDataPackage(packageName);
-        })
-        .then(function(dataPackage) {
-          // Populate some additional model properties
-          var dimensionMappings = null;
-          var measureMappings = null;
-          if (_.isObject(dataPackage.model)) {
-            if (_.isObject(dataPackage.model.dimensions)) {
-              dimensionMappings = dataPackage.model.dimensions;
-            }
-            if (_.isObject(dataPackage.model.measures)) {
-              measureMappings = dataPackage.model.measures;
-            }
-          }
-
-          if (dimensionMappings) {
-            _.forEach(model.dimensions, function(dimension) {
-              // jscs:disable
-              var originalDimension =
-                dimensionMappings[dimension.orig_dimension];
-              // jscs:enable
-
-              if (originalDimension) {
-                dimension.dimensionType = originalDimension.dimensionType;
-              }
-            });
-          }
-
-          if (measureMappings) {
-            _.forEach(model.measures, function(measure) {
-              // jscs:disable
-              var originalMeasure = measureMappings[measure.orig_measure];
-              // jscs:enable
-
-              if (originalMeasure) {
-                measure.currency = originalMeasure.currency;
-              }
-            });
-          }
-
-          return model;
-        });
-    },
-
-    //returns possible values of some dimension
-    getDimensionValues: function(packageName, dimension) {
-      var urlApiDimensionValues = _APIconfig.url +
-        '/cubes/{packageName}/members/{dimension}';
-
-      var url = urlApiDimensionValues
-        .replace('{packageName}', packageName)
-        .replace('{dimension}', dimension);
-
-      return downloader.getJson(url);
-    },
-
-    getMeasuresFromModel: function(model) {
-      var result = [];
-      _.forEach(model.aggregates, function(value, key) {
-        if (value.measure) {
-          result.push({
-            key: key,
-            value: value.label,
-            currency: model.measures[value.measure].currency
-          });
+        if (resource.path) {
+          resourceUrl = url.resolve(originUrl, resource.path);
         }
-      });
+
+        if (resourceUrl) {
+          return {
+            name: resource.name,
+            url: resourceUrl
+          };
+        }
+      })
+      .filter()
+      .value()
+  };
+}
+
+function getMeasuresFromModel(dataPackage, model) {
+  // Populate some additional model properties
+  var measureMappings = null;
+  if (_.isObject(dataPackage.model)) {
+    if (_.isObject(dataPackage.model.measures)) {
+      measureMappings = dataPackage.model.measures;
+    }
+  }
+
+  return _.chain(model.aggregates)
+    .filter(function(aggregate) {
+      return aggregate.measure && model.measures[aggregate.measure];
+    })
+    .map(function(aggregate) {
+      var result = {};
+      result.id = aggregate.measure;
+      result.key = aggregate.ref;
+      result.label = aggregate.label;
+
+      if (measureMappings) {
+        var measure = model.measures[aggregate.measure];
+        // jscs:disable
+        var originalMeasure = measureMappings[measure.orig_measure];
+        // jscs:enable
+        if (originalMeasure) {
+          result.currency = originalMeasure.currency;
+        }
+      }
+
       return result;
-    },
+    })
+    .sortBy(function(item) {
+      return item.label;
+    })
+    .value();
+}
 
-    getDimensionKeyById: function(model, id) {
+function getDimensionsFromModel(dataPackage, model) {
+  // Populate some additional model properties
+  var dimensionMappings = null;
+  if (_.isObject(dataPackage.model)) {
+    if (_.isObject(dataPackage.model.dimensions)) {
+      dimensionMappings = dataPackage.model.dimensions;
+    }
+  }
+
+  return _.chain(model.dimensions)
+    .map(function(dimension, index) {
+      var result = {};
+
+      result.id = index;
       // jscs:disable
-      return model.dimensions[id].key_ref;
+      result.key = dimension.key_ref;
+      result.label = dimension.label;
+      result.valueRef = dimension.value_ref || dimension.key_ref;
       // jscs:enable
-    },
+      result.hierarchy = dimension.hierarchy;
 
-    getDrillDownDimensionKey: function(model, dimensionId) {
-      var result = undefined;
-      var dimension = model.dimensions[dimensionId];
-      var hierarchy = model.hierarchies[dimension.hierarchy];
-      if (hierarchy) {
-        var dimensionLevel = hierarchy.levels.indexOf(dimensionId);
-        if (dimensionLevel > -1) {
-          var drillDownDimensionId = hierarchy.levels[dimensionLevel + 1];
-          if (drillDownDimensionId) {
-            result = this.getDimensionKeyById(model, drillDownDimensionId);
-          }
+      if (dimensionMappings) {
+        // jscs:disable
+        var originalDimension = dimensionMappings[dimension.orig_dimension];
+        // jscs:enable
+
+        if (originalDimension) {
+          result.dimensionType = originalDimension.dimensionType;
         }
       }
       return result;
-    },
+    })
+    .sortBy(function(item) {
+      return item.label;
+    })
+    .value();
+}
 
-    getDimensionsSortingIndexes: function(model) {
-      var results = {};
-      var i = 0;
-      _.forEach(model.hierarchies, function(hierarchy) {
-        _.forEach(hierarchy.levels, function(dimension) {
-          results[model.dimensions[dimension].label] = i++;
+function loadDimensionValues(packageId, dimension) {
+  return loadConfig().then(function() {
+    var apiConfig = module.exports.apiConfig;
+
+    var url = apiConfig.url + '/cubes/' +
+      encodeURIComponent(packageId) + '/members/' +
+      encodeURIComponent(dimension.id);
+
+    return downloader.getJson(url).then(function(results) {
+      return _.map(results.data, function(value) {
+        return {
+          key: value[dimension.key],
+          label: value[dimension.valueRef]
+        };
+      });
+    });
+  });
+}
+
+function loadDimensionsValues(packageModel) {
+  return loadConfig().then(function() {
+    var apiConfig = module.exports.apiConfig;
+
+    var promises = _.map(packageModel.dimensions, function(dimension) {
+      return downloader.getJson(apiConfig.url + '/cubes/' +
+        encodeURIComponent(packageModel.id) + '/members/' +
+        encodeURIComponent(dimension.id));
+    });
+
+    return Promise.all(promises).then(function(results) {
+      _.each(results, function(values, index) {
+        var dimension = packageModel.dimensions[index];
+        dimension.values = _.map(results[index].data, function(value) {
+          return {
+            key: value[dimension.key],
+            label: value[dimension.valueRef]
+          };
         });
       });
-      return results;
-    },
+      return packageModel;
+    });
+  });
+}
 
-    getDimensionsFromModel: function(model) {
-      var that = this;
-      var result = [];
-      _.forEach(model.dimensions, function(value, id) {
-
-        result.push({
-          id: id,
-          // jscs:disable
-          key: value.key_ref,
-          // jscs:enable
-          code: value.label,
-          hierarchy: value.hierarchy,
-          dimensionType: value.dimensionType,
-          // jscs:disable
-          name: value.key_ref,
-          label: value.label_ref,
-          // jscs:enable
-          displayName: value.label,
-          drillDown: that.getDrillDownDimensionKey(model, id),
-          original: _.clone(value)
-        });
-
-      });
-
-      return _.sortBy(result, function(value) {
-        return value.key;
-      });
-    },
-
-    buildDimensionValue: function(dimension, possibleValue) {
-      // jscs:disable
+function getHierarchiesFromModel(dataPackage, model, packageModel) {
+  return _.chain(model.hierarchies)
+    .map(function(hierarchy, index) {
       return {
-        key: possibleValue[dimension.key_ref],
-        value: (dimension.key_ref == dimension.label_ref) ?
-          possibleValue[dimension.key_ref] : possibleValue[dimension.label_ref]
-      };
-      // jscs:enable
-    },
-
-    getAllDimensionValues: function(packageName, model) {
-      var promises = [];
-      var result = {};
-      var that = this;
-
-      _.forEach(model.dimensions, function(dimension, id) {
-        var promise = that.getDimensionValues(packageName, id);
-        promise.then(function(possibleValues) {
-          _.forEach(possibleValues.data, function(value) {
-            var dimensionCode = that.getDimensionKeyById(model, id);
-            result[dimensionCode] = result[dimensionCode] || [];
-            result[dimensionCode].push(
-              that.buildDimensionValue(dimension, value)
-            );
+        id: index,
+        key: index,
+        label: hierarchy.label,
+        dimensions: _.map(hierarchy.levels, function(dimensionId) {
+          return _.find(packageModel.dimensions, function(dimension) {
+            return dimension.id == dimensionId;
           });
-        });
-        promises.push(promise);
-      });
+        })
+      };
+    })
+    .sortBy(function(item) {
+      return item.label;
+    })
+    .value();
+}
 
-      return Promise.all(promises).then(function() {
+function filterHierarchiesByType(hierarchies, type) {
+  return _.chain(hierarchies)
+    .map(function(hierarchy) {
+      var result = _.extend({}, hierarchy);
+      result.dimensions = _.filter(hierarchy.dimensions,
+        function(item) {
+          return item.dimensionType == type;
+        });
+      if (result.dimensions.length > 0) {
         return result;
+      }
+    })
+    .filter()
+    .value();
+}
+
+// If loadBareModel == true, this function will load only
+// minimal amount of data required to build model structure.
+// Data like dimension values will not be loaded.
+function getDataPackage(packageId, loadBareModel) {
+  return loadConfig().then(function() {
+    var apiConfig = module.exports.apiConfig;
+
+    var promises = [
+      downloader.getJson(apiConfig.url + '/info/' +
+        encodeURIComponent(packageId) + '/package'),
+      downloader.getJson(apiConfig.url + '/cubes/' +
+        encodeURIComponent(packageId) + '/model')
+    ];
+
+    var dataPackage = null;
+    var model = null;
+
+    return Promise.all(promises)
+      .then(function(results) {
+        dataPackage = results[0];
+        model = results[1].model;
+
+        return {
+          id: packageId,
+          meta: getDataPackageMetadata(dataPackage, model),
+          measures: getMeasuresFromModel(dataPackage, model),
+          dimensions: getDimensionsFromModel(dataPackage, model)
+        };
+      })
+      .then(function(packageModel) {
+        packageModel.hierarchies = getHierarchiesFromModel(dataPackage,
+          model, packageModel);
+        packageModel.locationHierarchies = filterHierarchiesByType(
+          packageModel.hierarchies, 'location');
+        packageModel.dateTimeHierarchies = filterHierarchiesByType(
+          packageModel.hierarchies, 'datetime');
+        return packageModel;
+      })
+      .then(function(packageModel) {
+        if (loadBareModel) {
+          return packageModel;
+        }
+        return loadDimensionsValues(packageModel);
       });
-    }
-  };
-};
+  });
+}
+
+module.exports.loadConfig = loadConfig;
+module.exports.getDataPackages = getDataPackages;
+module.exports.getDataPackage = getDataPackage;
+module.exports.loadDimensionValues = loadDimensionValues;
+module.exports.loadDimensionsValues = loadDimensionsValues;
