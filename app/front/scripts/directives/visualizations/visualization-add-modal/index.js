@@ -42,7 +42,7 @@ angular.module('Application')
             // Try to find items in selected
             return !!_.find($scope.selected, function(selectedItem) {
               return item.id == selectedItem.id;
-            })
+            });
           };
 
           $scope.addVisualization = function(visualizationId, toggle) {

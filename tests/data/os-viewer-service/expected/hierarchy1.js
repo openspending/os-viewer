@@ -81,33 +81,32 @@ module.exports = [
     name: 'time',
     dimensions: [
       {
-        id: 'time_day',
-        key: 'time_day.day',
-        code: 'Time-Day',
-        displayName: 'Time-Day',
+        id: 'time_year',
+        key: 'time_year.year',
+        code: 'Time-Year',
+        displayName: 'Time-Year',
         hierarchy: 'time',
         dimensionType: undefined,
-        name: 'time_day.day',
-        label: 'time_day.day',
-        drillDown: undefined,
-        drillDown: undefined,
+        name: 'time_year.year',
+        label: 'time_year.year',
+        drillDown: 'time_month.month',
         original: {
-          'ref': 'time_day',
-          'key_attribute': 'day',
+          'ref': 'time_year',
+          'key_attribute': 'year',
           'cardinality_class': null,
-          'label_ref': 'time_day.day',
-          'label': 'Time-Day',
+          'label_ref': 'time_year.year',
+          'label': 'Time-Year',
           'hierarchy': 'time',
           'attributes': {
-            'day': {
-              'ref': 'time_day.day',
-              'column': 'time_day',
+            'year': {
+              'ref': 'time_year.year',
+              'column': 'time_year',
               'datatype': 'integer',
-              'label': 'Day'
+              'label': 'Year'
             }
           },
-          'label_attribute': 'day',
-          'key_ref': 'time_day.day'
+          'label_attribute': 'year',
+          'key_ref': 'time_year.year'
         }
       },
       {
@@ -140,32 +139,33 @@ module.exports = [
         }
       },
       {
-        id: 'time_year',
-        key: 'time_year.year',
-        code: 'Time-Year',
-        displayName: 'Time-Year',
+        id: 'time_day',
+        key: 'time_day.day',
+        code: 'Time-Day',
+        displayName: 'Time-Day',
         hierarchy: 'time',
         dimensionType: undefined,
-        name: 'time_year.year',
-        label: 'time_year.year',
-        drillDown: 'time_month.month',
+        name: 'time_day.day',
+        label: 'time_day.day',
+        drillDown: undefined,
+        drillDown: undefined,
         original: {
-          'ref': 'time_year',
-          'key_attribute': 'year',
+          'ref': 'time_day',
+          'key_attribute': 'day',
           'cardinality_class': null,
-          'label_ref': 'time_year.year',
-          'label': 'Time-Year',
+          'label_ref': 'time_day.day',
+          'label': 'Time-Day',
           'hierarchy': 'time',
           'attributes': {
-            'year': {
-              'ref': 'time_year.year',
-              'column': 'time_year',
+            'day': {
+              'ref': 'time_day.day',
+              'column': 'time_day',
               'datatype': 'integer',
-              'label': 'Year'
+              'label': 'Day'
             }
           },
-          'label_attribute': 'year',
-          'key_ref': 'time_year.year'
+          'label_attribute': 'day',
+          'key_ref': 'time_day.day'
         }
       }
     ],

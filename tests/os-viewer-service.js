@@ -36,12 +36,12 @@ describe('osViewerService', function() {
     api.getDataPackageModel('Package2').then(function(model) {
       var sortIndexes = osViewerService._getDimensionsSortingIndexes(model);
       assert.deepEqual(sortIndexes, {
-        'Administrative_classification-Admin1': 0,
-        'Administrative_classification-Admin2_code': 1,
-        'Administrative_classification-Admin3_code': 2,
-        'Other-Fin_source': 3,
-        'Other-Exp_type': 4,
-        'Other-Transfer': 5
+        administrative_classification_admin1: 0,
+        administrative_classification_admin2_code: 1,
+        administrative_classification_admin3_code: 2,
+        other_fin_source: 3,
+        other_exp_type: 4,
+        other_transfer: 5
       });
       done();
     });

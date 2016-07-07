@@ -39,6 +39,7 @@ function getDataPackages() {
 }
 
 function getDataPackageMetadata(dataPackage, model) {
+  // jscs:disable
   var originUrl = dataPackage.__origin_url ? dataPackage.__origin_url :
     [
       'http://datastore.openspending.org',

@@ -45,17 +45,17 @@ function loadDataPackage(packageId, initialParams) {
         package: packageModel,
         params: params,
         history: history.init()
-      }
+      };
     });
 }
 
 function fullyPopulateModel(state) {
   return dataPackageApi.loadDimensionsValues(state.package)
     .then(function(packageModel) {
-        packageModel.columnHierarchies =
-          getHierarchiesWithLimitedDimensionValues(packageModel.hierarchies,
-            maxDimensionValuesForColumns);
-       return state;
+      packageModel.columnHierarchies =
+        getHierarchiesWithLimitedDimensionValues(packageModel.hierarchies,
+          maxDimensionValuesForColumns);
+      return state;
     });
 }
 
@@ -130,7 +130,7 @@ function getInitialState(dataPackages, pageUrl) {
     if (packageId != urlParams.packageId) {
       urlParams = {
         packageId: packageId
-      }
+      };
     }
     return loadDataPackage(packageId, urlParams);
   }
