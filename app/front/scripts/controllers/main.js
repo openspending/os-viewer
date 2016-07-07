@@ -15,9 +15,14 @@ angular.module('Application')
       var isChangingUrl = false;
 
       // This function should be called before updating $scope.state.params
-      function updateStateParams(newParams) {
+      function updateStateParams(newParams, updateHistory, updateUrl) {
+        updateHistory = _.isUndefined(updateHistory) || !!updateHistory;
+        updateUrl = _.isUndefined(updateUrl) || !!updateUrl;
+
         // Remove all items after current and then store current
-        osViewerService.history.trim($scope.state);
+        if (updateHistory) {
+          osViewerService.history.trim($scope.state);
+        }
         $scope.state.params = newParams;
 
         // Extend state with some UI-related data
@@ -30,11 +35,15 @@ angular.module('Application')
         $scope.state.params.selectedFilters = osViewerService
           .getSelectedFilters($scope.state);
 
-        osViewerService.history.push($scope.state);
+        if (updateHistory) {
+          osViewerService.history.push($scope.state);
+        }
 
         // Update page URL; set flag to skip nearest location change event
-        isChangingUrl = true;
-        $location.url(osViewerService.buildUrl($scope.state.params));
+        if (updateUrl) {
+          isChangingUrl = true;
+          $location.url(osViewerService.buildUrl($scope.state.params));
+        }
       }
 
       // Initialization stuff
@@ -55,7 +64,6 @@ angular.module('Application')
           $scope.state = state;
           updateStateParams(state.params);
           $scope.isLoading.package = false;
-          console.log('load', state);
         });
 
       // Event listeners
@@ -70,17 +78,25 @@ angular.module('Application')
 
       // Location change event
       $scope.$on('$locationChangeSuccess', function($event, newUrl, oldUrl) {
-        if (isChangingUrl || (newUrl == oldUrl)) {
-          isChangingUrl = false;
-          return;
+        var wasChangingUrl = isChangingUrl;
+        isChangingUrl = false;
+        if ((newUrl != oldUrl) && !wasChangingUrl) {
+          var urlParams = osViewerService.parseUrl(newUrl);
+          $scope.$emit(Configuration.events.packageSelector.change,
+            urlParams.packageId, newUrl);
         }
-        console.log('url', newUrl, oldUrl);
       });
 
       // Package selector events
       $scope.$on(Configuration.events.packageSelector.change,
-        function($event, packageId) {
-          if (packageId) {
+        function($event, packageId, url) {
+          // `url` is optional and passed only  from
+          // `$locationChangeSuccess` event handler
+          if (!packageId) {
+            return;
+          }
+
+          if (!$scope.state || (packageId != $scope.state.package.id)) {
             $scope.isLoading.package = true;
 
             $q(osViewerService.loadDataPackage(packageId))
@@ -91,9 +107,24 @@ angular.module('Application')
               .then(function(state) {
                 $scope.isLoading.package = false;
                 $scope.state = state;
-                updateStateParams(state.params);
-                console.log('load', state);
+
+                if (url) {
+                  var urlParams = osViewerService.parseUrl(url);
+                  updateStateParams(state.params, false, false);
+                  updateStateParams(osViewerService.params.updateFromUrlParams(
+                    $scope.state.params, urlParams, $scope.state.package),
+                    false, false);
+                } else {
+                  updateStateParams(state.params);
+                }
               });
+          } else {
+            if (url) {
+              var urlParams = osViewerService.parseUrl(url);
+              updateStateParams(osViewerService.params.updateFromUrlParams(
+                $scope.state.params, urlParams, $scope.state.package),
+                false, false);
+            }
           }
         });
 

@@ -9,13 +9,8 @@ function cloneState(state) {
   return _.cloneDeep(state);
 }
 
-function init(packageModel, initialParams) {
-  var anyDateTimeHierarchy = _.first(packageModel.dateTimeHierarchies);
-
-  return {
-    isEmbedded: !!initialParams.isEmbedded,
-    packageId: packageModel.id,
-    countryCode: packageModel.meta.countryCode,
+function getDefaultState(variablePart) {
+  return _.extend({
     measures: [],
     groups: [],
     series: [],
@@ -23,9 +18,121 @@ function init(packageModel, initialParams) {
     columns: [],
     filters: {},
     orderBy: {},
-    dateTimeDimension: _.first(anyDateTimeHierarchy.dimensions).key,
     visualizations: []
-  };
+  }, variablePart);
+}
+
+function normalizeUrlParams(params) {
+  var result = {};
+
+  if (!!params.measure) {
+    result.measures = [params.measure];
+  }
+
+  _.each(['groups', 'series', 'rows', 'columns'], function(axis) {
+    if (!!params[axis]) {
+      if (_.isArray(params[axis])) {
+        result[axis] = params[axis];
+      } else {
+        result[axis] = [params[axis]];
+      }
+      result[axis] = _.filter(result[axis]);
+    }
+  });
+
+  if (!!params.filters) {
+    var filters = _.isArray(params.filters) ? params.filters : [params.filters];
+    result.filters = _.chain(filters)
+      .map(function(value) {
+        value = value.split('|');
+        if (value.length == 2) {
+          return value;
+        }
+      })
+      .filter()
+      .fromPairs()
+      .value();
+  }
+
+  if (!!params.order) {
+    var orderBy = params.order.split('|');
+    if (orderBy.length == 2) {
+      result.orderBy = {
+        key: orderBy[0],
+        direction: orderBy[1]
+      };
+    }
+  }
+
+  result.visualizations = [];
+  if (!!params.visualizations) {
+    if (_.isArray(params.visualizations)) {
+      result.visualizations = params.visualizations;
+    } else {
+      result.visualizations = [params.visualizations];
+    }
+    result.visualizations = _.filter(result.visualizations);
+  }
+
+  return result;
+}
+
+function validateUrlParams(params, packageModel) {
+  var result = {};
+
+  var visualizations = visualizationsService.getVisualizationsByIds(
+    params.visualizations);
+  if (visualizations.length == 0) {
+    return result;
+  }
+
+  var type = _.first(visualizations).type;
+  var defaults = {};
+  switch (type) {
+    case 'drilldown':
+    case 'sortable-series':
+      initCommonParams(defaults, packageModel);
+      break;
+    case 'time-series':
+      initParamsForTimeSeries(defaults, packageModel);
+      break;
+    case 'location':
+      initParamsForLocation(defaults, packageModel);
+      break;
+    case 'pivot-table':
+      initParamsForPivotTable(defaults, packageModel);
+      break;
+  }
+  defaults.filters = {};
+
+  _.each(defaults, function(unused, key) {
+    result[key] = params[key] || defaults[key];
+  });
+
+  result.visualizations = _.chain(visualizations)
+    .filter({type: type})
+    .map(function(item) {
+      return item.id;
+    })
+    .value();
+
+  return result;
+}
+
+function init(packageModel, initialParams) {
+  var anyDateTimeHierarchy = _.first(packageModel.dateTimeHierarchies);
+
+  initialParams = normalizeUrlParams(initialParams || {});
+  initialParams = validateUrlParams(initialParams, packageModel);
+
+  var defaults = getDefaultState({
+    isEmbedded: !!initialParams.isEmbedded,
+    packageId: packageModel.id,
+    countryCode: packageModel.meta.countryCode,
+    dateTimeDimension: _.first(anyDateTimeHierarchy.dimensions).key
+  });
+
+  return _.extend(defaults, initialParams);
 }
 
 function changeMeasure(state, measure) {
@@ -293,6 +400,12 @@ function removeAllVisualizations(state, packageModel) {
   return result;
 }
 
+function updateFromUrlParams(state, urlParams, packageModel) {
+  urlParams = normalizeUrlParams(urlParams || {});
+  urlParams = validateUrlParams(urlParams, packageModel);
+  return _.extend(cloneState(state), getDefaultState(), urlParams);
+}
+
 module.exports.init = init;
 module.exports.changeMeasure = changeMeasure;
 module.exports.changeFilter = changeFilter;
@@ -307,3 +420,4 @@ module.exports.addVisualization = addVisualization;
 module.exports.removeVisualization = removeVisualization;
 module.exports.removeAllVisualizations = removeAllVisualizations;
 module.exports.changeOrderBy = changeOrderBy;
+module.exports.updateFromUrlParams = updateFromUrlParams;

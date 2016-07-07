@@ -75,6 +75,10 @@ function getVisualizationsByIds(ids) {
   });
 }
 
+function findVisualization(predicate) {
+  return _.find(availableVisualizations, predicate);
+}
+
 function getAvailableVisualizations(packageModel) {
   if (!packageModel) {
     return [];
@@ -184,6 +188,7 @@ function paramsToBabbageStateTimeSeries(params) {
 
 module.exports.getVisualizationById = getVisualizationById;
 module.exports.getVisualizationsByIds = getVisualizationsByIds;
+module.exports.findVisualization = findVisualization;
 module.exports.getAvailableVisualizations = getAvailableVisualizations;
 
 module.exports.paramsToBabbageState = paramsToBabbageState;

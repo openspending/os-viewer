@@ -7,6 +7,7 @@ var Promise = require('bluebird');
 var dataPackageApi = require('../data-package-api');
 var stateParams = require('./params');
 var history = require('./history');
+var visualizationsService = require('../visualizations');
 
 var maxDimensionValuesForColumns = 50;
 
@@ -58,32 +59,35 @@ function fullyPopulateModel(state) {
     });
 }
 
-function parseUrl(pageUrl, baseUrl) {
-  baseUrl = baseUrl || '';
-  if (baseUrl.substr(0, 1) != '/') {
-    baseUrl = '/' + baseUrl;
-  }
-  if (baseUrl.substr(-1, 1) != '/') {
-    baseUrl = baseUrl + '/';
-  }
-
-  var urlParams = url.parse(pageUrl);
+function parseUrl(pageUrl) {
+  var urlParams = url.parse(pageUrl || '');
   urlParams.query = qs.parse(urlParams.query);
 
-  var path = urlParams.pathname;
-  path = path.substr(baseUrl.length, path.length);
+  var path = urlParams.pathname || '';
+  if (path.substr(0, 1) == '/') {
+    path = path.substr(1, path.length);
+  }
   if (path.substr(-1, 1) == '/') {
     path = path.substr(0, path.length - 1);
   }
+  path = path.split('/');
 
   var result = urlParams.query;
   result.isEmbedded = false;
   result.packageId = null;
 
-  // TODO: Parse embed urls
-
-  if (path != '') {
-    result.packageId = path;
+  if (path.length == 1) {
+    result.packageId = path[0];
+  }
+  if ((path.length == 3) && (path[0] == 'embed')) {
+    result.isEmbedded = true;
+    result.packageId = path[2];
+    var visualization = visualizationsService.findVisualization({
+      embed: path[1]
+    });
+    if (visualization) {
+      result.visualizations = [visualization.id];
+    }
   }
 
   return result;
@@ -99,8 +103,8 @@ function choosePackage(dataPackages, packageId) {
   return dataPackage ? dataPackage.id : null;
 }
 
-function getInitialState(dataPackages, pageUrl, baseUrl) {
-  var urlParams = parseUrl(pageUrl, baseUrl);
+function getInitialState(dataPackages, pageUrl) {
+  var urlParams = parseUrl(pageUrl);
 
   var packageId = choosePackage(dataPackages, urlParams.packageId);
   if (packageId) {
@@ -281,6 +285,7 @@ module.exports.params = stateParams;
 module.exports.history = history;
 module.exports.loadDataPackages = loadDataPackages;
 module.exports.loadDataPackage = loadDataPackage;
+module.exports.parseUrl = parseUrl;
 module.exports.getInitialState = getInitialState;
 module.exports.fullyPopulateModel = fullyPopulateModel;
 module.exports.getAvailableSorting = getAvailableSorting;
