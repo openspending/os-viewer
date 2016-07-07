@@ -241,6 +241,9 @@ function buildUrl(params, embedParams) {
   query.filters = _.map(params.filters, function(value, key) {
     return key + '|' + value;
   });
+  if (params.orderBy.key) {
+    query.order = params.orderBy.key + '|' + params.orderBy.direction;
+  }
   if ((params.visualizations.length > 0) && !embedParams) {
     query.visualizations = params.visualizations;
   }

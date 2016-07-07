@@ -8,8 +8,8 @@ var osViewerService = require('../services/os-viewer');
 
 angular.module('Application')
   .controller('MainController', [
-    '$scope', '$location', '$browser', 'Configuration',
-    function($scope, $location, $browser, Configuration) {
+    '$scope', '$location', 'Configuration',
+    function($scope, $location, Configuration) {
       // Flag for skipping `$locationChangeSuccess` event when
       // it is triggered while updating url
       var isChangingUrl = false;
@@ -45,7 +45,7 @@ angular.module('Application')
 
           $scope.isLoading.package = true;
           return $q(osViewerService.getInitialState(dataPackages,
-            $location.absUrl(), $browser.baseHref()));
+            $location.url()));
         })
         .then(function(state) {
           $scope.state = state;
@@ -101,19 +101,21 @@ angular.module('Application')
       $scope.$on(Configuration.events.visualizations.add,
         function($event, visualizationId, toggle) {
           updateStateParams(osViewerService.params.addVisualization(
-            $scope.state.params, visualizationId, toggle));
+            $scope.state.params, visualizationId, toggle,
+            $scope.state.package));
         });
 
       $scope.$on(Configuration.events.visualizations.remove,
         function($event, visualizationId) {
           updateStateParams(osViewerService.params.removeVisualization(
-            $scope.state.params, visualizationId));
+            $scope.state.params, visualizationId, $scope.state.package));
         });
 
       $scope.$on(Configuration.events.visualizations.removeAll,
         function() {
           updateStateParams(osViewerService.params
-            .removeAllVisualizations($scope.state.params));
+            .removeAllVisualizations($scope.state.params,
+              $scope.state.package));
         });
 
       $scope.$on(Configuration.events.visualizations.drillDown,

@@ -16,16 +16,13 @@ function init(packageModel, initialParams) {
     isEmbedded: !!initialParams.isEmbedded,
     packageId: packageModel.id,
     countryCode: packageModel.meta.countryCode,
-    measures: [_.first(packageModel.measures).key],
-    groups: [_.first(packageModel.dimensions).key],
+    measures: [],
+    groups: [],
     series: [],
     rows: [],
     columns: [],
     filters: {},
-    orderBy: {
-      key: _.first(packageModel.measures).key,
-      direction: defaultOrderByDirection
-    },
+    orderBy: {},
     dateTimeDimension: _.first(anyDateTimeHierarchy.dimensions).key,
     visualizations: []
   };
@@ -153,7 +150,105 @@ function changeOrderBy(state, key, direction) {
   return result;
 }
 
-function addVisualization(state, visualizationId, toggle) {
+// Functions for initializing params according to added visualizations
+
+function initCommonParams(params, packageModel) {
+  var measure = _.first(packageModel.measures);
+  var hierarchy = _.first(packageModel.hierarchies);
+  var dimension = _.first(hierarchy.dimensions);
+
+  params.measures = [measure.key];
+  params.groups = [dimension.key];
+  params.orderBy = {
+    key: measure.key,
+    direction: defaultOrderByDirection
+  };
+}
+
+function initParamsForTimeSeries(params, packageModel) {
+  var measure = _.first(packageModel.measures);
+
+  params.measures = [measure.key];
+  params.groups = [];
+  params.orderBy = {};
+}
+
+function initParamsForLocation(params, packageModel) {
+  var measure = _.first(packageModel.measures);
+  var hierarchy = _.first(packageModel.locationHierarchies);
+  var dimension = _.first(hierarchy.dimensions);
+
+  params.measures = [measure.key];
+  params.groups = [dimension.key];
+  params.orderBy = {
+    key: measure.key,
+    direction: defaultOrderByDirection
+  };
+}
+
+function initParamsForPivotTable(params, packageModel) {
+  var measure = _.first(packageModel.measures);
+
+  var hierarchy = _.first(packageModel.hierarchies);
+  var rowDimension = _.first(hierarchy.dimensions);
+
+  // Choose dimension for columns. First try to find `datetime` dimension
+  // with more than one value; if such dimension not found - try any other
+  hierarchy = _.first(packageModel.columnHierarchies);
+  var columnDimension = _.first(hierarchy.dimensions);
+  _.each(packageModel.columnHierarchies, function(hierarchy) {
+    var dimension = _.find(hierarchy.dimensions, {
+      dimensionType: 'datetime'
+    });
+    if (dimension) {
+      if (dimension.values.length > 1) {
+        columnDimension = dimension;
+        return false;
+      }
+    }
+  });
+
+  params.measures = [measure.key];
+  params.rows = [rowDimension.key];
+  params.columns = [columnDimension.key];
+  params.orderBy = {
+    key: measure.key,
+    direction: defaultOrderByDirection
+  };
+}
+
+function initParams(params, packageModel) {
+  var visualization = visualizationsService.getVisualizationById(
+    _.first(params.visualizations));
+  switch (visualization.type) {
+    case 'drilldown':
+    case 'sortable-series':
+      initCommonParams(params, packageModel);
+      break;
+    case 'time-series':
+      initParamsForTimeSeries(params, packageModel);
+      break;
+    case 'location':
+      initParamsForLocation(params, packageModel);
+      break;
+    case 'pivot-table':
+      initParamsForPivotTable(params, packageModel);
+      break;
+  }
+}
+
+function clearParams(params, packageModel) {
+  params.measures = [];
+  params.groups = [];
+  params.series = [];
+  params.rows = [];
+  params.columns = [];
+  params.filters = {};
+  params.orderBy = {};
+  params.visualizations = [];
+}
+
+function addVisualization(state, visualizationId, toggle, packageModel) {
   var result = cloneState(state);
 
   var alreadyAdded = !!_.find(state.visualizations, function(item) {
@@ -170,20 +265,31 @@ function addVisualization(state, visualizationId, toggle) {
     result.visualizations.push(visualizationId);
   }
 
+  if (result.visualizations.length == 0) {
+    clearParams(result, packageModel);
+  }
+  if (result.visualizations.length == 1) {
+    initParams(result, packageModel);
+  }
+
   return result;
 }
 
-function removeVisualization(state, visualizationId) {
+function removeVisualization(state, visualizationId, packageModel) {
   var result = cloneState(state);
   result.visualizations = _.filter(result.visualizations, function(item) {
     return item != visualizationId;
   });
+  if (result.visualizations.length == 0) {
+    clearParams(result.packageModel);
+  }
   return result;
 }
 
-function removeAllVisualizations(state) {
+function removeAllVisualizations(state, packageModel) {
   var result = cloneState(state);
   result.visualizations = [];
+  clearParams(result, packageModel);
   return result;
 }
 
