@@ -399,7 +399,7 @@ function removeAllVisualizations(state, packageModel) {
   return result;
 }
 
-function updateFromUrlParams(state, urlParams, packageModel) {
+function updateFromParams(state, urlParams, packageModel) {
   urlParams = normalizeUrlParams(urlParams || {});
   urlParams = validateUrlParams(urlParams, packageModel);
   return _.extend(cloneState(state), getDefaultState(), urlParams);
@@ -419,4 +419,4 @@ module.exports.addVisualization = addVisualization;
 module.exports.removeVisualization = removeVisualization;
 module.exports.removeAllVisualizations = removeAllVisualizations;
 module.exports.changeOrderBy = changeOrderBy;
-module.exports.updateFromUrlParams = updateFromUrlParams;
+module.exports.updateFromParams = updateFromParams;

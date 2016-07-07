@@ -59,6 +59,25 @@ function fullyPopulateModel(state) {
     });
 }
 
+function partiallyPopulateModel(state) {
+  var selectedGroup = _.first(state.params.groups);
+  if (selectedGroup) {
+    var hierarchy = _.find(state.package.hierarchies, function(hierarchy) {
+      return !!_.find(hierarchy.dimensions, {
+        key: selectedGroup
+      });
+    });
+    if (hierarchy) {
+      return dataPackageApi.loadDimensionsValues(state.package,
+        hierarchy.dimensions)
+        .then(function(packageModel) {
+          return state;
+        });
+    }
+  }
+  return Promise.resolve(state);
+}
+
 function parseUrl(pageUrl) {
   var urlParams = url.parse(pageUrl || '');
   urlParams.query = qs.parse(urlParams.query);
@@ -285,6 +304,7 @@ module.exports.loadDataPackage = loadDataPackage;
 module.exports.parseUrl = parseUrl;
 module.exports.getInitialState = getInitialState;
 module.exports.fullyPopulateModel = fullyPopulateModel;
+module.exports.partiallyPopulateModel = partiallyPopulateModel;
 module.exports.getAvailableSorting = getAvailableSorting;
 module.exports.getCurrencySign = getCurrencySign;
 module.exports.getSelectedFilters = getSelectedFilters;

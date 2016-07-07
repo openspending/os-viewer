@@ -176,11 +176,17 @@ function loadDimensionValues(packageId, dimension) {
   });
 }
 
-function loadDimensionsValues(packageModel) {
+// `dimensions` is optional; if omitted - all dimensions will be populated
+function loadDimensionsValues(packageModel, dimensions) {
   return loadConfig().then(function() {
     var apiConfig = module.exports.apiConfig;
 
-    var promises = _.map(packageModel.dimensions, function(dimension) {
+    dimensions = _.isArray(dimensions) ? dimensions : packageModel.dimensions;
+    if (dimensions.length == 0) {
+      return packageModel;
+    }
+
+    var promises = _.map(dimensions, function(dimension) {
       return downloader.getJson(apiConfig.url + '/cubes/' +
         encodeURIComponent(packageModel.id) + '/members/' +
         encodeURIComponent(dimension.id));
@@ -188,7 +194,7 @@ function loadDimensionsValues(packageModel) {
 
     return Promise.all(promises).then(function(results) {
       _.each(results, function(values, index) {
-        var dimension = packageModel.dimensions[index];
+        var dimension = dimensions[index];
         dimension.values = _.map(results[index].data, function(value) {
           return {
             key: value[dimension.key],

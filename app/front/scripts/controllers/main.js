@@ -85,11 +85,12 @@ angular.module('Application')
         $q(osViewerService.loadDataPackage(urlParams.packageId, urlParams))
           .then(function(state) {
             $scope.state = state;
-            return $q(osViewerService.fullyPopulateModel(state));
+            return $q(osViewerService.partiallyPopulateModel(state));
           })
           .then(function(state) {
             $scope.isLoading.package = false;
             $scope.state = state;
+            console.log(state);
             updateStateParams(state.params);
           });
       }
@@ -130,10 +131,11 @@ angular.module('Application')
             return;
           }
 
+          var isUrlAvailable = !!url;
+          var urlParams = osViewerService.parseUrl(url);
           if (!$scope.state || (packageId != $scope.state.package.id)) {
             $scope.isLoading.package = true;
-
-            $q(osViewerService.loadDataPackage(packageId))
+            $q(osViewerService.loadDataPackage(packageId, urlParams))
               .then(function(state) {
                 $scope.state = state;
                 return $q(osViewerService.fullyPopulateModel(state));
@@ -141,21 +143,13 @@ angular.module('Application')
               .then(function(state) {
                 $scope.isLoading.package = false;
                 $scope.state = state;
-
-                if (url) {
-                  var urlParams = osViewerService.parseUrl(url);
-                  updateStateParams(state.params, false, false);
-                  updateStateParams(osViewerService.params.updateFromUrlParams(
-                    $scope.state.params, urlParams, $scope.state.package),
-                    false, false);
-                } else {
-                  updateStateParams(state.params);
-                }
+                // Do not update url and history when populating data from url
+                updateStateParams(state.params, !isUrlAvailable,
+                  !isUrlAvailable);
               });
           } else {
-            if (url) {
-              var urlParams = osViewerService.parseUrl(url);
-              updateStateParams(osViewerService.params.updateFromUrlParams(
+            if (isUrlAvailable) {
+              updateStateParams(osViewerService.params.updateFromParams(
                 $scope.state.params, urlParams, $scope.state.package),
                 false, false);
             }
