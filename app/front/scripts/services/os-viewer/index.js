@@ -73,14 +73,12 @@ function parseUrl(pageUrl) {
   path = path.split('/');
 
   var result = urlParams.query;
-  result.isEmbedded = false;
   result.packageId = null;
 
   if (path.length == 1) {
     result.packageId = path[0];
   }
   if ((path.length == 3) && (path[0] == 'embed')) {
-    result.isEmbedded = true;
     result.packageId = path[2];
     var visualization = visualizationsService.findVisualization({
       embed: path[1]
@@ -112,8 +110,7 @@ function getInitialState(dataPackages, pageUrl) {
     // invalidate other params from url
     if (packageId != urlParams.packageId) {
       urlParams = {
-        packageId: packageId,
-        isEmbedded: urlParams.isEmbedded
+        packageId: packageId
       }
     }
     return loadDataPackage(packageId, urlParams);

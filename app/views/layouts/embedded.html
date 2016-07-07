@@ -6,13 +6,14 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge"/>
   <meta name="description" content="A frontend data/views app powered directly from a Fiscal Data Package."/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Fiscal Data Package Viewer | Open Knowledge</title>
+  <title>OS Viewer | OpenSpending | Open Knowledge International</title>
   <link href="//fonts.googleapis.com/css?family=Hind:400,300,500,600,700" rel="stylesheet" type="text/css">
 
   <link rel="stylesheet" href="styles/embedded.css">
 </head>
-<body ng-controller="MainController" class="ng-cloak">
+<body ng-controller="MainController" ng-init="isEmbedded=true">
   {% block content %}{% endblock %}
+
   <script src="app.js?{{ sessionSalt }}"></script>
   <script src="{{ authLibraryUrl }}"></script>
 </body>

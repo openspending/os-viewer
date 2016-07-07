@@ -5,8 +5,8 @@ var template = require('./template.html');
 
 angular.module('Application')
   .directive('packageSelector', [
-    '$window', '$timeout', '$rootScope', 'Configuration',
-    function($window, $timeout, $rootScope, Configuration) {
+    '$window', '$timeout', 'Configuration',
+    function($window, $timeout, Configuration) {
       return {
         template: template,
         replace: true,
@@ -17,7 +17,6 @@ angular.module('Application')
         },
         link: function($scope, element) {
           $scope.dropdownState = {};
-          $scope.isEmbedded = $rootScope.isEmbedded;
 
           $scope.changePackage = function(packageId) {
             $scope.$emit(Configuration.events.packageSelector.change,

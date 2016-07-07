@@ -3,9 +3,9 @@
     <h3 ng-click="dropdownState.isOpen = !dropdownState.isOpen">
       <i class="os-icon os-icon-box"></i>
       {{ datapackage.title || datapackage.current }}
-      <i ng-if="!isEmbedded" class="os-icon os-icon-arrow-drop-down pull-right"></i>
+      <i ng-if="!readOnly" class="os-icon os-icon-arrow-drop-down pull-right"></i>
     </h3>
-    <ul ng-if="!isEmbedded" class="dropdown-menu col-xs-12">
+    <ul ng-if="!readOnly" class="dropdown-menu col-xs-12">
       <li class="package-search-input pinned">
         <span>
           <input type="text" class="form-control"

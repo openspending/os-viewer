@@ -3,13 +3,15 @@
 var _ = require('lodash');
 var angular = require('angular');
 
-var $q = require('../services/ng-utils').$q;
+var ngUtils = require('../services/ng-utils');
+var $q = ngUtils.$q;
+var $digest = ngUtils.$digest;
 var osViewerService = require('../services/os-viewer');
 
 angular.module('Application')
   .controller('MainController', [
-    '$scope', '$location', 'Configuration',
-    function($scope, $location, Configuration) {
+    '$scope', '$location', '$timeout', 'Configuration',
+    function($scope, $location, $timeout, Configuration) {
       // Flag for skipping `$locationChangeSuccess` event when
       // it is triggered while updating url
       var isChangingUrl = false;
@@ -18,14 +20,16 @@ angular.module('Application')
       function updateStateParams(newParams, updateHistory, updateUrl) {
         updateHistory = _.isUndefined(updateHistory) || !!updateHistory;
         updateUrl = _.isUndefined(updateUrl) || !!updateUrl;
+        var isEmbedded = $scope.isEmbedded;
 
         // Remove all items after current and then store current
-        if (updateHistory) {
+        if (updateHistory && !isEmbedded) {
           osViewerService.history.trim($scope.state);
         }
         $scope.state.params = newParams;
 
         // Extend state with some UI-related data
+        $scope.state.params.isEmbedded = isEmbedded;
         $scope.state.params.availableSoring = osViewerService
           .getAvailableSorting($scope.state);
         $scope.state.params.breadcrumbs = osViewerService
@@ -35,36 +39,66 @@ angular.module('Application')
         $scope.state.params.selectedFilters = osViewerService
           .getSelectedFilters($scope.state);
 
-        if (updateHistory) {
+        if (updateHistory && !isEmbedded) {
           osViewerService.history.push($scope.state);
         }
 
         // Update page URL; set flag to skip nearest location change event
-        if (updateUrl) {
+        if (updateUrl && !isEmbedded) {
           isChangingUrl = true;
           $location.url(osViewerService.buildUrl($scope.state.params));
         }
+
+        // Trigger digest safely - $digest is not triggered
+        // when processing events
+        $digest();
       }
 
       // Initialization stuff
-      $q(osViewerService.loadDataPackages())
-        .then(function(dataPackages) {
-          $scope.isLoading.application = false;
-          $scope.availablePackages = dataPackages;
+      function initRegular() {
+        $q(osViewerService.loadDataPackages())
+          .then(function(dataPackages) {
+            $scope.isLoading.application = false;
+            $scope.availablePackages = dataPackages;
 
-          $scope.isLoading.package = true;
-          return $q(osViewerService.getInitialState(dataPackages,
-            $location.url()));
-        })
-        .then(function(state) {
-          $scope.state = state;
-          return $q(osViewerService.fullyPopulateModel(state));
-        })
-        .then(function(state) {
-          $scope.state = state;
-          updateStateParams(state.params);
-          $scope.isLoading.package = false;
-        });
+            $scope.isLoading.package = true;
+            return $q(osViewerService.getInitialState(dataPackages,
+              $location.url()));
+          })
+          .then(function(state) {
+            $scope.state = state;
+            return $q(osViewerService.fullyPopulateModel(state));
+          })
+          .then(function(state) {
+            $scope.state = state;
+            updateStateParams(state.params);
+            $scope.isLoading.package = false;
+          });
+      }
+
+      function initEmbedded() {
+        $scope.isLoading.application = false;
+        $scope.isLoading.package = true;
+
+        var urlParams = osViewerService.parseUrl($location.url());
+
+        $q(osViewerService.loadDataPackage(urlParams.packageId, urlParams))
+          .then(function(state) {
+            $scope.state = state;
+            return $q(osViewerService.fullyPopulateModel(state));
+          })
+          .then(function(state) {
+            $scope.isLoading.package = false;
+            $scope.state = state;
+            updateStateParams(state.params);
+          });
+      }
+
+      // Wait for one digest cycle before check `$scope.isEmbedded`
+      // since `ng-init` is executed after `ng-controller`
+      $timeout(function() {
+        $scope.isEmbedded ? initEmbedded() : initRegular();
+      });
 
       // Event listeners
 

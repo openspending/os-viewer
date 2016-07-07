@@ -12,7 +12,8 @@
 {% raw %}
 <div>
   <div ng-if="!isLoading.application" ng-cloak>
-    <package-selector ng-if="state.package.meta" items="availablePackages" datapackage="state.package.meta"></package-selector>
+    <package-selector ng-if="state.package.meta" items="availablePackages"
+      datapackage="state.package.meta" read-only="isEmbedded"></package-selector>
 
     <div ng-if="!isLoading.package">
       <div class="clearfix">

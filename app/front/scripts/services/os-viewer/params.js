@@ -121,12 +121,10 @@ function validateUrlParams(params, packageModel) {
 
 function init(packageModel, initialParams) {
   var anyDateTimeHierarchy = _.first(packageModel.dateTimeHierarchies);
-
   initialParams = normalizeUrlParams(initialParams || {});
   initialParams = validateUrlParams(initialParams, packageModel);
 
   var defaults = getDefaultState({
-    isEmbedded: !!initialParams.isEmbedded,
     packageId: packageModel.id,
     countryCode: packageModel.meta.countryCode,
     dateTimeDimension: _.first(anyDateTimeHierarchy.dimensions).key
@@ -277,6 +275,7 @@ function initParamsForTimeSeries(params, packageModel) {
 
   params.measures = [measure.key];
   params.groups = [];
+  params.series = [];
   params.orderBy = {};
 }
 
@@ -307,7 +306,7 @@ function initParamsForPivotTable(params, packageModel) {
     var dimension = _.find(hierarchy.dimensions, {
       dimensionType: 'datetime'
     });
-    if (dimension) {
+    if (dimension && dimension.values) {
       if (dimension.values.length > 1) {
         columnDimension = dimension;
         return false;

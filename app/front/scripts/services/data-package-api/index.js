@@ -269,6 +269,8 @@ function getDataPackage(packageId, loadBareModel) {
       .then(function(packageModel) {
         packageModel.hierarchies = getHierarchiesFromModel(dataPackage,
           model, packageModel);
+        packageModel.columnHierarchies = getHierarchiesFromModel(dataPackage,
+          model, packageModel);
         packageModel.locationHierarchies = filterHierarchiesByType(
           packageModel.hierarchies, 'location');
         packageModel.dateTimeHierarchies = filterHierarchiesByType(
