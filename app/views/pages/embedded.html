@@ -2,19 +2,8 @@
 
 {% block content %}
 {% raw %}
-<style>
-  .alert {
-    display: none !important;
-  }
-
-  .container {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-</style>
-
 <div ng-if="!isLoading.application && !isLoading.package" ng-cloak>
-  <div ng-switch="state.params.visualizations[0]">
+  <div ng-switch="state.params.visualizations[0]" class="row">
     <treemap-visualization ng-switch-when="Treemap" params="state.params"></treemap-visualization>
     <pie-chart-visualization ng-switch-when="PieChart" params="state.params"></pie-chart-visualization>
     <bar-chart-visualization ng-switch-when="BarChart" params="state.params"></bar-chart-visualization>

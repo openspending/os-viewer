@@ -14,7 +14,6 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var resolve = require('resolve');
 var stringify = require('stringify');
-var _ = require('lodash');
 
 var frontSrcDir = path.join(__dirname, '/app/front');
 var frontScriptsDir = path.join(frontSrcDir, '/scripts');
@@ -27,13 +26,6 @@ var publicFontsDir = path.join(publicDir, '/fonts');
 var publicAssetsDir = path.join(publicDir, '/assets');
 
 var nodeModulesDir = path.join(__dirname, '/node_modules');
-
-var modules = [
-  'jquery',
-  'lodash',
-  'bluebird',
-  'marked'
-];
 
 gulp.task('default', [
   'scripts',
@@ -65,7 +57,6 @@ gulp.task('styles.application', function() {
 
 gulp.task('styles.embedded', function() {
   var files = [
-    path.join(nodeModulesDir, '/babbage.ui/dist/lib.css'),
     path.join(frontStylesDir, '/embedded.less')
   ];
   return gulp.src(files)
@@ -83,9 +74,7 @@ gulp.task('styles.vendor', function() {
     path.join(nodeModulesDir, '/font-awesome/css/font-awesome.min.css'),
     path.join(nodeModulesDir, '/os-bootstrap/dist/css/bootstrap.min.css'),
     path.join(nodeModulesDir, '/angular/angular-csp.css'),
-    path.join(nodeModulesDir, '/babbage.ui/dist/lib.css'),
-    path.join(nodeModulesDir, '/bubbletree/dist/bubbletree.css'),
-    path.join(nodeModulesDir, '/c3/c3.min.css')
+    path.join(nodeModulesDir, '/babbage.ui/dist/lib.css')
   ];
   return gulp.src(files)
     .pipe(concat('vendor.css'))
