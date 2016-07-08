@@ -27,8 +27,8 @@ function getHierarchiesWithLimitedDimensionValues(hierarchies, maxValueCount) {
     .value();
 }
 
-function loadDataPackages() {
-  return dataPackageApi.getDataPackages();
+function loadDataPackages(authToken) {
+  return dataPackageApi.getDataPackages(authToken);
 }
 
 function loadDataPackage(packageId, initialParams) {

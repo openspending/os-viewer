@@ -16,10 +16,13 @@ function loadConfig() {
   });
 }
 
-function getDataPackages() {
+function getDataPackages(authToken) {
   return loadConfig().then(function() {
     var searchConfig = module.exports.searchConfig;
     var url = searchConfig.url + '?size=10000';
+    if (authToken) {
+      url += '&jwt=' + encodeURIComponent(authToken);
+    }
     return downloader.getJson(url).then(function(packages) {
       return _.map(packages, function(dataPackage) {
         dataPackage.author = _.chain(dataPackage.package.author)

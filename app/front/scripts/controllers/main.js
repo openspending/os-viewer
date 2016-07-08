@@ -10,8 +10,8 @@ var osViewerService = require('../services/os-viewer');
 
 angular.module('Application')
   .controller('MainController', [
-    '$scope', '$location', '$timeout', 'Configuration',
-    function($scope, $location, $timeout, Configuration) {
+    '$scope', '$location', '$timeout', 'Configuration', 'LoginService',
+    function($scope, $location, $timeout, Configuration, LoginService) {
       // Flag for skipping `$locationChangeSuccess` event when
       // it is triggered while updating url
       var isChangingUrl = false;
@@ -56,7 +56,7 @@ angular.module('Application')
 
       // Initialization stuff
       function initRegular() {
-        $q(osViewerService.loadDataPackages())
+        $q(osViewerService.loadDataPackages(LoginService.getToken()))
           .then(function(dataPackages) {
             $scope.isLoading.application = false;
             $scope.availablePackages = dataPackages;
