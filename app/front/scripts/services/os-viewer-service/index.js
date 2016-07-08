@@ -130,7 +130,7 @@ module.exports = function(apiConfig, searchConfig) {
       return api.getDataPackage(packageName);
     },
 
-    start: function(initState) {
+    start: function(initState, authToken) {
       initState.isStarting = true;
       initState.flag = {};
       initState.availablePackages = {};
@@ -141,7 +141,7 @@ module.exports = function(apiConfig, searchConfig) {
       initState.dimensions.current.filters = {};
 
       this.initState(initState);
-      return api.getPackages().then(function(dataPackages) {
+      return api.getPackages(authToken).then(function(dataPackages) {
         _state.availablePackages.items = dataPackages;
         _state.isStarting = false;
         return _state;

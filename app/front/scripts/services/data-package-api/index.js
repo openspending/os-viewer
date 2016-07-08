@@ -9,8 +9,11 @@ module.exports = function(apiConfig, searchConfig) {
   var _searchConfig = searchConfig;
   return {
     //returns list of packages
-    getPackages: function() {
+    getPackages: function(authToken) {
       var urlApiAllPackages = _searchConfig.url + '?size=10000';
+      if (authToken) {
+        urlApiAllPackages += '&jwt='+authToken;
+      }
       return downloader.get(urlApiAllPackages).then(function(text) {
         var result = [];
         try {

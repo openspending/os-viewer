@@ -9,9 +9,9 @@ var viewerService = {};
 angular.module('Application')
   .controller('MainController', [
     '$scope', '$rootScope', 'NavigationService', 'HistoryService', '$q',
-    '$timeout', 'SettingsService', '$window',
+    '$timeout', 'SettingsService', '$window', 'LoginService',
     function($scope, $rootScope, NavigationService, HistoryService, $q,
-      $timeout, SettingsService, $window) {
+      $timeout, SettingsService, $window, LoginService) {
 
       function updateLocation() {
         if (!$window.isVisEmbedded) {
@@ -611,7 +611,7 @@ angular.module('Application')
             $scope.state.cosmoUrl = apiSettings.cosmoUrl;
             viewerService = osViewerService(apiSettings, searchSettings);
             return $q(function(resolve, reject) {
-              viewerService.start({}).then(function(state) {
+              viewerService.start({}, LoginService.getToken()).then(function(state) {
                 resolve(state);
               });
             });
