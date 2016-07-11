@@ -7,9 +7,11 @@ var downloader = require('../downloader');
 
 module.exports.apiConfig = {};
 module.exports.searchConfig = {};
+module.exports.defaultSettingsUrl = 'settings.json';
 
-function loadConfig() {
-  return downloader.getJson('settings.json').then(function(config) {
+function loadConfig(settingsUrl) {
+  var url = settingsUrl || module.exports.defaultSettingsUrl;
+  return downloader.getJson(url).then(function(config) {
     module.exports.apiConfig = config.api;
     module.exports.searchConfig = config.search;
     return config;
@@ -247,6 +249,25 @@ function filterHierarchiesByType(hierarchies, type) {
     .value();
 }
 
+function createPackageModel(packageId, dataPackage, model) {
+  var packageModel = {
+    id: packageId,
+    meta: getDataPackageMetadata(dataPackage, model),
+    measures: getMeasuresFromModel(dataPackage, model),
+    dimensions: getDimensionsFromModel(dataPackage, model)
+  };
+
+  packageModel.hierarchies = getHierarchiesFromModel(dataPackage,
+    model, packageModel);
+  packageModel.columnHierarchies = packageModel.hierarchies;
+  packageModel.locationHierarchies = filterHierarchiesByType(
+    packageModel.hierarchies, 'location');
+  packageModel.dateTimeHierarchies = filterHierarchiesByType(
+    packageModel.hierarchies, 'datetime');
+
+  return packageModel;
+}
+
 // If loadBareModel == true, this function will load only
 // minimal amount of data required to build model structure.
 // Data like dimension values will not be loaded.
@@ -266,26 +287,7 @@ function getDataPackage(packageId, loadBareModel) {
 
     return Promise.all(promises)
       .then(function(results) {
-        dataPackage = results[0];
-        model = results[1].model;
-
-        return {
-          id: packageId,
-          meta: getDataPackageMetadata(dataPackage, model),
-          measures: getMeasuresFromModel(dataPackage, model),
-          dimensions: getDimensionsFromModel(dataPackage, model)
-        };
-      })
-      .then(function(packageModel) {
-        packageModel.hierarchies = getHierarchiesFromModel(dataPackage,
-          model, packageModel);
-        packageModel.columnHierarchies = getHierarchiesFromModel(dataPackage,
-          model, packageModel);
-        packageModel.locationHierarchies = filterHierarchiesByType(
-          packageModel.hierarchies, 'location');
-        packageModel.dateTimeHierarchies = filterHierarchiesByType(
-          packageModel.hierarchies, 'datetime');
-        return packageModel;
+        return createPackageModel(packageId, results[0], results[1].model);
       })
       .then(function(packageModel) {
         if (loadBareModel) {
@@ -301,3 +303,4 @@ module.exports.getDataPackages = getDataPackages;
 module.exports.getDataPackage = getDataPackage;
 module.exports.loadDimensionValues = loadDimensionValues;
 module.exports.loadDimensionsValues = loadDimensionsValues;
+module.exports.createPackageModel = createPackageModel;

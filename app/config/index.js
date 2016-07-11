@@ -31,7 +31,7 @@ nconf.defaults({
   search: {
     url: searchHost + '/search/package'
   },
-  authLibraryUrl: authHost + '/user/lib',
+  authLibraryUrl: authHost + '/permit/lib',
   basePath: process.env.OS_VIEWER_BASE_PATH || DEFAULT_BASE_PATH
 });
 

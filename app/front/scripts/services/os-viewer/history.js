@@ -31,9 +31,14 @@ function trim(state) {
   var index = _.findIndex(state.history.items, function(item) {
     return item === current;
   });
+
+  var firstIndex = 0;
+
   if (index >= 0) {
     var items = state.history.items;
     items.splice(index + 1, items.length);
+    state.history.hasNext = false;
+    state.history.hasPrev = index > firstIndex + 1;
   }
 }
 
