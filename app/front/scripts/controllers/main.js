@@ -56,7 +56,10 @@ angular.module('Application')
 
       // Initialization stuff
       function initRegular() {
-        $q(osViewerService.loadDataPackages(LoginService.getToken()))
+        $q(LoginService.tryGetToken())
+          .then(function(token) {
+            return $q(osViewerService.loadDataPackages(token));
+          })
           .then(function(dataPackages) {
             $scope.isLoading.application = false;
             $scope.availablePackages = dataPackages;

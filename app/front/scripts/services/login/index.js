@@ -4,8 +4,8 @@ var angular = require('angular');
 
 angular.module('Application')
   .factory('LoginService', [
-    'authenticate', 'authorize', '$window',
-    function(authenticate, authorize, $window) {
+    'authenticate', 'authorize', '$window', '$q',
+    function(authenticate, authorize, $window, $q) {
       var that = this;
 
       this.reset = function() {
@@ -19,7 +19,7 @@ angular.module('Application')
       this.reset();
 
       var token = null;
-      var isEventRegistered = false;
+      var isInitialCheckDone = false;
       var attempting = false;
       var href = null;
 
@@ -27,11 +27,26 @@ angular.module('Application')
         return token;
       };
 
+      this.tryGetToken = function() {
+        return $q(function(resolve) {
+          var check = function() {
+            if (isInitialCheckDone) {
+              var token = that.getToken();
+              token ? resolve(token) : resolve(null);
+            } else {
+              setTimeout(check, 50);
+            }
+          };
+          check();
+        });
+      };
+
       this.check = function() {
         var next = $window.location.href;
         authenticate.check(next)
           .then(function(response) {
             attempting = false;
+            isInitialCheckDone = true;
             token = response.token;
             that.isLoggedIn = true;
             that.name = response.profile.name;
@@ -47,14 +62,7 @@ angular.module('Application')
               });
           })
           .catch(function(providers) {
-            if (!isEventRegistered) {
-              $window.addEventListener('focus', function() {
-                if (!that.isLoggedIn && attempting) {
-                  that.check();
-                }
-              });
-              isEventRegistered = true;
-            }
+            isInitialCheckDone = true;
             href = providers.google.url;
           });
       };
