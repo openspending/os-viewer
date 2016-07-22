@@ -1,142 +1,30 @@
 <div ng-switch="type">
+  <sidebar-measures ng-if="!!type"
+    measures="datapackage.measures"
+    params="params"></sidebar-measures>
 
-  <div ng-switch-when="---">
-    <!-- Default sidebar with all possible options -->
-    <measures measures="state.measures" events="events"></measures>
-    <div ng-repeat="hierarchy in state.hierarchies">
-      <hr>
-      <strong>{{ getHierarchyName(hierarchy) }}</strong>
-      <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-        events="events"></dimensions-filter>
-      <dimensions-group hierarchy="hierarchy" dimensions="state.dimensions"
-        events="events"></dimensions-group>
-    </div>
-  </div>
+  <drilldown-sidebar ng-switch-when="drilldown"
+    hierarchies="datapackage.hierarchies"
+    params="params"></drilldown-sidebar>
 
-  <div ng-switch-when="drilldown">
-    <div ng-if="state.measures.items.length > 1">
-      <measures measures="state.measures" events="events"></measures>
-      <hr>
-    </div>
-    <sidebar-list items="hierarchies" selected="selectedHierarchies" plain-list="yes" title="Hierarchies"></sidebar-list>
-    <hr>
-    <strong>Filters</strong>
-    <div>
-      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator"
-        ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-        <hr>
-        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-          events="events"></dimensions-filter>
-      </div>
-    </div>
-  </div>
+  <sortable-series-sidebar ng-switch-when="sortable-series"
+    hierarchies="datapackage.hierarchies"
+    params="params"></sortable-series-sidebar>
 
-  <div ng-switch-when="sortable-series">
-    <div ng-if="state.measures.items.length > 1">
-      <measures measures="state.measures" events="events"></measures>
-      <hr>
-    </div>
-    <strong>X-Axis</strong>
-    <div ng-repeat="hierarchy in state.hierarchies">
-      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
-        title="{{ getHierarchyName(hierarchy) }}" key="group"></sidebar-list>
-    </div>
+  <time-series-sidebar ng-switch-when="time-series"
+    hierarchies="datapackage.hierarchies"
+    params="params"></time-series-sidebar>
 
-    <hr>
-    <strong>Series</strong>
-    <div ng-repeat="hierarchy in state.hierarchies">
-      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.series"
-        title="{{ getHierarchyName(hierarchy) }}" can-clear="yes" key="series"></sidebar-list>
-    </div>
+  <location-sidebar ng-switch-when="location"
+    hierarchies="datapackage.locationHierarchies"
+    params="params"></location-sidebar>
 
-    <hr>
-    <strong>Filters</strong>
-    <div>
-      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator"
-        ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-        <hr>
-        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-          events="events"></dimensions-filter>
-      </div>
-    </div>
-  </div>
+  <pivot-table-sidebar ng-switch-when="pivot-table"
+    row-hierarchies="datapackage.hierarchies"
+    column-hierarchies="datapackage.columnHierarchies"
+    params="params"></pivot-table-sidebar>
 
-  <div ng-switch-when="time-series">
-    <div ng-if="state.measures.items.length > 1">
-      <measures measures="state.measures" events="events"></measures>
-      <hr>
-    </div>
-    <strong>Series</strong>
-    <div ng-repeat="hierarchy in state.hierarchies">
-      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.series"
-        title="{{ getHierarchyName(hierarchy) }}"></sidebar-list>
-    </div>
-
-    <hr>
-    <strong>Filters</strong>
-    <div>
-      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator"
-        ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-        <hr>
-        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-          events="events"></dimensions-filter>
-      </div>
-    </div>
-  </div>
-
-  <div ng-switch-when="location">
-    <div ng-if="state.measures.items.length > 1">
-      <measures measures="state.measures" events="events"></measures>
-      <hr>
-    </div>
-
-    <strong>Location</strong>
-    <div ng-repeat="hierarchy in locationHierarchies">
-      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.groups"
-        title="{{ getHierarchyName(hierarchy) }}"></sidebar-list>
-    </div>
-
-    <hr>
-    <strong>Filters</strong>
-    <div>
-      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator"
-        ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-        <hr>
-        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-          events="events"></dimensions-filter>
-      </div>
-    </div>
-  </div>
-
-  <div ng-switch-when="pivot-table">
-    <div ng-if="state.measures.items.length > 1">
-      <measures measures="state.measures" events="events"></measures>
-      <hr>
-    </div>
-
-    <strong>Rows</strong>
-    <div ng-repeat="hierarchy in state.hierarchies">
-      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.rows" key="rows"
-        title="{{ getHierarchyName(hierarchy) }}" can-clear="{{ state.dimensions.current.rows.length > 1 ? 'on' : '' }}"></sidebar-list>
-    </div>
-
-    <hr>
-
-    <strong>Columns</strong>
-    <div ng-repeat="hierarchy in columnsHierarchies">
-      <sidebar-list items="hierarchy.dimensions" selected="state.dimensions.current.columns" key="columns"
-        title="{{ getHierarchyName(hierarchy) }}" can-clear="{{ state.dimensions.current.columns.length > 1 ? 'yes' : '' }}"></sidebar-list>
-    </div>
-
-    <hr>
-    <strong>Filters</strong>
-    <div>
-      <div ng-repeat="hierarchy in state.hierarchies" class="x-hide-first-separator">
-        <hr>
-        <dimensions-filter hierarchy="hierarchy" dimensions="state.dimensions"
-          events="events"></dimensions-filter>
-      </div>
-    </div>
-  </div>
-
+  <sidebar-filters ng-if="!!type"
+    hierarchies="datapackage.hierarchies"
+    params="params"></sidebar-filters>
 </div>

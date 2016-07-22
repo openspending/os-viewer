@@ -1,0 +1,184 @@
+{
+  "name": "8c248ff162c3c3b957f487138850eaf2:ekondo-titi-trial",
+  "model": {
+    "measures": {
+      "Depenses_realisees": {
+        "orig_measure": "Depenses_realisees",
+        "currency": "XAF",
+        "column": "Depenses_realisees",
+        "label": "D\u00e9penses r\u00e9alis\u00e9es",
+        "ref": "Depenses_realisees"
+      }
+    },
+    "aggregates": {
+      "Depenses_realisees.sum": {
+        "function": "sum",
+        "ref": "Depenses_realisees.sum",
+        "measure": "Depenses_realisees",
+        "label": "D\u00e9penses r\u00e9alis\u00e9es"
+      },
+      "_count": {
+        "function": "count",
+        "ref": "_count",
+        "label": "Facts"
+      }
+    },
+    "dimensions": {
+      "economic_classification_Compte": {
+        "hierarchy": "economic_classification",
+        "orig_dimension": "economic-classification",
+        "label": "Compte",
+        "cardinality_class": null,
+        "key_ref": "economic_classification_Compte.Compte",
+        "attributes": {
+          "Compte": {
+            "datatype": "string",
+            "column": "Compte",
+            "label": "Compte",
+            "ref": "economic_classification_Compte.Compte",
+            "orig_attribute": "Compte"
+          },
+          "Intitule_compte": {
+            "datatype": "string",
+            "column": "Intitule_compte",
+            "label": "Intitul\u00e9 compte",
+            "ref": "economic_classification_Compte.Intitule_compte",
+            "orig_attribute": "Intitule_compte"
+          }
+        },
+        "key_attribute": "Compte",
+        "label_attribute": "Intitule_compte",
+        "ref": "economic_classification_Compte",
+        "label_ref": "economic_classification_Compte.Intitule_compte"
+      },
+      "activity_2": {
+        "hierarchy": "activity",
+        "orig_dimension": "activity",
+        "label": "Nature",
+        "cardinality_class": null,
+        "key_ref": "activity_2.Nature",
+        "attributes": {
+          "Nature": {
+            "datatype": "string",
+            "column": "Nature",
+            "label": "Nature",
+            "ref": "activity_2.Nature",
+            "orig_attribute": "Nature"
+          },
+          "Intitule_nature": {
+            "datatype": "string",
+            "column": "Intitule_nature",
+            "label": "Intitul\u00e9 nature",
+            "ref": "activity_2.Intitule_nature",
+            "orig_attribute": "Intitule_nature"
+          }
+        },
+        "key_attribute": "Nature",
+        "label_attribute": "Intitule_nature",
+        "ref": "activity_2",
+        "label_ref": "activity_2.Intitule_nature"
+      },
+      "economic_classification_2": {
+        "hierarchy": "economic_classification",
+        "orig_dimension": "economic-classification",
+        "label": "Chapitre",
+        "cardinality_class": null,
+        "key_ref": "economic_classification_2.Chapitre",
+        "attributes": {
+          "Chapitre": {
+            "datatype": "string",
+            "column": "Chapitre",
+            "label": "Chapitre",
+            "ref": "economic_classification_2.Chapitre",
+            "orig_attribute": "Chapitre"
+          },
+          "Intitule_chapitre": {
+            "datatype": "string",
+            "column": "Intitule_chapitre",
+            "label": "Intitul\u00e9 chapitre",
+            "ref": "economic_classification_2.Intitule_chapitre",
+            "orig_attribute": "Intitule_chapitre"
+          }
+        },
+        "key_attribute": "Chapitre",
+        "label_attribute": "Intitule_chapitre",
+        "ref": "economic_classification_2",
+        "label_ref": "economic_classification_2.Intitule_chapitre"
+      },
+      "date_2": {
+        "hierarchy": "date",
+        "orig_dimension": "date",
+        "label": "Ann\u00e9e",
+        "cardinality_class": null,
+        "key_ref": "date_2.Annee",
+        "attributes": {
+          "Annee": {
+            "datatype": "integer",
+            "column": "Annee",
+            "label": "Ann\u00e9e",
+            "ref": "date_2.Annee",
+            "orig_attribute": "Annee"
+          }
+        },
+        "key_attribute": "Annee",
+        "label_attribute": "Annee",
+        "ref": "date_2",
+        "label_ref": "date_2.Annee"
+      },
+      "economic_classification_3": {
+        "hierarchy": "economic_classification",
+        "orig_dimension": "economic-classification",
+        "label": "Article",
+        "cardinality_class": null,
+        "key_ref": "economic_classification_3.Article",
+        "attributes": {
+          "Article": {
+            "datatype": "string",
+            "column": "Article",
+            "label": "Article",
+            "ref": "economic_classification_3.Article",
+            "orig_attribute": "Article"
+          },
+          "Intitule_article": {
+            "datatype": "string",
+            "column": "Intitule_article",
+            "label": "Intitul\u00e9 article",
+            "ref": "economic_classification_3.Intitule_article",
+            "orig_attribute": "Intitule_article"
+          }
+        },
+        "key_attribute": "Article",
+        "label_attribute": "Intitule_article",
+        "ref": "economic_classification_3",
+        "label_ref": "economic_classification_3.Intitule_article"
+      }
+    },
+    "fact_table": "fdp__8c248ff162c3c3b957f487138850__ekondo_titi_trial",
+    "hierarchies": {
+      "activity": {
+        "ref": "activity",
+        "label": "Activity",
+        "levels": [
+          "activity_2"
+        ]
+      },
+      "economic_classification": {
+        "ref": "economic_classification",
+        "label": "Economic Classification",
+        "levels": [
+          "economic_classification_2",
+          "economic_classification_3",
+          "economic_classification_Compte"
+        ]
+      },
+      "date": {
+        "ref": "date",
+        "label": "Date",
+        "levels": [
+          "date_2"
+        ]
+      }
+    }
+  },
+  "status": "ok"
+}

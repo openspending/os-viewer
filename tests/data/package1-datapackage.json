@@ -1,0 +1,212 @@
+{
+  "__origin_url": "http://s3.amazonaws.com/datastore.openspending.org/8c248ff162c3c3b957f487138850eaf2/ekondo-titi-trial/datapackage.json",
+  "author": "Victoria Vlad <victoriavladd@not.shown>",
+  "countryCode": "CM",
+  "fiscalPeriod": {
+    "end": "2015-12-31",
+    "start": "2015-01-01"
+  },
+  "model": {
+    "dimensions": {
+      "activity": {
+        "attributes": {
+          "Intitule_nature": {
+            "labelfor": "Nature",
+            "source": "Intitul\u00e9 nature",
+            "title": "Intitul\u00e9 nature"
+          },
+          "Nature": {
+            "source": "Nature",
+            "title": "Nature"
+          }
+        },
+        "dimensionType": "activity",
+        "primaryKey": [
+          "Nature"
+        ]
+      },
+      "date": {
+        "attributes": {
+          "Annee": {
+            "source": "Ann\u00e9e",
+            "title": "Ann\u00e9e"
+          }
+        },
+        "dimensionType": "datetime",
+        "primaryKey": [
+          "Annee"
+        ]
+      },
+      "economic-classification": {
+        "attributes": {
+          "Article": {
+            "parent": "Chapitre",
+            "source": "Article",
+            "title": "Article"
+          },
+          "Chapitre": {
+            "source": "Chapitre",
+            "title": "Chapitre"
+          },
+          "Compte": {
+            "parent": "Article",
+            "source": "Compte",
+            "title": "Compte"
+          },
+          "Intitule_article": {
+            "labelfor": "Article",
+            "source": "Intitul\u00e9 article",
+            "title": "Intitul\u00e9 article"
+          },
+          "Intitule_chapitre": {
+            "labelfor": "Chapitre",
+            "source": "Intitul\u00e9 chapitre",
+            "title": "Intitul\u00e9 chapitre"
+          },
+          "Intitule_compte": {
+            "labelfor": "Compte",
+            "source": "Intitul\u00e9 compte",
+            "title": "Intitul\u00e9 compte"
+          }
+        },
+        "classificationType": "economic",
+        "dimensionType": "classification",
+        "primaryKey": [
+          "Chapitre",
+          "Article",
+          "Compte"
+        ]
+      }
+    },
+    "measures": {
+      "Depenses_realisees": {
+        "currency": "XAF",
+        "direction": "expenditure",
+        "phase": "executed",
+        "source": "D\u00e9penses r\u00e9alis\u00e9es",
+        "title": "D\u00e9penses r\u00e9alis\u00e9es"
+      }
+    }
+  },
+  "name": "ekondo-titi-trial",
+  "owner": "8c248ff162c3c3b957f487138850eaf2",
+  "regionCode": "af",
+  "resources": [
+    {
+      "bytes": 16541,
+      "dialect": {
+        "csvddfVersion": 1,
+        "delimiter": ",",
+        "lineTerminator": "\r\n"
+      },
+      "format": "csv",
+      "mediatype": "application/vnd.ms-excel",
+      "name": "for-trial-viz-cameroon_afro",
+      "path": "for-trial-viz-cameroon_afro.csv",
+      "schema": {
+        "fields": [
+          {
+            "conceptType": "date",
+            "format": "default",
+            "name": "Ann\u00e9e",
+            "osType": "date:fiscal-year",
+            "slug": "Annee",
+            "title": "Ann\u00e9e",
+            "type": "integer"
+          },
+          {
+            "conceptType": "activity",
+            "format": "default",
+            "name": "Nature",
+            "osType": "activity:generic:contract:code",
+            "slug": "Nature",
+            "title": "Nature",
+            "type": "string"
+          },
+          {
+            "conceptType": "activity",
+            "format": "default",
+            "name": "Intitul\u00e9 nature",
+            "osType": "activity:generic:contract:label",
+            "slug": "Intitule_nature",
+            "title": "Intitul\u00e9 nature",
+            "type": "string"
+          },
+          {
+            "conceptType": "economic-classification",
+            "format": "default",
+            "name": "Chapitre",
+            "osType": "economic-classification:generic:level1:code:full",
+            "slug": "Chapitre",
+            "title": "Chapitre",
+            "type": "string"
+          },
+          {
+            "conceptType": "economic-classification",
+            "format": "default",
+            "name": "Intitul\u00e9 chapitre",
+            "osType": "economic-classification:generic:level1:label",
+            "slug": "Intitule_chapitre",
+            "title": "Intitul\u00e9 chapitre",
+            "type": "string"
+          },
+          {
+            "conceptType": "economic-classification",
+            "format": "default",
+            "name": "Article",
+            "osType": "economic-classification:generic:level2:code:full",
+            "slug": "Article",
+            "title": "Article",
+            "type": "string"
+          },
+          {
+            "conceptType": "economic-classification",
+            "format": "default",
+            "name": "Intitul\u00e9 article",
+            "osType": "economic-classification:generic:level2:label",
+            "slug": "Intitule_article",
+            "title": "Intitul\u00e9 article",
+            "type": "string"
+          },
+          {
+            "conceptType": "economic-classification",
+            "format": "default",
+            "name": "Compte",
+            "osType": "economic-classification:generic:level3:code:full",
+            "slug": "Compte",
+            "title": "Compte",
+            "type": "string"
+          },
+          {
+            "conceptType": "economic-classification",
+            "format": "default",
+            "name": "Intitul\u00e9 compte",
+            "osType": "economic-classification:generic:level3:label",
+            "slug": "Intitule_compte",
+            "title": "Intitul\u00e9 compte",
+            "type": "string"
+          },
+          {
+            "conceptType": "value",
+            "decimalChar": ".",
+            "format": "default",
+            "groupChar": ",",
+            "name": "D\u00e9penses r\u00e9alis\u00e9es",
+            "osType": "value",
+            "slug": "Depenses_realisees",
+            "title": "D\u00e9penses r\u00e9alis\u00e9es",
+            "type": "number"
+          }
+        ],
+        "primaryKey": [
+          "Ann\u00e9e",
+          "Nature",
+          "Chapitre",
+          "Article",
+          "Compte"
+        ]
+      }
+    }
+  ],
+  "title": "Ekondo Titi trial 04/29"
+}

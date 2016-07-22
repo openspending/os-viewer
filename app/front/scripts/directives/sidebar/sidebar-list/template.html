@@ -1,0 +1,33 @@
+<div ng-init="list.isCollapsed = true">
+  <div class="list-group list-group-inverse">
+    <a ng-click="list.isCollapsed = !list.isCollapsed" href="javascript:void(0);" class="list-group-item">
+      <i class="os-icon os-icon-filter"></i>
+      <i class="os-icon os-icon-arrow-down pull-right" ng-class="{expanded: !list.isCollapsed}"></i>
+      {{ title }}
+    </a>
+  </div>
+  <div ng-if="!list.isCollapsed" class="list-group list-group-inverse slide-animation">
+    <a ng-repeat="item in selectedItems track by [$index, item.key]" href="javascript:void(0);"
+      class="list-group-item active">
+      <i ng-if="canClear && isSelected(item.key)" ng-click="unselectItem($event, item)" class="os-icon os-icon-remove pull-right"></i>
+      {{ item.label }}
+    </a>
+    <div class="list-group-item" ng-if="items.length > maxItems">
+      <div ng-class="{'input-group': !!filter.label}">
+        <input type="text" class="form-control form-control-inverse" placeholder="Search for item..." ng-model="filter.label">
+        <span class="input-group-btn" ng-if="!!filter.label">
+          <button class="btn btn-inverse" type="button" ng-click="filter.label = ''"><i class="fa fa-times"></i></button>
+        </span>
+      </div>
+    </div>
+    <a ng-repeat="item in itemsToDisplay track by [$index, item.key]" href="javascript:void(0);"
+      ng-class="{active: isSelected(item.key)}"
+      ng-click="selectItem($event, item)"
+      class="list-group-item">
+      <i ng-if="canClear && isSelected(item.key)" ng-click="unselectItem($event, item)" class="os-icon os-icon-remove pull-right"></i>
+      {{ item.label }}
+    </a>
+    <strong ng-if="!!filter.displayName && !itemsToDisplay.length">No results found</strong>
+    <strong ng-if="hasMoreItems">... there are more items</strong>
+  </div>
+</div>

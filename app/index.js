@@ -35,7 +35,7 @@ module.exports.start = function() {
 
     // Controllers
     app.use([
-      routes.pages()
+      routes()
     ]);
 
     var env = nunjucks.configure(app.get('views'), {

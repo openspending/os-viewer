@@ -1,0 +1,9 @@
+{
+  "api": {
+    "url": "http://api.example.com",
+    "cosmoUrl": "http://cosmopolitan.example.com"
+  },
+  "search": {
+    "url":"http://search.example.com"
+  }
+}

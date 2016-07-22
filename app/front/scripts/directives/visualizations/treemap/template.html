@@ -1,0 +1,10 @@
+<div class="col-xs-12">
+  <breadcrumbs breadcrumbs="params.breadcrumbs"></breadcrumbs>
+</div>
+<div class="x-visualization-chart col-xs-12">
+  <tree-map ng-if="isVisible"
+    cube="{{ params.packageId }}"
+    state="state"
+    endpoint="{{ params.babbageApiUrl }}">
+  </tree-map>
+</div>

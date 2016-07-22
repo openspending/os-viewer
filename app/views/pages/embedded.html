@@ -1,121 +1,18 @@
 {% extends "layouts/embedded.html" %}
 
 {% block content %}
-<style>
-  .alert {
-    display: none;
-  !important;
-  }
-
-  .container {
-    padding: 0px;
-  !important;
-    margin: 0px;
-  !important;
-  }
-</style>
-
-<div  ng-if="!state.isStarting && !state.isPackageLoading">
-  {% if view == 'piechart' %}
-  {% raw %}
-  <pie-chart
-    ng-if="!state.flag.renderingCharts"
-    cube="{{state.availablePackages.current}}" 
-    state="state.babbage"
-    endpoint="{{state.apiUrl}}"
-  ></pie-chart>
-  {% endraw %}
-  {% endif %}
-
-  {% if view == 'barchart' %}
-  {% raw %}
-  <chart
-    ng-if="!state.flag.renderingCharts"
-    cube="{{state.availablePackages.current}}" 
-    type="bar"
-    state="state.babbage"
-    endpoint="{{state.apiUrl}}"
-  ></chart>
-  {% endraw %}
-  {% endif %}
-
-  {% if view == 'linechart' %}
-  {% raw %}
-  <chart
-    ng-if="!state.flag.renderingCharts"
-    cube="{{state.availablePackages.current}}" 
-    type="line" 
-    state="state.babbage"
-    endpoint="{{state.apiUrl}}"
-  ></chart>
-  {% endraw %}
-  {% endif %}
-
-  {% if view == 'treemap' %}
-  {% raw %}
-  <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
-  <tree-map
-    ng-if="!state.flag.renderingCharts"
-    cube="{{state.availablePackages.current}}"
-    state="state.babbage"
-    endpoint="{{state.apiUrl}}">
-  </tree-map>
-  {% endraw %}
-  {% endif %}
-
-  {% if view == 'bubbletree' %}
-  {% raw %}
-  <breadcrumbs breadcrumbs="state.breadcrumbs" events="events"></breadcrumbs>
-  <bubbletree
-    ng-if="!state.flag.renderingCharts"
-    cube="{{state.availablePackages.current}}" 
-    state="state.babbage"
-    endpoint="{{state.apiUrl}}"
-  ></bubbletree>
-  {% endraw %}
-  {% endif %}
-
-  {% if view == 'table' %}
-  {% raw %}
-  <babbage-table
-    ng-if="!state.flag.renderingCharts"
-    cube="{{state.availablePackages.current}}" 
-    state="state.babbage"
-    endpoint="{{state.apiUrl}}"
-  ></babbage-table>
-  {% endraw %}
-  {% endif %}
-
-  {% if view == 'map' %}
-  {% raw %}
-  <geo-view
-    ng-if="!state.flag.renderingCharts"
-    cube="{{state.availablePackages.current}}"
-    state="state.babbage"
-    endpoint="{{state.apiUrl}}"
-    cosmo-endpoint="{{state.cosmoUrl}}"
-    currency-sign="{{ state.availablePackages.currencySign }}"
-    country-code="{{ state.availablePackages.locationCountry }}"
-  ></geo-view>
-  {% endraw %}
-  {% endif %}
-
-  {% if view == 'pivottable' %}
-  {% raw %}
-  <pivot-table
-    ng-if="!state.flag.renderingCharts"
-    cube="{{state.availablePackages.current}}"
-    state="state.babbagePivot"
-    endpoint="{{state.apiUrl}}"
-    cosmo-endpoint="{{cosmoEndpoint}}"
-    country-code="{{countryCode}}">
-  </pivot-table>
-  {% endraw %}
-  {% endif %}
+{% raw %}
+<div ng-if="!isLoading.application && !isLoading.package" ng-cloak>
+  <div ng-switch="state.params.visualizations[0]" class="row">
+    <treemap-visualization ng-switch-when="Treemap" params="state.params"></treemap-visualization>
+    <pie-chart-visualization ng-switch-when="PieChart" params="state.params"></pie-chart-visualization>
+    <bar-chart-visualization ng-switch-when="BarChart" params="state.params"></bar-chart-visualization>
+    <line-chart-visualization ng-switch-when="LineChart" params="state.params"></line-chart-visualization>
+    <table-visualization ng-switch-when="Table" params="state.params"></table-visualization>
+    <bubble-tree-visualization ng-switch-when="BubbleTree" params="state.params"></bubble-tree-visualization>
+    <map-visualization ng-switch-when="Map" params="state.params"></map-visualization>
+    <pivot-table-visualization ng-switch-when="PivotTable" params="state.params"></pivot-table-visualization>
+  </div>
 </div>
-
-<script>
-  window.isVisEmbedded = true;
-</script>
-
+{% endraw %}
 {% endblock %}

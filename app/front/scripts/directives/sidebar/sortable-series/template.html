@@ -1,0 +1,12 @@
+<strong>X-Axis</strong>
+<div ng-repeat="hierarchy in hierarchies">
+  <sidebar-list items="hierarchy.dimensions" selected="params.groups"
+    title="{{ hierarchy.label }}" key="groups"></sidebar-list>
+</div>
+
+<hr>
+<strong>Series</strong>
+<div ng-repeat="hierarchy in hierarchies">
+  <sidebar-list items="hierarchy.dimensions" selected="params.series"
+    title="{{ hierarchy.label }}" can-clear="yes" key="series"></sidebar-list>
+</div>

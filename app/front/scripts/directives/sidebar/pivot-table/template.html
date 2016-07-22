@@ -1,0 +1,13 @@
+<strong>Rows</strong>
+<div ng-repeat="hierarchy in rowHierarchies">
+  <sidebar-list items="hierarchy.dimensions" selected="params.rows" key="rows"
+    title="{{ hierarchy.label }}" can-clear="{{ params.rows.length > 1 ? 'on' : '' }}"></sidebar-list>
+</div>
+
+<hr>
+
+<strong>Columns</strong>
+<div ng-repeat="hierarchy in columnHierarchies">
+  <sidebar-list items="hierarchy.dimensions" selected="params.columns" key="columns"
+    title="{{ hierarchy.label }}" can-clear="{{ params.columns.length > 1 ? 'yes' : '' }}"></sidebar-list>
+</div>

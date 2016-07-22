@@ -1,0 +1,29 @@
+<div class="row x-available-packages">
+  <div class="col-xs-12 dropdown" ng-class="{open: dropdownState.isOpen}">
+    <h3 ng-click="dropdownState.isOpen = !dropdownState.isOpen">
+      <i class="os-icon os-icon-box"></i>
+      {{ datapackage.title || datapackage.current }}
+      <i ng-if="!readOnly" class="os-icon os-icon-arrow-drop-down pull-right"></i>
+    </h3>
+    <ul ng-if="!readOnly" class="dropdown-menu col-xs-12">
+      <li class="package-search-input pinned">
+        <span>
+          <input type="text" class="form-control"
+            placeholder="Search for data package"
+            ng-model="filter">
+        </span>
+      </li>
+      <!-- Placeholder for search control since it is fixed to top -->
+      <li class="package-search-input placeholder">
+        <span><span class="form-control-static"></span></span>
+      </li>
+      <li role="menuitem" ng-repeat="item in (items | filter:filter ) track by item.id">
+        <a href="javascript:void(0)" title="{{ item.author }} / {{ item.title }}"
+          ng-click="dropdownState.isOpen = false; changePackage(item.id);">{{ item.author }} / {{ item.title }}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-12">
+    <div marked="datapackage.description"></div>
+  </div>
+</div>

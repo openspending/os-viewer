@@ -1,0 +1,9 @@
+<div class="btn-group margin-bottom-16" ng-if="items.length > 0">
+  <button ng-repeat="item in items"
+    ng-click="toggleOrderBy(item.key)"
+    ng-class="{active: item.key == selected.key}"
+    type="button" class="btn btn-default pull-left">
+    {{ item.label }}
+    <i ng-if="selected.key == item.key" class="fa fa-sort-amount-{{ selected.direction }}"></i>
+  </button>
+</div>

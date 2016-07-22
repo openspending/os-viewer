@@ -1,0 +1,202 @@
+[
+  {
+    "key": "economic_classification_Compte",
+    "data": {
+      "page_size": 10000,
+      "page": 1,
+      "cell": [
+      ],
+      "total_member_count": 113,
+      "data": [
+        {
+          "economic_classification_Compte.Intitule_compte": "Fournitures de bureau",
+          "economic_classification_Compte.Compte": "610100"
+        },
+        {
+          "economic_classification_Compte.Intitule_compte": "Abonnement \u00e0 divers publications",
+          "economic_classification_Compte.Compte": "610101"
+        },
+        {
+          "economic_classification_Compte.Intitule_compte": "Frais d'impression des tickets, timbres et vignettes",
+          "economic_classification_Compte.Compte": "610102"
+        },
+        {
+          "economic_classification_Compte.Intitule_compte": "Frais d'impression des registres et documents comptables",
+          "economic_classification_Compte.Compte": "610103"
+        },
+        {
+          "economic_classification_Compte.Intitule_compte": "D\u00e9penses de l'\u00e9tat civil (registres, livrets, imprim\u00e9s, etc.)",
+          "economic_classification_Compte.Compte": "610104"
+        }
+      ],
+      "fields": [
+        "economic_classification_Compte.Compte",
+        "economic_classification_Compte.Intitule_compte"
+      ],
+      "order": [
+
+      ],
+      "status": "ok"
+    }
+  },
+  {
+    "key": "activity_2",
+    "data": {
+      "page_size": 10000,
+      "page": 1,
+      "cell": [
+      ],
+      "total_member_count": 1,
+      "data": [
+        {
+          "activity_2.Intitule_nature": "COMPTES DE CHARGES",
+          "activity_2.Nature": "6"
+        }
+      ],
+      "fields": [
+        "activity_2.Nature",
+        "activity_2.Intitule_nature"
+      ],
+      "order": [
+      ],
+      "status": "ok"
+    }
+  },
+  {
+    "key": "economic_classification_2",
+    "data": {
+      "page_size": 10000,
+      "page": 1,
+      "cell": [
+
+      ],
+      "total_member_count": 8,
+      "data": [
+        {
+          "economic_classification_2.Chapitre": "61",
+          "economic_classification_2.Intitule_chapitre": "BIENS ET SERVICES CONSOMMES"
+        },
+        {
+          "economic_classification_2.Chapitre": "62",
+          "economic_classification_2.Intitule_chapitre": "FRAIS DE PERSONNEL"
+        },
+        {
+          "economic_classification_2.Chapitre": "63",
+          "economic_classification_2.Intitule_chapitre": "IMPOTS ET TAXES"
+        },
+        {
+          "economic_classification_2.Chapitre": "64",
+          "economic_classification_2.Intitule_chapitre": "FRAIS FINANCIERS"
+        },
+        {
+          "economic_classification_2.Chapitre": "65",
+          "economic_classification_2.Intitule_chapitre": "SUBVENTIONS VERSEES"
+        },
+        {
+          "economic_classification_2.Chapitre": "66",
+          "economic_classification_2.Intitule_chapitre": "TRANSFERTS VERSES"
+        },
+        {
+          "economic_classification_2.Chapitre": "67",
+          "economic_classification_2.Intitule_chapitre": "AUTRES CHARGES ET PERTES DIVERSES"
+        },
+        {
+          "economic_classification_2.Chapitre": "68",
+          "economic_classification_2.Intitule_chapitre": "DOTATION AUX AMORTISSEMENTS"
+        }
+      ],
+      "fields": [
+        "economic_classification_2.Chapitre",
+        "economic_classification_2.Intitule_chapitre"
+      ],
+      "order": [
+
+      ],
+      "status": "ok"
+    }
+  },
+  {
+    "key": "date_2",
+    "data": {
+      "page_size": 10000,
+      "page": 1,
+      "cell": [
+
+      ],
+      "total_member_count": 1,
+      "data": [
+        {
+          "date_2.Annee": 2015
+        }
+      ],
+      "fields": [
+        "date_2.Annee"
+      ],
+      "order": [
+
+      ],
+      "status": "ok"
+    }
+  },
+  {
+    "key": "economic_classification_3",
+    "data": {
+      "page_size": 10000,
+      "page": 1,
+      "cell": [
+
+      ],
+      "total_member_count": 10,
+      "data": [
+        {
+          "economic_classification_3.Article": "610",
+          "economic_classification_3.Intitule_article": "Biens et Services Consomm\u00e9s"
+        },
+        {
+          "economic_classification_3.Article": "611",
+          "economic_classification_3.Intitule_article": "Transports consomm\u00e9s"
+        },
+        {
+          "economic_classification_3.Article": "612",
+          "economic_classification_3.Intitule_article": "Autres services consomm\u00e9s"
+        },
+        {
+          "economic_classification_3.Article": "620",
+          "economic_classification_3.Intitule_article": "Frais de personnel"
+        },
+        {
+          "economic_classification_3.Article": "630",
+          "economic_classification_3.Intitule_article": "Imp\u00f4ts et taxes"
+        },
+        {
+          "economic_classification_3.Article": "640",
+          "economic_classification_3.Intitule_article": "Frais financiers"
+        },
+        {
+          "economic_classification_3.Article": "650",
+          "economic_classification_3.Intitule_article": "Subventions vers\u00e9es"
+        },
+        {
+          "economic_classification_3.Article": "660",
+          "economic_classification_3.Intitule_article": "Transferts vers\u00e9s"
+        },
+        {
+          "economic_classification_3.Article": "670",
+          "economic_classification_3.Intitule_article": "Autres charges et pertes diverses"
+        },
+        {
+          "economic_classification_3.Article": "680",
+          "economic_classification_3.Intitule_article": "Dotation aux amortissements"
+        }
+      ],
+      "fields": [
+        "economic_classification_3.Article",
+        "economic_classification_3.Intitule_article"
+      ],
+      "order": [
+
+      ],
+      "status": "ok"
+    }
+  }
+]

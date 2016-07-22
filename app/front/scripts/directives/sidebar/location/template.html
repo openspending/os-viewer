@@ -1,0 +1,5 @@
+<strong>Location</strong>
+<div ng-repeat="hierarchy in hierarchies">
+  <sidebar-list items="hierarchy.dimensions" selected="params.groups"
+    title="{{ hierarchy.label }}" key="groups"></sidebar-list>
+</div>

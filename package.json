@@ -47,6 +47,7 @@
     "nconf": "^0.8.2",
     "nunjucks": "^2.1.0",
     "papaparse": "^4.1.2",
+    "qs": "^6.2.0",
     "request": "^2.65.0",
     "validator": "^4.2.1"
   },

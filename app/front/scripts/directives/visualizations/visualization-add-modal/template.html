@@ -1,0 +1,46 @@
+<div title="Add visualization" class="well x-visualization-add text-center">
+  <div ng-click="showAddVisualizationDialog()"><i class="os-icon os-icon-circle-plus"></i></div>
+  <p ng-click="showAddVisualizationDialog()"
+    ng-if="selected.length == 0">Create visualisation and select a view of your choice</p>
+  <p ng-click="showAddVisualizationDialog()"
+    ng-if="selected.length > 0">Add Visualization</p>
+  <div>
+      <span ng-repeat="item in items">
+          <span ng-if="isEnabled(item) && !isSelected(item)"
+            ng-click="isSelected(item) || addVisualization(item.id, true)"
+            class="x-visualization-item">
+              <i ng-class="item.icon"></i>
+          </span>
+      </span>
+  </div>
+</div>
+
+<div class="modal fade x-visualization-add-modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Available visualizations</h4>
+      </div>
+      <div class="modal-body">
+        <div class="x-visualization-items">
+          <a ng-repeat="item in items"
+            class="x-visualization-item"
+            ng-class="{disabled: !isEnabled(item), selected: isSelected(item)}"
+            ng-click="isEnabled(item) ? addVisualization(item.id, true) : null" href="javascript:void(0);">
+            <i ng-class="item.icon"></i>
+            {{ item.name }}
+          </a>
+        </div>
+        <div ng-if="selected.length > 0">
+          <p>
+            <i class="os-icon os-icon-bulb"></i>
+            <a ng-click="removeAllVisualizations();" href="javascript:void(0)">Clear</a>
+            existing visualizations to enable full
+            range of visualization types.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

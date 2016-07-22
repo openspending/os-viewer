@@ -18,4 +18,12 @@ angular.module('Application')
 
       markedProvider.setOptions({gfm: true});
     }
+  ])
+  .run([
+    '$rootScope',
+    function($rootScope) {
+      $rootScope.isLoading = {
+        application: true
+      };
+    }
   ]);

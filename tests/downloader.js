@@ -1,64 +1,66 @@
 'use strict';
 
+var _ = require('lodash');
 var nock = require('nock');
 var assert = require('chai').assert;
-var _ = require('lodash');
+var downloader = require('../app/front/scripts/services/downloader');
+
+var
+  testStrings = [
+    'default page 1',
+    'default page 2',
+    'changed page 1'
+  ];
 
 describe('Downloader', function() {
-  var downloader = require('../app/front/scripts/services/downloader');
 
   before(function(done) {
-    nock('http://site.com/')
+    nock('http://example.com/')
       .persist()
-      .get('/some.page')
-      .reply(200, 'test string', {'access-control-allow-origin': '*'});
+      .get('/page1')
+      .reply(200, testStrings[0], {'access-control-allow-origin': '*'});
 
-    nock('http://site.com/')
+    nock('http://example.com/')
       .persist()
-      .get('/some.page2')
-      .reply(200, 'test string2', {'access-control-allow-origin': '*'});
+      .get('/page2')
+      .reply(200, testStrings[1], {'access-control-allow-origin': '*'});
 
     done();
   });
 
-  it('Should exists', function(done) {
-    assert.isObject(downloader);
-    assert.isFunction(downloader.get);
-    done();
-  });
-
-  it('Should download a page', function(done) {
-    downloader.get('http://site.com/some.page').then(function(text) {
-      assert.equal(text, 'test string');
+  it('Should retrieve data', function(done) {
+    downloader.get('http://example.com/page1').then(function(text) {
+      assert.equal(text, testStrings[0]);
       done();
     });
   });
 
-  it('Should cache a page', function(done) {
-    downloader.get('http://site.com/some.page').then(function(text) {
-      assert.equal(text, 'test string');
+  it('Should return data from cache', function(done) {
+    downloader.get('http://example.com/page1').then(function(text) {
+      assert.equal(text, testStrings[0]);
 
-      nock('http://site.com/')
+      nock('http://example.com/')
         .persist()
-        .get('/some.page')
-        .reply(200, 'other test string', {'access-control-allow-origin': '*'});
+        .get('/page1')
+        .reply(200, testStrings[2], {'access-control-allow-origin': '*'});
 
-      downloader.get('http://site.com/some.page').then(function(text) {
-        assert.equal(text, 'test string');
+      downloader.get('http://example.com/page1').then(function(text) {
+        assert.equal(text, testStrings[0]);
         done();
       });
     });
   });
 
-  it('Should download different pages', function(done) {
-    downloader.get('http://site.com/some.page').then(function(text) {
-      assert.equal(text, 'test string');
-
-      downloader.get('http://site.com/some.page2').then(function(text) {
-        assert.equal(text, 'test string2');
+  it('Should retrieve another url', function(done) {
+    downloader.get('http://example.com/page1')
+      .then(function(text) {
+        assert.equal(text, testStrings[0]);
+        return downloader.get('http://example.com/page2');
+      })
+      .then(function(text) {
+        assert.equal(text, testStrings[1]);
         done();
       });
-    });
   });
 
 });
