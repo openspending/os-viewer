@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var angular = require('angular');
 var template = require('./template.html');
+var dataPackageAPI = require('../../services/data-package-api');
 
 angular.module('Application')
   .directive('packageInfo', [
@@ -29,7 +30,8 @@ angular.module('Application')
               var query = 'SELECT * FROM ' + dataPackage.factTable +
                 ' LIMIT 10';
               $scope.datamineUrl =
-                'http://rd.openspending.org/queries/new?queryText=' +
+                dataPackageAPI.dataMineConfig.url +
+                '/queries/new?queryText=' +
                 encodeURIComponent(query) + '&focusedTable=' +
                 encodeURIComponent(dataPackage.factTable) +
                 '&jwt=' + token;

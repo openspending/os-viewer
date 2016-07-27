@@ -14,6 +14,7 @@ function loadConfig(settingsUrl) {
   return downloader.getJson(url).then(function(config) {
     module.exports.apiConfig = config.api;
     module.exports.searchConfig = config.search;
+    module.exports.dataMineConfig = config.dataMine;
     return config;
   });
 }
