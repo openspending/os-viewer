@@ -13,10 +13,12 @@
   <link rel="stylesheet" href="styles/app.css?{{ sessionSalt }}">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body ng-controller="MainController" ng-init="isEmbedded=false">
+<body ng-controller="MainController" ng-init="isEmbedded=false; disablePackageSelector={{ 'true' if isEmbedded else 'false' }}">
 <div id="root"></div>
 
+{% if not isEmbedded %}
 {% include "partials/header.html" %}
+{% endif %}
 
 <div class="x-page-container">
 <div>
@@ -27,7 +29,9 @@
 </div>
 </div>
 
+{% if not isEmbedded %}
 {% include "partials/footer.html" %}
+{% endif %}
 
 <script src="app.js?{{ sessionSalt }}"></script>
 <script src="{{ authLibraryUrl }}"></script>

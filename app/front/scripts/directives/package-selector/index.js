@@ -13,7 +13,8 @@ angular.module('Application')
         restrict: 'E',
         scope: {
           items: '=',
-          datapackage: '='
+          datapackage: '=',
+          readOnly: '@'
         },
         link: function($scope, element) {
           $scope.dropdownState = {};
