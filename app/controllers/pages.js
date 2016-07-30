@@ -20,10 +20,11 @@ function getBasePath(config) {
 module.exports.main = function(req, res) {
   var config = req.app.get('config');
 
-  var viewFileName = req.isEmbedded ? 'pages/embedded.html' : 'pages/main.html';
+  var viewFileName = 'pages/' +  (req.view || 'main') + '.html';
 
   res.render(viewFileName, {
     title: 'Open Spending Viewer',
-    basePath: getBasePath(config)
+    basePath: getBasePath(config),
+    isEmbedded: req.isEmbedded
   });
 };

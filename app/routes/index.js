@@ -13,6 +13,7 @@ module.exports = function() {
 
   router.get(/embed\/(treemap|piechart|barchart|linechart|bubbletree|table|map|pivottable)\/(.*)/, function(req, res, next) {
     req.isEmbedded = true;
+    req.view = 'embedded';
     next();
   }, pages.main);
 
@@ -22,6 +23,7 @@ module.exports = function() {
 
   router.get(/embed\/(.*)/, function(req, res, next) {
     req.isEmbedded = true;
+    req.view = 'main';
     next();
   }, pages.main);
 

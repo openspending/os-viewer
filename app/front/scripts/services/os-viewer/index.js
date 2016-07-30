@@ -97,6 +97,9 @@ function parseUrl(pageUrl) {
   if (path.length == 1) {
     result.packageId = path[0];
   }
+  if ((path.length == 2) && (path[0] == 'embed')) {
+    result.packageId = path[1];
+  }
   if ((path.length == 3) && (path[0] == 'embed')) {
     result.packageId = path[2];
     var visualization = visualizationsService.findVisualization({

@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles/vendor.css?{{ sessionSalt }}">
   <link rel="stylesheet" href="styles/embedded.css">
 </head>
-<body ng-controller="MainController" ng-init="isEmbedded=true">
+<body ng-controller="MainController" ng-init="isEmbedded=true; disablePackageSelector=true">
   {% block content %}{% endblock %}
 
   <script src="app.js?{{ sessionSalt }}"></script>
