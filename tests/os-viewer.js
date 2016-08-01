@@ -25,7 +25,8 @@ var sourceParams = {
     key: 'Depenses_realisees.sum',
     direction: 'asc'
   },
-  dateTimeDimension: 'date_2.Annee'
+  dateTimeDimension: 'date_2.Annee',
+  lang: 'es'
 };
 
 describe('OS Viewer core service', function() {
@@ -150,6 +151,7 @@ describe('OS Viewer core service', function() {
         visualizations: ['Treemap']
       });
       assert.deepEqual(params, {
+        lang: 'en',
         measures: ['Depenses_realisees.sum'],
         groups: ['activity_2.Nature'],
         series: [],
@@ -211,16 +213,16 @@ describe('OS Viewer core service', function() {
         protocol: 'https',
         host: 'example.com',
         port: '8080',
-        base: '/viewer'
+        base: '/viewer',
       });
 
-      assert.equal(regularUrl, '/Package1?measure=Depenses_realisees.sum&' +
+      assert.equal(regularUrl, '/Package1?lang=es&measure=Depenses_realisees.sum&' +
         'groups[]=date_2.Annee&series[]=economic_classification_3.Article&' +
         'rows[]=date_2.Annee&columns[]=economic_classification_3.Article&' +
         'filters[]=economic_classification_Compte.Compte|610100&' +
         'order=Depenses_realisees.sum|asc&visualizations[]=Pivot');
       assert.equal(embedUrl, 'https://example.com:8080/viewer/embed/Treemap/' +
-        'Package1?measure=Depenses_realisees.sum&groups[]=date_2.Annee&' +
+        'Package1?lang=es&measure=Depenses_realisees.sum&groups[]=date_2.Annee&' +
         'series[]=economic_classification_3.Article&rows[]=date_2.Annee&' +
         'columns[]=economic_classification_3.Article&' +
         'filters[]=economic_classification_Compte.Compte|610100&' +

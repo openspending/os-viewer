@@ -1,9 +1,9 @@
-<div title="Add visualization" class="well x-visualization-add text-center">
+<div title="{{  'Add Visualization' | i18n }}" class="well x-visualization-add text-center">
   <div ng-click="showAddVisualizationDialog()"><i class="os-icon os-icon-circle-plus"></i></div>
   <p ng-click="showAddVisualizationDialog()"
-    ng-if="selected.length == 0">Create visualisation and select a view of your choice</p>
+    ng-if="selected.length == 0">{{ 'Create visualisation and select a view of your choice' | i18n }}</p>
   <p ng-click="showAddVisualizationDialog()"
-    ng-if="selected.length > 0">Add Visualization</p>
+    ng-if="selected.length > 0">{{  'Add Visualization' | i18n }}</p>
   <div>
       <span ng-repeat="item in items">
           <span ng-if="isEnabled(item) && !isSelected(item)"
@@ -20,7 +20,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Available visualizations</h4>
+        <h4 class="modal-title">{{ 'Available visualizations' | i18n }}</h4>
       </div>
       <div class="modal-body">
         <div class="x-visualization-items">
@@ -29,15 +29,14 @@
             ng-class="{disabled: !isEnabled(item), selected: isSelected(item)}"
             ng-click="isEnabled(item) ? addVisualization(item.id, true) : null" href="javascript:void(0);">
             <i ng-class="item.icon"></i>
-            {{ item.name }}
+            {{ item.name | i18n }}
           </a>
         </div>
         <div ng-if="selected.length > 0">
           <p>
             <i class="os-icon os-icon-bulb"></i>
-            <a ng-click="removeAllVisualizations();" href="javascript:void(0)">Clear</a>
-            existing visualizations to enable full
-            range of visualization types.
+            <a ng-click="removeAllVisualizations();" href="javascript:void(0)">{{ 'Clear' | i18n }}</a>
+            {{ 'existing visualizations to enable full range of visualization types.' | i18n }}
           </p>
         </div>
       </div>

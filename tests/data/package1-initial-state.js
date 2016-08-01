@@ -5,6 +5,7 @@ var packageModel = require('./package1-packagemodel');
 module.exports = {
   package: packageModel,
   params: {
+    lang: 'en',
     measures: [],
     groups: [],
     series: [],

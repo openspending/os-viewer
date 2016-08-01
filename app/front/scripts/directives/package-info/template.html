@@ -1,23 +1,23 @@
 <div class="margin-top-12 margin-bottom-12">
   <a ng-if="login.isLoggedIn && datamineUrl" class="btn btn-primary" ng-href="{{ datamineUrl }}" target="_blank">
     <i class="fa fa-diamond vertical-align-middle margin-right-4"></i>
-    Analyse this data set in the Data Mine
+    {{  'Analyse this data set in the Data Mine' | i18n }}
   </a>
   <a ng-if="!login.isLoggedIn" class="btn btn-primary" ng-href="javascript:void(0)" target="_blank" disabled>
     <i class="fa fa-diamond vertical-align-middle margin-right-4"></i>
-    Log-in to analyse this data set in the Data Mine
+    {{  'Log-in to analyse this data set in the Data Mine' | i18n }}
   </a>
 </div>
 <div ng-if="!!datapackage.url || (datapackage.resources.length > 0)" class="x-package-info">
-  <h4>Data Resources</h4>
+  <h4>{{ 'Data Resources' | i18n }}</h4>
   <div ng-if="!!datapackage.url">
-    <i class="os-icon os-icon-download"></i><a ng-href="{{ datapackage.url }}" target="_blank">Download Data Package</a>
+    <i class="os-icon os-icon-download"></i><a ng-href="{{ datapackage.url }}" target="_blank">{{ 'Download Data Package' | i18n }}</a>
   </div>
   <div ng-if="datapackage.resources.length == 1">
-    <i class="os-icon os-icon-download"></i><a ng-href="{{ datapackage.resources[0].url }}" target="_blank">View Raw Source Data</a>
+    <i class="os-icon os-icon-download"></i><a ng-href="{{ datapackage.resources[0].url }}" target="_blank">{{ 'View Raw Source Data' | i18n }}</a>
   </div>
   <div ng-if="datapackage.resources.length > 1">
-    <div><strong>View Raw Source Data:</strong></div>
+    <div><strong>{{ 'View Raw Source Data' | i18n }}:</strong></div>
     <ul>
       <li ng-repeat="resource in datapackage.resources">
         <i class="os-icon os-icon-download"></i><a ng-href="{{ resource.url }}" target="_blank">{{ resource.name }}</a>

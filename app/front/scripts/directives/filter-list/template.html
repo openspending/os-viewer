@@ -1,5 +1,5 @@
 <div class="x-filtered-by" ng-if="filters.length > 0">
-  <strong>Filtered by</strong>
+  <strong>{{ 'Filtered by' | i18n }}</strong>
   <span class="x-single-filter" ng-repeat="filter in filters">
       {{ filter.dimensionLabel }}: {{ filter.valueLabel }}
       <i class="glyphicon glyphicon-remove-circle" ng-click="clearFilter(filter.dimensionKey)"></i>

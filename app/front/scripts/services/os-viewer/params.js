@@ -18,7 +18,8 @@ function getDefaultState(variablePart) {
     columns: [],
     filters: {},
     orderBy: {},
-    visualizations: []
+    visualizations: [],
+    lang: 'en'
   }, variablePart);
 }
 
@@ -74,11 +75,18 @@ function normalizeUrlParams(params) {
     result.visualizations = _.filter(result.visualizations);
   }
 
+  result.lang = 'en';
+  if (!!params.lang) {
+    result.lang = params.lang;
+  }
+
   return result;
 }
 
 function validateUrlParams(params, packageModel) {
   var result = {};
+
+  result.lang = params.lang;
 
   var visualizations = visualizationsService.getVisualizationsByIds(
     params.visualizations);

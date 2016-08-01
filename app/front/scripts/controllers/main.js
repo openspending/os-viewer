@@ -10,8 +10,8 @@ var osViewerService = require('../services/os-viewer');
 
 angular.module('Application')
   .controller('MainController', [
-    '$scope', '$location', '$timeout', 'Configuration', 'LoginService',
-    function($scope, $location, $timeout, Configuration, LoginService) {
+    '$scope', '$location', '$timeout', 'Configuration', 'LoginService', 'i18nFilter',
+    function($scope, $location, $timeout, Configuration, LoginService, i18n) {
       // Flag for skipping `$locationChangeSuccess` event when
       // it is triggered while updating url
       var isChangingUrl = false;
@@ -69,6 +69,7 @@ angular.module('Application')
               $location.url()));
           })
           .then(function(state) {
+            osViewerService.translateHierarchies(state, i18n);
             $scope.state = state;
             return $q(osViewerService.fullyPopulateModel(state));
           })
@@ -140,7 +141,10 @@ angular.module('Application')
             $scope.isLoading.package = true;
             $q(osViewerService.loadDataPackage(packageId, urlParams))
               .then(function(state) {
+                var lang = $scope.state.params.lang;
+                state.params.lang = lang;
                 $scope.state = state;
+                osViewerService.translateHierarchies(state, i18n);
                 return $q(osViewerService.fullyPopulateModel(state));
               })
               .then(function(state) {
