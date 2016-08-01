@@ -245,6 +245,12 @@ function buildBreadcrumbs(state) {
   return result;
 }
 
+function translateHierarchies(state, i18n) {
+  _.forEach(state.package.hierarchies, function(hierarchy) {
+    hierarchy.label = i18n(hierarchy.label);
+  });
+}
+
 // embedParams is an object with options for creating embed url.
 // Allowed properties:
 // `visualization`: value from `<visualization>.embed` property;
@@ -252,6 +258,10 @@ function buildBreadcrumbs(state) {
 // `base` - base url to be added to `path` part
 function buildUrl(params, embedParams) {
   var query = {};
+
+  if (!!params.lang) {
+    query.lang = params.lang;
+  }
 
   if (params.measures.length > 0) {
     query.measure = _.first(params.measures);
@@ -313,3 +323,4 @@ module.exports.getCurrencySign = getCurrencySign;
 module.exports.getSelectedFilters = getSelectedFilters;
 module.exports.buildBreadcrumbs = buildBreadcrumbs;
 module.exports.buildUrl = buildUrl;
+module.exports.translateHierarchies = translateHierarchies;

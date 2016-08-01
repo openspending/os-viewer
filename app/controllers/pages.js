@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var i18n = require('../config/i18n');
 
 function getBasePath(config) {
   var result = config.get('basePath');
@@ -21,9 +22,10 @@ module.exports.main = function(req, res) {
   var config = req.app.get('config');
 
   var viewFileName = 'pages/' +  (req.view || 'main') + '.html';
+  var _t = i18n.init(req.query.lang);
 
   res.render(viewFileName, {
-    title: 'Open Spending Viewer',
+    title: _t('Open Spending Viewer'),
     basePath: getBasePath(config),
     isEmbedded: req.isEmbedded
   });

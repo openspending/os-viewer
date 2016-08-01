@@ -17,8 +17,12 @@
       <a href="javascript:void(0);" ng-click="showShareModal(visualization)" class="os-icon os-icon-embed"></a>
       <div id="{{ 'visualization-popover-' + visualization.id }}" class="hidden">
         <div class="visualization-popover">
-          <button ng-click="removeVisualization(visualization.id)" type="button" class="btn btn-danger">Remove this visualization</button>
-          <button ng-click="removeAllVisualizations()" type="button" class="btn btn-danger">Remove all visualizations</button>
+          <button ng-click="removeVisualization(visualization.id)" type="button" class="btn btn-danger">
+              {{ 'Remove this visualization' | i18n }}
+          </button>
+          <button ng-click="removeAllVisualizations()" type="button" class="btn btn-danger">
+              {{ 'Remove all visualizations' | i18n }}
+          </button>
         </div>
       </div>
     </div>

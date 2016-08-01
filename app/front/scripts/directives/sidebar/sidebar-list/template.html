@@ -14,7 +14,7 @@
     </a>
     <div class="list-group-item" ng-if="items.length > maxItems">
       <div ng-class="{'input-group': !!filter.label}">
-        <input type="text" class="form-control form-control-inverse" placeholder="Search for item..." ng-model="filter.label">
+        <input type="text" class="form-control form-control-inverse" placeholder="{{ 'Search for item...' | i18n }}" ng-model="filter.label">
         <span class="input-group-btn" ng-if="!!filter.label">
           <button class="btn btn-inverse" type="button" ng-click="filter.label = ''"><i class="fa fa-times"></i></button>
         </span>
@@ -27,7 +27,7 @@
       <i ng-if="canClear && isSelected(item.key)" ng-click="unselectItem($event, item)" class="os-icon os-icon-remove pull-right"></i>
       {{ item.label }}
     </a>
-    <strong ng-if="!!filter.displayName && !itemsToDisplay.length">No results found</strong>
-    <strong ng-if="hasMoreItems">... there are more items</strong>
+    <strong ng-if="!!filter.displayName && !itemsToDisplay.length">{{ 'No results found' | i18n }}</strong>
+    <strong ng-if="hasMoreItems">{{ '... there are more items' | i18n }}</strong>
   </div>
 </div>

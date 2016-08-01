@@ -1,6 +1,7 @@
 'use strict';
 
 var angular = require('angular');
+var i18n = require('../../../config/i18n');
 
 angular.module('Application')
   .config([
@@ -20,10 +21,18 @@ angular.module('Application')
     }
   ])
   .run([
-    '$rootScope',
-    function($rootScope) {
+    '$rootScope', '$location',
+    function($rootScope, $location) {
       $rootScope.isLoading = {
         application: true
       };
+      var lang = $location.search().lang;
+      $rootScope._t = i18n.init(lang);
     }
-  ]);
+  ])
+  .filter('i18n', ['$rootScope', function($rootScope) {
+    return function(input) {
+      return $rootScope._t(input);
+    }
+  }]);
+
