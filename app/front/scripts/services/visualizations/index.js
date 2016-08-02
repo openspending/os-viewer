@@ -25,6 +25,13 @@ var availableVisualizations = [
     icon: 'os-icon os-icon-bubbletree'
   },
   {
+    id: 'Sankey',
+    name: 'Sankey',
+    type: 'drilldown',
+    embed: 'sankey',
+    icon: 'os-icon os-icon-sankey'
+  },
+  {
     id: 'BarChart',
     name: 'Bar Chart',
     type: 'sortable-series',
@@ -186,6 +193,19 @@ function paramsToBabbageStateTimeSeries(params) {
   return result;
 }
 
+function paramsToBabbageStateSankey(params) {
+  return {
+    aggregates: _.first(params.measures),
+    source: params.source,
+    target: params.target,
+    filter: _.map(
+      params.filters,
+      function(value, key) {
+        return key + ':' + JSON.stringify(value);
+      })
+  };
+}
+
 module.exports.getVisualizationById = getVisualizationById;
 module.exports.getVisualizationsByIds = getVisualizationsByIds;
 module.exports.findVisualization = findVisualization;
@@ -195,3 +215,4 @@ module.exports.paramsToBabbageState = paramsToBabbageState;
 module.exports.paramsToBabbageStateFacts = paramsToBabbageStateFacts;
 module.exports.paramsToBabbageStatePivot = paramsToBabbageStatePivot;
 module.exports.paramsToBabbageStateTimeSeries = paramsToBabbageStateTimeSeries;
+module.exports.paramsToBabbageStateSankey = paramsToBabbageStateSankey;

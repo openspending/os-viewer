@@ -10,7 +10,8 @@ var osViewerService = require('../services/os-viewer');
 
 angular.module('Application')
   .controller('MainController', [
-    '$scope', '$location', '$timeout', 'Configuration', 'LoginService', 'i18nFilter',
+    '$scope', '$location', '$timeout', 'Configuration', 'LoginService',
+    'i18nFilter',
     function($scope, $location, $timeout, Configuration, LoginService, i18n) {
       // Flag for skipping `$locationChangeSuccess` event when
       // it is triggered while updating url
@@ -94,7 +95,6 @@ angular.module('Application')
           .then(function(state) {
             $scope.isLoading.package = false;
             $scope.state = state;
-            console.log(state);
             updateStateParams(state.params);
           });
       }
@@ -194,7 +194,8 @@ angular.module('Application')
       $scope.$on(Configuration.events.visualizations.breadcrumbClick,
         function($event, breadcrumb) {
           updateStateParams(osViewerService.params
-            .applyBreadcrumb($scope.state.params, breadcrumb));
+            .applyBreadcrumb($scope.state.params, breadcrumb,
+              $scope.state.package));
         });
 
       $scope.$on(Configuration.events.visualizations.changeOrderBy,
@@ -213,13 +214,15 @@ angular.module('Application')
       $scope.$on(Configuration.events.sidebar.changeDimension,
         function($event, axis, key) {
           updateStateParams($scope.state.params = osViewerService.params
-            .changeDimension($scope.state.params, axis, key));
+            .changeDimension($scope.state.params, axis, key,
+              $scope.state.package));
         });
 
       $scope.$on(Configuration.events.sidebar.clearDimension,
         function($event, axis, key) {
           updateStateParams($scope.state.params = osViewerService.params
-            .clearDimension($scope.state.params, axis, key));
+            .clearDimension($scope.state.params, axis, key,
+              $scope.state.package));
         });
 
       $scope.$on(Configuration.events.sidebar.setFilter,

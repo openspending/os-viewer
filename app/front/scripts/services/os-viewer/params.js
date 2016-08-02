@@ -170,7 +170,47 @@ function clearFilters(state) {
   return result;
 }
 
-function changeDimension(state, axis, dimension) {
+function updateSourceTarget(params, packageModel) {
+  params.source = undefined;
+  params.target = undefined;
+
+  var groupKey = _.first(params.groups);
+  var hierarchy = _.find(packageModel.hierarchies, function(hierarchy) {
+    return !!_.find(hierarchy.dimensions, {key: groupKey});
+  });
+
+  if (hierarchy && (hierarchy.dimensions.length > 0)) {
+    // Find source and target dimensions.
+    // `source` should be selected dimension, and `target` - next
+    // dimension to selected. If selected last dimension, then
+    // last dimension is `target` and previous to it - `source`
+    var source = null;
+    var target = null;
+    _.each(hierarchy.dimensions, function(item) {
+      if (source && (source.key == groupKey)) {
+        target = item;
+        return false;
+      }
+      if (item.key == groupKey) {
+        source = item;
+      }
+    });
+    if (source && !target) {
+      target = source;
+      source = _.last(_.dropRight(hierarchy.dimensions, 1));
+      if (!source) {
+        source = target;
+      }
+    }
+
+    params.source = source ? source.key : undefined;
+    params.target = target ? target.key : undefined;
+  }
+
+  return params;
+}
+
+function changeDimension(state, axis, dimension, packageModel) {
   var result = cloneState(state);
 
   var isSingleSelect = false;
@@ -206,20 +246,38 @@ function changeDimension(state, axis, dimension) {
     });
     result[axis].push(dimension);
   }
+
+  // Update `source` and `target` when changing group
+  if (axis == 'groups') {
+    updateSourceTarget(result, packageModel);
+  }
+
   return result;
 }
 
-function clearDimension(state, axis, dimension) {
+function clearDimension(state, axis, dimension, packageModel) {
   var result = cloneState(state);
   result[axis] = _.filter(result[axis], function(value) {
     return value != dimension;
   });
+
+  // Update `source` and `target` when changing group
+  if (axis == 'groups') {
+    updateSourceTarget(result, packageModel);
+  }
+
   return result;
 }
 
 function clearDimensions(state, axis) {
   var result = cloneState(state);
   result[axis] = [];
+
+  if (axis == 'groups') {
+    result.source = undefined;
+    result.target = undefined;
+  }
+
   return result;
 }
 
@@ -241,14 +299,18 @@ function drillDown(state, drillDownValue, packageModel) {
     }
   }
 
+  updateSourceTarget(result, packageModel);
+
   return result;
 }
 
-function applyBreadcrumb(state, breadcrumb) {
+function applyBreadcrumb(state, breadcrumb, packageModel) {
   var result = cloneState(state);
 
   result.groups = breadcrumb.groups;
   result.filters = breadcrumb.filters;
+
+  updateSourceTarget(result, packageModel);
 
   return result;
 }
@@ -276,6 +338,8 @@ function initCommonParams(params, packageModel) {
     key: measure.key,
     direction: defaultOrderByDirection
   };
+
+  updateSourceTarget(params, packageModel);
 }
 
 function initParamsForTimeSeries(params, packageModel) {
@@ -357,6 +421,8 @@ function clearParams(params, packageModel) {
   params.series = [];
   params.rows = [];
   params.columns = [];
+  params.source = undefined;
+  params.target = undefined;
   params.filters = {};
   params.orderBy = {};
   params.visualizations = [];
@@ -410,7 +476,9 @@ function removeAllVisualizations(state, packageModel) {
 function updateFromParams(state, urlParams, packageModel) {
   urlParams = normalizeUrlParams(urlParams || {});
   urlParams = validateUrlParams(urlParams, packageModel);
-  return _.extend(cloneState(state), getDefaultState(), urlParams);
+  var result = _.extend(cloneState(state), getDefaultState(), urlParams);
+  updateSourceTarget(result, packageModel);
+  return result;
 }
 
 module.exports.init = init;

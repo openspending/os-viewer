@@ -72,7 +72,7 @@ gulp.task('styles.embedded', function() {
 gulp.task('styles.vendor', function() {
   var files = [
     path.join(nodeModulesDir, '/font-awesome/css/font-awesome.min.css'),
-    path.join(nodeModulesDir, '/os-bootstrap/dist/css/bootstrap.min.css'),
+    path.join(nodeModulesDir, '/os-bootstrap/dist/css/os-bootstrap.min.css'),
     path.join(nodeModulesDir, '/angular/angular-csp.css'),
     path.join(nodeModulesDir, '/babbage.ui/dist/lib.css')
   ];
