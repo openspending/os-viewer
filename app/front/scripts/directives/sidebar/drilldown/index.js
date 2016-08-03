@@ -30,7 +30,7 @@ angular.module('Application')
                 });
               })
               .map(function(hierarchy) {
-                return hierarchy;
+                return hierarchy.key;
               })
               .value();
           });

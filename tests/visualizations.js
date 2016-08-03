@@ -62,7 +62,7 @@ describe('Visualizations', function() {
         data.package1PackageModel);
 
       assert.isArray(items);
-      assert.equal(items.length, 7);
+      assert.equal(items.length, 8);
       _.each(items, function(item) {
         assert.isObject(item);
       });
@@ -79,6 +79,7 @@ describe('Visualizations', function() {
         'LineChart',
         'PieChart',
         'PivotTable',
+        'Sankey',
         'Table',
         'Treemap'
       ]);

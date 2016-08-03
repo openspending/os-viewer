@@ -13,6 +13,7 @@ require('./linechart');
 require('./map');
 require('./piechart');
 require('./pivottable');
+require('./sankey');
 require('./table');
 require('./treemap');
 

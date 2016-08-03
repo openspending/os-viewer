@@ -13,6 +13,7 @@ var _ = require('lodash');
   var jquery = require('jquery');
   globals.jQuery = globals.$ = jquery;
   globals.d3 = require('d3');
+  require('d3-plugins/sankey/sankey');
   globals.c3 = require('c3');
   globals.Raphael = require('raphael');
 
@@ -20,7 +21,7 @@ var _ = require('lodash');
   require('isomorphic-fetch/fetch-npm-browserify');
   // saveAs() polyfill
   globals.saveAs = require('file-saver/FileSaver.js').saveAs;
-  require('os-bootstrap/dist/js/bootstrap');
+  require('os-bootstrap/dist/js/os-bootstrap');
 
   var angular = require('angular');
   globals.angular = angular;

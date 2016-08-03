@@ -33,6 +33,6 @@ angular.module('Application')
   .filter('i18n', ['$rootScope', function($rootScope) {
     return function(input) {
       return $rootScope._t(input);
-    }
+    };
   }]);
 
