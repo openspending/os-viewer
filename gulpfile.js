@@ -78,6 +78,7 @@ gulp.task('styles.vendor', function() {
   ];
   return gulp.src(files)
     .pipe(concat('vendor.css'))
+    .pipe(minifyCss({compatibility: 'ie8'}))
     .pipe(gulp.dest(publicStylesDir));
 });
 
@@ -104,7 +105,7 @@ gulp.task('scripts.application', function() {
   return bundler.bundle()
     .pipe(source('app.js'))
     .pipe(buffer())
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest(publicScriptsDir));
 });
 
