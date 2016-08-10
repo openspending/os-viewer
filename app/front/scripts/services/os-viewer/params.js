@@ -461,7 +461,7 @@ function removeVisualization(state, visualizationId, packageModel) {
     return item != visualizationId;
   });
   if (result.visualizations.length == 0) {
-    clearParams(result);
+    clearParams(result, packageModel);
   }
   return result;
 }
