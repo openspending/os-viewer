@@ -76,6 +76,7 @@
     "jscs": "^2.5.0",
     "mocha": "^2.3.3",
     "nock": "^7.2.2",
+    "normalize-url": "^1.6.0",
     "os-bootstrap": "git+https://github.com/openspending/os-bootstrap.git",
     "raphael": "^2.1.4",
     "resolve": "^1.1.6",
