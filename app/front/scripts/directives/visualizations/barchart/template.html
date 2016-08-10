@@ -6,6 +6,7 @@
 </div>
 <div class="x-visualization-chart col-xs-12">
   <chart ng-if="isVisible"
+    downloader="downloader"
     type="bar"
     cube="{{ params.packageId }}"
     state="state"

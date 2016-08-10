@@ -6,6 +6,7 @@
 </div>
 <div class="x-visualization-chart col-xs-12">
   <babbage-table ng-if="isVisible"
+    downloader="downloader"
     cube="{{ params.packageId }}"
     state="state"
     endpoint="{{ params.babbageApiUrl }}">
