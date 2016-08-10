@@ -143,7 +143,7 @@ function getDimensionsFromModel(dataPackage, model) {
       // jscs:disable
       result.key = dimension.key_ref;
       result.label = dimension.label;
-      result.valueRef = dimension.value_ref || dimension.key_ref;
+      result.valueRef = dimension.label_ref || dimension.key_ref;
       // jscs:enable
       result.hierarchy = dimension.hierarchy;
 
