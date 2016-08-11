@@ -203,9 +203,11 @@ function loadDimensionsValues(packageModel, dimensions) {
       _.each(results, function(values, index) {
         var dimension = dimensions[index];
         dimension.values = _.map(results[index].data, function(value) {
+          var key = value[dimension.key];
+          var label = value[dimension.valueRef];
           return {
-            key: value[dimension.key],
-            label: value[dimension.valueRef]
+            key: key,
+            label: (label && label != key) ? key + ' - ' +label : key
           };
         });
       });
