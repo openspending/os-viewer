@@ -44,7 +44,7 @@ module.exports = {
       .then(JSON.parse)
       .catch(function(error) {
         console.trace(error);
-      })
+      });
   },
   flush: function() {
     cache = {};
