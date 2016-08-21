@@ -23,7 +23,7 @@ function getDefaultState(variablePart) {
   }, variablePart);
 }
 
-function normalizeUrlParams(params) {
+function normalizeUrlParams(params, packageModel) {
   var result = {};
 
   if (!!params.measure) {
@@ -42,17 +42,19 @@ function normalizeUrlParams(params) {
   });
 
   if (!!params.filters) {
-    var filters = _.isArray(params.filters) ? params.filters : [params.filters];
-    result.filters = _.chain(filters)
-      .map(function(value) {
-        value = value.split('|');
-        if (value.length == 2) {
-          return value;
-        }
-      })
-      .filter()
-      .fromPairs()
-      .value();
+    result.filters = params.filters;
+    if (_.isArray(params.filters)) {
+      result.filters = _.chain(params.filters)
+        .map(function(value) {
+          value = value.split('|');
+          if (value.length == 2) {
+            return value;
+          }
+        })
+        .filter()
+        .fromPairs()
+        .value();
+    }
   }
 
   if (!!params.order) {
@@ -129,7 +131,7 @@ function validateUrlParams(params, packageModel) {
 
 function init(packageModel, initialParams) {
   var anyDateTimeHierarchy = _.first(packageModel.dateTimeHierarchies);
-  initialParams = normalizeUrlParams(initialParams || {});
+  initialParams = normalizeUrlParams(initialParams || {}, packageModel);
   initialParams = validateUrlParams(initialParams, packageModel);
 
   var defaults = getDefaultState({
@@ -152,15 +154,26 @@ function changeMeasure(state, measure) {
   return result;
 }
 
-function changeFilter(state, filter, value) {
+function changeFilter(state, filter, filterValue) {
   var result = cloneState(state);
-  result.filters[filter] = value;
+
+  result.filters[filter] = _.filter(result.filters[filter], function(value) {
+    return value != filterValue;
+  });
+  result.filters[filter].push(filterValue);
+
   return result;
 }
 
-function clearFilter(state, filter) {
+function clearFilter(state, filter, value) {
   var result = cloneState(state);
-  delete result.filters[filter];
+  if (_.isUndefined(value)) {
+    delete result.filters[filter];
+  } else {
+    result.filters[filter] = _.filter(result.filters[filter], function(item) {
+      return item != value;
+    });
+  }
   return result;
 }
 
@@ -474,7 +487,7 @@ function removeAllVisualizations(state, packageModel) {
 }
 
 function updateFromParams(state, urlParams, packageModel) {
-  urlParams = normalizeUrlParams(urlParams || {});
+  urlParams = normalizeUrlParams(urlParams || {}, packageModel);
   urlParams = validateUrlParams(urlParams, packageModel);
   var result = _.extend(cloneState(state), getDefaultState(), urlParams);
   updateSourceTarget(result, packageModel);

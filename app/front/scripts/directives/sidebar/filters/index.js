@@ -42,7 +42,7 @@ angular.module('Application')
                   listKey, item.key);
               } else {
                 $scope.$emit(Configuration.events.sidebar.clearFilter,
-                  listKey);
+                  listKey, item.key);
               }
             });
         }

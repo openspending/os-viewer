@@ -207,7 +207,7 @@ function loadDimensionsValues(packageModel, dimensions) {
           var label = value[dimension.valueRef];
           return {
             key: key,
-            label: (label && label != key) ? key + ' - ' +label : key
+            label: (label && label != key) ? key + ' - ' + label : key
           };
         });
       });

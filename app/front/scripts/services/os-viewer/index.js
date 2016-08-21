@@ -179,19 +179,21 @@ function getSelectedFilters(state) {
   var packageModel = state.package;
 
   return _.chain(params.filters)
-    .map(function(valueKey, dimensionKey) {
+    .map(function(valueKeys, dimensionKey) {
       var dimension = _.find(packageModel.dimensions, {
         key: dimensionKey
       });
-      var value = _.find(dimension.values, {
-        key: valueKey
+      var values = _.filter(dimension.values, function(item) {
+        return !!_.find(valueKeys, function(key) {
+          return key == item.key;
+        });
       });
 
       return {
         dimensionLabel: dimension.label,
         dimensionKey: dimension.key,
-        valueLabel: value.label,
-        valueKey: value.key
+        valueLabel: _.map(values, function(item) { return item.label; }),
+        valueKey: _.map(values, function(item) { return item.key; })
       };
     })
     .sortBy('dimensionLabel')
@@ -271,9 +273,8 @@ function buildUrl(params, embedParams) {
       query[axis] = params[axis];
     }
   });
-  query.filters = _.map(params.filters, function(value, key) {
-    return key + '|' + value;
-  });
+  query.filters = params.filters;
+
   if (params.orderBy.key) {
     query.order = params.orderBy.key + '|' + params.orderBy.direction;
   }
