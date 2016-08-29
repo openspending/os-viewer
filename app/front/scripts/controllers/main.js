@@ -90,7 +90,13 @@ angular.module('Application')
         $q(osViewerService.loadDataPackage(urlParams.packageId, urlParams))
           .then(function(state) {
             $scope.state = state;
-            return $q(osViewerService.partiallyPopulateModel(state));
+            if (osViewerService.hasDrillDownVisualizations(state.params)) {
+              $q(osViewerService.partiallyPopulateModel(state))
+                .then(function() {
+                  updateStateParams($scope.state.params);
+                });
+            }
+            return state;
           })
           .then(function(state) {
             $scope.isLoading.package = false;

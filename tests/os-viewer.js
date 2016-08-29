@@ -186,7 +186,8 @@ describe('OS Viewer core service', function() {
         .then(function(results) {
           assert.deepEqual(results, data.loadedPackages);
           done();
-        });
+        })
+        .catch(done);
     });
 
     it('Should parse URL', function(done) {
@@ -242,7 +243,8 @@ describe('OS Viewer core service', function() {
           initialState.package = data.package1PackageModelBare;
           assert.deepEqual(state, initialState);
           done();
-        });
+        })
+        .catch(done);
     });
 
     it('Should fully load data package', function(done) {
@@ -253,7 +255,8 @@ describe('OS Viewer core service', function() {
         .then(function(state) {
           assert.deepEqual(state, data.package1InitialState);
           done();
-        });
+        })
+        .catch(done);
     });
 
   });

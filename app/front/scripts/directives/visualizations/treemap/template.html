@@ -3,6 +3,7 @@
 </div>
 <div class="x-visualization-chart col-xs-12">
   <tree-map ng-if="isVisible"
+    downloader="downloader"
     cube="{{ params.packageId }}"
     state="state"
     endpoint="{{ params.babbageApiUrl }}">

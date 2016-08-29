@@ -20,14 +20,17 @@ describe('DataPackage API', function() {
       .then(function(settings) {
         assert.deepEqual(settings, data.settings);
         done();
-      });
+      })
+      .catch(done);
   });
 
   it('Should load list of packages', function(done) {
-    dataPackageApi.getDataPackages().then(function(results) {
-      assert.deepEqual(results, data.loadedPackages);
-      done();
-    });
+    dataPackageApi.getDataPackages()
+      .then(function(results) {
+        assert.deepEqual(results, data.loadedPackages);
+        done();
+      })
+      .catch(done);
   });
 
   it('Should create package model from raw data', function(done) {
@@ -42,7 +45,8 @@ describe('DataPackage API', function() {
       .then(function(packageModel) {
         assert.deepEqual(packageModel, data.package1PackageModel);
         done();
-      });
+      })
+      .catch(done);
   });
 
 });

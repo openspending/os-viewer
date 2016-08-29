@@ -42,7 +42,7 @@ module.exports = {
       id: 'economic_classification_3',
       key: 'economic_classification_3.Article',
       label: 'Article',
-      valueRef: 'economic_classification_3.Article',
+      valueRef: 'economic_classification_3.Intitule_article',
       hierarchy: 'economic_classification',
       dimensionType: 'classification'
     },
@@ -50,7 +50,7 @@ module.exports = {
       id: 'economic_classification_2',
       key: 'economic_classification_2.Chapitre',
       label: 'Chapitre',
-      valueRef: 'economic_classification_2.Chapitre',
+      valueRef: 'economic_classification_2.Intitule_chapitre',
       hierarchy: 'economic_classification',
       dimensionType: 'classification'
     },
@@ -58,7 +58,7 @@ module.exports = {
       id: 'economic_classification_Compte',
       key: 'economic_classification_Compte.Compte',
       label: 'Compte',
-      valueRef: 'economic_classification_Compte.Compte',
+      valueRef: 'economic_classification_Compte.Intitule_compte',
       hierarchy: 'economic_classification',
       dimensionType: 'classification'
     },
@@ -66,7 +66,7 @@ module.exports = {
       id: 'activity_2',
       key: 'activity_2.Nature',
       label: 'Nature',
-      valueRef: 'activity_2.Nature',
+      valueRef: 'activity_2.Intitule_nature',
       hierarchy: 'activity',
       dimensionType: 'activity'
     }
@@ -81,7 +81,7 @@ module.exports = {
           id: 'activity_2',
           key: 'activity_2.Nature',
           label: 'Nature',
-          valueRef: 'activity_2.Nature',
+          valueRef: 'activity_2.Intitule_nature',
           hierarchy: 'activity',
           dimensionType: 'activity'
         }
@@ -111,7 +111,7 @@ module.exports = {
           id: 'economic_classification_2',
           key: 'economic_classification_2.Chapitre',
           label: 'Chapitre',
-          valueRef: 'economic_classification_2.Chapitre',
+          valueRef: 'economic_classification_2.Intitule_chapitre',
           hierarchy: 'economic_classification',
           dimensionType: 'classification'
         },
@@ -119,7 +119,7 @@ module.exports = {
           id: 'economic_classification_3',
           key: 'economic_classification_3.Article',
           label: 'Article',
-          valueRef: 'economic_classification_3.Article',
+          valueRef: 'economic_classification_3.Intitule_article',
           hierarchy: 'economic_classification',
           dimensionType: 'classification'
         },
@@ -127,7 +127,7 @@ module.exports = {
           id: 'economic_classification_Compte',
           key: 'economic_classification_Compte.Compte',
           label: 'Compte',
-          valueRef: 'economic_classification_Compte.Compte',
+          valueRef: 'economic_classification_Compte.Intitule_compte',
           hierarchy: 'economic_classification',
           dimensionType: 'classification'
         }
@@ -144,7 +144,7 @@ module.exports = {
           id: 'activity_2',
           key: 'activity_2.Nature',
           label: 'Nature',
-          valueRef: 'activity_2.Nature',
+          valueRef: 'activity_2.Intitule_nature',
           hierarchy: 'activity',
           dimensionType: 'activity'
         }
@@ -174,7 +174,7 @@ module.exports = {
           id: 'economic_classification_2',
           key: 'economic_classification_2.Chapitre',
           label: 'Chapitre',
-          valueRef: 'economic_classification_2.Chapitre',
+          valueRef: 'economic_classification_2.Intitule_chapitre',
           hierarchy: 'economic_classification',
           dimensionType: 'classification'
         },
@@ -182,7 +182,7 @@ module.exports = {
           id: 'economic_classification_3',
           key: 'economic_classification_3.Article',
           label: 'Article',
-          valueRef: 'economic_classification_3.Article',
+          valueRef: 'economic_classification_3.Intitule_article',
           hierarchy: 'economic_classification',
           dimensionType: 'classification'
         },
@@ -190,7 +190,7 @@ module.exports = {
           id: 'economic_classification_Compte',
           key: 'economic_classification_Compte.Compte',
           label: 'Compte',
-          valueRef: 'economic_classification_Compte.Compte',
+          valueRef: 'economic_classification_Compte.Intitule_compte',
           hierarchy: 'economic_classification',
           dimensionType: 'classification'
         }

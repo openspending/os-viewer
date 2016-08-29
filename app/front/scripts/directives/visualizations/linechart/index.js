@@ -2,6 +2,7 @@
 
 var angular = require('angular');
 var template = require('./template.html');
+var downloader = require('../../../services/downloader');
 var visualizationsService = require('../../../services/visualizations');
 
 angular.module('Application')
@@ -16,6 +17,7 @@ angular.module('Application')
           params: '='
         },
         link: function($scope) {
+          $scope.downloader = downloader;
           $scope.isVisible = true;
           $scope.state = visualizationsService
             .paramsToBabbageStateTimeSeries($scope.params);

@@ -307,7 +307,8 @@ function drillDown(state, drillDownValue, packageModel) {
     index += 1;
     if (index <= hierarchy.dimensions.length - 1) {
       var nextGroup = hierarchy.dimensions[index];
-      result.filters[groupKey] = drillDownValue;
+      result.filters[groupKey] = result.filters[groupKey] || [];
+      result.filters[groupKey].push(drillDownValue);
       result.groups = [nextGroup.key];
     }
   }
@@ -474,7 +475,7 @@ function removeVisualization(state, visualizationId, packageModel) {
     return item != visualizationId;
   });
   if (result.visualizations.length == 0) {
-    clearParams(result);
+    clearParams(result, packageModel);
   }
   return result;
 }

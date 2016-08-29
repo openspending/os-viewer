@@ -29,26 +29,32 @@ describe('Downloader', function() {
   });
 
   it('Should retrieve data', function(done) {
-    downloader.get('http://example.com/page1').then(function(text) {
-      assert.equal(text, testStrings[0]);
-      done();
-    });
+    downloader.get('http://example.com/page1')
+      .then(function(text) {
+        assert.equal(text, testStrings[0]);
+        done();
+      })
+      .catch(done);
   });
 
   it('Should return data from cache', function(done) {
-    downloader.get('http://example.com/page1').then(function(text) {
-      assert.equal(text, testStrings[0]);
-
-      nock('http://example.com/')
-        .persist()
-        .get('/page1')
-        .reply(200, testStrings[2], {'access-control-allow-origin': '*'});
-
-      downloader.get('http://example.com/page1').then(function(text) {
+    downloader.get('http://example.com/page1')
+      .then(function(text) {
         assert.equal(text, testStrings[0]);
-        done();
-      });
-    });
+
+        nock('http://example.com/')
+          .persist()
+          .get('/page1')
+          .reply(200, testStrings[2], {'access-control-allow-origin': '*'});
+
+        downloader.get('http://example.com/page1')
+          .then(function(text) {
+            assert.equal(text, testStrings[0]);
+            done();
+          })
+          .catch(done);
+      })
+      .catch(done);
   });
 
   it('Should retrieve another url', function(done) {
@@ -60,7 +66,8 @@ describe('Downloader', function() {
       .then(function(text) {
         assert.equal(text, testStrings[1]);
         done();
-      });
+      })
+      .catch(done);
   });
 
 });

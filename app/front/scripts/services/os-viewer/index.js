@@ -164,10 +164,10 @@ function getCurrencySign(state) {
 function getBaseFilters(filters, dimensions) {
   var result = {};
 
-  _.each(filters, function(value, key) {
+  _.each(filters, function(values, key) {
     var dimension = _.find(dimensions, {key: key});
     if (!dimension) {
-      result[key] = value;
+      result[key] = values;
     }
   });
 
@@ -196,6 +196,7 @@ function getSelectedFilters(state) {
         valueKey: _.map(values, function(item) { return item.key; })
       };
     })
+    .filter()
     .sortBy('dimensionLabel')
     .value();
 }
@@ -223,10 +224,12 @@ function buildBreadcrumbs(state) {
     _.each(hierarchy.dimensions, function(dimension) {
       if (dimension.key != currentDimension.key) {
         var value = _.find(currentDimension.values, {
-          key: originalFilters[currentDimension.key]
+          key: _.first(originalFilters[currentDimension.key])
         });
         if (value) {
-          baseFilters[currentDimension.key] = value.key;
+          baseFilters[currentDimension.key] =
+            baseFilters[currentDimension.key] || [];
+          baseFilters[currentDimension.key].push(value.key);
 
           result.push({
             label: value.label,
@@ -311,6 +314,21 @@ function buildUrl(params, embedParams) {
   });
 }
 
+function hasDrillDownVisualizations(params) {
+  var result = false;
+  if (_.isArray(params.visualizations)) {
+    var visualizations = visualizationsService.getVisualizationsByIds(
+      params.visualizations);
+    _.each(visualizations, function(item) {
+      if (item.type == 'drilldown') {
+        result = true;
+        return true;
+      }
+    });
+  }
+  return result;
+}
+
 module.exports.params = stateParams;
 module.exports.history = history;
 module.exports.loadDataPackages = loadDataPackages;
@@ -325,3 +343,4 @@ module.exports.getSelectedFilters = getSelectedFilters;
 module.exports.buildBreadcrumbs = buildBreadcrumbs;
 module.exports.buildUrl = buildUrl;
 module.exports.translateHierarchies = translateHierarchies;
+module.exports.hasDrillDownVisualizations = hasDrillDownVisualizations;
