@@ -2,6 +2,7 @@
 
 var angular = require('angular');
 var template = require('./template.html');
+var downloader = require('../../../services/downloader');
 var visualizationsService = require('../../../services/visualizations');
 
 require('../controls/export');
@@ -18,6 +19,7 @@ angular.module('Application')
           params: '='
         },
         link: function($scope) {
+          $scope.downloader = downloader;
           $scope.isVisible = true;
           $scope.state = visualizationsService
             .paramsToBabbageStatePivot($scope.params);

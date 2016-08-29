@@ -187,13 +187,16 @@ function getSelectedFilters(state) {
         key: valueKey
       });
 
-      return {
-        dimensionLabel: dimension.label,
-        dimensionKey: dimension.key,
-        valueLabel: value.label,
-        valueKey: value.key
-      };
+      if (dimension && value) {
+        return {
+          dimensionLabel: dimension.label,
+          dimensionKey: dimension.key,
+          valueLabel: value.label,
+          valueKey: value.key
+        };
+      }
     })
+    .filter()
     .sortBy('dimensionLabel')
     .value();
 }
@@ -310,6 +313,21 @@ function buildUrl(params, embedParams) {
   });
 }
 
+function hasDrillDownVisualizations(params) {
+  var result = false;
+  if (_.isArray(params.visualizations)) {
+    var visualizations = visualizationsService.getVisualizationsByIds(
+      params.visualizations);
+    _.each(visualizations, function(item) {
+      if (item.type == 'drilldown') {
+        result = true;
+        return true;
+      }
+    });
+  }
+  return result;
+}
+
 module.exports.params = stateParams;
 module.exports.history = history;
 module.exports.loadDataPackages = loadDataPackages;
@@ -324,3 +342,4 @@ module.exports.getSelectedFilters = getSelectedFilters;
 module.exports.buildBreadcrumbs = buildBreadcrumbs;
 module.exports.buildUrl = buildUrl;
 module.exports.translateHierarchies = translateHierarchies;
+module.exports.hasDrillDownVisualizations = hasDrillDownVisualizations;
