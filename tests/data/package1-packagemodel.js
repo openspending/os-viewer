@@ -54,43 +54,43 @@ module.exports = {
       values: [
         {
           key: '610',
-          label: 'Biens et Services Consommés'
+          label: '610 - Biens et Services Consommés'
         },
         {
           key: '611',
-          label: 'Transports consommés'
+          label: '611 - Transports consommés'
         },
         {
           key: '612',
-          label: 'Autres services consommés'
+          label: '612 - Autres services consommés'
         },
         {
           key: '620',
-          label: 'Frais de personnel'
+          label: '620 - Frais de personnel'
         },
         {
           key: '630',
-          label: 'Impôts et taxes'
+          label: '630 - Impôts et taxes'
         },
         {
           key: '640',
-          label: 'Frais financiers'
+          label: '640 - Frais financiers'
         },
         {
           key: '650',
-          label: 'Subventions versées'
+          label: '650 - Subventions versées'
         },
         {
           key: '660',
-          label: 'Transferts versés'
+          label: '660 - Transferts versés'
         },
         {
           key: '670',
-          label: 'Autres charges et pertes diverses'
+          label: '670 - Autres charges et pertes diverses'
         },
         {
           key: '680',
-          label: 'Dotation aux amortissements'
+          label: '680 - Dotation aux amortissements'
         }
       ]
     },
@@ -104,35 +104,35 @@ module.exports = {
       values: [
         {
           key: '61',
-          label: 'BIENS ET SERVICES CONSOMMES'
+          label: '61 - BIENS ET SERVICES CONSOMMES'
         },
         {
           key: '62',
-          label: 'FRAIS DE PERSONNEL'
+          label: '62 - FRAIS DE PERSONNEL'
         },
         {
           key: '63',
-          label: 'IMPOTS ET TAXES'
+          label: '63 - IMPOTS ET TAXES'
         },
         {
           key: '64',
-          label: 'FRAIS FINANCIERS'
+          label: '64 - FRAIS FINANCIERS'
         },
         {
           key: '65',
-          label: 'SUBVENTIONS VERSEES'
+          label: '65 - SUBVENTIONS VERSEES'
         },
         {
           key: '66',
-          label: 'TRANSFERTS VERSES'
+          label: '66 - TRANSFERTS VERSES'
         },
         {
           key: '67',
-          label: 'AUTRES CHARGES ET PERTES DIVERSES'
+          label: '67 - AUTRES CHARGES ET PERTES DIVERSES'
         },
         {
           key: '68',
-          label: 'DOTATION AUX AMORTISSEMENTS'
+          label: '68 - DOTATION AUX AMORTISSEMENTS'
         }
       ]
     },
@@ -146,23 +146,23 @@ module.exports = {
       values: [
         {
           key: '610100',
-          label: 'Fournitures de bureau'
+          label: '610100 - Fournitures de bureau'
         },
         {
           key: '610101',
-          label: 'Abonnement à divers publications'
+          label: '610101 - Abonnement à divers publications'
         },
         {
           key: '610102',
-          label: 'Frais d\'impression des tickets, timbres et vignettes'
+          label: '610102 - Frais d\'impression des tickets, timbres et vignettes'
         },
         {
           key: '610103',
-          label: 'Frais d\'impression des registres et documents comptables'
+          label: '610103 - Frais d\'impression des registres et documents comptables'
         },
         {
           key: '610104',
-          label: 'Dépenses de l\'état civil ' +
+          label: '610104 - Dépenses de l\'état civil ' +
             '(registres, livrets, imprimés, etc.)'
         }
       ]
@@ -177,7 +177,7 @@ module.exports = {
       values: [
         {
           key: '6',
-          label: 'COMPTES DE CHARGES'
+          label: '6 - COMPTES DE CHARGES'
         }
       ]
     }
@@ -198,7 +198,7 @@ module.exports = {
           values: [
             {
               key: '6',
-              label: 'COMPTES DE CHARGES'
+              label: '6 - COMPTES DE CHARGES'
             }
           ]
         }
@@ -240,35 +240,35 @@ module.exports = {
           values: [
             {
               key: '61',
-              label: 'BIENS ET SERVICES CONSOMMES'
+              label: '61 - BIENS ET SERVICES CONSOMMES'
             },
             {
               key: '62',
-              label: 'FRAIS DE PERSONNEL'
+              label: '62 - FRAIS DE PERSONNEL'
             },
             {
               key: '63',
-              label: 'IMPOTS ET TAXES'
+              label: '63 - IMPOTS ET TAXES'
             },
             {
               key: '64',
-              label: 'FRAIS FINANCIERS'
+              label: '64 - FRAIS FINANCIERS'
             },
             {
               key: '65',
-              label: 'SUBVENTIONS VERSEES'
+              label: '65 - SUBVENTIONS VERSEES'
             },
             {
               key: '66',
-              label: 'TRANSFERTS VERSES'
+              label: '66 - TRANSFERTS VERSES'
             },
             {
               key: '67',
-              label: 'AUTRES CHARGES ET PERTES DIVERSES'
+              label: '67 - AUTRES CHARGES ET PERTES DIVERSES'
             },
             {
               key: '68',
-              label: 'DOTATION AUX AMORTISSEMENTS'
+              label: '68 - DOTATION AUX AMORTISSEMENTS'
             }
           ]
         },
@@ -282,43 +282,43 @@ module.exports = {
           values: [
             {
               key: '610',
-              label: 'Biens et Services Consommés'
+              label: '610 - Biens et Services Consommés'
             },
             {
               key: '611',
-              label: 'Transports consommés'
+              label: '611 - Transports consommés'
             },
             {
               key: '612',
-              label: 'Autres services consommés'
+              label: '612 - Autres services consommés'
             },
             {
               key: '620',
-              label: 'Frais de personnel'
+              label: '620 - Frais de personnel'
             },
             {
               key: '630',
-              label: 'Impôts et taxes'
+              label: '630 - Impôts et taxes'
             },
             {
               key: '640',
-              label: 'Frais financiers'
+              label: '640 - Frais financiers'
             },
             {
               key: '650',
-              label: 'Subventions versées'
+              label: '650 - Subventions versées'
             },
             {
               key: '660',
-              label: 'Transferts versés'
+              label: '660 - Transferts versés'
             },
             {
               key: '670',
-              label: 'Autres charges et pertes diverses'
+              label: '670 - Autres charges et pertes diverses'
             },
             {
               key: '680',
-              label: 'Dotation aux amortissements'
+              label: '680 - Dotation aux amortissements'
             }
           ]
         },
@@ -332,23 +332,23 @@ module.exports = {
           values: [
             {
               key: '610100',
-              label: 'Fournitures de bureau'
+              label: '610100 - Fournitures de bureau'
             },
             {
               key: '610101',
-              label: 'Abonnement à divers publications'
+              label: '610101 - Abonnement à divers publications'
             },
             {
               key: '610102',
-              label: 'Frais d\'impression des tickets, timbres et vignettes'
+              label: '610102 - Frais d\'impression des tickets, timbres et vignettes'
             },
             {
               key: '610103',
-              label: 'Frais d\'impression des registres et documents comptables'
+              label: '610103 - Frais d\'impression des registres et documents comptables'
             },
             {
               key: '610104',
-              label: 'Dépenses de l\'état civil (registres, livrets, ' +
+              label: '610104 - Dépenses de l\'état civil (registres, livrets, ' +
                 'imprimés, etc.)'
             }
           ]
@@ -372,7 +372,7 @@ module.exports = {
           values: [
             {
               key: '6',
-              label: 'COMPTES DE CHARGES'
+              label: '6 - COMPTES DE CHARGES'
             }
           ]
         }
@@ -414,35 +414,35 @@ module.exports = {
           values: [
             {
               key: '61',
-              label: 'BIENS ET SERVICES CONSOMMES'
+              label: '61 - BIENS ET SERVICES CONSOMMES'
             },
             {
               key: '62',
-              label: 'FRAIS DE PERSONNEL'
+              label: '62 - FRAIS DE PERSONNEL'
             },
             {
               key: '63',
-              label: 'IMPOTS ET TAXES'
+              label: '63 - IMPOTS ET TAXES'
             },
             {
               key: '64',
-              label: 'FRAIS FINANCIERS'
+              label: '64 - FRAIS FINANCIERS'
             },
             {
               key: '65',
-              label: 'SUBVENTIONS VERSEES'
+              label: '65 - SUBVENTIONS VERSEES'
             },
             {
               key: '66',
-              label: 'TRANSFERTS VERSES'
+              label: '66 - TRANSFERTS VERSES'
             },
             {
               key: '67',
-              label: 'AUTRES CHARGES ET PERTES DIVERSES'
+              label: '67 - AUTRES CHARGES ET PERTES DIVERSES'
             },
             {
               key: '68',
-              label: 'DOTATION AUX AMORTISSEMENTS'
+              label: '68 - DOTATION AUX AMORTISSEMENTS'
             }
           ]
         },
@@ -456,43 +456,43 @@ module.exports = {
           values: [
             {
               key: '610',
-              label: 'Biens et Services Consommés'
+              label: '610 - Biens et Services Consommés'
             },
             {
               key: '611',
-              label: 'Transports consommés'
+              label: '611 - Transports consommés'
             },
             {
               key: '612',
-              label: 'Autres services consommés'
+              label: '612 - Autres services consommés'
             },
             {
               key: '620',
-              label: 'Frais de personnel'
+              label: '620 - Frais de personnel'
             },
             {
               key: '630',
-              label: 'Impôts et taxes'
+              label: '630 - Impôts et taxes'
             },
             {
               key: '640',
-              label: 'Frais financiers'
+              label: '640 - Frais financiers'
             },
             {
               key: '650',
-              label: 'Subventions versées'
+              label: '650 - Subventions versées'
             },
             {
               key: '660',
-              label: 'Transferts versés'
+              label: '660 - Transferts versés'
             },
             {
               key: '670',
-              label: 'Autres charges et pertes diverses'
+              label: '670 - Autres charges et pertes diverses'
             },
             {
               key: '680',
-              label: 'Dotation aux amortissements'
+              label: '680 - Dotation aux amortissements'
             }
           ]
         },
@@ -506,23 +506,23 @@ module.exports = {
           values: [
             {
               key: '610100',
-              label: 'Fournitures de bureau'
+              label: '610100 - Fournitures de bureau'
             },
             {
               key: '610101',
-              label: 'Abonnement à divers publications'
+              label: '610101 - Abonnement à divers publications'
             },
             {
               key: '610102',
-              label: 'Frais d\'impression des tickets, timbres et vignettes'
+              label: '610102 - Frais d\'impression des tickets, timbres et vignettes'
             },
             {
               key: '610103',
-              label: 'Frais d\'impression des registres et documents comptables'
+              label: '610103 - Frais d\'impression des registres et documents comptables'
             },
             {
               key: '610104',
-              label: 'Dépenses de l\'état civil (registres, livrets, ' +
+              label: '610104 - Dépenses de l\'état civil (registres, livrets, ' +
                 'imprimés, etc.)'
             }
           ]

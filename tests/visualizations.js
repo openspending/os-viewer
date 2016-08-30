@@ -13,7 +13,7 @@ var sourceParams = {
   rows: ['date_2.Annee'],
   columns: ['economic_classification_3.Article'],
   filters: {
-    'economic_classification_Compte.Compte': '610100'
+    'economic_classification_Compte.Compte': ['610100']
   },
   orderBy: {
     key: 'Depenses_realisees.sum',

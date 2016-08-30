@@ -13,6 +13,7 @@ angular.module('Application', [
 ]);
 
 require('./config');
+require('./filters');
 require('./controllers');
 require('./directives');
 require('./animations');

@@ -164,10 +164,10 @@ function getCurrencySign(state) {
 function getBaseFilters(filters, dimensions) {
   var result = {};
 
-  _.each(filters, function(value, key) {
+  _.each(filters, function(values, key) {
     var dimension = _.find(dimensions, {key: key});
     if (!dimension) {
-      result[key] = value;
+      result[key] = values;
     }
   });
 
@@ -179,22 +179,22 @@ function getSelectedFilters(state) {
   var packageModel = state.package;
 
   return _.chain(params.filters)
-    .map(function(valueKey, dimensionKey) {
+    .map(function(valueKeys, dimensionKey) {
       var dimension = _.find(packageModel.dimensions, {
         key: dimensionKey
       });
-      var value = _.find(dimension.values, {
-        key: valueKey
+      var values = _.filter(dimension.values, function(item) {
+        return !!_.find(valueKeys, function(key) {
+          return key == item.key;
+        });
       });
 
-      if (dimension && value) {
-        return {
-          dimensionLabel: dimension.label,
-          dimensionKey: dimension.key,
-          valueLabel: value.label,
-          valueKey: value.key
-        };
-      }
+      return {
+        dimensionLabel: dimension.label,
+        dimensionKey: dimension.key,
+        valueLabel: _.map(values, function(item) { return item.label; }),
+        valueKey: _.map(values, function(item) { return item.key; })
+      };
     })
     .filter()
     .sortBy('dimensionLabel')
@@ -224,10 +224,12 @@ function buildBreadcrumbs(state) {
     _.each(hierarchy.dimensions, function(dimension) {
       if (dimension.key != currentDimension.key) {
         var value = _.find(currentDimension.values, {
-          key: originalFilters[currentDimension.key]
+          key: _.first(originalFilters[currentDimension.key])
         });
         if (value) {
-          baseFilters[currentDimension.key] = value.key;
+          baseFilters[currentDimension.key] =
+            baseFilters[currentDimension.key] || [];
+          baseFilters[currentDimension.key].push(value.key);
 
           result.push({
             label: value.label,
@@ -274,9 +276,8 @@ function buildUrl(params, embedParams) {
       query[axis] = params[axis];
     }
   });
-  query.filters = _.map(params.filters, function(value, key) {
-    return key + '|' + value;
-  });
+  query.filters = params.filters;
+
   if (params.orderBy.key) {
     query.order = params.orderBy.key + '|' + params.orderBy.direction;
   }

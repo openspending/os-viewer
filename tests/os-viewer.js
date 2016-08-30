@@ -19,7 +19,7 @@ var sourceParams = {
   rows: ['date_2.Annee'],
   columns: ['economic_classification_3.Article'],
   filters: {
-    'economic_classification_Compte.Compte': '610100'
+    'economic_classification_Compte.Compte': ['610100']
   },
   orderBy: {
     key: 'Depenses_realisees.sum',
@@ -150,7 +150,6 @@ describe('OS Viewer core service', function() {
       var params = paramsService.init(data.package1PackageModel, {
         visualizations: ['Treemap']
       });
-      console.log(params.source, params.target);
       assert.deepEqual(params, {
         lang: 'en',
         measures: ['Depenses_realisees.sum'],
@@ -187,7 +186,8 @@ describe('OS Viewer core service', function() {
         .then(function(results) {
           assert.deepEqual(results, data.loadedPackages);
           done();
-        });
+        })
+        .catch(done);
     });
 
     it('Should parse URL', function(done) {
@@ -223,14 +223,14 @@ describe('OS Viewer core service', function() {
         'measure=Depenses_realisees.sum&' +
         'groups[]=date_2.Annee&series[]=economic_classification_3.Article&' +
         'rows[]=date_2.Annee&columns[]=economic_classification_3.Article&' +
-        'filters[]=economic_classification_Compte.Compte|610100&' +
+        'filters[economic_classification_Compte.Compte][]=610100&' +
         'order=Depenses_realisees.sum|asc&visualizations[]=Pivot');
       assert.equal(embedUrl, 'https://example.com:8080/viewer/embed/Treemap/' +
         'Package1?lang=es&measure=Depenses_realisees.sum&' +
         'groups[]=date_2.Annee&' +
         'series[]=economic_classification_3.Article&rows[]=date_2.Annee&' +
         'columns[]=economic_classification_3.Article&' +
-        'filters[]=economic_classification_Compte.Compte|610100&' +
+        'filters[economic_classification_Compte.Compte][]=610100&' +
         'order=Depenses_realisees.sum|asc');
 
       done();
@@ -243,7 +243,8 @@ describe('OS Viewer core service', function() {
           initialState.package = data.package1PackageModelBare;
           assert.deepEqual(state, initialState);
           done();
-        });
+        })
+        .catch(done);
     });
 
     it('Should fully load data package', function(done) {
@@ -254,7 +255,8 @@ describe('OS Viewer core service', function() {
         .then(function(state) {
           assert.deepEqual(state, data.package1InitialState);
           done();
-        });
+        })
+        .catch(done);
     });
 
   });

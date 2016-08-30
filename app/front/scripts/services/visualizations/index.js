@@ -114,15 +114,24 @@ function getAvailableVisualizations(packageModel) {
     .value();
 }
 
+function serializeFilters(filters) {
+  return _.chain(filters)
+    .map(function(values, key) {
+      return _.chain(values)
+        .map(function(value) {
+          return key + ':' + JSON.stringify(value);
+        })
+        .join('|')
+        .value();
+    })
+    .value();
+}
+
 function paramsToBabbageState(params) {
   var result = {
     aggregates: _.first(params.measures),
     group: params.groups,
-    filter: _.map(
-      params.filters,
-      function(value, key) {
-        return key + ':' + JSON.stringify(value);
-      }),
+    filter: serializeFilters(params.filters),
     order: [params.orderBy]
   };
 
@@ -141,11 +150,7 @@ function paramsToBabbageStateFacts(params) {
   return {
     aggregates: _.first(params.measures),
     group: params.groups,
-    filter: _.map(
-      params.filters,
-      function(value, key) {
-        return key + ':' + JSON.stringify(value);
-      })
+    filter: serializeFilters(params.filters)
   };
 }
 
@@ -154,11 +159,7 @@ function paramsToBabbageStatePivot(params) {
     aggregates: _.first(params.measures),
     rows: params.rows,
     cols: params.columns,
-    filter: _.map(
-      params.filters,
-      function(value, key) {
-        return key + ':' + JSON.stringify(value);
-      }),
+    filter: serializeFilters(params.filters),
     order: [params.orderBy]
   };
 }
@@ -167,11 +168,7 @@ function paramsToBabbageStateTimeSeries(params) {
   var result = {
     aggregates: _.first(params.measures),
     group: [params.dateTimeDimension],
-    filter: _.map(
-      params.filters,
-      function(value, key) {
-        return key + ':' + JSON.stringify(value);
-      }),
+    filter: serializeFilters(params.filters),
     order: [{
       key: params.dateTimeDimension,
       direction: 'asc'
@@ -198,11 +195,7 @@ function paramsToBabbageStateSankey(params) {
     aggregates: _.first(params.measures),
     source: params.source,
     target: params.target,
-    filter: _.map(
-      params.filters,
-      function(value, key) {
-        return key + ':' + JSON.stringify(value);
-      })
+    filter: serializeFilters(params.filters)
   };
 }
 

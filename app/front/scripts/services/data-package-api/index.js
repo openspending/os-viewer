@@ -174,9 +174,11 @@ function loadDimensionValues(packageId, dimension) {
 
     return downloader.getJson(url).then(function(results) {
       return _.map(results.data, function(value) {
+        var key = value[dimension.key];
+        var label = value[dimension.valueRef];
         return {
-          key: value[dimension.key],
-          label: value[dimension.valueRef]
+          key: key,
+          label: (label && label != key) ? key + ' - ' + label : key
         };
       });
     });
@@ -207,7 +209,7 @@ function loadDimensionsValues(packageModel, dimensions) {
           var label = value[dimension.valueRef];
           return {
             key: key,
-            label: (label && label != key) ? key + ' - ' +label : key
+            label: (label && label != key) ? key + ' - ' + label : key
           };
         });
       });
@@ -284,9 +286,6 @@ function getDataPackage(packageId, loadBareModel) {
       downloader.getJson(apiConfig.url + '/cubes/' +
         encodeURIComponent(packageId) + '/model')
     ];
-
-    var dataPackage = null;
-    var model = null;
 
     return Promise.all(promises)
       .then(function(results) {

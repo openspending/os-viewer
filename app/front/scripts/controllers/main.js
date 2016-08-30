@@ -238,9 +238,9 @@ angular.module('Application')
         });
 
       $scope.$on(Configuration.events.sidebar.clearFilter,
-        function($event, filter) {
+        function($event, filter, value) {
           updateStateParams($scope.state.params = osViewerService.params
-            .clearFilter($scope.state.params, filter));
+            .clearFilter($scope.state.params, filter, value));
         });
     }
   ]);
