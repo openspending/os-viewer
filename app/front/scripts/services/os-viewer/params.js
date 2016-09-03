@@ -173,6 +173,9 @@ function clearFilter(state, filter, value) {
     result.filters[filter] = _.filter(result.filters[filter], function(item) {
       return item != value;
     });
+    if (result.filters[filter].length == 0) {
+      delete result.filters[filter];
+    }
   }
   return result;
 }

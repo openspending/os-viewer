@@ -117,11 +117,11 @@ function getAvailableVisualizations(packageModel) {
 function serializeFilters(filters) {
   return _.chain(filters)
     .map(function(values, key) {
-      return _.chain(values)
+      return key + ':' + _.chain(values)
         .map(function(value) {
-          return key + ':' + JSON.stringify(value);
+          return JSON.stringify(value);
         })
-        .join('|')
+        .join(';')
         .value();
     })
     .value();
