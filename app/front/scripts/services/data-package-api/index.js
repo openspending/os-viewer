@@ -173,14 +173,19 @@ function loadDimensionValues(packageId, dimension) {
       encodeURIComponent(dimension.id);
 
     return downloader.getJson(url).then(function(results) {
-      return _.map(results.data, function(value) {
-        var key = value[dimension.key];
-        var label = value[dimension.valueRef];
-        return {
-          key: key,
-          label: (label && label != key) ? key + ' - ' + label : key
-        };
-      });
+      return _.chain(results.data)
+        .map(function(value) {
+          var key = value[dimension.key];
+          var label = value[dimension.valueRef];
+          if (!!key) {
+            return {
+              key: key,
+              label: (label && label != key) ? key + ' - ' + label : key
+            };
+          }
+        })
+        .filter()
+        .value();
     });
   });
 }
@@ -204,14 +209,19 @@ function loadDimensionsValues(packageModel, dimensions) {
     return Promise.all(promises).then(function(results) {
       _.each(results, function(values, index) {
         var dimension = dimensions[index];
-        dimension.values = _.map(results[index].data, function(value) {
-          var key = value[dimension.key];
-          var label = value[dimension.valueRef];
-          return {
-            key: key,
-            label: (label && label != key) ? key + ' - ' + label : key
-          };
-        });
+        dimension.values = _.chain(results[index].data)
+          .map(function(value) {
+            var key = value[dimension.key];
+            var label = value[dimension.valueRef];
+            if (!!key) {
+              return {
+                key: key,
+                label: (label && label != key) ? key + ' - ' + label : key
+              }
+            }
+          })
+          .filter()
+          .value();
       });
       return packageModel;
     });
