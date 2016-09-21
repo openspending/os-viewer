@@ -65,6 +65,13 @@ var availableVisualizations = [
     type: 'pivot-table',
     embed: 'pivottable',
     icon: 'os-icon os-icon-layers'
+  },
+  {
+    id: 'Radar',
+    name: 'Radar Chart',
+    type: 'pivot-table',
+    embed: 'radar',
+    icon: 'os-icon os-icon-radar'
   }
 ];
 

@@ -1,0 +1,10 @@
+<div class="x-visualization-chart col-xs-12">
+  <div class="table-responsive">
+    <radar-chart ng-if="isVisible"
+      downloader="downloader"
+      cube="{{ params.packageId }}"
+      state="state"
+      endpoint="{{ params.babbageApiUrl }}">
+    </radar-chart>
+  </div>
+</div>
