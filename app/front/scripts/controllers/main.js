@@ -89,6 +89,7 @@ angular.module('Application')
 
         $q(osViewerService.loadDataPackage(urlParams.packageId, urlParams))
           .then(function(state) {
+            osViewerService.translateHierarchies(state, i18n);
             $scope.state = state;
             if (osViewerService.hasDrillDownVisualizations(state.params)) {
               $q(osViewerService.partiallyPopulateModel(state))
