@@ -124,6 +124,7 @@ function serializeFilters(filters) {
         .join(';')
         .value();
     })
+    .map(encodeURIComponent)
     .value();
 }
 
