@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "install": "napa 'eligrey/FileSaver.js:file-saver' 'd3/d3-plugins:d3-plugins'",
+    "postinstall": "cd ./node_modules/babbage.ui/node_modules/ && rm -rf c3 d3 bubbletree raphael",
     "start": "node index.js",
     "test": "mocha tests/*.js",
     "review": "jscs app tests",
