@@ -20,12 +20,12 @@ angular.module('Application')
           $scope.downloader = downloader;
           $scope.isVisible = true;
           $scope.state = visualizationsService
-            .paramsToBabbageStatePivot($scope.params);
+            .paramsToBabbageStateRadar($scope.params);
 
           $scope.$watch('params', function(newValue, oldValue) {
             if (newValue !== oldValue) {
               $scope.state = visualizationsService
-                .paramsToBabbageStatePivot($scope.params);
+                .paramsToBabbageStateRadar($scope.params);
               $timeout(function() {
                 $scope.isVisible = false;
                 $timeout(function() {

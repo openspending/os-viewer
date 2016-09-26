@@ -102,6 +102,9 @@ function validateUrlParams(params, packageModel) {
     case 'drilldown':
     case 'sortable-series':
       initCommonParams(defaults, packageModel);
+      if (type == 'sortable-series') {
+        defaults.series = [];
+      }
       break;
     case 'time-series':
       initParamsForTimeSeries(defaults, packageModel);

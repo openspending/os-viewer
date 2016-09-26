@@ -217,7 +217,7 @@ function loadDimensionsValues(packageModel, dimensions) {
               return {
                 key: key,
                 label: (label && label != key) ? key + ' - ' + label : key
-              }
+              };
             }
           })
           .filter()
