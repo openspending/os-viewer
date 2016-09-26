@@ -96,7 +96,9 @@ describe('Visualizations', function() {
       assert.deepEqual(params, {
         aggregates: 'Depenses_realisees.sum',
         group: ['date_2.Annee'],
-        filter: ['economic_classification_Compte.Compte:"610100"'],
+        filter: [
+          encodeURIComponent('economic_classification_Compte.Compte:"610100"')
+        ],
         order: [{
           key: 'Depenses_realisees.sum',
           direction: 'asc'
@@ -111,7 +113,9 @@ describe('Visualizations', function() {
       assert.deepEqual(params, {
         aggregates: 'Depenses_realisees.sum',
         group: ['date_2.Annee'],
-        filter: ['economic_classification_Compte.Compte:"610100"']
+        filter: [
+          encodeURIComponent('economic_classification_Compte.Compte:"610100"')
+        ]
       });
       done();
     });
@@ -122,7 +126,9 @@ describe('Visualizations', function() {
         aggregates: 'Depenses_realisees.sum',
         rows: ['date_2.Annee'],
         cols: ['economic_classification_3.Article'],
-        filter: ['economic_classification_Compte.Compte:"610100"'],
+        filter: [
+          encodeURIComponent('economic_classification_Compte.Compte:"610100"')
+        ],
         order: [{
           key: 'Depenses_realisees.sum',
           direction: 'asc'
@@ -136,7 +142,9 @@ describe('Visualizations', function() {
       assert.deepEqual(params, {
         aggregates: 'Depenses_realisees.sum',
         group: ['date_2.Annee'],
-        filter: ['economic_classification_Compte.Compte:"610100"'],
+        filter: [
+          encodeURIComponent('economic_classification_Compte.Compte:"610100"')
+        ],
         order: [{
           key: 'date_2.Annee',
           direction: 'asc'
