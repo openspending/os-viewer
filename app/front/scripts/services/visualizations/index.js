@@ -46,6 +46,13 @@ var availableVisualizations = [
     icon: 'os-icon os-icon-table'
   },
   {
+    id: 'Radar',
+    name: 'Radar Chart',
+    type: 'sortable-series',
+    embed: 'radar',
+    icon: 'os-icon os-icon-radar'
+  },
+  {
     id: 'LineChart',
     name: 'Line Chart',
     type: 'time-series',
@@ -206,6 +213,22 @@ function paramsToBabbageStateSankey(params) {
   };
 }
 
+function paramsToBabbageStateRadar(params) {
+  var result = paramsToBabbageState(params);
+
+  // Rename `group` to `cols`
+  result.cols = result.group;
+  result.group = undefined;
+
+  // Rename `series` to `rows`
+  if (_.isArray(result.series)) {
+    result.rows = result.series;
+    result.series = undefined;
+  }
+
+  return result;
+}
+
 module.exports.getVisualizationById = getVisualizationById;
 module.exports.getVisualizationsByIds = getVisualizationsByIds;
 module.exports.findVisualization = findVisualization;
@@ -216,3 +239,4 @@ module.exports.paramsToBabbageStateFacts = paramsToBabbageStateFacts;
 module.exports.paramsToBabbageStatePivot = paramsToBabbageStatePivot;
 module.exports.paramsToBabbageStateTimeSeries = paramsToBabbageStateTimeSeries;
 module.exports.paramsToBabbageStateSankey = paramsToBabbageStateSankey;
+module.exports.paramsToBabbageStateRadar = paramsToBabbageStateRadar;

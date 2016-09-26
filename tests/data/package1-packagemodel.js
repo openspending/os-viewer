@@ -154,11 +154,13 @@ module.exports = {
         },
         {
           key: '610102',
-          label: '610102 - Frais d\'impression des tickets, timbres et vignettes'
+          label: '610102 - Frais d\'impression des tickets, timbres ' +
+            'et vignettes'
         },
         {
           key: '610103',
-          label: '610103 - Frais d\'impression des registres et documents comptables'
+          label: '610103 - Frais d\'impression des registres et ' +
+            'documents comptables'
         },
         {
           key: '610104',
@@ -340,16 +342,18 @@ module.exports = {
             },
             {
               key: '610102',
-              label: '610102 - Frais d\'impression des tickets, timbres et vignettes'
+              label: '610102 - Frais d\'impression des tickets, ' +
+                'timbres et vignettes'
             },
             {
               key: '610103',
-              label: '610103 - Frais d\'impression des registres et documents comptables'
+              label: '610103 - Frais d\'impression des registres et ' +
+                'documents comptables'
             },
             {
               key: '610104',
-              label: '610104 - Dépenses de l\'état civil (registres, livrets, ' +
-                'imprimés, etc.)'
+              label: '610104 - Dépenses de l\'état civil (registres, ' +
+                'livrets, imprimés, etc.)'
             }
           ]
         }
@@ -514,16 +518,18 @@ module.exports = {
             },
             {
               key: '610102',
-              label: '610102 - Frais d\'impression des tickets, timbres et vignettes'
+              label: '610102 - Frais d\'impression des tickets, ' +
+                'timbres et vignettes'
             },
             {
               key: '610103',
-              label: '610103 - Frais d\'impression des registres et documents comptables'
+              label: '610103 - Frais d\'impression des registres et ' +
+                'documents comptables'
             },
             {
               key: '610104',
-              label: '610104 - Dépenses de l\'état civil (registres, livrets, ' +
-                'imprimés, etc.)'
+              label: '610104 - Dépenses de l\'état civil (registres, ' +
+                'livrets, imprimés, etc.)'
             }
           ]
         }

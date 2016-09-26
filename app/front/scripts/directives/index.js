@@ -14,6 +14,7 @@ var geoViewDirective = new babbage.GeoViewDirective();
 var pivotTableDirective = new babbage.PivotTableDirective();
 var factsDirective = new babbage.FactsDirective();
 var sankeyDirective = new babbage.SanKeyChartDirective();
+var radarDirective = new babbage.RadarChartDirective();
 
 pieDirective.init(application);
 chartDirective.init(application);
@@ -24,6 +25,7 @@ geoViewDirective.init(application);
 pivotTableDirective.init(application);
 factsDirective.init(application);
 sankeyDirective.init(application);
+radarDirective.init(application);
 
 // Application directives
 require('./filter-list');

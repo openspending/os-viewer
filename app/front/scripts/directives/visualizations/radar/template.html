@@ -1,0 +1,16 @@
+<div class="col-xs-12" ng-if="!params.isEmbedded">
+  <sorting-control
+    selected="params.orderBy"
+    items="params.availableSoring">
+  </sorting-control>
+</div>
+<div class="x-visualization-chart col-xs-12">
+  <div class="table-responsive">
+    <radar-chart ng-if="isVisible"
+      downloader="downloader"
+      cube="{{ params.packageId }}"
+      state="state"
+      endpoint="{{ params.babbageApiUrl }}">
+    </radar-chart>
+  </div>
+</div>
