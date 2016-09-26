@@ -109,6 +109,12 @@ function getAvailableVisualizations(packageModel) {
           return false;
         }
       }
+      if (item.type == 'pivot-table') {
+        hierarchiesAvailable = packageModel.columnHierarchies.length > 0;
+        if (!hierarchiesAvailable) {
+          return false;
+        }
+      }
       return true;
     })
     .value();
