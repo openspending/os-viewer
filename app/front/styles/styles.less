@@ -1,3 +1,18 @@
+@import (reference, less) "../../../node_modules/font-awesome/css/font-awesome.css";
+
+.alert .babbage-loading-icon {
+  .fa();
+  .fa-pulse();
+  .fa-2x();
+
+  vertical-align: middle;
+  margin-right: 6px;
+
+  &:before {
+    &:extend(.fa-spinner:before);
+  }
+}
+
 html {
   background: #131518;
   height: 100%;
