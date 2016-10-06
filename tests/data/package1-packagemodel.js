@@ -35,6 +35,7 @@ module.exports = {
       key: 'date_2.Annee',
       label: 'Année',
       valueRef: 'date_2.Annee',
+      sortKey: 'date_2.Annee',
       hierarchy: 'date',
       dimensionType: 'datetime',
       values: [
@@ -49,6 +50,7 @@ module.exports = {
       key: 'economic_classification_3.Article',
       label: 'Article',
       valueRef: 'economic_classification_3.Intitule_article',
+      sortKey: 'economic_classification_3.Intitule_article',
       hierarchy: 'economic_classification',
       dimensionType: 'classification',
       values: [
@@ -99,6 +101,7 @@ module.exports = {
       key: 'economic_classification_2.Chapitre',
       label: 'Chapitre',
       valueRef: 'economic_classification_2.Intitule_chapitre',
+      sortKey: 'economic_classification_2.Intitule_chapitre',
       hierarchy: 'economic_classification',
       dimensionType: 'classification',
       values: [
@@ -141,6 +144,7 @@ module.exports = {
       key: 'economic_classification_Compte.Compte',
       label: 'Compte',
       valueRef: 'economic_classification_Compte.Intitule_compte',
+      sortKey: 'economic_classification_Compte.Intitule_compte',
       hierarchy: 'economic_classification',
       dimensionType: 'classification',
       values: [
@@ -174,6 +178,7 @@ module.exports = {
       key: 'activity_2.Nature',
       label: 'Nature',
       valueRef: 'activity_2.Intitule_nature',
+      sortKey: 'activity_2.Intitule_nature',
       hierarchy: 'activity',
       dimensionType: 'activity',
       values: [
@@ -195,6 +200,7 @@ module.exports = {
           key: 'activity_2.Nature',
           label: 'Nature',
           valueRef: 'activity_2.Intitule_nature',
+          sortKey: 'activity_2.Intitule_nature',
           hierarchy: 'activity',
           dimensionType: 'activity',
           values: [
@@ -216,6 +222,7 @@ module.exports = {
           key: 'date_2.Annee',
           label: 'Année',
           valueRef: 'date_2.Annee',
+          sortKey: 'date_2.Annee',
           hierarchy: 'date',
           dimensionType: 'datetime',
           values: [
@@ -237,6 +244,7 @@ module.exports = {
           key: 'economic_classification_2.Chapitre',
           label: 'Chapitre',
           valueRef: 'economic_classification_2.Intitule_chapitre',
+          sortKey: 'economic_classification_2.Intitule_chapitre',
           hierarchy: 'economic_classification',
           dimensionType: 'classification',
           values: [
@@ -279,6 +287,7 @@ module.exports = {
           key: 'economic_classification_3.Article',
           label: 'Article',
           valueRef: 'economic_classification_3.Intitule_article',
+          sortKey: 'economic_classification_3.Intitule_article',
           hierarchy: 'economic_classification',
           dimensionType: 'classification',
           values: [
@@ -329,6 +338,7 @@ module.exports = {
           key: 'economic_classification_Compte.Compte',
           label: 'Compte',
           valueRef: 'economic_classification_Compte.Intitule_compte',
+          sortKey: 'economic_classification_Compte.Intitule_compte',
           hierarchy: 'economic_classification',
           dimensionType: 'classification',
           values: [
@@ -371,6 +381,7 @@ module.exports = {
           key: 'activity_2.Nature',
           label: 'Nature',
           valueRef: 'activity_2.Intitule_nature',
+          sortKey: 'activity_2.Intitule_nature',
           hierarchy: 'activity',
           dimensionType: 'activity',
           values: [
@@ -392,6 +403,7 @@ module.exports = {
           key: 'date_2.Annee',
           label: 'Année',
           valueRef: 'date_2.Annee',
+          sortKey: 'date_2.Annee',
           hierarchy: 'date',
           dimensionType: 'datetime',
           values: [
@@ -413,6 +425,7 @@ module.exports = {
           key: 'economic_classification_2.Chapitre',
           label: 'Chapitre',
           valueRef: 'economic_classification_2.Intitule_chapitre',
+          sortKey: 'economic_classification_2.Intitule_chapitre',
           hierarchy: 'economic_classification',
           dimensionType: 'classification',
           values: [
@@ -455,6 +468,7 @@ module.exports = {
           key: 'economic_classification_3.Article',
           label: 'Article',
           valueRef: 'economic_classification_3.Intitule_article',
+          sortKey: 'economic_classification_3.Intitule_article',
           hierarchy: 'economic_classification',
           dimensionType: 'classification',
           values: [
@@ -505,6 +519,7 @@ module.exports = {
           key: 'economic_classification_Compte.Compte',
           label: 'Compte',
           valueRef: 'economic_classification_Compte.Intitule_compte',
+          sortKey: 'economic_classification_Compte.Intitule_compte',
           hierarchy: 'economic_classification',
           dimensionType: 'classification',
           values: [
@@ -550,6 +565,7 @@ module.exports = {
           key: 'date_2.Annee',
           label: 'Année',
           valueRef: 'date_2.Annee',
+          sortKey: 'date_2.Annee',
           hierarchy: 'date',
           dimensionType: 'datetime',
           values: [
