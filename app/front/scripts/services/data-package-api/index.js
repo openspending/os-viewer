@@ -61,8 +61,10 @@ function getDataPackageMetadata(dataPackage, model) {
     description: dataPackage.description,
     owner: dataPackage.owner,
     author: dataPackage.author,
-    countryCode: _.isArray(dataPackage.countryCode) ?
-      _.first(dataPackage.countryCode) : dataPackage.countryCode,
+    countryCode: (function(countryCode) {
+      var result = _.isArray(countryCode) ? _.first(countryCode) : countryCode;
+      return _.isString(result) ? result.toUpperCase() : undefined;
+    })(dataPackage.countryCode),
     // jscs:disable
     factTable: model ? model.fact_table : null,
     // jscs:enable

@@ -105,7 +105,9 @@ function getAvailableVisualizations(packageModel) {
 
       if (item.type == 'location') {
         hierarchiesAvailable = packageModel.locationHierarchies.length > 0;
-        locationAvailable = !!packageModel.meta.countryCode;
+        locationAvailable = !!packageModel.meta.countryCode &&
+          // Temporarily disable GeoView for all countries except of Moldova
+          (packageModel.meta.countryCode == 'MD');
         if (!hierarchiesAvailable || !locationAvailable) {
           return false;
         }
