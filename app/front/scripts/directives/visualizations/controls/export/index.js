@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var TextEncoder = require('text-encoding').TextEncoder;
 var angular = require('angular');
 var template = require('./template.html');
 
@@ -57,8 +58,8 @@ function getCsvDataFromTable(table) {
 
 angular.module('Application')
   .directive('exportControl', [
-    '$window',
-    function($window) {
+    '$window', '$rootScope',
+    function($window, $rootScope) {
       return {
         template: template,
         replace: false,
@@ -78,8 +79,22 @@ angular.module('Application')
               return;
             }
 
-            var data = new Blob([getCsvDataFromTable(table.get(0))], {
-              type: 'text/csv'
+            var i18n = $rootScope._t;
+            var charset = i18n('CSV export encoding');
+
+            var encoder = null;
+            try {
+              encoder = new TextEncoder(charset, {
+                // Allow encodings other that utf-8
+                NONSTANDARD_allowLegacyEncoding: true
+              });
+            } catch (error) {
+              encoder = new TextEncoder('utf-8');
+            }
+
+            var bytes = encoder.encode(getCsvDataFromTable(table.get(0)));
+            var data = new Blob([bytes], {
+              type: 'text/csv;charset=' + charset
             });
             var fileName = ($scope.fileName || 'exported') + '.csv';
             $window.saveAs(data, fileName, true);
