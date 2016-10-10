@@ -144,14 +144,22 @@ function getInitialState(dataPackages, pageUrl) {
 function getAvailableSorting(state) {
   var packageModel = state.package;
   var params = state.params;
-  return _.filter([
-    _.find(packageModel.measures, function(item) {
-      return params.measures.indexOf(item.key) >= 0;
-    }),
-    _.find(packageModel.dimensions, function(item) {
-      return params.groups.indexOf(item.key) >= 0;
+  return _.chain([
+      _.find(packageModel.measures, function(item) {
+        return params.measures.indexOf(item.key) >= 0;
+      }),
+      _.find(packageModel.dimensions, function(item) {
+        return params.groups.indexOf(item.key) >= 0;
+      })
+    ])
+    .filter()
+    .map(function(item) {
+      return {
+        label: item.label,
+        key: item.sortKey || item.key
+      };
     })
-  ]);
+    .value();
 }
 
 function getCurrencySign(state) {
