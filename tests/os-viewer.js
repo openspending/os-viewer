@@ -162,6 +162,7 @@ describe('OS Viewer core service', function() {
           key: 'Depenses_realisees.sum',
           direction: 'desc'
         },
+        drilldown: [],
         source: 'activity_2.Nature',
         target: 'activity_2.Nature',
         visualizations: ['Treemap'],

@@ -14,6 +14,7 @@ module.exports = {
     filters: {},
     orderBy: {},
     visualizations: [],
+    drilldown: [],
     packageId: 'Package1',
     countryCode: 'CM',
     dateTimeDimension: 'date_2.Annee',

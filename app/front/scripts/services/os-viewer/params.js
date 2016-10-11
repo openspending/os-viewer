@@ -19,6 +19,7 @@ function getDefaultState(variablePart) {
     filters: {},
     orderBy: {},
     visualizations: [],
+    drilldown: [],
     lang: 'en'
   }, variablePart);
 }
@@ -85,6 +86,51 @@ function normalizeUrlParams(params, packageModel) {
   return result;
 }
 
+function extractDrilldownLevels(params, packageModel) {
+  var result = _.cloneDeep(params);
+
+  var drilldown = [];
+  var dimensionKey = _.first(params.groups);
+  var hierarchy = _.find(packageModel.hierarchies, function(hierarchy) {
+    return !!_.find(hierarchy.dimensions, {key: dimensionKey});
+  });
+  if (hierarchy) {
+    _.each(hierarchy.dimensions, function(dimension) {
+      if (dimension.key == dimensionKey) {
+        // Break
+        return false;
+      }
+      // For each dimension there should be the only selected filter;
+      // otherwise it is not drilldown
+      var filters = params.filters[dimension.key];
+      if (_.isArray(filters) && (filters.length == 1)) {
+        drilldown.push({
+          dimension: dimension.key,
+          filter: _.first(filters)
+        });
+      } else {
+        // Break and clear drilldown info
+        drilldown = [];
+        return false;
+      }
+    });
+  }
+
+  result.drilldown = drilldown;
+  result.filters = _.chain(result.filters)
+    .map(function(values, key) {
+      var isDrilldown = !!_.find(drilldown, {dimension: key});
+      if (!isDrilldown) {
+        return [key, values];
+      }
+    })
+    .filter()
+    .fromPairs()
+    .value();
+
+  return result;
+}
+
 function validateUrlParams(params, packageModel) {
   var result = {};
 
@@ -128,6 +174,11 @@ function validateUrlParams(params, packageModel) {
       return item.id;
     })
     .value();
+
+  // Extract drilldown levels
+  if (type == 'drilldown') {
+    result = extractDrilldownLevels(result, packageModel);
+  }
 
   return result;
 }
@@ -268,6 +319,7 @@ function changeDimension(state, axis, dimension, packageModel) {
 
   // Update `source` and `target` when changing group
   if (axis == 'groups') {
+    result.drilldown = [];
     updateSourceTarget(result, packageModel);
   }
 
@@ -282,6 +334,7 @@ function clearDimension(state, axis, dimension, packageModel) {
 
   // Update `source` and `target` when changing group
   if (axis == 'groups') {
+    result.drilldown = [];
     updateSourceTarget(result, packageModel);
   }
 
@@ -293,6 +346,7 @@ function clearDimensions(state, axis) {
   result[axis] = [];
 
   if (axis == 'groups') {
+    result.drilldown = [];
     result.source = undefined;
     result.target = undefined;
   }
@@ -313,9 +367,11 @@ function drillDown(state, drillDownValue, packageModel) {
     index += 1;
     if (index <= hierarchy.dimensions.length - 1) {
       var nextGroup = hierarchy.dimensions[index];
-      result.filters[groupKey] = result.filters[groupKey] || [];
-      result.filters[groupKey].push(drillDownValue);
       result.groups = [nextGroup.key];
+      result.drilldown.push({
+        dimension: groupKey,
+        filter: drillDownValue
+      });
     }
   }
 
@@ -327,10 +383,17 @@ function drillDown(state, drillDownValue, packageModel) {
 function applyBreadcrumb(state, breadcrumb, packageModel) {
   var result = cloneState(state);
 
-  result.groups = breadcrumb.groups;
-  result.filters = breadcrumb.filters;
-
-  updateSourceTarget(result, packageModel);
+  var index = breadcrumb.index;
+  var length = result.drilldown.length;
+  if (_.isArray(result.drilldown)) {
+    if ((index >= 0) && (index < length)) {
+      // Change group and remove the rest drilldown levels
+      // (dimensions + filters)
+      result.groups = [result.drilldown[index].dimension];
+      result.drilldown.splice(index, length);
+      updateSourceTarget(result, packageModel);
+    }
+  }
 
   return result;
 }
@@ -433,6 +496,7 @@ function initParams(params, packageModel) {
       initParamsForPivotTable(params, packageModel);
       break;
   }
+  params.drilldown = [];
 }
 
 function clearParams(params, packageModel) {
@@ -446,6 +510,7 @@ function clearParams(params, packageModel) {
   params.filters = {};
   params.orderBy = {};
   params.visualizations = [];
+  params.drilldown = [];
 }
 
 function addVisualization(state, visualizationId, toggle, packageModel) {

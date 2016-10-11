@@ -86,7 +86,9 @@ angular.module('Application')
             try {
               encoder = new TextEncoder(charset, {
                 // Allow encodings other that utf-8
+                // jscs:disable
                 NONSTANDARD_allowLegacyEncoding: true
+                // jscs:enable
               });
             } catch (error) {
               encoder = new TextEncoder('utf-8');
