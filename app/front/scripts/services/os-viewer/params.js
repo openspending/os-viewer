@@ -424,7 +424,7 @@ function getDefaultDateTimeFilter(params, packageModel) {
   if (
     dateTimeDimension &&
     _.isArray(dateTimeDimension.values) &&
-    (dateTimeDimension.values.length > 0)
+    (dateTimeDimension.values.length > 1)
   ) {
     var filters = params.filters[dateTimeDimension.key] || [];
     if (filters.length == 0) {
