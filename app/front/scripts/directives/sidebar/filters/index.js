@@ -34,6 +34,37 @@ angular.module('Application')
               .value();
           });
 
+          function getLastFilterIndexes(hierarchies, filters) {
+            if (!_.isArray(hierarchies) || !_.isObject(filters)) {
+              return {};
+            }
+
+            return _.chain(hierarchies)
+              .map(function(hierarchy) {
+                var result = -1;
+                _.each(hierarchy.dimensions, function(dimension, index) {
+                  var filter = filters[dimension.key];
+                  if (_.isArray(filter) && (filter.length > 0)) {
+                    result = index;
+                  }
+                });
+                return [hierarchy.key, result];
+              })
+              .fromPairs()
+              .value();
+          }
+          $scope.lastFilterIndex = getLastFilterIndexes($scope.hierarchies,
+            _.isObject($scope.params) ? $scope.params.filters : null);
+
+          $scope.$watchCollection('hierarchies', function() {
+            $scope.lastFilterIndex = getLastFilterIndexes($scope.hierarchies,
+              _.isObject($scope.params) ? $scope.params.filters : null);
+          });
+          $scope.$watch('params.filters', function() {
+            $scope.lastFilterIndex = getLastFilterIndexes($scope.hierarchies,
+              _.isObject($scope.params) ? $scope.params.filters : null);
+          }, true);
+
           $scope.$on(Configuration.events.sidebar.listItemChange,
             function($event, item, isSelected, listKey) {
               $event.stopPropagation();
