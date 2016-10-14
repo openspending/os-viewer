@@ -129,7 +129,18 @@ function getAvailableVisualizations(packageModel) {
     .value();
 }
 
-function serializeFilters(filters) {
+function serializeFilters(filters, drilldown) {
+  // Add filters from drilldown, if any
+  if (_.isArray(drilldown)) {
+    filters = _.cloneDeep(filters);
+    _.each(drilldown, function(item) {
+      // When drilldown - replace filters for all drilldown
+      // dimensions: they cannot be selected by user, but ensure
+      // that there are no any garbage
+      filters[item.dimension] = [item.filter];
+    });
+  }
+
   return _.chain(filters)
     .map(function(values, key) {
       return key + ':' + _.chain(values)
@@ -147,7 +158,7 @@ function paramsToBabbageState(params) {
   var result = {
     aggregates: _.first(params.measures),
     group: params.groups,
-    filter: serializeFilters(params.filters),
+    filter: serializeFilters(params.filters, params.drilldown),
     order: [params.orderBy]
   };
 
@@ -166,7 +177,7 @@ function paramsToBabbageStateFacts(params) {
   return {
     aggregates: _.first(params.measures),
     group: params.groups,
-    filter: serializeFilters(params.filters)
+    filter: serializeFilters(params.filters, params.drilldown)
   };
 }
 
@@ -175,7 +186,7 @@ function paramsToBabbageStatePivot(params) {
     aggregates: _.first(params.measures),
     rows: params.rows,
     cols: params.columns,
-    filter: serializeFilters(params.filters),
+    filter: serializeFilters(params.filters, params.drilldown),
     order: [params.orderBy]
   };
 }
@@ -184,7 +195,7 @@ function paramsToBabbageStateTimeSeries(params) {
   var result = {
     aggregates: _.first(params.measures),
     group: [params.dateTimeDimension],
-    filter: serializeFilters(params.filters),
+    filter: serializeFilters(params.filters, params.drilldown),
     order: [{
       key: params.dateTimeDimension,
       direction: 'asc'
@@ -211,7 +222,7 @@ function paramsToBabbageStateSankey(params) {
     aggregates: _.first(params.measures),
     source: params.source,
     target: params.target,
-    filter: serializeFilters(params.filters)
+    filter: serializeFilters(params.filters, params.drilldown)
   };
 }
 

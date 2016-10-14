@@ -214,43 +214,31 @@ function buildBreadcrumbs(state) {
   var packageModel = state.package;
   var result = [];
 
-  var groupKey = _.first(params.groups);
+  var groupKey = null;
+  if (_.isArray(params.drilldown) && (params.drilldown.length > 0)) {
+    groupKey = _.first(params.drilldown).dimension;
+  } else {
+    groupKey = _.first(params.groups);
+  }
   var hierarchy = _.find(packageModel.hierarchies, function(hierarchy) {
     return !!_.find(hierarchy.dimensions, {key: groupKey});
   });
 
   if (hierarchy) {
-    var originalFilters = params.filters;
-    var baseFilters = getBaseFilters(params.filters, hierarchy.dimensions);
-    var currentDimension = _.first(hierarchy.dimensions);
     result.push({
       label: hierarchy.label,
-      groups: [currentDimension.key],
-      filters: _.clone(baseFilters)
+      index: 0
     });
-
-    _.each(hierarchy.dimensions, function(dimension) {
-      if (dimension.key != currentDimension.key) {
-        var value = _.find(currentDimension.values, {
-          key: _.first(originalFilters[currentDimension.key])
-        });
+    _.each(params.drilldown, function(item, index) {
+      var dimension = _.find(hierarchy.dimensions, {key: item.dimension});
+      if (dimension) {
+        var value = _.find(dimension.values, {key: item.filter});
         if (value) {
-          baseFilters[currentDimension.key] =
-            baseFilters[currentDimension.key] || [];
-          baseFilters[currentDimension.key].push(value.key);
-
           result.push({
             label: value.label,
-            groups: [dimension.key],
-            filters: _.clone(baseFilters)
+            index: index + 1
           });
         }
-      }
-
-      currentDimension = dimension;
-      // Break on current group
-      if (dimension.key == groupKey) {
-        return false;
       }
     });
   }
@@ -284,7 +272,15 @@ function buildUrl(params, embedParams) {
       query[axis] = params[axis];
     }
   });
-  query.filters = params.filters;
+  query.filters = _.cloneDeep(params.filters);
+  if (_.isArray(params.drilldown)) {
+    _.each(params.drilldown, function(item) {
+      // When drilldown - replace filters for all drilldown
+      // dimensions: they cannot be selected by user, but ensure
+      // that there are no any garbage
+      query.filters[item.dimension] = [item.filter];
+    });
+  }
 
   if (params.orderBy.key) {
     query.order = params.orderBy.key + '|' + params.orderBy.direction;
