@@ -478,6 +478,33 @@ function initParamsForPivotTable(params, packageModel) {
   };
 }
 
+function getDefaultDateTimeFilter(params, packageModel) {
+  var result = {};
+
+  var dateTimeDimension = _.find(packageModel.dimensions, {
+    key: params.dateTimeDimension
+  });
+  if (
+    dateTimeDimension &&
+    _.isArray(dateTimeDimension.values) &&
+    (dateTimeDimension.values.length > 1)
+  ) {
+    var filters = params.filters[dateTimeDimension.key] || [];
+    if (filters.length == 0) {
+      result[dateTimeDimension.key] = [
+        _.chain(dateTimeDimension.values)
+          .map(function(item) {
+            return item.key;
+          })
+          .max()
+          .value()
+      ];
+    }
+  }
+
+  return result;
+}
+
 function initParams(params, packageModel) {
   var visualization = visualizationsService.getVisualizationById(
     _.first(params.visualizations));
@@ -497,6 +524,15 @@ function initParams(params, packageModel) {
       break;
   }
   params.drilldown = [];
+
+  // Filter by largest datetime dimension value for some types
+  switch (visualization.type) {
+    case 'location':
+    case 'drilldown':
+    case 'pivot-table':
+      _.extend(params.filters, getDefaultDateTimeFilter(params, packageModel));
+      break;
+  }
 }
 
 function clearParams(params, packageModel) {

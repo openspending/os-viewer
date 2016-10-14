@@ -30,6 +30,19 @@ angular.module('Application')
           }
           $scope.isSelected = isSelected;
 
+          $scope.isAnyItemSelected = function() {
+            var selected = _.chain($scope.items)
+              .map(function(item) {
+                return item.key;
+              })
+              .intersectionWith($scope.selected, function(a, b) {
+                return a == b;
+              })
+              .value();
+            $scope.isAnyItemSelected = null;
+            return selected.length > 0;
+          };
+
           $scope.selectedItems = [];
           function updateSelectedItems() {
             var selectedItems = [];
