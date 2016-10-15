@@ -20,7 +20,8 @@ function getDefaultState(variablePart) {
     orderBy: {},
     visualizations: [],
     drilldown: [],
-    lang: 'en'
+    lang: 'en',
+    theme: null
   }, variablePart);
 }
 
@@ -82,6 +83,10 @@ function normalizeUrlParams(params, packageModel) {
   if (!!params.lang) {
     result.lang = params.lang;
   }
+  result.theme = null;
+  if (!!params.theme) {
+    result.theme = params.theme;
+  }
 
   return result;
 }
@@ -135,6 +140,7 @@ function validateUrlParams(params, packageModel) {
   var result = {};
 
   result.lang = params.lang;
+  result.theme = params.theme;
 
   var visualizations = visualizationsService.getVisualizationsByIds(
     params.visualizations);

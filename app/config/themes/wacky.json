@@ -1,0 +1,36 @@
+{
+  "colors": {
+    "brand": "#7a99d9",
+    "sidebar": "#8a2d34",
+    "content": "#95f5f5"
+  },
+  "header": {
+    "links": [
+      {
+        "title": "Upload Dataaaa",
+        "href": "/packager/"
+      },
+      {
+        "title": "Explore Datasetssss",
+        "href": "/explorer/"
+      }
+    ]
+  },
+  "footer": {
+    "links": [
+      {
+        "title": "Privacyyyyy policy",
+        "href": "https://okfn.org/privacy-policy/"
+      },
+      {
+        "title": "IPPPP policy",
+        "href": "https://okfn.org/ip-policy/"
+      },
+      {
+        "title": "Cookie policyyyyyyyy",
+        "href": "https://okfn.org/cookie-policy/"
+      },
+      false
+    ]
+  }
+}

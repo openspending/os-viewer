@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "install": "napa 'eligrey/FileSaver.js:file-saver' 'd3/d3-plugins:d3-plugins'",
-    "postinstall": "cd ./node_modules/babbage.ui/node_modules/ && rm -rf c3 d3 bubbletree raphael pivottable/node_modules/jquery",
+    "postinstall": "echo '(cd ./node_modules/babbage.ui/node_modules/ && rm -rf c3 d3 bubbletree raphael pivottable/node_modules/jquery) || true'",
     "start": "node index.js",
     "test": "mocha tests/*.js",
     "review": "jscs app tests",
@@ -39,6 +39,7 @@
     "babbage.ui": "^1.0.0",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
+    "deep-assign": "^2.0.0",
     "express": "^4.13.3",
     "isomorphic-fetch": "^2.2.1",
     "js-polyfills": "^0.1.12",
@@ -51,6 +52,7 @@
     "papaparse": "^4.1.2",
     "qs": "^6.2.0",
     "request": "^2.65.0",
+    "require-dir-all": "^0.4.9",
     "text-encoding": "^0.6.1",
     "validator": "^4.2.1"
   },

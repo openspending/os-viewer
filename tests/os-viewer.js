@@ -26,7 +26,8 @@ var sourceParams = {
     direction: 'asc'
   },
   dateTimeDimension: 'date_2.Annee',
-  lang: 'es'
+  lang: 'es',
+  theme: null
 };
 
 describe('OS Viewer core service', function() {
@@ -152,6 +153,7 @@ describe('OS Viewer core service', function() {
       });
       assert.deepEqual(params, {
         lang: 'en',
+        theme: null,
         measures: ['Depenses_realisees.sum'],
         groups: ['activity_2.Nature'],
         series: [],

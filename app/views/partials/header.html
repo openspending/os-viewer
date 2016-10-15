@@ -1,9 +1,10 @@
 {% raw %}
 <nav class="navbar navbar-inverse x-page-header" ng-controller="HeaderController">
   <div class="navbar-header navbar-header-full-width">
-    <ul class="nav navbar-nav pull-right">
-      <li><a href="/packager/">Upload Data</a></li>
-      <li><a href="/explorer/">Explore Datasets</a></li>
+    <ul class="nav navbar-nav pull-right" ng-cloak>
+        <li ng-repeat="link in theme.header.links | filter : { title : '!!' }">
+            <a href="{{ link.href }}">{{ link.title }}</a>
+        </li>
 
       <li ng-if="!login.isLoggedIn" class="user" ng-cloak>
         <a href="javascript:void(0)" ng-click="login.login()">
@@ -29,7 +30,11 @@
         </div>
       </li>
     </ul>
-    <a class="navbar-brand navbar-brand-primary navbar-brand-black" href="{% endraw %}{{ basePath }}/{% raw %}" target="_self" title="OS Viewer"><img src="assets/os.svg" class="os-logo-part"><img src="assets/viewer.svg" class="os-logo-part"></a>
+    <a class="navbar-brand navbar-brand-primary navbar-brand-black"
+       href="{% endraw %}{{ basePath }}/{% raw %}"
+       target="_self" title="{{ theme.header.logo.title }}" ng-cloak>
+        <img src="{{ theme.header.logo.icon }}" class="os-logo-part">
+        <img src="{{ theme.header.logo.image }}" class="os-logo-part"></a>
   </div>
 </nav>
 {% endraw %}
