@@ -6,6 +6,7 @@ module.exports = {
   package: packageModel,
   params: {
     lang: 'en',
+    theme: null,
     measures: [],
     groups: [],
     series: [],

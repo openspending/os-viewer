@@ -148,8 +148,8 @@ angular.module('Application')
             $scope.isLoading.package = true;
             $q(osViewerService.loadDataPackage(packageId, urlParams))
               .then(function(state) {
-                var lang = $scope.state.params.lang;
-                state.params.lang = lang;
+                state.params.lang = $scope.state.params.lang;
+                state.params.theme = $scope.state.params.theme;
                 $scope.state = state;
                 osViewerService.translateHierarchies(state, i18n);
                 return $q(osViewerService.fullyPopulateModel(state));

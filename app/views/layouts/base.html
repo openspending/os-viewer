@@ -12,8 +12,15 @@
   <link rel="stylesheet" href="styles/vendor.css?{{ sessionSalt }}">
   <link rel="stylesheet" href="styles/app.css?{{ sessionSalt }}">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    .x-page-container .x-sidebar, .navbar-inverse,
+    .list-group.list-group-inverse .list-group-item { background: {{ theme.colors.sidebar }} !important; }
+    .x-page-container .x-content { background: {{ theme.colors.content }} !important; }
+    .navbar-brand.navbar-brand-primary { box-shadow: inset 50px 0 0 {{ theme.colors.brand }} !important; }
+  </style>
 </head>
-<body ng-controller="MainController" ng-init="isEmbedded=false; disablePackageSelector={{ 'true' if isEmbedded else 'false' }}">
+<body ng-controller="MainController"
+      ng-init='isEmbedded=false; disablePackageSelector={{ 'true' if isEmbedded else 'false' }}; theme={{ theme | stringify }}'>
 <div id="root"></div>
 
 {% if not isEmbedded %}

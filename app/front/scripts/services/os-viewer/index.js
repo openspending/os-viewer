@@ -263,6 +263,9 @@ function buildUrl(params, embedParams) {
   if (!!params.lang) {
     query.lang = params.lang;
   }
+  if (!!params.theme) {
+    query.theme = params.theme;
+  }
 
   if (params.measures.length > 0) {
     query.measure = _.first(params.measures);
