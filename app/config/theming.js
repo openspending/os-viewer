@@ -1,9 +1,9 @@
 'use strict';
 
 var themes = require('require-dir-all')('./themes');
-var deepAssign = require('deep-assign');
+var _ = require('lodash');
 
 module.exports.get = function(theme) {
-  return deepAssign({}, themes.default, themes[theme])
+  return _.merge({}, themes.default, themes[theme])
 };
 
