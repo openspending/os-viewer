@@ -235,13 +235,15 @@ angular.module('Application')
       $scope.$on(Configuration.events.sidebar.setFilter,
         function($event, filter, value) {
           updateStateParams($scope.state.params = osViewerService.params
-            .changeFilter($scope.state.params, filter, value));
+            .changeFilter($scope.state.params, filter, value,
+              $scope.state.package));
         });
 
       $scope.$on(Configuration.events.sidebar.clearFilter,
         function($event, filter, value) {
           updateStateParams($scope.state.params = osViewerService.params
-            .clearFilter($scope.state.params, filter, value));
+            .clearFilter($scope.state.params, filter, value,
+              $scope.state.package));
         });
     }
   ]);

@@ -214,7 +214,7 @@ function changeMeasure(state, measure) {
   return result;
 }
 
-function changeFilter(state, filter, filterValue) {
+function changeFilter(state, filter, filterValue, packageModel) {
   var result = cloneState(state);
 
   result.filters[filter] = _.filter(result.filters[filter], function(value) {
@@ -225,22 +225,42 @@ function changeFilter(state, filter, filterValue) {
   return result;
 }
 
-function clearFilter(state, filter, value) {
+function clearDependentFilters(state, filter, packageModel) {
+  var result = cloneState(state);
+
+  var index = -1;
+  var hierarchy = _.find(packageModel.hierarchies, function(hierarchy) {
+    index = _.findIndex(hierarchy.dimensions, {key: filter});
+    return index >= 0;
+  });
+  if (hierarchy && (index >= 0)) {
+    for (var i = index + 1; i < hierarchy.dimensions.length; i++) {
+      var dimension = hierarchy.dimensions[i];
+      delete result.filters[dimension.key];
+    }
+  }
+
+  return result;
+}
+
+function clearFilter(state, filter, value, packageModel) {
   var result = cloneState(state);
   if (_.isUndefined(value)) {
     delete result.filters[filter];
+    result = clearDependentFilters(result, filter, packageModel);
   } else {
     result.filters[filter] = _.filter(result.filters[filter], function(item) {
       return item != value;
     });
     if (result.filters[filter].length == 0) {
       delete result.filters[filter];
+      result = clearDependentFilters(result, filter, packageModel);
     }
   }
   return result;
 }
 
-function clearFilters(state) {
+function clearFilters(state, packageModel) {
   var result = cloneState(state);
   result.filters = {};
   return result;

@@ -4,7 +4,7 @@
   <div ng-repeat="hierarchy in hierarchies" class="x-hide-first-separator"
     ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
     <hr>
-    <div ng-repeat="filter in hierarchy.dimensions">
+    <div ng-repeat="filter in hierarchy.dimensions" ng-if="((filter.values.length > 1) || !$last) && ($index <= lastFilterIndex[hierarchy.key] + 1)">
       <sidebar-list items="filter.values" selected="params.filters[filter.key]"
         key="{{ filter.key }}" title="{{ filter.label }}" can-clear="yes" max-items="10"></sidebar-list>
     </div>
