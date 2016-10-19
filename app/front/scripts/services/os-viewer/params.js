@@ -197,7 +197,8 @@ function init(packageModel, initialParams) {
   var defaults = getDefaultState({
     packageId: packageModel.id,
     countryCode: packageModel.meta.countryCode,
-    dateTimeDimension: _.first(anyDateTimeHierarchy.dimensions).key
+    dateTimeDimension: anyDateTimeHierarchy ?
+      _.first(anyDateTimeHierarchy.dimensions).key : null
   });
 
   return _.extend(defaults, initialParams);

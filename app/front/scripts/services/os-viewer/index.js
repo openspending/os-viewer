@@ -11,13 +11,15 @@ var visualizationsService = require('../visualizations');
 
 var maxDimensionValuesForColumns = 50;
 
-function getHierarchiesWithLimitedDimensionValues(hierarchies, maxValueCount) {
+function getHierarchiesWithLimitedDimensionValues(hierarchies, minValueCount,
+  maxValueCount) {
   return _.chain(hierarchies)
     .map(function(hierarchy) {
       var result = _.extend({}, hierarchy);
       result.dimensions = _.filter(hierarchy.dimensions,
         function(dimension) {
-          return dimension.values.length <= maxValueCount;
+          var n = dimension.values.length;
+          return (n >= minValueCount) && (n <= maxValueCount);
         });
       if (result.dimensions.length > 0) {
         return result;
@@ -54,7 +56,18 @@ function fullyPopulateModel(state) {
     .then(function(packageModel) {
       packageModel.columnHierarchies =
         getHierarchiesWithLimitedDimensionValues(packageModel.hierarchies,
-          maxDimensionValuesForColumns);
+          1, maxDimensionValuesForColumns);
+      // Get some special hierarchies
+      packageModel.specialHierarchies = {
+        sortableSeries: getHierarchiesWithLimitedDimensionValues(
+          packageModel.hierarchies, 1, 10),
+        timeSeries: getHierarchiesWithLimitedDimensionValues(
+          packageModel.hierarchies, 2, Number.MAX_VALUE)
+      };
+      // Update dateTime hierarchies list
+      packageModel.dateTimeHierarchies =
+        getHierarchiesWithLimitedDimensionValues(
+          packageModel.dateTimeHierarchies, 2, Number.MAX_VALUE);
       return state;
     });
 }
