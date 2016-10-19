@@ -119,13 +119,6 @@ function getAvailableVisualizations(packageModel) {
           return false;
         }
       }
-      if (item.type == 'sortable-series') {
-        hierarchiesAvailable = _.isArray(packageModel.seriesHierarchies) &&
-          (packageModel.seriesHierarchies.length > 0);
-        if (!hierarchiesAvailable) {
-          return false;
-        }
-      }
       if (item.type == 'pivot-table') {
         hierarchiesAvailable = packageModel.columnHierarchies.length > 0;
         if (!hierarchiesAvailable) {
