@@ -43,7 +43,9 @@ describe('DataPackage API', function() {
   it('Should create package model from loaded data', function(done) {
     dataPackageApi.getDataPackage('Package1')
       .then(function(packageModel) {
-        assert.deepEqual(packageModel, data.package1PackageModel);
+        var temp = _.cloneDeep(data.package1PackageModel);
+        delete temp.seriesHierarchies;
+        assert.deepEqual(packageModel, temp);
         done();
       })
       .catch(done);

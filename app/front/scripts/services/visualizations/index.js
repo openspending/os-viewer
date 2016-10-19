@@ -113,7 +113,8 @@ function getAvailableVisualizations(packageModel) {
         }
       }
       if (item.type == 'time-series') {
-        hierarchiesAvailable = packageModel.dateTimeHierarchies.length > 0;
+        hierarchiesAvailable = _.isArray(packageModel.dateTimeHierarchies) &&
+          (packageModel.dateTimeHierarchies.length > 0);
         if (!hierarchiesAvailable) {
           return false;
         }

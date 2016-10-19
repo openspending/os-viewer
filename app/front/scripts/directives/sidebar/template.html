@@ -9,6 +9,7 @@
 
   <sortable-series-sidebar ng-switch-when="sortable-series"
     hierarchies="datapackage.hierarchies"
+    series-hierarchies="datapackage.seriesHierarchies"
     params="params"></sortable-series-sidebar>
 
   <time-series-sidebar ng-switch-when="time-series"
@@ -23,8 +24,4 @@
     row-hierarchies="datapackage.hierarchies"
     column-hierarchies="datapackage.columnHierarchies"
     params="params"></pivot-table-sidebar>
-
-  <sidebar-filters ng-if="!!type"
-    hierarchies="datapackage.hierarchies"
-    params="params"></sidebar-filters>
 </div>

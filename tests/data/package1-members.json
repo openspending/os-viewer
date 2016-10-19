@@ -123,10 +123,13 @@
       "cell": [
 
       ],
-      "total_member_count": 1,
+      "total_member_count": 2,
       "data": [
         {
           "date_2.Annee": 2015
+        },
+        {
+          "date_2.Annee": 2016
         }
       ],
       "fields": [
