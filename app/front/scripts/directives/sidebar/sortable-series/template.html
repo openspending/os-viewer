@@ -4,11 +4,13 @@
     title="{{ hierarchy.label | i18n }}" key="groups"></sidebar-list>
 </div>
 
-<hr>
-<strong>{{ 'Series' | i18n }}</strong>
-<div ng-repeat="hierarchy in hierarchies">
-  <sidebar-list items="hierarchy.dimensions" selected="params.series"
-    title="{{ hierarchy.label | i18n }}" can-clear="yes" key="series"></sidebar-list>
+<div ng-if="seriesHierarchies.length > 0">
+  <hr>
+  <strong>{{ 'Series' | i18n }}</strong>
+  <div ng-repeat="hierarchy in seriesHierarchies">
+    <sidebar-list items="hierarchy.dimensions" selected="params.series"
+      title="{{ hierarchy.label | i18n }}" can-clear="yes" key="series"></sidebar-list>
+  </div>
 </div>
 
 <sidebar-filters hierarchies="hierarchies" params="params"></sidebar-filters>

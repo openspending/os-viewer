@@ -13,6 +13,7 @@ angular.module('Application')
         restrict: 'E',
         scope: {
           hierarchies: '=',
+          seriesHierarchies: '=',
           params: '='
         },
         link: function($scope) {

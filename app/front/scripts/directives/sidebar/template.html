@@ -8,11 +8,12 @@
     params="params"></drilldown-sidebar>
 
   <sortable-series-sidebar ng-switch-when="sortable-series"
-    hierarchies="datapackage.specialHierarchies.sortableSeries"
+    hierarchies="datapackage.hierarchies"
+    series-hierarchies="datapackage.seriesHierarchies"
     params="params"></sortable-series-sidebar>
 
   <time-series-sidebar ng-switch-when="time-series"
-    hierarchies="datapackage.specialHierarchies.timeSeries"
+    hierarchies="datapackage.hierarchies"
     params="params"></time-series-sidebar>
 
   <location-sidebar ng-switch-when="location"

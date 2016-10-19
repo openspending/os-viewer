@@ -58,12 +58,8 @@ function fullyPopulateModel(state) {
         getHierarchiesWithLimitedDimensionValues(packageModel.hierarchies,
           1, maxDimensionValuesForColumns);
       // Get some special hierarchies
-      packageModel.specialHierarchies = {
-        sortableSeries: getHierarchiesWithLimitedDimensionValues(
-          packageModel.hierarchies, 1, 10),
-        timeSeries: getHierarchiesWithLimitedDimensionValues(
-          packageModel.hierarchies, 2, Number.MAX_VALUE)
-      };
+      packageModel.seriesHierarchies = getHierarchiesWithLimitedDimensionValues(
+        packageModel.hierarchies, 1, 10);
       // Update dateTime hierarchies list
       packageModel.dateTimeHierarchies =
         getHierarchiesWithLimitedDimensionValues(

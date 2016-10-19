@@ -113,15 +113,15 @@ function getAvailableVisualizations(packageModel) {
         }
       }
       if (item.type == 'time-series') {
-        hierarchiesAvailable = packageModel.dateTimeHierarchies.length > 0;
+        hierarchiesAvailable = _.isArray(packageModel.dateTimeHierarchies) &&
+          (packageModel.dateTimeHierarchies.length > 0);
         if (!hierarchiesAvailable) {
           return false;
         }
       }
       if (item.type == 'sortable-series') {
-        hierarchiesAvailable = _.isObject(packageModel.specialHierarchies) &&
-          _.isArray(packageModel.specialHierarchies.sortableSeries) &&
-          (packageModel.specialHierarchies.sortableSeries.length > 0);
+        hierarchiesAvailable = _.isArray(packageModel.seriesHierarchies) &&
+          (packageModel.seriesHierarchies.length > 0);
         if (!hierarchiesAvailable) {
           return false;
         }
