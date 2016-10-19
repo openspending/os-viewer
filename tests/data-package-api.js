@@ -44,7 +44,7 @@ describe('DataPackage API', function() {
     dataPackageApi.getDataPackage('Package1')
       .then(function(packageModel) {
         var temp = _.cloneDeep(data.package1PackageModel);
-        delete temp.specialHierarchies;
+        delete temp.seriesHierarchies;
         assert.deepEqual(packageModel, temp);
         done();
       })
