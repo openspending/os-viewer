@@ -7,6 +7,7 @@ var Promise = require('bluebird');
 var dataPackageApi = require('../data-package-api');
 var stateParams = require('./params');
 var history = require('./history');
+var theme = require('./theme');
 var visualizationsService = require('../visualizations');
 
 var maxDimensionValuesForColumns = 50;
@@ -347,6 +348,7 @@ function hasDrillDownVisualizations(params) {
 
 module.exports.params = stateParams;
 module.exports.history = history;
+module.exports.theme = theme;
 module.exports.loadDataPackages = loadDataPackages;
 module.exports.loadDataPackage = loadDataPackage;
 module.exports.parseUrl = parseUrl;

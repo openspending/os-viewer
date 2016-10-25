@@ -4,6 +4,7 @@ var _ = require('lodash');
 var angular = require('angular');
 var template = require('./template.html');
 var dataPackageAPI = require('../../services/data-package-api');
+var osViewerService = require('../../services/os-viewer');
 
 angular.module('Application')
   .directive('packageInfo', [
@@ -25,16 +26,29 @@ angular.module('Application')
               return;
             }
 
-            var token = login.getToken();
-            if (dataPackage.factTable && token) {
-              var query = 'SELECT * FROM ' + dataPackage.factTable +
-                ' LIMIT 10';
-              $scope.datamineUrl =
-                dataPackageAPI.dataMineConfig.url +
-                '/queries/new?queryText=' +
-                encodeURIComponent(query) + '&focusedTable=' +
-                encodeURIComponent(dataPackage.factTable) +
-                '&jwt=' + token;
+            var theme = osViewerService.theme.get()
+            if (theme.dataMine) {
+              var dataMinePath = theme.dataMine.path;
+
+              if (_.includes(dataMinePath, '{query}')) {
+                if (!theme.dataMine.query) return;
+                var query = theme.dataMine.query;
+                if (_.includes(query, '{factTable}')) {
+                  if (!dataPackage.factTable) return;
+                  query = _.replace(query, '{factTable}', dataPackage.factTable);
+                }
+                dataMinePath = _.replace(dataMinePath, '{query}', encodeURIComponent(query));
+              }
+              if (_.includes(dataMinePath, '{factTable}')) {
+                if (!dataPackage.factTable) return;
+                dataMinePath = _.replace(dataMinePath, '{factTable}', encodeURIComponent(dataPackage.factTable));
+              }
+              if (_.includes(dataMinePath, '{token}')) {
+                var token = login.getToken();
+                if (!token) return;
+                dataMinePath = _.replace(dataMinePath, '{token}', token);
+              }
+              $scope.datamineUrl = dataPackageAPI.dataMineConfig.url + dataMinePath;
             }
           }
 
