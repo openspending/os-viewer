@@ -110,6 +110,7 @@ angular.module('Application')
       // since `ng-init` is executed after `ng-controller`
       $timeout(function() {
         $scope.isEmbedded ? initEmbedded() : initRegular();
+        osViewerService.theme.set($scope.theme);
       });
 
       // Event listeners

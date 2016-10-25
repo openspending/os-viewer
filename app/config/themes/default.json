@@ -63,5 +63,9 @@
         "alt": "YouTube"
       }
     ]
+  },
+  "dataMine": {
+    "query": "SELECT * FROM {factTable} LIMIT 10",
+    "path": "/queries/new?queryText={query}&focusedTable={factTable}&jwt={token}"
   }
 }
