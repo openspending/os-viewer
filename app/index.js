@@ -50,7 +50,6 @@ module.exports.start = function() {
       return env.getFilter('safe')(JSON.stringify(str));
     });
 
-
     var server = app.listen(app.get('port'), function() {
       console.log('Listening on :' + app.get('port'));
       resolve(server);

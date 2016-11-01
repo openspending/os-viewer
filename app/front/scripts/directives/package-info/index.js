@@ -26,29 +26,41 @@ angular.module('Application')
               return;
             }
 
-            var theme = osViewerService.theme.get()
+            var theme = osViewerService.theme.get();
             if (theme.dataMine) {
               var dataMinePath = theme.dataMine.path;
 
               if (_.includes(dataMinePath, '{query}')) {
-                if (!theme.dataMine.query) return;
+                if (!theme.dataMine.query) {
+                  return;
+                }
                 var query = theme.dataMine.query;
                 if (_.includes(query, '{factTable}')) {
-                  if (!dataPackage.factTable) return;
-                  query = _.replace(query, '{factTable}', dataPackage.factTable);
+                  if (!dataPackage.factTable) {
+                    return;
+                  }
+                  query = _.replace(query, '{factTable}',
+                    dataPackage.factTable);
                 }
-                dataMinePath = _.replace(dataMinePath, '{query}', encodeURIComponent(query));
+                dataMinePath = _.replace(dataMinePath, '{query}',
+                  encodeURIComponent(query));
               }
               if (_.includes(dataMinePath, '{factTable}')) {
-                if (!dataPackage.factTable) return;
-                dataMinePath = _.replace(dataMinePath, '{factTable}', encodeURIComponent(dataPackage.factTable));
+                if (!dataPackage.factTable) {
+                  return;
+                }
+                dataMinePath = _.replace(dataMinePath, '{factTable}',
+                  encodeURIComponent(dataPackage.factTable));
               }
               if (_.includes(dataMinePath, '{token}')) {
                 var token = login.getToken();
-                if (!token) return;
+                if (!token) {
+                  return;
+                }
                 dataMinePath = _.replace(dataMinePath, '{token}', token);
               }
-              $scope.datamineUrl = dataPackageAPI.dataMineConfig.url + dataMinePath;
+              $scope.datamineUrl = dataPackageAPI.dataMineConfig.url +
+                dataMinePath;
             }
           }
 

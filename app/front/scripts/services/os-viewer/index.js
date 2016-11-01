@@ -53,7 +53,8 @@ function loadDataPackage(packageId, initialParams) {
 }
 
 function fullyPopulateModel(state) {
-  return dataPackageApi.loadDimensionsValues(state.package)
+  return dataPackageApi.loadDimensionsValues(state.package, null,
+    state.params.filters)
     .then(function(packageModel) {
       packageModel.columnHierarchies =
         getHierarchiesWithLimitedDimensionValues(packageModel.hierarchies,

@@ -55,6 +55,16 @@ angular.module('Application')
         $digest();
       }
 
+      function updateFilterValues() {
+        $scope.state.params.isFiltersUpdating = true;
+        $q(osViewerService.fullyPopulateModel($scope.state))
+          .then(function() {
+            $scope.state.params.selectedFilters = osViewerService
+              .getSelectedFilters($scope.state);
+            $scope.state.params.isFiltersUpdating = false;
+          });
+      }
+
       // Initialization stuff
       function initRegular() {
         $q(LoginService.tryGetToken())
@@ -112,6 +122,18 @@ angular.module('Application')
         $scope.isEmbedded ? initEmbedded() : initRegular();
         osViewerService.theme.set($scope.theme);
       });
+
+      // Update filer values based on current filters
+      $scope.$watch('state.params.filters', function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          updateFilterValues();
+        }
+      }, true);
+      $scope.$watch('state.params.drilldown', function(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          updateFilterValues();
+        }
+      }, true);
 
       // Event listeners
 

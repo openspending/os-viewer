@@ -244,7 +244,8 @@ textarea {
     vertical-align: middle;
   }
   span {
-    margin-left: 10px;
+    display: block;
+    margin-top: 10px;
     font-size: 18px;
     vertical-align: middle;
   }
@@ -448,6 +449,27 @@ textarea {
 .breadcrumb {
   a {
     cursor: pointer;
+  }
+}
+
+.x-sidebar-filters {
+  position: relative;
+
+  .x-update-filters-waiter {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    text-align: center;
+    padding: 30px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+
+    i, span {
+      vertical-align: middle;
+    }
   }
 }
 
