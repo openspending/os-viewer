@@ -9,8 +9,8 @@ require('../controls/breadcrumbs');
 
 angular.module('Application')
   .directive('pieChartVisualization', [
-    '$timeout',
-    function($timeout) {
+    '$timeout', 'Configuration',
+    function($timeout, Configuration) {
       return {
         template: template,
         replace: false,
@@ -36,6 +36,14 @@ angular.module('Application')
               });
             }
           }, true);
+
+
+          $scope.$on('babbage-ui.click',
+            function($event, component, item) {
+              $event.stopPropagation();
+                $scope.$emit(Configuration.events.visualizations.drillDown,
+                  item.id);
+            });
         }
       };
     }

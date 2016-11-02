@@ -37,11 +37,11 @@ angular.module('Application')
             }
           }, true);
 
-          $scope.$on('bubbletree-click',
-            function($event, bubbleTreeComponent, info) {
+          $scope.$on('babbage-ui.click',
+            function($event, component, item) {
               $event.stopPropagation();
               $scope.$emit(Configuration.events.visualizations.drillDown,
-                info.label);
+                item.label);
             });
         }
       };
