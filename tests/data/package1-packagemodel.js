@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 module.exports = {
   id: 'Package1',
   meta: {
@@ -779,3 +781,18 @@ module.exports = {
     }
   ]
 };
+
+_.each(module.exports.dimensions, function(item) {
+  item.allValues = item.values;
+});
+
+_.each([
+  'hierarchies', 'columnHierarchies', 'locationHierarchies',
+  'dateTimeHierarchies', 'seriesHierarchies'
+], function(key) {
+  _.each(module.exports[key], function(hierarchy) {
+    _.each(hierarchy.dimensions, function(item) {
+      item.allValues = item.values;
+    });
+  });
+});
