@@ -82,7 +82,15 @@ angular.module('Application')
           .then(function(state) {
             osViewerService.translateHierarchies(state, i18n);
             $scope.state = state;
-            return $q(osViewerService.fullyPopulateModel(state));
+            // On first call, load all dimension values as we'll need them later
+            return $q(osViewerService.fullyPopulateModel(state, true));
+          })
+          .then(function(state) {
+            // If there are some filters pre-selected - update dimension values
+            if ((_.keys(state.params.filters).length > 0)) {
+              return $q(osViewerService.fullyPopulateModel(state));
+            }
+            return state;
           })
           .then(function(state) {
             $scope.state = state;

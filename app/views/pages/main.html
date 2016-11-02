@@ -17,7 +17,7 @@
 
     <div ng-if="!isLoading.package">
       <div class="clearfix">
-        <filter-list filters="state.params.selectedFilters"></filter-list>
+        <filter-list filters="state.params.selectedFilters" params="state.params"></filter-list>
         <history-navigation history="state.history"></history-navigation>
       </div>
 

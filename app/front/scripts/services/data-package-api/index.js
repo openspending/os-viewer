@@ -201,7 +201,7 @@ function loadDimensionValues(packageId, dimension, filters) {
 }
 
 // `dimensions` is optional; if omitted - all dimensions will be populated
-function loadDimensionsValues(packageModel, dimensions, filters, loadBesides) {
+function loadDimensionsValues(packageModel, dimensions, filters) {
   return loadConfig().then(function() {
     var apiConfig = module.exports.apiConfig;
 
@@ -209,38 +209,56 @@ function loadDimensionsValues(packageModel, dimensions, filters, loadBesides) {
     if (dimensions.length == 0) {
       return packageModel;
     }
+    filters = _.extend({}, filters);
 
     var promises = _.map(dimensions, function(dimension) {
-      var cut = _.extend({}, filters);
+      var cut = _.clone(filters);
       delete cut[dimension.key];
       cut = serializeCut(cut).join('|');
       if (cut != '') {
         cut = '?cut=' + encodeURIComponent(cut);
       }
+      var isNoFilters = cut == '';
 
-      return downloader.getJson(apiConfig.url + '/cubes/' +
+      var url = apiConfig.url + '/cubes/' +
         encodeURIComponent(packageModel.id) + '/members/' +
-        encodeURIComponent(dimension.id) + cut);
+        encodeURIComponent(dimension.id) + cut;
+      return downloader.getJson(url).then(function(results) {
+        results.isNoFilters = isNoFilters;
+        results.dimension = dimension;
+        return results;
+      });
     });
 
-    var prop = loadBesides ? 'actualValues' : 'values';
-
     return Promise.all(promises).then(function(results) {
-      _.each(results, function(values, index) {
-        var dimension = dimensions[index];
-        dimension[prop] = _.chain(results[index].data)
-          .map(function(value) {
-            var key = value[dimension.key];
-            var label = value[dimension.valueRef];
-            if (!!key) {
-              return {
-                key: key,
-                label: (label && label != key) ? key + ' - ' + label : key
-              };
-            }
-          })
-          .filter()
-          .value();
+      _.each(results, function(result) {
+        var dimension = result.dimension;
+        if (result.isNoFilters) {
+          dimension.allValues = _.chain(result.data)
+            .map(function(value) {
+              var key = value[dimension.key];
+              var label = value[dimension.valueRef];
+              if (!!key) {
+                return {
+                  key: key,
+                  label: (label && label != key) ? key + ' - ' + label : key
+                };
+              }
+            })
+            .filter()
+            .value();
+          dimension.values = dimension.allValues;
+        } else {
+          var keys = _.map(result.data, function(value) {
+            return value[dimension.key];
+          });
+          if (_.isArray(filters[dimension.key])) {
+            [].push.apply(keys, filters[dimension.key]);
+          }
+          dimension.values = _.filter(dimension.allValues, function(value) {
+            return keys.indexOf(value.key) >= 0;
+          });
+        }
       });
       return packageModel;
     });
