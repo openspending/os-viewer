@@ -41,7 +41,7 @@ angular.module('Application')
             function($event, component, item) {
               $event.stopPropagation();
               $scope.$emit(Configuration.events.visualizations.drillDown,
-                item.label);
+                item.key);
             });
         }
       };
