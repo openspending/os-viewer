@@ -37,11 +37,11 @@ angular.module('Application')
             }
           }, true);
 
-          $scope.$on('treemap-click',
-            function($event, treeMapComponent, info) {
+          $scope.$on('babbage-ui.click',
+            function($event, component, item) {
               $event.stopPropagation();
               $scope.$emit(Configuration.events.visualizations.drillDown,
-                info._key);
+                item.key);
             });
         }
       };

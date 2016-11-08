@@ -37,12 +37,12 @@ angular.module('Application')
             }
           }, true);
 
-          $scope.$on('sankey-click',
-            function($event, sankeyComponent, info) {
+          $scope.$on('babbage-ui.click',
+            function($event, component, item) {
               $event.stopPropagation();
-              if (info.isLink) {
+              if (item.isLink) {
                 $scope.$emit(Configuration.events.visualizations.drillDown,
-                  info.source.key);
+                  item.source.key);
               }
             });
         }
