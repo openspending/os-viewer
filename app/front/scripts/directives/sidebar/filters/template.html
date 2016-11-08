@@ -1,14 +1,19 @@
-<div ng-if="hierarchies.length > 0">
+<div ng-if="hierarchies.length > 0" class="x-sidebar-filters">
   <hr>
   <strong>{{  'Filters' | i18n }}</strong>
   <div>
     <div ng-repeat="hierarchy in hierarchies" class="x-hide-first-separator"
       ng-if="selectedHierarchies.indexOf(hierarchy.key) == -1">
-      <hr>
-      <div ng-repeat="filter in hierarchy.dimensions" ng-if="((filter.values.length > 1) || !$last) && ($index <= lastFilterIndex[hierarchy.key] + 1)">
+      <div ng-repeat="filter in hierarchy.dimensions"
+        ng-if="((filter.values.length > 1) || !$last || (params.filters[filter.key].length > 0)) && ($index <= lastFilterIndex[hierarchy.key] + 1)">
+        <hr>
         <sidebar-list items="filter.values" selected="params.filters[filter.key]"
           key="{{ filter.key }}" title="{{ filter.label }}" can-clear="yes" max-items="10"></sidebar-list>
       </div>
     </div>
+  </div>
+  <div ng-if="params.isFiltersUpdating" class="x-update-filters-waiter">
+    <i class="fa fa-spinner fa-pulse"></i>
+    <span>Updating filters...</span>
   </div>
 </div>

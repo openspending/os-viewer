@@ -80,8 +80,8 @@ angular.module('Application')
         if (that.isLoggedIn) {
           that.reset();
           authenticate.logout();
-          if (href===null) {
-             that.check();
+          if (href === null) {
+            that.check();
           }
         }
       };

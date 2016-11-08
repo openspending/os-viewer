@@ -167,13 +167,20 @@ function getDimensionsFromModel(dataPackage, model) {
     .value();
 }
 
-function loadDimensionValues(packageId, dimension) {
+function loadDimensionValues(packageId, dimension, filters) {
   return loadConfig().then(function() {
     var apiConfig = module.exports.apiConfig;
 
+    var cut = _.extend({}, filters);
+    delete cut[dimension.key];
+    cut = serializeCut(cut);
+    if (cut != '') {
+      cut = '?cut=' + encodeURIComponent(cut);
+    }
+
     var url = apiConfig.url + '/cubes/' +
       encodeURIComponent(packageId) + '/members/' +
-      encodeURIComponent(dimension.id);
+      encodeURIComponent(dimension.id) + cut;
 
     return downloader.getJson(url).then(function(results) {
       return _.chain(results.data)
@@ -193,42 +200,102 @@ function loadDimensionValues(packageId, dimension) {
   });
 }
 
+function mapDimensionValues(dimension, rawValues) {
+  return _.chain(rawValues)
+    .map(function(value) {
+      var key = value[dimension.key];
+      var label = value[dimension.valueRef];
+      if (!!key) {
+        return {
+          key: key,
+          label: (label && label != key) ? key + ' - ' + label : key
+        };
+      }
+    })
+    .filter()
+    .sortBy('label')
+    .value();
+}
+
 // `dimensions` is optional; if omitted - all dimensions will be populated
-function loadDimensionsValues(packageModel, dimensions) {
-  return loadConfig().then(function() {
-    var apiConfig = module.exports.apiConfig;
+function loadDimensionsValues(packageModel, dimensions, filters) {
+  dimensions = _.isArray(dimensions) ? dimensions : packageModel.dimensions;
+  if (dimensions.length == 0) {
+    return Promise.resolve(packageModel);
+  }
+  filters = _.extend({}, filters);
+  var apiConfig = null;
 
-    dimensions = _.isArray(dimensions) ? dimensions : packageModel.dimensions;
-    if (dimensions.length == 0) {
-      return packageModel;
-    }
+  return loadConfig()
+    .then(function() {
+      apiConfig = module.exports.apiConfig;
 
-    var promises = _.map(dimensions, function(dimension) {
-      return downloader.getJson(apiConfig.url + '/cubes/' +
-        encodeURIComponent(packageModel.id) + '/members/' +
-        encodeURIComponent(dimension.id));
-    });
+      // Prepare dimensions that are mentioned in filters but
+      // have no values yet
+      var promises = _.chain(dimensions)
+        .map(function(dimension) {
+          var isFiltered = (filters[dimension.key] || []).length > 0;
+          var hasValues = _.isArray(dimension.values);
+          if (isFiltered && !hasValues) {
+            var url = apiConfig.url + '/cubes/' +
+              encodeURIComponent(packageModel.id) + '/members/' +
+              encodeURIComponent(dimension.id);
+            return downloader.getJson(url).then(function(result) {
+              dimension.values = mapDimensionValues(dimension, result.data);
+              return result;
+            });
+          }
+        })
+        .filter()
+        .value();
 
-    return Promise.all(promises).then(function(results) {
-      _.each(results, function(values, index) {
-        var dimension = dimensions[index];
-        dimension.values = _.chain(results[index].data)
-          .map(function(value) {
-            var key = value[dimension.key];
-            var label = value[dimension.valueRef];
-            if (!!key) {
-              return {
-                key: key,
-                label: (label && label != key) ? key + ' - ' + label : key
-              };
-            }
-          })
-          .filter()
-          .value();
+      return Promise.all(promises);
+    })
+    .then(function() {
+      var promises = _.map(dimensions, function(dimension) {
+        var cut = _.clone(filters);
+        delete cut[dimension.key];
+        cut = serializeCut(cut).join('|');
+        if (cut != '') {
+          cut = '?cut=' + encodeURIComponent(cut);
+        }
+
+        var url = apiConfig.url + '/cubes/' +
+          encodeURIComponent(packageModel.id) + '/members/' +
+          encodeURIComponent(dimension.id) + cut;
+        return downloader.getJson(url).then(function(result) {
+          // Save current values; after loading new values, some of selected
+          // values may be missed in the new set, so we'll need to add them
+          result.savedValues = dimension.values;
+          result.filters = filters[dimension.key] || [];
+          result.dimension = dimension;
+          return result;
+        });
       });
-      return packageModel;
+
+      return Promise.all(promises).then(function(results) {
+        _.each(results, function(result) {
+          var dimension = result.dimension;
+          dimension.values = mapDimensionValues(dimension, result.data);
+
+          // Add missing selected values
+          _.chain(result.filters)
+            .difference(_.map(dimension.values, function(value) {
+              return value.key;
+            }))
+            .each(function(key) {
+              var value = _.find(result.savedValues, {key: key});
+              if (value) {
+                dimension.values.push(value);
+              }
+            })
+            .value();
+
+          dimension.values = _.sortBy(dimension.values, 'label');
+        });
+        return packageModel;
+      });
     });
-  });
 }
 
 function getHierarchiesFromModel(dataPackage, model, packageModel) {
@@ -313,6 +380,32 @@ function getDataPackage(packageId, loadBareModel) {
   });
 }
 
+function serializeCut(filters, drilldown) {
+  // Add filters from drilldown, if any
+  if (_.isArray(drilldown)) {
+    filters = _.cloneDeep(filters);
+    _.each(drilldown, function(item) {
+      // When drilldown - replace filters for all drilldown
+      // dimensions: they cannot be selected by user, but ensure
+      // that there are no any garbage
+      filters[item.dimension] = [item.filter];
+    });
+  }
+
+  return _.chain(filters)
+    .map(function(values, key) {
+      return key + ':' + _.chain(values)
+          .map(function(value) {
+            return JSON.stringify(value);
+          })
+          .join(';')
+          .value();
+    })
+    .map(encodeURIComponent)
+    .value();
+}
+
+module.exports.serializeCut = serializeCut;
 module.exports.loadConfig = loadConfig;
 module.exports.getDataPackages = getDataPackages;
 module.exports.getDataPackage = getDataPackage;

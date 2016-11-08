@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var dataPackageApi = require('../data-package-api');
 
 var availableVisualizations = [
   {
@@ -131,28 +132,7 @@ function getAvailableVisualizations(packageModel) {
 }
 
 function serializeFilters(filters, drilldown) {
-  // Add filters from drilldown, if any
-  if (_.isArray(drilldown)) {
-    filters = _.cloneDeep(filters);
-    _.each(drilldown, function(item) {
-      // When drilldown - replace filters for all drilldown
-      // dimensions: they cannot be selected by user, but ensure
-      // that there are no any garbage
-      filters[item.dimension] = [item.filter];
-    });
-  }
-
-  return _.chain(filters)
-    .map(function(values, key) {
-      return key + ':' + _.chain(values)
-        .map(function(value) {
-          return JSON.stringify(value);
-        })
-        .join(';')
-        .value();
-    })
-    .map(encodeURIComponent)
-    .value();
+  return dataPackageApi.serializeCut(filters, drilldown);
 }
 
 function paramsToBabbageState(params) {

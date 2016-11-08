@@ -12,6 +12,7 @@ angular.module('Application')
         replace: false,
         restrict: 'E',
         scope: {
+          params: '=',
           filters: '='
         },
         link: function($scope) {

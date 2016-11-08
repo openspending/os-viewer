@@ -2,6 +2,8 @@
   <strong>{{ 'Filtered by' | i18n }}</strong>
   <span class="x-single-filter" ng-repeat="filter in filters">
       {{ filter.dimensionLabel }}: {{ filter.valueLabel | join:', ' }}
-      <i class="os-icon os-icon-remove" ng-click="clearFilter(filter.dimensionKey)"></i>
+      <i class="os-icon os-icon-remove"
+        ng-if="!params.isFiltersUpdating"
+        ng-click="clearFilter(filter.dimensionKey)"></i>
   </span>
 </div>
