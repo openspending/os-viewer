@@ -200,69 +200,102 @@ function loadDimensionValues(packageId, dimension, filters) {
   });
 }
 
+function mapDimensionValues(dimension, rawValues) {
+  return _.chain(rawValues)
+    .map(function(value) {
+      var key = value[dimension.key];
+      var label = value[dimension.valueRef];
+      if (!!key) {
+        return {
+          key: key,
+          label: (label && label != key) ? key + ' - ' + label : key
+        };
+      }
+    })
+    .filter()
+    .sortBy('label')
+    .value();
+}
+
 // `dimensions` is optional; if omitted - all dimensions will be populated
 function loadDimensionsValues(packageModel, dimensions, filters) {
-  return loadConfig().then(function() {
-    var apiConfig = module.exports.apiConfig;
+  dimensions = _.isArray(dimensions) ? dimensions : packageModel.dimensions;
+  if (dimensions.length == 0) {
+    return Promise.resolve(packageModel);
+  }
+  filters = _.extend({}, filters);
+  var apiConfig = null;
 
-    dimensions = _.isArray(dimensions) ? dimensions : packageModel.dimensions;
-    if (dimensions.length == 0) {
-      return packageModel;
-    }
-    filters = _.extend({}, filters);
+  return loadConfig()
+    .then(function() {
+      apiConfig = module.exports.apiConfig;
 
-    var promises = _.map(dimensions, function(dimension) {
-      var cut = _.clone(filters);
-      delete cut[dimension.key];
-      cut = serializeCut(cut).join('|');
-      if (cut != '') {
-        cut = '?cut=' + encodeURIComponent(cut);
-      }
-      var isNoFilters = cut == '';
+      // Prepare dimensions that are mentioned in filters but
+      // have no values yet
+      var promises = _.chain(dimensions)
+        .map(function(dimension) {
+          var isFiltered = (filters[dimension.key] || []).length > 0;
+          var hasValues = _.isArray(dimension.values);
+          if (isFiltered && !hasValues) {
+            var url = apiConfig.url + '/cubes/' +
+              encodeURIComponent(packageModel.id) + '/members/' +
+              encodeURIComponent(dimension.id);
+            return downloader.getJson(url).then(function(result) {
+              dimension.values = mapDimensionValues(dimension, result.data);
+              return result;
+            });
+          }
+        })
+        .filter()
+        .value();
 
-      var url = apiConfig.url + '/cubes/' +
-        encodeURIComponent(packageModel.id) + '/members/' +
-        encodeURIComponent(dimension.id) + cut;
-      return downloader.getJson(url).then(function(results) {
-        results.isNoFilters = isNoFilters;
-        results.dimension = dimension;
-        return results;
+      return Promise.all(promises);
+    })
+    .then(function() {
+      var promises = _.map(dimensions, function(dimension) {
+        var cut = _.clone(filters);
+        delete cut[dimension.key];
+        cut = serializeCut(cut).join('|');
+        if (cut != '') {
+          cut = '?cut=' + encodeURIComponent(cut);
+        }
+
+        var url = apiConfig.url + '/cubes/' +
+          encodeURIComponent(packageModel.id) + '/members/' +
+          encodeURIComponent(dimension.id) + cut;
+        return downloader.getJson(url).then(function(result) {
+          // Save current values; after loading new values, some of selected
+          // values may be missed in the new set, so we'll need to add them
+          result.savedValues = dimension.values;
+          result.filters = filters[dimension.key] || [];
+          result.dimension = dimension;
+          return result;
+        });
       });
-    });
 
-    return Promise.all(promises).then(function(results) {
-      _.each(results, function(result) {
-        var dimension = result.dimension;
-        if (result.isNoFilters) {
-          dimension.allValues = _.chain(result.data)
-            .map(function(value) {
-              var key = value[dimension.key];
-              var label = value[dimension.valueRef];
-              if (!!key) {
-                return {
-                  key: key,
-                  label: (label && label != key) ? key + ' - ' + label : key
-                };
+      return Promise.all(promises).then(function(results) {
+        _.each(results, function(result) {
+          var dimension = result.dimension;
+          dimension.values = mapDimensionValues(dimension, result.data);
+
+          // Add missing selected values
+          _.chain(result.filters)
+            .difference(_.map(dimension.values, function(value) {
+              return value.key;
+            }))
+            .each(function(key) {
+              var value = _.find(result.savedValues, {key: key});
+              if (value) {
+                dimension.values.push(value);
               }
             })
-            .filter()
             .value();
-          dimension.values = dimension.allValues;
-        } else {
-          var keys = _.map(result.data, function(value) {
-            return value[dimension.key];
-          });
-          if (_.isArray(filters[dimension.key])) {
-            [].push.apply(keys, filters[dimension.key]);
-          }
-          dimension.values = _.filter(dimension.allValues, function(value) {
-            return keys.indexOf(value.key) >= 0;
-          });
-        }
+
+          dimension.values = _.sortBy(dimension.values, 'label');
+        });
+        return packageModel;
       });
-      return packageModel;
     });
-  });
 }
 
 function getHierarchiesFromModel(dataPackage, model, packageModel) {
