@@ -42,8 +42,8 @@ angular.module('Application')
           $scope.$on('babbage-ui.click',
             function($event, component, item) {
               $event.stopPropagation();
-                $scope.$emit(Configuration.events.visualizations.drillDown,
-                  item.id);
+              $scope.$emit(Configuration.events.visualizations.drillDown,
+                item.id);
             });
         }
       };

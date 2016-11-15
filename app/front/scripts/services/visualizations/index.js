@@ -226,9 +226,9 @@ function paramsToBabbageStateRadar(params) {
 function formatValue(scale) {
   if (_.isString(scale)) {
     try {
-      scale = JSON.parse('{' + scale + '}')
-    } catch(e) {
-      scale = {}
+      scale = JSON.parse('{' + scale + '}');
+    } catch (e) {
+      scale = {};
     }
   }
   if (!_.isObject(scale)) {
