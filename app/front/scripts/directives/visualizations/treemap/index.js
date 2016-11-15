@@ -24,6 +24,8 @@ angular.module('Application')
           $scope.state = visualizationsService
             .paramsToBabbageState($scope.params);
 
+          $scope.formatValue = Configuration.formatValue;
+
           $scope.$watch('params', function(newValue, oldValue) {
             if (newValue !== oldValue) {
               $scope.state = visualizationsService

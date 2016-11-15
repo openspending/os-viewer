@@ -2,6 +2,7 @@
 
 var angular = require('angular');
 var i18n = require('../../../config/i18n');
+var visualizations = require('../services/visualizations');
 
 angular.module('Application')
   .config([
@@ -21,13 +22,22 @@ angular.module('Application')
     }
   ])
   .run([
-    '$rootScope', '$location',
-    function($rootScope, $location) {
+    '$rootScope', '$location', 'Configuration',
+    function($rootScope, $location, Configuration) {
       $rootScope.isLoading = {
         application: true
       };
       var lang = $location.search().lang;
       $rootScope._t = i18n.init(lang);
+
+      // "Suffix": scale, "Suffix 2": scale2
+      var scale = $rootScope._t('Value Formatting Scale');
+      if (scale == 'Value Formatting Scale') {
+        scale = '"Billions":1000000000,"Millions":1000000,"Thousands":1000';
+      }
+      var formatValue = visualizations.formatValue(scale);
+      $rootScope.formatValue = formatValue;
+      Configuration.formatValue = formatValue;
     }
   ])
   .filter('i18n', ['$rootScope', function($rootScope) {
@@ -35,4 +45,3 @@ angular.module('Application')
       return $rootScope._t(input);
     };
   }]);
-
