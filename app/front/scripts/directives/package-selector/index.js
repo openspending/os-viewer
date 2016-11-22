@@ -14,7 +14,7 @@ angular.module('Application')
         scope: {
           items: '=',
           datapackage: '=',
-          readOnly: '@'
+          readOnly: '=?'
         },
         link: function($scope, element) {
           $scope.dropdownState = {};

@@ -5,7 +5,8 @@ module.exports.main = function(req, res) {
   res.json({
     api: config.get('api'),
     search: config.get('search'),
-    dataMine: config.get('dataMine')
+    dataMine: config.get('dataMine'),
+    osExplorerUrl: config.get('osExplorerUrl')
   });
 };
 

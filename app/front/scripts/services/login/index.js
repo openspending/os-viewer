@@ -13,6 +13,7 @@ angular.module('Application')
         that.name = null;
         that.email = null;
         that.avatar = null;
+        that.userid = null;
         that.permissions = null;
         that.permissionToken = null;
       };
@@ -25,6 +26,10 @@ angular.module('Application')
 
       this.getToken = function() {
         return token;
+      };
+
+      this.getUserId = function() {
+        return this.userid;
       };
 
       this.tryGetToken = function() {
@@ -50,6 +55,7 @@ angular.module('Application')
             token = response.token;
             that.isLoggedIn = true;
             that.name = response.profile.name;
+            that.userid = response.profile.idhash;
             that.email = response.profile.email;
             // jscs:disable
             that.avatar = response.profile.avatar_url;
