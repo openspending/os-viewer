@@ -32,9 +32,6 @@ angular.module('Application')
 
       // "Suffix": scale, "Suffix 2": scale2
       var scale = $rootScope._t('Value Formatting Scale');
-      if (scale == 'Value Formatting Scale') {
-        scale = '"Billions":1000000000,"Millions":1000000,"Thousands":1000';
-      }
       var formatValue = visualizations.formatValue(scale);
       $rootScope.formatValue = formatValue;
       Configuration.formatValue = formatValue;
