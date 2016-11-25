@@ -9,8 +9,8 @@ require('../controls/export');
 
 angular.module('Application')
   .directive('pivotTableVisualization', [
-    '$timeout',
-    function($timeout) {
+    '$timeout', 'Configuration',
+    function($timeout, Configuration) {
       return {
         template: template,
         replace: false,
@@ -23,6 +23,8 @@ angular.module('Application')
           $scope.isVisible = true;
           $scope.state = visualizationsService
             .paramsToBabbageStatePivot($scope.params);
+
+          $scope.formatValue = Configuration.formatValue;
 
           $scope.$watch('params', function(newValue, oldValue) {
             if (newValue !== oldValue) {
