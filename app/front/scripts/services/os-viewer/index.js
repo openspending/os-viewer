@@ -31,6 +31,9 @@ function getHierarchiesWithLimitedDimensionValues(hierarchies, minValueCount,
 }
 
 function loadDataPackages(authToken, packageId, userId) {
+  if (!packageId && !userId) {
+    new Promise.resolve([]);
+  }
   return dataPackageApi.getDataPackages(authToken, packageId, userId);
 }
 

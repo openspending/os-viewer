@@ -84,8 +84,9 @@ angular.module('Application')
             ))
               .then(function(dataPackages) {
                 // If user is not logged in, and there are no package ID in
-                // url - redirect to OS Explorer
-                if (!token && packageId && (dataPackages.length == 0)) {
+                // url - no data packages will be loaded.
+                // In this case, redirect user to OS Explorer
+                if (!_.isArray(dataPackages) || (dataPackages.length == 0)) {
                   $window.location.href = dataPackageApiService.osExplorerUrl;
                 }
                 return dataPackages;
