@@ -229,15 +229,15 @@ function formatValue(scale) {
       scale = JSON.parse('{' + scale + '}');
     } catch (e) {
       console.warn('Cannot parse formatting scale: ' + JSON.stringify(scale));
-      scale = {
-        Billions: 1000000000,
-        Millions: 1000000,
-        Thousands: 1000
-      };
+      scale = null;
     }
   }
   if (!_.isObject(scale)) {
-    scale = {};
+    scale = {
+      Billions: 1000000000,
+      Millions: 1000000,
+      Thousands: 1000
+    };
   }
 
   var suffixes = _.chain(scale)
