@@ -184,8 +184,17 @@ describe('OS Viewer core service', function() {
       done();
     });
 
-    it('Should load datapackages', function(done) {
+    it('Should load empty list of datapackages', function(done) {
       osViewerService.loadDataPackages()
+        .then(function(results) {
+          assert.deepEqual(results, []);
+          done();
+        })
+        .catch(done);
+    });
+
+    it('Should load datapackages', function(done) {
+      osViewerService.loadDataPackages(null, null, data.testUserId)
         .then(function(results) {
           assert.deepEqual(results, data.loadedPackages);
           done();
