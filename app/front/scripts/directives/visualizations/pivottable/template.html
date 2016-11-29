@@ -12,12 +12,7 @@
       state="state"
       format-value="formatValue"
       max-value-limit="1998"
-      max-value-message="{{ [
-          '<strong>Oh snap!</strong>',
-          'The query returns too much data and can\'t be displayed in the table.',
-          'Try the DataMine instead or another query.'
-        ] | join:' ' | i18n
-      }}"
+      max-value-message="{{ 'Too much data error message' | i18n }}"
       endpoint="{{ params.babbageApiUrl }}">
     </pivot-table>
   </div>
