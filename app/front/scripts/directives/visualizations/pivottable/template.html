@@ -11,6 +11,8 @@
       cube="{{ params.packageId }}"
       state="state"
       format-value="formatValue"
+      max-value-limit="1998"
+      max-value-message="{{ 'Too much data error message' | i18n }}"
       endpoint="{{ params.babbageApiUrl }}">
     </pivot-table>
   </div>
