@@ -29,10 +29,10 @@ function getDataPackages(authToken, packageId, userId) {
       url += '&jwt=' + encodeURIComponent(authToken);
     }
     if (packageId) {
-      url += '&id=' + JSON.stringify(packageId);
+      url += '&id=' + encodeURIComponent(JSON.stringify(packageId));
     }
     if (userId) {
-      url += '&package.owner=' + JSON.stringify(userId);
+      url += '&package.owner=' + encodeURIComponent(JSON.stringify(userId));
     }
     return downloader.getJson(url).then(function(packages) {
       return _.chain(packages)

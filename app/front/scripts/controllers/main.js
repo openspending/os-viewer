@@ -73,12 +73,10 @@ angular.module('Application')
       function initRegular() {
         $q(LoginService.tryGetToken())
           .then(function(token) {
-            var packageId = null;
             var userId = token ? LoginService.getUserId() : null;
-            if (!token) {
-              var urlParams = osViewerService.parseUrl($location.url());
-              packageId = urlParams.packageId;
-            }
+            var urlParams = osViewerService.parseUrl($location.url());
+            var packageId = urlParams.packageId;
+
             return $q(osViewerService.loadDataPackages(
               token, packageId, userId
             ))

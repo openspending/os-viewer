@@ -31,10 +31,31 @@ function getHierarchiesWithLimitedDimensionValues(hierarchies, minValueCount,
 }
 
 function loadDataPackages(authToken, packageId, userId) {
-  if (!packageId && !userId) {
-    return Promise.resolve([]);
+  var promises = [];
+  // Load package specified by packageId - it should be always available,
+  // but hidden
+  if (packageId) {
+    promises.push(dataPackageApi.getDataPackages(null, packageId));
   }
-  return dataPackageApi.getDataPackages(authToken, packageId, userId);
+  // Load packages for logged-in user
+  if (userId) {
+    promises.push(dataPackageApi.getDataPackages(authToken, null, userId));
+  } else {
+    promises.push(Promise.resolve([]));
+  }
+
+  return Promise.all(promises).then(function(results) {
+    var result = _.clone(_.last(results));
+    if (results.length > 1) {
+      var hiddenPackage = _.first(results[0]);
+      var found = !!_.find(result, {id: hiddenPackage.id});
+      if (!found) {
+        hiddenPackage.isHidden = true;
+        result.push(hiddenPackage);
+      }
+    }
+    return result;
+  });
 }
 
 function loadDataPackage(packageId, initialParams) {
