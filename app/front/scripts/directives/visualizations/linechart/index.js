@@ -7,8 +7,8 @@ var visualizationsService = require('../../../services/visualizations');
 
 angular.module('Application')
   .directive('lineChartVisualization', [
-    '$timeout',
-    function($timeout) {
+    '$timeout', 'Configuration',
+    function($timeout, Configuration) {
       return {
         template: template,
         replace: false,
@@ -21,6 +21,8 @@ angular.module('Application')
           $scope.isVisible = true;
           $scope.state = visualizationsService
             .paramsToBabbageStateTimeSeries($scope.params);
+
+          $scope.formatValue = Configuration.formatValue;
 
           $scope.$watch('params', function(newValue, oldValue) {
             if (newValue !== oldValue) {
