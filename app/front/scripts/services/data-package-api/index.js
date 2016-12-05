@@ -7,6 +7,7 @@ var downloader = require('../downloader');
 
 module.exports.apiConfig = {};
 module.exports.searchConfig = {};
+module.exports.osExplorerUrl = null;
 module.exports.defaultSettingsUrl = 'settings.json';
 
 function loadConfig(settingsUrl) {
@@ -15,31 +16,50 @@ function loadConfig(settingsUrl) {
     module.exports.apiConfig = config.api;
     module.exports.searchConfig = config.search;
     module.exports.dataMineConfig = config.dataMine;
+    module.exports.osExplorerUrl = config.osExplorerUrl;
     return config;
   });
 }
 
-function getDataPackages(authToken) {
+function getDataPackages(authToken, packageId, userId) {
   return loadConfig().then(function() {
     var searchConfig = module.exports.searchConfig;
     var url = searchConfig.url + '?size=10000';
     if (authToken) {
       url += '&jwt=' + encodeURIComponent(authToken);
     }
+    if (packageId) {
+      url += '&id=' + encodeURIComponent(JSON.stringify(packageId));
+    }
+    if (userId) {
+      url += '&package.owner=' + encodeURIComponent(JSON.stringify(userId));
+    }
     return downloader.getJson(url).then(function(packages) {
-      return _.map(packages, function(dataPackage) {
-        dataPackage.author = _.chain(dataPackage.package.author)
-          .split(' ')
-          .dropRight(1)
-          .join(' ')
-          .value();
-        return {
-          id: dataPackage.id,
-          author: dataPackage.author,
-          title: dataPackage.package.title,
-          description: dataPackage.package.description
-        };
-      });
+      return _.chain(packages)
+        .filter(function(dataPackage) {
+          var result = true;
+          if (packageId && (dataPackage.id != packageId)) {
+            result = false;
+          }
+          if (userId && (dataPackage.package.owner != userId)) {
+            result = false;
+          }
+          return result;
+        })
+        .map(function(dataPackage) {
+          dataPackage.author = _.chain(dataPackage.package.author)
+            .split(' ')
+            .dropRight(1)
+            .join(' ')
+            .value();
+          return {
+            id: dataPackage.id,
+            author: dataPackage.author,
+            title: dataPackage.package.title,
+            description: dataPackage.package.description
+          };
+        })
+        .value();
     });
   });
 }

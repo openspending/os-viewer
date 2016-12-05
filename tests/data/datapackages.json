@@ -2,18 +2,21 @@
   {
     "id": "Package1",
     "package": {
+      "owner": "test-user-id",
       "author": "Charles <charlie@sheen.me>"
     }
   },
   {
     "id": "Package2",
     "package": {
+      "owner": "test-user-id",
       "author": "Charles <charlie@sheen.me>"
     }
   },
   {
     "id": "Package3",
     "package": {
+      "owner": "test-user-id",
       "author": "Charles <charlie@sheen.me>"
     }
   }

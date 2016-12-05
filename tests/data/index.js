@@ -17,6 +17,8 @@ module.exports.package1PackageModelBare =
 module.exports.package1PackageModel = require('./package1-packagemodel');
 module.exports.package1InitialState = require('./package1-initial-state');
 
+module.exports.testUserId = 'test-user-id';
+
 module.exports.initMocks = function() {
   var data = module.exports;
 
@@ -28,6 +30,13 @@ module.exports.initMocks = function() {
     .reply(200, data.settings, {'access-control-allow-origin': '*'});
 
   // List of data packages
+  nock('http://search.example.com')
+    .persist()
+    .get('/?package.owner=' +
+      encodeURIComponent(JSON.stringify(module.exports.testUserId)) +
+      '&size=10000')
+    .reply(200, data.dataPackages, {'access-control-allow-origin': '*'});
+
   nock('http://search.example.com')
     .persist()
     .get('/?size=10000')

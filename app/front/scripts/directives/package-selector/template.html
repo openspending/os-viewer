@@ -1,4 +1,4 @@
-<div class="row x-available-packages">
+<div class="row x-available-packages" ng-class="{readonly: readOnly}">
   <div class="col-xs-12 dropdown" ng-class="{open: dropdownState.isOpen}">
     <h3 ng-click="dropdownState.isOpen = !dropdownState.isOpen">
       <i class="os-icon os-icon-box"></i>
@@ -9,7 +9,7 @@
       <li class="package-search-input pinned">
         <span>
           <input type="text" class="form-control"
-            placeholder="{{ 'Search for data package' | i18n }}"
+            placeholder="{{ 'Search your packages' | i18n }}"
             ng-model="filter">
         </span>
       </li>
@@ -17,7 +17,7 @@
       <li class="package-search-input placeholder">
         <span><span class="form-control-static"></span></span>
       </li>
-      <li role="menuitem" ng-repeat="item in (items | filter:filter ) track by item.id">
+      <li role="menuitem" ng-repeat="item in (items | filter:filter ) track by item.id" ng-if="!item.isHidden">
         <a href="javascript:void(0)" title="{{ item.author }} / {{ item.title }}"
           ng-click="dropdownState.isOpen = false; changePackage(item.id);">{{ item.author }} / {{ item.title }}</a>
       </li>

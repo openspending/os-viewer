@@ -7,12 +7,16 @@ var ngUtils = require('../services/ng-utils');
 var $q = ngUtils.$q;
 var $digest = ngUtils.$digest;
 var osViewerService = require('../services/os-viewer');
+var dataPackageApiService = require('../services/data-package-api');
 
 angular.module('Application')
   .controller('MainController', [
-    '$scope', '$location', '$timeout', 'Configuration', 'LoginService',
-    'i18nFilter',
-    function($scope, $location, $timeout, Configuration, LoginService, i18n) {
+    '$scope', '$location', '$window', '$timeout', 'Configuration',
+    'LoginService', 'i18nFilter',
+    function(
+      $scope, $location, $window, $timeout, Configuration,
+      LoginService, i18n
+    ) {
       // Flag for skipping `$locationChangeSuccess` event when
       // it is triggered while updating url
       var isChangingUrl = false;
@@ -69,7 +73,22 @@ angular.module('Application')
       function initRegular() {
         $q(LoginService.tryGetToken())
           .then(function(token) {
-            return $q(osViewerService.loadDataPackages(token));
+            var userId = token ? LoginService.getUserId() : null;
+            var urlParams = osViewerService.parseUrl($location.url());
+            var packageId = urlParams.packageId;
+
+            return $q(osViewerService.loadDataPackages(
+              token, packageId, userId
+            ))
+              .then(function(dataPackages) {
+                // If user is not logged in, and there are no package ID in
+                // url - no data packages will be loaded.
+                // In this case, redirect user to OS Explorer
+                if (!_.isArray(dataPackages) || (dataPackages.length == 0)) {
+                  $window.location.href = dataPackageApiService.osExplorerUrl;
+                }
+                return dataPackages;
+              });
           })
           .then(function(dataPackages) {
             $scope.isLoading.application = false;
