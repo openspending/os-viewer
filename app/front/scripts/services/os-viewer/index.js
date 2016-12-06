@@ -35,7 +35,7 @@ function loadDataPackages(authToken, packageId, userId) {
   // Load package specified by packageId - it should be always available,
   // but hidden
   if (packageId) {
-    promises.push(dataPackageApi.getDataPackages(null, packageId));
+    promises.push(dataPackageApi.getDataPackages(authToken, packageId));
   }
   // Load packages for logged-in user
   if (userId) {
