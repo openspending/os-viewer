@@ -334,7 +334,13 @@ function changeDimension(state, axis, dimension, packageModel) {
     }
     result[axis] = [dimension];
     if (orderByIsGroup) {
-      result.orderBy.key = dimension;
+      var dimensionItem = _.find(packageModel.dimensions, {key: dimension});
+      var orderByKey = dimension;
+      if (dimensionItem) {
+        orderByKey = dimensionItem.sortKey || dimensionItem.key;
+      }
+
+      result.orderBy.key = orderByKey;
       result.orderBy.direction = defaultOrderByDirection;
     }
   } else {
