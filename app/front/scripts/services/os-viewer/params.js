@@ -330,7 +330,7 @@ function changeDimension(state, axis, dimension, packageModel) {
   if (isSingleSelect) {
     var orderByIsGroup = false;
     if (axis == 'groups') {
-      orderByIsGroup = result.groups.indexOf(result.orderBy.key) >= 0;
+      orderByIsGroup = result.measures.indexOf(result.orderBy.key) == -1;
     }
     result[axis] = [dimension];
     if (orderByIsGroup) {
@@ -368,6 +368,13 @@ function clearDimension(state, axis, dimension, packageModel) {
   // Update `source` and `target` when changing group
   if (axis == 'groups') {
     result.drilldown = [];
+
+    var orderByIsGroup = result.measures.indexOf(result.orderBy.key) == -1;
+    if (orderByIsGroup) {
+      result.orderBy.key = _.first(result.measures);
+      result.orderBy.direction = defaultOrderByDirection;
+    }
+
     updateSourceTarget(result, packageModel);
   }
 
@@ -382,6 +389,12 @@ function clearDimensions(state, axis) {
     result.drilldown = [];
     result.source = undefined;
     result.target = undefined;
+
+    var orderByIsGroup = result.measures.indexOf(result.orderBy.key) == -1;
+    if (orderByIsGroup) {
+      result.orderBy.key = _.first(result.measures);
+      result.orderBy.direction = defaultOrderByDirection;
+    }
   }
 
   return result;
