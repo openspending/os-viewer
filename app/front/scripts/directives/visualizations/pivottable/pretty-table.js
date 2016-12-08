@@ -133,14 +133,18 @@ function createFragments(table, placeholders, metrics) {
       var row = $('<tr>').append(
         $(this).find()
       );
+      var countOfCells = 0;
       $('th, td', this).each(function() {
         var cell = $(this);
         if (cell.is('.pvtVal, .pvtColLabel, .pvtTotal')) {
           return false;
         }
         row.append(cell.clone());
+        countOfCells += 1;
       });
-      tbody.append(row);
+      if (countOfCells > 0) {
+        tbody.append(row);
+      }
     });
     return emptyTable.clone().append(tbody).css({
       width: metrics.left + 'px',
@@ -152,10 +156,15 @@ function createFragments(table, placeholders, metrics) {
   placeholders.right.append((function() {
     var tbody = $('<tbody>');
     table.find('tr').each(function() {
-      var cell = this.cells[this.cells.length - 1];
-      tbody.append($('<tr>').append($(cell).clone()));
+      var cells = $(this)
+        .find('th.pvtTotalLabel, .pvtTotal.rowTotal, .pvtGrandTotal')
+        .clone().removeAttr('colspan').removeAttr('rowspan');
+      if (cells.length > 0) {
+        tbody.append($('<tr>').append(cells));
+      }
     });
     return emptyTable.clone().append(tbody).css({
+      tableLayout: 'fixed',
       width: metrics.right + 'px',
       height: tableHeight + 'px'
     });
@@ -174,9 +183,10 @@ function createFragments(table, placeholders, metrics) {
 
   // Clone last row
   placeholders.bottom.append((function() {
-    var rows = table.find('tbody tr:last');
+    var rows = table.find('tbody tr:last').clone();
+    rows.find('td, th').removeAttr('colspan').removeAttr('rowspan');
     return emptyTable.clone().append(
-      $('<tbody>').append(rows.clone())
+      $('<tbody>').append(rows)
     ).css({
       width: tableWidth + 'px',
       height: metrics.bottom + 'px'
@@ -190,14 +200,18 @@ function createFragments(table, placeholders, metrics) {
       var row = $('<tr>').append(
         $(this).find()
       );
+      var countOfCells = 0;
       $('th, td', this).each(function() {
         var cell = $(this);
         if (cell.is('.pvtVal, .pvtColLabel, .pvtTotal')) {
           return false;
         }
+        countOfCells += 1;
         row.append(cell.clone());
       });
-      tbody.append(row);
+      if (countOfCells > 0) {
+        tbody.append(row);
+      }
     });
     return emptyTable.clone().append(tbody).css({
       width: metrics.left + 'px',
@@ -207,10 +221,12 @@ function createFragments(table, placeholders, metrics) {
 
   // Pick the last cell from header
   placeholders.topRight.append((function() {
-    var cell = table.find('thead .pvtTotalLabel').first();
+    var cell = table.find('thead .pvtTotalLabel').first().clone()
+      .removeAttr('colspan').removeAttr('rowspan');
     return emptyTable.clone().append(
-      $('<tbody>').append($('<tr>').append(cell.clone()))
+      $('<tbody>').append($('<tr>').append(cell))
     ).css({
+      tableLayout: 'fixed',
       width: metrics.right + 'px',
       height: metrics.top + 'px'
     });
@@ -218,9 +234,10 @@ function createFragments(table, placeholders, metrics) {
 
   // Pick cells from the last row
   placeholders.bottomLeft.append((function() {
-    var cell = table.find('tbody .pvtTotalLabel').first();
+    var cell = table.find('tbody .pvtTotalLabel').first().clone()
+      .removeAttr('colspan').removeAttr('rowspan');
     return emptyTable.clone().append(
-      $('<tbody>').append($('<tr>').append(cell.clone()))
+      $('<tbody>').append($('<tr>').append(cell))
     ).css({
       width: metrics.left + 'px',
       height: metrics.bottom + 'px'
@@ -229,10 +246,12 @@ function createFragments(table, placeholders, metrics) {
 
   placeholders.bottomRight.append((function() {
     // last cell in the last row
-    var cell = table.find('tbody .pvtGrandTotal');
+    var cell = table.find('tbody .pvtGrandTotal').clone()
+      .removeAttr('colspan').removeAttr('rowspan');
     return emptyTable.clone().append(
-      $('<tbody>').append($('<tr>').append(cell.clone()))
+      $('<tbody>').append($('<tr>').append(cell))
     ).css({
+      tableLayout: 'fixed',
       width: metrics.right + 'px',
       height: metrics.bottom + 'px'
     });
