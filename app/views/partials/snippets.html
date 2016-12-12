@@ -1,0 +1,8 @@
+<script type="text/javascript">
+  globalConfig = {{ globalConfig | stringify }};
+  {% if globalConfig.snippets %}
+    {% for key, value in globalConfig.snippets %}
+      {% include "../snippets/" + key + ".js" ignore missing %}
+    {% endfor %}
+  {% endif %}
+</script>
