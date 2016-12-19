@@ -10,6 +10,8 @@
   <link href="//fonts.googleapis.com/css?family=Hind:400,300,500,600,700" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="styles/vendor.css?{{ sessionSalt }}">
   <link rel="stylesheet" href="styles/embedded.css">
+
+  {% include "../partials/snippets.html" %}
 </head>
 <body ng-controller="MainController" ng-init="isEmbedded=true; disablePackageSelector=true">
   {% block content %}{% endblock %}

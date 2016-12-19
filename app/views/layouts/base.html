@@ -18,6 +18,8 @@
     .x-page-container .x-content { background: {{ theme.colors.content }} !important; }
     .navbar-brand.navbar-brand-primary { box-shadow: inset 50px 0 0 {{ theme.colors.brand }} !important; }
   </style>
+
+  {% include "../partials/snippets.html" %}
 </head>
 <body ng-controller="MainController"
       ng-init='isEmbedded=false; disablePackageSelector={{ 'true' if isEmbedded else 'false' }}; theme={{ theme | stringify }}'>

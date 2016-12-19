@@ -42,6 +42,9 @@ module.exports.start = function() {
       autoescape: true,
       express: app
     });
+    env.addGlobal('globalConfig', {
+      snippets: config.get('snippets')
+    });
     env.addGlobal('marked', marked);
     env.addGlobal('sessionSalt', '' + Date.now() +
       Math.round(Math.random() * 10000));
