@@ -1,5 +1,5 @@
 <div class="well x-visualization-container">
-  <div class="row" ng-switch="visualization.id">
+  <div ng-switch="visualization.id">
     <treemap-visualization ng-switch-when="Treemap" params="params"></treemap-visualization>
     <pie-chart-visualization ng-switch-when="PieChart" params="params"></pie-chart-visualization>
     <bar-chart-visualization ng-switch-when="BarChart" params="params"></bar-chart-visualization>
