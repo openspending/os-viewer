@@ -58,5 +58,4 @@ module.exports.initMocks = function() {
       .get('/cubes/Package1/members/' + member.key)
       .reply(200, member.data, {'access-control-allow-origin': '*'});
   });
-
 };

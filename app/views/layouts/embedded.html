@@ -16,7 +16,7 @@
 <body ng-controller="MainController" ng-init="isEmbedded=true; disablePackageSelector=true">
   {% block content %}{% endblock %}
 
-  <script src="app.js?{{ sessionSalt }}"></script>
+  <script src="scripts/app.js?{{ sessionSalt }}"></script>
   <script src="{{ authLibraryUrl }}"></script>
 </body>
 </html>

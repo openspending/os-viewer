@@ -23,9 +23,7 @@ var sourceParams = {
 };
 
 describe('Visualizations', function() {
-
   describe('Retrieve visualizations', function() {
-
     it('Should get visualization by id', function(done) {
       var item = visualizations.getVisualizationById('Map');
       assert.isObject(item);
@@ -87,11 +85,9 @@ describe('Visualizations', function() {
 
       done();
     });
-
   });
 
   describe('Prepare params for displaying visualization', function() {
-
     it('Should prepare params', function(done) {
       var params = visualizations.paramsToBabbageState(sourceParams);
       assert.deepEqual(params, {
@@ -154,7 +150,5 @@ describe('Visualizations', function() {
       });
       done();
     });
-
   });
-
 });

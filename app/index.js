@@ -20,7 +20,7 @@ module.exports.start = function() {
 
     // Middlewares
     app.use([
-      express.static(path.join(__dirname, '/public')),
+      express.static(path.join(__dirname, '../public')),
       bodyParser.urlencoded({
         extended: true
       })

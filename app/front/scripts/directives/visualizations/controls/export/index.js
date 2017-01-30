@@ -46,7 +46,9 @@ function getCsvDataFromTable(table) {
   });
 
   // There may be short rows; pad them to avoid PapaParse error
-  var maxRowLength = _.max(_.map(rows, function(row) { return row.length; }));
+  var maxRowLength = _.max(_.map(rows, function(row) {
+    return row.length;
+  }));
   _.forEach(rows, function(row) {
     while (row.length < maxRowLength) {
       row.push('');

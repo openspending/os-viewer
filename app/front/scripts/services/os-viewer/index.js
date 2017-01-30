@@ -245,8 +245,12 @@ function getSelectedFilters(state) {
       return {
         dimensionLabel: dimension.label,
         dimensionKey: dimension.key,
-        valueLabel: _.map(values, function(item) { return item.label; }),
-        valueKey: _.map(values, function(item) { return item.key; })
+        valueLabel: _.map(values, function(item) {
+          return item.label;
+        }),
+        valueKey: _.map(values, function(item) {
+          return item.key;
+        })
       };
     })
     .filter()

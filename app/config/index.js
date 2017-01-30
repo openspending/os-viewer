@@ -3,8 +3,8 @@
 var path = require('path');
 var nconf = require('nconf');
 
-const DEFAULT_HOST = 'http://next.openspending.org';
-const DEFAULT_BASE_PATH = '';
+var DEFAULT_HOST = 'http://next.openspending.org';
+var DEFAULT_BASE_PATH = '';
 
 nconf.file({
   file: path.join(__dirname, '/../../settings.json')
@@ -23,7 +23,7 @@ nconf.defaults({
   env: process.env.NODE_ENV || 'development',
   debug: process.env.DEBUG || false,
   app: {
-    port: process.env.PORT || 5000
+    port: process.env.PORT || 4000
   },
   api: {
     url: apiHost + '/api/3',

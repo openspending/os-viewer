@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-var nock = require('nock');
 var assert = require('chai').assert;
 var osViewerService = require('../app/front/scripts/services/os-viewer');
 var historyService =
@@ -31,9 +30,7 @@ var sourceParams = {
 };
 
 describe('OS Viewer core service', function() {
-
   describe('History', function() {
-
     it('Should initialize history object', function(done) {
       var history = historyService.init();
       assert.isObject(history);
@@ -143,7 +140,6 @@ describe('OS Viewer core service', function() {
 
       done();
     });
-
   });
 
   describe('Params', function() {
@@ -177,7 +173,6 @@ describe('OS Viewer core service', function() {
   });
 
   describe('Core', function() {
-
     // Setup mocks
     before(function(done) {
       data.initMocks();
@@ -228,7 +223,7 @@ describe('OS Viewer core service', function() {
         protocol: 'https',
         host: 'example.com',
         port: '8080',
-        base: '/viewer',
+        base: '/viewer'
       });
 
       assert.equal(regularUrl, '/Package1?measure="Depenses_realisees.sum"&' +
@@ -269,7 +264,5 @@ describe('OS Viewer core service', function() {
         })
         .catch(done);
     });
-
   });
-
 });
