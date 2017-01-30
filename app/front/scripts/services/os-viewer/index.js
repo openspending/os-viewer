@@ -113,9 +113,33 @@ function partiallyPopulateModel(state) {
   return Promise.resolve(state);
 }
 
+// Tries to decode value as JSON, falling back to original value
+function decodeUrlValue(value) {
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    return value;
+  }
+}
+
+function decodeUrlValues(query) {
+  if (_.isArray(query)) {
+    return _.map(query, decodeUrlValues);
+  }
+  if (_.isObject(query)) {
+    var result = {};
+    _.each(query, function(value, key) {
+      result[key] = decodeUrlValues(value);
+    });
+    return result;
+  }
+  return decodeUrlValue(query);
+}
+
 function parseUrl(pageUrl) {
   var urlParams = url.parse(pageUrl || '');
   urlParams.query = qs.parse(urlParams.query);
+  urlParams.query = decodeUrlValues(urlParams.query);
 
   var path = urlParams.pathname || '';
   if (path.substr(0, 1) == '/') {
@@ -203,20 +227,6 @@ function getCurrencySign(state) {
   return measure ? measure.currency : null;
 }
 
-// Helper functions for `buildBreadcrumbs()`
-function getBaseFilters(filters, dimensions) {
-  var result = {};
-
-  _.each(filters, function(values, key) {
-    var dimension = _.find(dimensions, {key: key});
-    if (!dimension) {
-      result[key] = values;
-    }
-  });
-
-  return result;
-}
-
 function getSelectedFilters(state) {
   var params = state.params;
   var packageModel = state.package;
@@ -287,6 +297,27 @@ function translateHierarchies(state, i18n) {
   });
 }
 
+function encodeUrlValue(value) {
+  if (_.isUndefined(value)) {
+    return value;
+  }
+  return JSON.stringify(value);
+}
+
+function encodeUrlValues(query) {
+  if (_.isArray(query)) {
+    return _.map(query, encodeUrlValues);
+  }
+  if (_.isObject(query)) {
+    var result = {};
+    _.each(query, function(value, key) {
+      result[key] = encodeUrlValues(value);
+    });
+    return result;
+  }
+  return encodeUrlValue(query);
+}
+
 // embedParams is an object with options for creating embed url.
 // Allowed properties:
 // `visualization`: value from `<visualization>.embed` property;
@@ -294,13 +325,6 @@ function translateHierarchies(state, i18n) {
 // `base` - base url to be added to `path` part
 function buildUrl(params, embedParams) {
   var query = {};
-
-  if (!!params.lang) {
-    query.lang = params.lang;
-  }
-  if (!!params.theme) {
-    query.theme = params.theme;
-  }
 
   if (params.measures.length > 0) {
     query.measure = _.first(params.measures);
@@ -340,6 +364,15 @@ function buildUrl(params, embedParams) {
       }
       path = base + path;
     }
+  }
+
+  query = encodeUrlValues(query);
+
+  if (!!params.lang) {
+    query.lang = params.lang;
+  }
+  if (!!params.theme) {
+    query.theme = params.theme;
   }
 
   embedParams = embedParams || {}; // to simplify next lines
