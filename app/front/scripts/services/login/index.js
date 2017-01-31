@@ -21,7 +21,6 @@ angular.module('Application')
 
       var token = null;
       var isInitialCheckDone = false;
-      var attempting = false;
       var href = null;
 
       this.getToken = function() {
@@ -50,7 +49,6 @@ angular.module('Application')
         var next = $window.location.href;
         authenticate.check(next)
           .then(function(response) {
-            attempting = false;
             isInitialCheckDone = true;
             token = response.token;
             that.isLoggedIn = true;
@@ -78,7 +76,6 @@ angular.module('Application')
         if (that.isLoggedIn || (href === null)) {
           return true;
         }
-        attempting = true;
         authenticate.login(href, '_self');
       };
 

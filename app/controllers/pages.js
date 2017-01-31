@@ -22,7 +22,7 @@ function getBasePath(config) {
 module.exports.main = function(req, res) {
   var config = req.app.get('config');
 
-  var viewFileName = 'pages/' +  (req.view || 'main') + '.html';
+  var viewFileName = 'pages/' + (req.view || 'main') + '.html';
   var _t = i18n.init(req.query.lang);
 
   res.render(viewFileName, {

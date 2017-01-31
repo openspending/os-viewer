@@ -1,6 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
 var nock = require('nock');
 var assert = require('chai').assert;
 var downloader = require('../app/front/scripts/services/downloader');
@@ -13,7 +12,6 @@ var
   ];
 
 describe('Downloader', function() {
-
   before(function(done) {
     nock('http://example.com/')
       .persist()
@@ -69,5 +67,4 @@ describe('Downloader', function() {
       })
       .catch(done);
   });
-
 });

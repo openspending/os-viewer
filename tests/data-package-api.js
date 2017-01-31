@@ -1,14 +1,12 @@
 'use strict';
 
 var _ = require('lodash');
-var nock = require('nock');
 var assert = require('chai').assert;
 var dataPackageApi = require('../app/front/scripts/services/data-package-api');
 
 var data = require('./data');
 
 describe('DataPackage API', function() {
-
   // Setup mocks
   before(function(done) {
     data.initMocks();
@@ -50,5 +48,4 @@ describe('DataPackage API', function() {
       })
       .catch(done);
   });
-
 });

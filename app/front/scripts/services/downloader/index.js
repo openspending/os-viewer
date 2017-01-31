@@ -30,7 +30,7 @@ module.exports = {
     if (!cache[url]) {
       cache[url] = fetch(url).then(function(response) {
         if (response.status != 200) {
-          throw 'Failed loading data from ' + response.url;
+          throw new Error('Failed loading data from ' + response.url);
         }
         return response.text();
       });
