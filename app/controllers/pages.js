@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var i18n = require('../config/i18n');
 var theme = require('../config/theming');
+var utils = require('../services/utils');
 
 function getBasePath(config) {
   var result = config.get('basePath');
@@ -25,10 +26,20 @@ module.exports.main = function(req, res) {
   var viewFileName = 'pages/' + (req.view || 'main') + '.html';
   var _t = i18n.init(req.query.lang);
 
-  res.render(viewFileName, {
-    title: _t('Open Spending Viewer'),
-    basePath: getBasePath(config),
-    isEmbedded: req.isEmbedded,
-    theme: theme.get(req.query.theme)
-  });
+  var packageId = _.chain(req.params).values().last().value();
+  var dataPackageUrl = config.get('api:url') + '/info/' + packageId + '/package';
+
+  utils.getDataPackageMetaData(dataPackageUrl)
+    .then(function(metadata) {
+      res.render(viewFileName, {
+        title: _t('Open Spending Viewer'),
+        basePath: getBasePath(config),
+        isEmbedded: req.isEmbedded,
+        theme: theme.get(req.query.theme),
+        shareMetadata: _.extend({
+          title: _t('Open Spending Viewer'),
+          url: req.protocol + '://' + req.get('host') + req.originalUrl
+        }, metadata)
+      });
+    });
 };

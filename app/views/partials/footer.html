@@ -1,21 +1,21 @@
 {% raw %}
 <nav class="navbar navbar-inverse navbar-footer" ng-cloak>
   <div class="clearfix">
-    <a href="/"><img src="{{ theme.footer.projectLogo.image }}"></a>
+    <a href="/"><img ng-src="{{ theme.footer.projectLogo.image }}"></a>
   </div>
 
   <hr>
 
   <div class="clearfix">
     <a class="pull-left x-footer-okfn-logo" ng-href="{{ theme.footer.orgLogo.href }}">
-        <img src="{{ theme.footer.orgLogo.image }}">
+        <img ng-src="{{ theme.footer.orgLogo.image }}">
     </a>
 
     <ul class="nav navbar-nav pull-right x-footer-icons">
       <li ng-repeat="link in theme.footer.socialMedia">
         <a ng-href="{{ link.href }}">
           <img style="height: 1.5em; vertical-align: middle;"
-               src="{{ link.icon }}" alt="{{ link.alt }}">
+               ng-src="{{ link.icon }}" alt="{{ link.alt }}">
         </a>
       </li>
     </ul>

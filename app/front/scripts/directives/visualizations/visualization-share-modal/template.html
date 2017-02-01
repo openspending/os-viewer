@@ -13,11 +13,18 @@
           </div>
           <div class="form-group">
             <label for="shareEmbed">{{ 'Embed' | i18n }}</label>
-            <textarea type="text" class="form-control form-control-inverse" id="shareEmbed" readonly="readonly">{{
+            <textarea type="text" rows="5" class="form-control form-control-inverse" id="shareEmbed" readonly="readonly">{{
               '<iframe src="' + shareUrl + '" width="960" height="450" border="0" frameborder="0" seamless="on" style="border: 0px; margin: 0px; padding: 0px;"></iframe>'
             }}</textarea>
           </div>
         </form>
+
+        <div>
+          <a ng-href="{{ 'https://twitter.com/share?url=' + (shareUrl | urlencode) }}"
+            target="_blank"><i class="fa fa-twitter margin-right-4"></i>Tweet</a>
+          <a ng-href="{{ 'http://www.facebook.com/sharer/sharer.php?u=' + (shareUrl | urlencode) }}"
+            target="_blank" class="margin-left-12"><i class="fa fa-facebook-official margin-right-4"></i>Facebook</a>
+        </div>
       </div>
     </div>
   </div>
