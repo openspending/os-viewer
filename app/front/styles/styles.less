@@ -22,6 +22,10 @@ textarea {
   resize: vertical;
 }
 
+.popover {
+  max-width: none;
+}
+
 .margin-side-x(@side, @multiplier: 5) when (@multiplier > 0) {
   @n: @multiplier * 4;
   .margin-@{side}-@{n} {
@@ -349,6 +353,19 @@ textarea {
 .x-visualization-add-modal,
 .x-visualization-share-modal {
   padding-left: 23%;
+}
+
+.x-visualization-share-popover {
+  width: 50vw;
+  min-width: 200px;
+
+  .btn.btn-inverse {
+    color: #fff;
+
+    .fa {
+      vertical-align: middle;
+    }
+  }
 }
 
 .x-visualization-add {

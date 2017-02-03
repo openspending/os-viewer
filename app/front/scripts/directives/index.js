@@ -28,6 +28,7 @@ sankeyDirective.init(application);
 radarDirective.init(application);
 
 // Application directives
+require('./autoselect');
 require('./filter-list');
 require('./history-navigation');
 require('./package-selector');

@@ -23,17 +23,7 @@ angular.module('Application')
 
           $scope.$on(Configuration.events.visualizations.showShareModal,
             function($event, visualization) {
-              if (visualization && visualization.embed) {
-                $scope.shareUrl = osViewerService.buildUrl(
-                  $scope.params, {
-                    visualization: visualization.embed,
-                    protocol: $location.protocol(),
-                    host: $location.host(),
-                    port: $location.port(),
-                    base: $browser.baseHref()
-                  });
-                shareModal.modal('show');
-              }
+              
             });
         }
       };
