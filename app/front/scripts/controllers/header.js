@@ -1,11 +1,10 @@
 'use strict';
 
-var angular = require('angular');
+var ngModule = require('../module');
 
-angular.module('Application')
-  .controller('HeaderController', [
-    '$scope', 'LoginService',
-    function($scope, LoginService) {
-      $scope.login = LoginService;
-    }
-  ]);
+ngModule.controller('HeaderController', [
+  '$scope', 'LoginService',
+  function($scope, LoginService) {
+    $scope.login = LoginService;
+  }
+]);

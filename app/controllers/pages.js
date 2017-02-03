@@ -24,20 +24,21 @@ module.exports.main = function(req, res) {
   var config = req.app.get('config');
 
   var viewFileName = 'pages/' + (req.view || 'main') + '.html';
-  var _t = i18n.init(req.query.lang);
+  var $t = i18n.init(req.query.lang);
 
   var packageId = _.chain(req.params).values().last().value();
-  var dataPackageUrl = config.get('api:url') + '/info/' + packageId + '/package';
+  var dataPackageUrl = config.get('api:url') + '/info/' +
+    packageId + '/package';
 
   utils.getDataPackageMetaData(dataPackageUrl)
     .then(function(metadata) {
       res.render(viewFileName, {
-        title: _t('Open Spending Viewer'),
+        title: $t('Open Spending Viewer'),
         basePath: getBasePath(config),
         isEmbedded: req.isEmbedded,
         theme: theme.get(req.query.theme),
         shareMetadata: _.extend({
-          title: _t('Open Spending Viewer'),
+          title: $t('Open Spending Viewer'),
           url: req.protocol + '://' + req.get('host') + req.originalUrl
         }, metadata)
       });

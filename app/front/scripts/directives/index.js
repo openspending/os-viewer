@@ -2,7 +2,7 @@
 
 var babbage = require('babbage.ui/lib/bindings/angular');
 
-var application = angular.module('Application');
+var ngModule = require('../module');
 
 // Init babbage.ui
 var pieDirective = new babbage.PieChartDirective();
@@ -16,16 +16,16 @@ var factsDirective = new babbage.FactsDirective();
 var sankeyDirective = new babbage.SanKeyChartDirective();
 var radarDirective = new babbage.RadarChartDirective();
 
-pieDirective.init(application);
-chartDirective.init(application);
-treeMapDirective.init(application);
-tableDirective.init(application);
-bubbleTreeDirective.init(application);
-geoViewDirective.init(application);
-pivotTableDirective.init(application);
-factsDirective.init(application);
-sankeyDirective.init(application);
-radarDirective.init(application);
+pieDirective.init(ngModule);
+chartDirective.init(ngModule);
+treeMapDirective.init(ngModule);
+tableDirective.init(ngModule);
+bubbleTreeDirective.init(ngModule);
+geoViewDirective.init(ngModule);
+pivotTableDirective.init(ngModule);
+factsDirective.init(ngModule);
+sankeyDirective.init(ngModule);
+radarDirective.init(ngModule);
 
 // Application directives
 require('./autoselect');

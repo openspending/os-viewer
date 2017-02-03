@@ -2,8 +2,8 @@
 
 var theme = {};
 
-function setTheme(_theme) {
-  theme = _theme;
+function setTheme(value) {
+  theme = value;
 }
 
 function getTheme() {

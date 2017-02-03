@@ -1,11 +1,9 @@
 'use strict';
 
-var _ = require('lodash');
-var angular = require('angular');
+var ngModule = require('../module');
 
-angular.module('Application')
-  .filter('urlencode', [
-    function() {
-      return encodeURIComponent;
-    }
-  ]);
+ngModule.filter('urlencode', [
+  function() {
+    return encodeURIComponent;
+  }
+]);

@@ -415,11 +415,11 @@ function serializeCut(filters, drilldown) {
   return _.chain(filters)
     .map(function(values, key) {
       return key + ':' + _.chain(values)
-          .map(function(value) {
-            return JSON.stringify(value);
-          })
-          .join(';')
-          .value();
+        .map(function(value) {
+          return JSON.stringify(value);
+        })
+        .join(';')
+        .value();
     })
     .map(encodeURIComponent)
     .value();
