@@ -1,33 +1,31 @@
 'use strict';
 
-var angular = require('angular');
-var template = require('./template.html');
+var ngModule = require('../../../../module');
 
-angular.module('Application')
-  .directive('sortingControl', [
-    'Configuration',
-    function(Configuration) {
-      return {
-        template: template,
-        replace: false,
-        restrict: 'E',
-        scope: {
-          items: '=',
-          selected: '='
-        },
-        link: function($scope) {
-          $scope.toggleOrderBy = function(key) {
-            var direction = 'desc';
-            if ($scope.selected) {
-              if ($scope.selected.key == key) {
-                direction = ('' + $scope.selected.direction).toLowerCase();
-                direction = (direction == 'desc') ? 'asc' : 'desc';
-              }
+ngModule.directive('sortingControl', [
+  'Configuration',
+  function(Configuration) {
+    return {
+      template: require('./template.html'),
+      replace: false,
+      restrict: 'E',
+      scope: {
+        items: '=',
+        selected: '='
+      },
+      link: function($scope) {
+        $scope.toggleOrderBy = function(key) {
+          var direction = 'desc';
+          if ($scope.selected) {
+            if ($scope.selected.key == key) {
+              direction = ('' + $scope.selected.direction).toLowerCase();
+              direction = (direction == 'desc') ? 'asc' : 'desc';
             }
-            $scope.$emit(Configuration.events.visualizations.changeOrderBy,
-              key, direction);
-          };
-        }
-      };
-    }
-  ]);
+          }
+          $scope.$emit(Configuration.events.visualizations.changeOrderBy,
+            key, direction);
+        };
+      }
+    };
+  }
+]);

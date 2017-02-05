@@ -204,13 +204,13 @@ function getAvailableSorting(state) {
   var packageModel = state.package;
   var params = state.params;
   return _.chain([
-      _.find(packageModel.measures, function(item) {
-        return params.measures.indexOf(item.key) >= 0;
-      }),
-      _.find(packageModel.dimensions, function(item) {
-        return params.groups.indexOf(item.key) >= 0;
-      })
-    ])
+    _.find(packageModel.measures, function(item) {
+      return params.measures.indexOf(item.key) >= 0;
+    }),
+    _.find(packageModel.dimensions, function(item) {
+      return params.groups.indexOf(item.key) >= 0;
+    })
+  ])
     .filter()
     .map(function(item) {
       return {

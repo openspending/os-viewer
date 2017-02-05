@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="styles/vendor.css?{{ sessionSalt }}">
   <link rel="stylesheet" href="styles/embedded.css">
 
+  {% include "partials/share.html" %}
   {% include "../partials/snippets.html" %}
 </head>
 <body ng-controller="MainController" ng-init="isEmbedded=true; disablePackageSelector=true">

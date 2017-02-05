@@ -15,18 +15,51 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     </div>
     <div class="x-visualization-buttons">
-      <a href="javascript:void(0);" popover="{{ '#visualization-popover-' + visualization.id }}" class="os-icon os-icon-trashcan"></a>
-      <a href="javascript:void(0);" ng-click="showShareModal(visualization)" class="os-icon os-icon-embed"></a>
-      <div id="{{ 'visualization-popover-' + visualization.id }}" class="hidden">
+      <a href="javascript:void(0);" popover="visualizations/remove-popover" class="os-icon os-icon-trashcan"></a>
+      <a href="javascript:void(0);" popover="visualizations/share-popover"
+        title="{{ 'Share this visualization' | i18n }}"
+        class="os-icon os-icon-embed"></a>
+
+      <script type="text/ng-template" id="visualizations/remove-popover">
         <div class="visualization-popover">
           <button ng-click="removeVisualization(visualization.id)" type="button" class="btn btn-danger">
-              {{ 'Remove this visualization' | i18n }}
+            {{ 'Remove this visualization' | i18n }}
           </button>
           <button ng-click="removeAllVisualizations()" type="button" class="btn btn-danger">
-              {{ 'Remove all visualizations' | i18n }}
+            {{ 'Remove all visualizations' | i18n }}
           </button>
         </div>
-      </div>
+      </script>
+
+      <script type="text/ng-template" id="visualizations/share-popover">
+        <form class="x-visualization-share-popover" onsubmit="return false;">
+          <div class="form-group">
+            <a href="javascript:void(0)" class="pull-right" title="{{ 'Copy to clipboard' | i18n }}"
+              data-target="#shareUrl" ng-click="copyToClipboard($event)"
+              style="color: #666; padding: 0 0 0 0.5em;"><i class="fa fa-clone"></i></a>
+            <label for="shareUrl">{{ 'Link' | i18n }}</label>
+            <input type="text" class="form-control form-control-inverse" id="shareUrl" autoselect
+              value="{{ shareUrl }}" readonly="readonly">
+          </div>
+          <div class="form-group">
+            <a href="javascript:void(0)" class="pull-right" title="{{ 'Copy to clipboard' | i18n }}"
+              data-target="#shareEmbed" ng-click="copyToClipboard($event)"
+              style="color: #666; padding: 0 0 0 0.5em;"><i class="fa fa-clone"></i></a>
+            <label for="shareEmbed">{{ 'Embed' | i18n }}</label>
+            <textarea rows="5" class="form-control form-control-inverse"
+              id="shareEmbed" autoselect readonly="readonly" style="resize: none;">{{
+              '<iframe src="' + shareUrl + '" width="960" height="450" border="0" frameborder="0" seamless="on" style="border: 0px; margin: 0px; padding: 0px;"></iframe>'
+            }}</textarea>
+          </div>
+
+          <div>
+            <a ng-href="{{ 'https://twitter.com/share?url=' + (shareUrl | urlencode) }}"
+              class="btn btn-inverse" target="_blank"><i class="fa fa-twitter margin-right-4"></i>Twitter</a>
+            <a ng-href="{{ 'http://www.facebook.com/sharer/sharer.php?u=' + (shareUrl | urlencode) }}"
+              class="btn btn-inverse margin-left-12" target="_blank"><i class="fa fa-facebook-official margin-right-4"></i>Facebook</a>
+          </div>
+        </form>
+      </script>
     </div>
   </div>
 </div>

@@ -92,12 +92,12 @@ gulp.task('assets.fonts', function() {
 
 gulp.task('assets.application', function() {
   return gulp.src([
-      path.join(nodeModulesDir,
-        '/os-bootstrap/dist/assets/os-branding/vector/light/os.svg'),
-      path.join(nodeModulesDir,
-        '/os-bootstrap/dist/assets/os-branding/vector/light/viewer.svg'),
-      path.join(nodeModulesDir,
-        '/os-bootstrap/dist/assets/os-branding/vector/light/osviewer.svg')
+    path.join(nodeModulesDir,
+      '/os-bootstrap/dist/assets/os-branding/vector/light/os.svg'),
+    path.join(nodeModulesDir,
+      '/os-bootstrap/dist/assets/os-branding/vector/light/viewer.svg'),
+    path.join(nodeModulesDir,
+      '/os-bootstrap/dist/assets/os-branding/vector/light/osviewer.svg')
   ])
     .pipe(gulp.dest(publicAssetsDir));
 });

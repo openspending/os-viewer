@@ -1,0 +1,79 @@
+'use strict';
+
+var angular = require('angular');
+require('angular-marked');
+require('angular-filter');
+require('angular-animate');
+
+
+var visualizations = require('./services/visualizations');
+
+var config = {
+  events: {
+    packageSelector: {
+      change: 'packageSelector.change'
+    },
+    history: {
+      back: 'history.back',
+      forward: 'history.forward'
+    },
+    visualizations: {
+      add: 'visualizations.add',
+      remove: 'visualizations.remove',
+      removeAll: 'visualizations.removeAll',
+      hideModals: 'visualizations.hideModals',
+      drillDown: 'visualizations.drillDown',
+      changeOrderBy: 'visualizations.changeOrderBy',
+      showShareModal: 'visualizations.showShareModal',
+      breadcrumbClick: 'visualizations.breadcrumbClick'
+    },
+    sidebar: {
+      listItemChange: 'sidebar.listItemChange',
+      changeMeasure: 'sidebar.changeMeasure',
+      changeDimension: 'sidebar.changeDimension',
+      clearDimension: 'sidebar.clearDimension',
+      setFilter: 'sidebar.setFilter',
+      clearFilter: 'sidebar.clearFilter'
+    }
+  }
+};
+
+var ngModule = angular.module('Application', [
+  'ngAnimate',
+  'hc.marked',
+  'angular.filter',
+  'authClient.services'
+])
+  .constant('Configuration', config)
+  .config([
+    '$httpProvider', '$compileProvider', '$logProvider', '$locationProvider',
+    'markedProvider',
+    function($httpProvider, $compileProvider, $logProvider, $locationProvider,
+      markedProvider) {
+      $compileProvider.aHrefSanitizationWhitelist(
+        /^\s*(https?|ftp|mailto|file|javascript):/);
+      $httpProvider.defaults.useXDomain = true;
+      $httpProvider.defaults.withCredentials = false;
+      $logProvider.debugEnabled(true);
+
+      $locationProvider.html5Mode(true);
+
+      markedProvider.setOptions({gfm: true});
+    }
+  ])
+  .run([
+    '$rootScope', '$location', 'i18n', 'Configuration',
+    function($rootScope, $location, i18n, Configuration) {
+      $rootScope.isLoading = {
+        application: true
+      };
+
+      i18n.setLanguage($location.search().lang);
+
+      // "Suffix": scale, "Suffix 2": scale2
+      Configuration.formatValue = visualizations.formatValue(
+        i18n('Value Formatting Scale'));
+    }
+  ]);
+
+module.exports = ngModule;

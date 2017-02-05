@@ -53,6 +53,7 @@
     "jquery": "^2.1.4",
     "js-polyfills": "^0.1.12",
     "lodash": "^4.6.1",
+    "lru-cache": "^4.0.2",
     "marked": "^0.3.5",
     "napa": "^2.3.0",
     "nconf": "^0.8.2",
