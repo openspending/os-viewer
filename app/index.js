@@ -18,6 +18,8 @@ module.exports.start = function() {
     app.set('port', config.get('app:port'));
     app.set('views', path.join(__dirname, '/views'));
 
+    app.enable('trust proxy');  // Needed to properly resolve host of the app
+
     // Middlewares
     app.use([
       express.static(path.join(__dirname, '../public')),

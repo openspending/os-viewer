@@ -20,7 +20,7 @@ function getBasePath(config) {
   return result;
 }
 
-module.exports.main = function(req, res) {
+module.exports = function(req, res) {
   var config = req.app.get('config');
 
   var viewFileName = 'pages/' + (req.view || 'main') + '.html';
@@ -39,6 +39,7 @@ module.exports.main = function(req, res) {
         theme: theme.get(req.query.theme),
         shareMetadata: _.extend({
           title: $t('Open Spending Viewer'),
+          description: $t('Open Spending Viewer'),
           url: req.protocol + '://' + req.get('host') + req.originalUrl
         }, metadata)
       });

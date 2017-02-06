@@ -6,19 +6,25 @@ var Cache = require('lru-cache');
 require('isomorphic-fetch');
 
 var cache = new Cache({
-  max: 500,
-  maxAge: 1000 * 60 * 60
+  max: 500,  // 500 entries
+  maxAge: 1000 * 60 * 60  // 1 hour
 });
 
 function dataPackageToMetaData(dataPackage) {
-  if (!_.isObject(dataPackage) || !_.isString(dataPackage.name)) {
-    return {};
+  var result = {};
+
+  dataPackage = _.extend({}, dataPackage);  // Ensure it is an object
+
+  if (dataPackage.name) {
+    result.id = dataPackage.owner ? dataPackage.owner + ':' + dataPackage.name :
+      dataPackage.name;
+    result.title = dataPackage.title || dataPackage.name;
+    if (dataPackage.description) {
+      result.description = dataPackage.description;
+    }
   }
-  return {
-    id: dataPackage.owner + ':' + dataPackage.name,
-    title: dataPackage.title || dataPackage.name || '',
-    description: dataPackage.description || ''
-  };
+
+  return result;
 }
 
 function getDataPackageMetaData(dataPackageUrl) {
