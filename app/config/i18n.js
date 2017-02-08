@@ -5,10 +5,11 @@ var Polyglot = require('node-polyglot');
 
 module.exports.init = function(lang) {
   var translations = require('./translations.json');
-  var locale_parts = lang ? lang.split('-') : [];
+  var localeParts = lang ? lang.split('-') : [];
   var strings;
-  if (locale_parts.length > 1) {
-    strings = _.extend({}, translations.en, translations[locale_parts[0]], translations[lang]);
+  if (localeParts.length > 1) {
+    strings = _.extend({}, translations.en, translations[localeParts[0]],
+      translations[lang]);
   } else {
     strings = _.extend({}, translations.en, translations[lang]);
   }

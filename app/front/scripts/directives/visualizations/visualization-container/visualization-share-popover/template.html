@@ -1,0 +1,27 @@
+<form class="x-visualization-share-popover" onsubmit="return false;">
+  <div class="form-group">
+    <a href="javascript:void(0)" class="pull-right" title="{{ 'Copy to clipboard' | i18n }}"
+      data-target="#shareUrl" ng-click="copyToClipboard($event)"
+      style="color: #666; padding: 0 0 0 0.5em;"><i class="fa fa-clone"></i></a>
+    <label for="shareUrl">{{ 'Link' | i18n }}</label>
+    <input type="text" class="form-control form-control-inverse" id="shareUrl" autoselect
+      value="{{ shortShareUrl }}" readonly="readonly">
+  </div>
+  <div class="form-group">
+    <a href="javascript:void(0)" class="pull-right" title="{{ 'Copy to clipboard' | i18n }}"
+      data-target="#shareEmbed" ng-click="copyToClipboard($event)"
+      style="color: #666; padding: 0 0 0 0.5em;"><i class="fa fa-clone"></i></a>
+    <label for="shareEmbed">{{ 'Embed' | i18n }}</label>
+    <textarea rows="3" class="form-control form-control-inverse"
+      id="shareEmbed" autoselect readonly="readonly" style="resize: none;">{{
+      '<iframe src="' + shortShareUrl + '" width="960" height="450" border="0" frameborder="0" seamless="on" style="border: 0px; margin: 0px; padding: 0px;"></iframe>'
+    }}</textarea>
+  </div>
+
+  <div>
+    <a ng-href="{{ 'https://twitter.com/share?url=' + (shortShareUrl | urlencode) }}"
+      class="btn btn-inverse" target="_blank"><i class="fa fa-twitter margin-right-4"></i>Twitter</a>
+    <a ng-href="{{ 'http://www.facebook.com/sharer/sharer.php?u=' + (shortShareUrl | urlencode) }}"
+      class="btn btn-inverse margin-left-12" target="_blank"><i class="fa fa-facebook-official margin-right-4"></i>Facebook</a>
+  </div>
+</form>

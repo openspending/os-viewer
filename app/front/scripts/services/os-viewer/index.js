@@ -4,6 +4,7 @@ var url = require('url');
 var qs = require('qs');
 var _ = require('lodash');
 var Promise = require('bluebird');
+var downloader = require('../downloader');
 var dataPackageApi = require('../data-package-api');
 var stateParams = require('./params');
 var history = require('./history');
@@ -408,6 +409,16 @@ function hasDrillDownVisualizations(params) {
   return result;
 }
 
+function getShortUrl(url) {
+  return downloader.getJson('shorturl?url=' + encodeURIComponent(url))
+    .then(function(data) {
+      if (_.isObject(data) && data.success) {
+        return data.shortUrl || data.url || url;
+      }
+      return url;
+    });
+}
+
 module.exports.params = stateParams;
 module.exports.history = history;
 module.exports.theme = theme;
@@ -424,3 +435,4 @@ module.exports.buildBreadcrumbs = buildBreadcrumbs;
 module.exports.buildUrl = buildUrl;
 module.exports.translateHierarchies = translateHierarchies;
 module.exports.hasDrillDownVisualizations = hasDrillDownVisualizations;
+module.exports.getShortUrl = getShortUrl;
