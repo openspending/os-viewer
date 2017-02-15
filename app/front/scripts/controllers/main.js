@@ -70,7 +70,7 @@ ngModule.controller('MainController', [
 
     // Initialization stuff
     function initRegular() {
-      $q(LoginService.tryGetToken())
+      return $q(LoginService.tryGetToken())
         .then(function(token) {
           var userId = token ? LoginService.getUserId() : null;
           var urlParams = osViewerService.parseUrl($location.url());
@@ -115,7 +115,7 @@ ngModule.controller('MainController', [
 
       var urlParams = osViewerService.parseUrl($location.url());
 
-      $q(osViewerService.loadDataPackage(urlParams.packageId, urlParams))
+      return $q(osViewerService.loadDataPackage(urlParams.packageId, urlParams))
         .then(function(state) {
           osViewerService.translateHierarchies(state, i18n);
           $scope.state = state;
@@ -137,21 +137,24 @@ ngModule.controller('MainController', [
     // Wait for one digest cycle before check `$scope.isEmbedded`
     // since `ng-init` is executed after `ng-controller`
     $timeout(function() {
-      $scope.isEmbedded ? initEmbedded() : initRegular();
+      var promise = $scope.isEmbedded ? initEmbedded() : initRegular();
+      promise.then(function() {
+        if ($scope.isMainView) {
+          // Update filter values based on current filters
+          $scope.$watch('state.params.filters', function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+              updateFilterValues();
+            }
+          }, true);
+          $scope.$watch('state.params.drilldown', function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+              updateFilterValues();
+            }
+          }, true);
+        }
+      });
       osViewerService.theme.set($scope.theme);
     });
-
-    // Update filer values based on current filters
-    $scope.$watch('state.params.filters', function(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        updateFilterValues();
-      }
-    }, true);
-    $scope.$watch('state.params.drilldown', function(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        updateFilterValues();
-      }
-    }, true);
 
     // Event listeners
 

@@ -43,6 +43,10 @@ ngModule.directive('sankeyVisualization', [
                 item.source.key);
             }
           });
+
+        $scope.$on('babbage-ui.ready', function() {
+          Configuration.sealerHook(200); // Wait for rendering
+        });
       }
     };
   }

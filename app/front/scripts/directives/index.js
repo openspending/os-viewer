@@ -1,6 +1,7 @@
 'use strict';
 
 var babbage = require('babbage.ui/lib/bindings/angular');
+var babbageApiExporter = require('babbage.ui/lib/api/exporter');
 
 var ngModule = require('../module');
 
@@ -26,6 +27,10 @@ pivotTableDirective.init(ngModule);
 factsDirective.init(ngModule);
 sankeyDirective.init(ngModule);
 radarDirective.init(ngModule);
+
+babbageApiExporter.setExportFunc(function(key, value) {
+  window[key] = value;
+});
 
 // Application directives
 require('./autoselect');

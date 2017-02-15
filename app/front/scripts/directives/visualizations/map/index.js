@@ -32,6 +32,10 @@ ngModule.directive('mapVisualization', [
             });
           }
         }, true);
+
+        $scope.$on('babbage-ui.ready', function() {
+          Configuration.sealerHook(500); // Wait for animation
+        });
       }
     };
   }

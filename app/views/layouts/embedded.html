@@ -14,10 +14,9 @@
   {% include "partials/share.html" %}
   {% include "../partials/snippets.html" %}
 </head>
-<body ng-controller="MainController" ng-init="isEmbedded=true; disablePackageSelector=true">
+<body ng-controller="MainController" ng-init="isEmbedded=true; isMainView=false; disablePackageSelector=true">
   {% block content %}{% endblock %}
 
-  <script src="scripts/app.js?{{ sessionSalt }}"></script>
-  <script src="{{ authLibraryUrl }}"></script>
+  <script src="scripts/app.js?{{ sessionSalt }}" async></script>
 </body>
 </html>

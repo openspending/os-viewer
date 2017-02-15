@@ -41,6 +41,10 @@ ngModule.directive('treemapVisualization', [
             $scope.$emit(Configuration.events.visualizations.drillDown,
               item.key);
           });
+
+        $scope.$on('babbage-ui.ready', function() {
+          Configuration.sealerHook(500); // Wait for animation
+        });
       }
     };
   }
