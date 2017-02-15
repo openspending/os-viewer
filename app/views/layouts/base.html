@@ -23,7 +23,7 @@
   {% include "../partials/snippets.html" %}
 </head>
 <body ng-controller="MainController"
-      ng-init='isEmbedded=false; disablePackageSelector={{ 'true' if isEmbedded else 'false' }}; theme={{ theme | stringify }}'>
+      ng-init='isEmbedded=false; isMainView=true; disablePackageSelector={{ 'true' if isEmbedded else 'false' }}; theme={{ theme | stringify }}'>
 <div id="root"></div>
 
 {% if not isEmbedded %}

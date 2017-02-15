@@ -32,6 +32,10 @@ ngModule.directive('factsVisualization', [
             });
           }
         }, true);
+
+        $scope.$on('babbage-ui.ready', function() {
+          Configuration.sealerHook(200); // Allow angular to build table
+        });
       }
     };
   }

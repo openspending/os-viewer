@@ -32,6 +32,7 @@ ngModule.directive('pivotTableVisualization', [
           $timeout(function() {
             if (table) {
               table.update();
+              Configuration.sealerHook(100);
             }
           }, 50);
         });

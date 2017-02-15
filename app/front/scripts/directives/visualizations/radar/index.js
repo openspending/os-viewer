@@ -32,6 +32,10 @@ ngModule.directive('radarChartVisualization', [
             });
           }
         }, true);
+
+        $scope.$on('babbage-ui.ready', function() {
+          Configuration.sealerHook(200); // Wait for rendering
+        });
       }
     };
   }

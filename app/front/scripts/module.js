@@ -1,14 +1,44 @@
 'use strict';
 
+var Promise = require('bluebird');
 var angular = require('angular');
 require('angular-marked');
 require('angular-filter');
 require('angular-animate');
 
+var isAuthModuleAvailable = false;
+try {
+  isAuthModuleAvailable = !!angular.module('authClient.services');
+} catch (e) {
+}
+if (!isAuthModuleAvailable) {
+  // Fake auth library
+  angular.module('authClient.services', [])
+    .value('authenticate', {
+      check: function() {
+        return new Promise(function() {});
+      },
+      login: function() {},
+      logout: function() {}
+    })
+    .value('authorize', {
+      check: function() {
+        return new Promise(function() {});
+      }
+    });
+}
 
 var visualizations = require('./services/visualizations');
 
+window['@@sealer_hook'] = false;
+
 var config = {
+  sealerHook: function(delay) {
+    delay = parseInt(delay, 10) || 0;
+    setTimeout(function() {
+      window['@@sealer_hook'] = true;
+    }, delay > 0 ? delay : 0);
+  },
   events: {
     packageSelector: {
       change: 'packageSelector.change'
