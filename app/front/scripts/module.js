@@ -15,12 +15,16 @@ if (!isAuthModuleAvailable) {
   // Fake auth library
   angular.module('authClient.services', [])
     .value('authenticate', {
-      check: function() { return new Promise(function() {}); },
+      check: function() {
+        return new Promise(function() {});
+      },
       login: function() {},
       logout: function() {}
     })
     .value('authorize', {
-      check: function() { return new Promise(function() {}); }
+      check: function() {
+        return new Promise(function() {});
+      }
     });
 }
 
