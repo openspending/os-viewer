@@ -8,8 +8,8 @@ var prettyTable = require('./pretty-table');
 require('../controls/export');
 
 ngModule.directive('pivotTableVisualization', [
-  '$window', '$timeout', 'Configuration',
-  function($window, $timeout, Configuration) {
+  '$window', '$timeout', 'i18n', 'Configuration',
+  function($window, $timeout, i18n, Configuration) {
     return {
       template: require('./template.html'),
       replace: false,
@@ -26,6 +26,8 @@ ngModule.directive('pivotTableVisualization', [
         var table = null;
 
         $scope.formatValue = Configuration.formatValue;
+        $scope.messages = visualizationsService.getBabbageUIMessages(i18n);
+
         $scope.$on('babbage-ui.table-ready', function() {
           table = prettyTable(element.find('.pivot-table').get(0));
 

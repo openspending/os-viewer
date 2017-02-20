@@ -7,8 +7,8 @@ var visualizationsService = require('../../../services/visualizations');
 require('../controls/sorting');
 
 ngModule.directive('tableVisualization', [
-  '$timeout', 'Configuration',
-  function($timeout, Configuration) {
+  '$timeout', 'i18n', 'Configuration',
+  function($timeout, i18n, Configuration) {
     return {
       template: require('./template.html'),
       replace: false,
@@ -23,6 +23,7 @@ ngModule.directive('tableVisualization', [
           .paramsToBabbageState($scope.params);
 
         $scope.formatValue = Configuration.formatValue;
+        $scope.messages = visualizationsService.getBabbageUIMessages(i18n);
 
         $scope.$watch('params', function(newValue, oldValue) {
           if (newValue !== oldValue) {

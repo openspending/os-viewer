@@ -29,7 +29,8 @@
 
   <div class="waiter text-center" ng-if="isLoading.application || isLoading.package">
     <i class="fa fa-spinner fa-pulse fa-4x"></i>
-    <span>Loading...</span>
+    <span ng-if="false">Loading...</span>
+    <span ng-cloak>{{ 'Loading' | i18n }}</span>
   </div>
 
   <div ng-if="!isLoading.application" ng-cloak>

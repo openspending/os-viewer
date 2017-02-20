@@ -277,6 +277,27 @@ function formatValue(scale) {
   };
 }
 
+function getBabbageUIMessages(i18n) {
+ return _.chain([
+   'loadingData',
+   'noDataAvailable',
+   'tooManyCategories',
+   'chooseRowsAndColumns',
+   'tooMuchData',
+   'showList',
+   'hideList',
+   'title',
+   'amount',
+   'percentage',
+   'total'
+ ])
+   .map(function(value) {
+     return [value, i18n('BabbageUI.' + value)];
+   })
+   .fromPairs()
+   .value();
+}
+
 module.exports.formatValue = formatValue;
 
 module.exports.getVisualizationById = getVisualizationById;
@@ -290,3 +311,5 @@ module.exports.paramsToBabbageStatePivot = paramsToBabbageStatePivot;
 module.exports.paramsToBabbageStateTimeSeries = paramsToBabbageStateTimeSeries;
 module.exports.paramsToBabbageStateSankey = paramsToBabbageStateSankey;
 module.exports.paramsToBabbageStateRadar = paramsToBabbageStateRadar;
+
+module.exports.getBabbageUIMessages = getBabbageUIMessages;
