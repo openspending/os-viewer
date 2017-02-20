@@ -135,6 +135,11 @@
     "X-Axis": "X-Axis",
     "existing visualizations to enable full range of visualization types.": "existing visualizations to enable full range of visualization types."
   },
+  "en-HR": {
+    "Activity": "Program Clasification",
+    "Administrative Classification": "Organizational Clasification",
+    "Fin Source": "Funds"
+  },
   "es": {
     "Activity": "Modalidad",
     "Add Visualization": "Agregar visualizaci\u00f3n",
@@ -199,6 +204,12 @@
     "View Raw Source Data": "Descarga .CSV con los datos completos",
     "X-Axis": "Eje-X",
     "existing visualizations to enable full range of visualization types.": "Limpia tu selecci\u00f3n para habilitar todas las visualizaciones"
+  },
+  "es-UY": {
+    "Activity": "Funcional por proyecto",
+    "Date": "Per\u00edodo",
+    "Functional Classification": "Clasificaci\u00f3n program\u00e1tica",
+    "Pie Chart": "Gr\u00e1fica de torta"
   },
   "uk": {
     "... there are more items": "... \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e \u0431\u0456\u043b\u044c\u0448\u0435 \u0435\u043b\u0435\u043c\u0435\u043d\u0442\u0456\u0432",
