@@ -141,6 +141,7 @@
     "Fin Source": "Funds"
   },
   "es": {
+    "... there are more items": "... hay m\u00e1s elementos",
     "Activity": "Modalidad",
     "Add Visualization": "Agregar visualizaci\u00f3n",
     "Administrative Classification": "Clasificaci\u00f3n Administrativa",
@@ -188,11 +189,13 @@
     "Pie Chart": "Gr\u00e1fica de Pie",
     "Pivot Table": "Tabla Din\u00e1mica",
     "Procurer": "Contratante",
+    "Radar Chart": "Gr\u00e1fica de radar",
     "Recipient": "Contratista",
     "Remove all visualizations": "Elimina todas las visualizaciones",
     "Remove this visualization": "Elimina esta visualizaci\u00f3n",
     "Rows": "Filas",
     "Search for data package": "Buscar paquete de datos",
+    "Search for item...": "Buscar elemento...",
     "Series": "Series",
     "Share": "Compartir",
     "Share visualization": "Comparte esta visualizaci\u00f3n",
@@ -200,7 +203,7 @@
     "Table": "Tabla",
     "Tree Map": "Gr\u00e1fico de Rect\u00e1ngulos",
     "Unknown": "Desconocido",
-    "Value Formatting Scale": "\"Billions\": 1000000000, \"Millions\": 1000000, \"Thousands\": 1000",
+    "Value Formatting Scale": "\"Millones\": 1000000, \"Miles\": 1000",
     "View Raw Source Data": "Descarga .CSV con los datos completos",
     "X-Axis": "Eje-X",
     "existing visualizations to enable full range of visualization types.": "Limpia tu selecci\u00f3n para habilitar todas las visualizaciones"
