@@ -1,8 +1,15 @@
 'use strict';
 
+var _ = require('lodash');
 var webpack = require('webpack');
+var requiredir = require('requiredir');
+const VirtualModulePlugin = require('virtual-module-webpack-plugin');
 
 var plugins = [
+  new VirtualModulePlugin({
+    moduleName: 'app/config/translations.json',
+    contents: JSON.stringify(_.omit(requiredir('./translations'), ['length']))
+  }),
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
@@ -21,10 +28,12 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 module.exports = {
-  entry: './app/front/scripts/index.js',
+  entry: {
+    'app': './app/front/scripts/index.js'
+  },
   devtool: 'source-map',
   output: {
-    filename: 'app.js',
+    filename: '[name].js',
     path: './public/scripts'
   },
   resolve: {
