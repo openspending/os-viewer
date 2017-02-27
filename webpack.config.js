@@ -21,10 +21,12 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 module.exports = {
-  entry: './app/front/scripts/index.js',
+  entry: {
+    'app': './app/front/scripts/index.js'
+  },
   devtool: 'source-map',
   output: {
-    filename: 'app.js',
+    filename: '[name].js',
     path: './public/scripts'
   },
   resolve: {
@@ -37,7 +39,12 @@ module.exports = {
   module: {
     loaders: [
       {test: /\.html$/, loader: 'raw'},
-      {test: /\.json/, loader: 'json'}
+      {test: /\.json/, loader: 'json'},
+      // Evaluate app/config/translations.js
+      {
+        test: require.resolve('./app/config/translations'),
+        loaders: ['raw', 'val']
+      }
     ]
   },
   plugins: plugins

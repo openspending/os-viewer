@@ -4,7 +4,7 @@ var _ = require('lodash');
 var Polyglot = require('node-polyglot');
 
 module.exports.init = function(lang) {
-  var translations = require('./translations.json');
+  var translations = require('./translations');
   var localeParts = lang ? lang.split('-') : [];
   var strings;
   if (localeParts.length > 1) {

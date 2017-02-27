@@ -20,6 +20,11 @@ function getBasePath(config) {
   return result;
 }
 
+function getRequestURI(req) {
+  var host = process.env.OS_EXTERNAL_ADDRESS || req.get('host');
+  return req.protocol + '://' + host + req.originalUrl;
+}
+
 module.exports = function(req, res) {
   var config = req.app.get('config');
 
@@ -40,7 +45,7 @@ module.exports = function(req, res) {
         shareMetadata: _.extend({
           title: $t('Open Spending Viewer'),
           description: $t('Open Spending Viewer'),
-          url: req.protocol + '://' + req.get('host') + req.originalUrl
+          url: getRequestURI(req)
         }, metadata)
       });
     });
