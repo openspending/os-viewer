@@ -3,7 +3,7 @@
 var path = require('path');
 var nconf = require('nconf');
 
-var DEFAULT_HOST = 'http://next.openspending.org';
+var DEFAULT_HOST = '//next.openspending.org';
 var DEFAULT_BASE_PATH = '';
 
 nconf.file({
@@ -16,7 +16,7 @@ var searchHost = process.env.OS_VIEWER_SEARCH_HOST || DEFAULT_HOST;
 var dataMineHost = process.env.OS_VIEWER_DATAMINE_HOST || DEFAULT_HOST;
 
 var cosmopolitanHost = process.env.OS_VIEWER_API_COSMO_HOST ||
-  'http://cosmopolitan.openspending.org/v1/';
+  '//cosmopolitan.openspending.org/v1/';
 
 // this is the object that you want to override in your own local config
 nconf.defaults({

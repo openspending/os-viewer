@@ -22,11 +22,11 @@
   },
   "footer": {
     "projectLogo": {
-      "image": "http://a.okfn.org/img/openspending/logo.svg"
+      "image": "//a.okfn.org/img/openspending/logo.svg"
     },
     "orgLogo": {
       "href": "http://okfn.org",
-      "image": "http://a.okfn.org/img/oki/landscape-white-165x43.png"
+      "image": "//a.okfn.org/img/oki/landscape-white-165x43.png"
     },
     "links": [
       {
