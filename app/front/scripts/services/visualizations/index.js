@@ -278,24 +278,25 @@ function formatValue(scale) {
 }
 
 function getBabbageUIMessages(i18n) {
- return _.chain([
-   'loadingData',
-   'noDataAvailable',
-   'tooManyCategories',
-   'chooseRowsAndColumns',
-   'tooMuchData',
-   'showList',
-   'hideList',
-   'title',
-   'amount',
-   'percentage',
-   'total'
- ])
-   .map(function(value) {
-     return [value, i18n('BabbageUI.' + value)];
-   })
-   .fromPairs()
-   .value();
+  return _.chain([
+    'loadingData',
+    'noDataAvailable',
+    'tooManyCategories',
+    'chooseRowsAndColumns',
+    'tooMuchData',
+    'showList',
+    'hideList',
+    'title',
+    'amount',
+    'percentage',
+    'total',
+    'others',
+  ])
+    .map(function(value) {
+      return [value, i18n('BabbageUI.' + value)];
+    })
+    .fromPairs()
+    .value();
 }
 
 module.exports.formatValue = formatValue;

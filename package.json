@@ -41,7 +41,7 @@
     "angular-animate": "^1.5.8",
     "angular-filter": "^0.5.9",
     "angular-marked": "^1.2.2",
-    "babbage.ui": "^1.3.0",
+    "babbage.ui": "^1.4.0",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "bubbletree": "git+https://github.com/okfn/bubbletree.git",
