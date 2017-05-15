@@ -17,6 +17,7 @@
   "BabbageUI.tooManyCategories": "<strong>Demasiadas categor\u00edas.</strong> El desglose elegido contiene demasiadas categorias, \u00fanicamente se muestran las {count} m\u00e1s grandes. ",
   "BabbageUI.tooMuchData": "<strong>Oh cielos!</strong> La consulta devuelve demasiados datos y no pueden mostrarse en una tabla. Prueba el DataMine u otra consulta.",
   "BabbageUI.total": "Total",
+  "BabbageUI.others": "Otros",
   "Bar Chart": "Gr\u00e1fica de Barras",
   "Bubble Tree": "Gr\u00e1fica de Burbujas",
   "Budget Line Id": "Clave de Cartera",

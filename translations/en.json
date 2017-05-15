@@ -17,6 +17,7 @@
   "BabbageUI.tooManyCategories": "<strong>Too many categories.</strong> The breakdown you have selected contains many different categories, only the {count} biggest are shown.",
   "BabbageUI.tooMuchData": "<strong>Oh snap!</strong> The query returns too much data and can't be displayed in the table. Try the DataMine instead or another query.",
   "BabbageUI.total": "Total",
+  "BabbageUI.others": "Others",
   "Bar Chart": "Bar Chart",
   "Bubble Tree": "Bubble Tree",
   "Budget Line Id": "Budget Line Id",

@@ -39,8 +39,13 @@ ngModule.directive('pieChartVisualization', [
         $scope.$on('babbage-ui.click',
           function($event, component, item) {
             $event.stopPropagation();
-            $scope.$emit(Configuration.events.visualizations.drillDown,
-              item.id);
+
+            if (item.id !== 'others') {
+              $scope.$emit(
+                Configuration.events.visualizations.drillDown,
+                item.id
+              );
+            }
           });
 
         $scope.$on('babbage-ui.ready', function() {
