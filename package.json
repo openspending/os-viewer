@@ -9,7 +9,7 @@
     "start": "node index.js",
     "test": "mocha tests/*.js",
     "review": "eslint app tests index.js gulpfile.js webpack.config.js --ignore-pattern 'app/views/snippets/*'",
-    "develop": "gulp && npm start",
+    "develop": "npm run build && npm start",
     "build:assets": "gulp",
     "build:app": "webpack --hide-modules --config webpack.config.js",
     "build": "npm run build:assets && npm run build:app"
