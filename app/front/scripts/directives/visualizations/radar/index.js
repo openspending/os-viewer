@@ -21,6 +21,7 @@ ngModule.directive('radarChartVisualization', [
           .paramsToBabbageStateRadar($scope.params);
 
         $scope.formatValue = Configuration.formatValue;
+        $scope.colorScale = Configuration.colorScales.categorical();
         $scope.messages = visualizationsService.getBabbageUIMessages(i18n);
 
         $scope.$watch('params', function(newValue, oldValue) {
