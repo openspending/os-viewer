@@ -65,7 +65,11 @@ var config = {
       setFilter: 'sidebar.setFilter',
       clearFilter: 'sidebar.clearFilter'
     }
-  }
+  },
+  colorScales: {
+    categorical: d3.scale.category10,
+    constant: () => (() => '#1f78b4'),
+  },
 };
 
 var ngModule = angular.module('Application', [
