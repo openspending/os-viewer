@@ -11,11 +11,9 @@ if [ ! -z "$GIT_REPO" ]; then
     if [ ! -z "$GIT_BRANCH" ]; then
         git checkout origin/$GIT_BRANCH
     fi
-    cd /remote && napa eligrey/FileSaver.js:file-saver && napa d3/d3-plugins:d3-plugins && \
-	npm install && node node_modules/.bin/gulp
+    cd /remote && npm install && npm run build
 else
-    ( cd /repos/os-viewer && npm install -g napa && napa eligrey/FileSaver.js:file-saver && npm install ) || true
-    ( cd /repos/os-viewer && node node_modules/gulp/bin/gulp.js ) || true
+    ( cd /repos/os-viewer && npm install && npm run build ) || true
 fi
 
 npm start
