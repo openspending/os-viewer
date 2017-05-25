@@ -13,7 +13,6 @@ var _ = require('lodash');
   var jquery = require('jquery');
   globals.jQuery = globals.$ = jquery;
   globals.d3 = require('d3');
-  require('d3-plugins/sankey/sankey');
   globals.c3 = require('c3');
   globals.Raphael = require('raphael');
 
