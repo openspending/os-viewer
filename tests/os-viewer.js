@@ -287,4 +287,43 @@ describe('OS Viewer core service', function() {
         .catch(done);
     });
   });
+
+  describe('updateFromParams', () => {
+    it('returns default state if received empty state and URL params', () => {
+      const packageModel = data.package1PackageModel;
+      const stateParams = {};
+      const urlParams = {};
+
+      const params = paramsService.updateFromParams(stateParams, urlParams, packageModel);
+
+      assert.deepEqual(params, paramsService._getDefaultState());
+    });
+
+    it('it does not overwrite the state params if there is no new value in the URL params', () => {
+      const packageModel = data.package1PackageModel;
+      const stateParams = {
+        visualizations: ['Treemap'],
+      };
+      const urlParams = {};
+
+      const params = paramsService.updateFromParams(stateParams, urlParams, packageModel);
+
+      assert.deepEqual(params.visualizations, stateParams.visualizations);
+    });
+
+    it('it overwrites the state params if there is another value in the URL params', () => {
+      // I'm using "visualizations" here, but this should apply to any value in stateParams
+      const packageModel = data.package1PackageModel;
+      const stateParams = {
+        visualizations: ['Treemap'],
+      };
+      const urlParams = {
+        visualizations: ['PieChart'],
+      };
+
+      const params = paramsService.updateFromParams(stateParams, urlParams, packageModel);
+
+      assert.deepEqual(params.visualizations, urlParams.visualizations);
+    });
+  });
 });

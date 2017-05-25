@@ -14,6 +14,8 @@ function getDefaultState(variablePart) {
     measures: [],
     groups: [],
     series: [],
+    source: undefined,
+    target: undefined,
     rows: [],
     columns: [],
     filters: {},
@@ -642,7 +644,7 @@ function removeAllVisualizations(state, packageModel) {
 function updateFromParams(state, urlParams, packageModel) {
   urlParams = normalizeUrlParams(urlParams || {}, packageModel);
   urlParams = validateUrlParams(urlParams, packageModel);
-  var result = _.extend(cloneState(state), getDefaultState(), urlParams);
+  var result = _.extend(getDefaultState(), cloneState(state), urlParams);
   updateSourceTarget(result, packageModel);
   return result;
 }
@@ -662,3 +664,4 @@ module.exports.removeVisualization = removeVisualization;
 module.exports.removeAllVisualizations = removeAllVisualizations;
 module.exports.changeOrderBy = changeOrderBy;
 module.exports.updateFromParams = updateFromParams;
+module.exports._getDefaultState = getDefaultState;
