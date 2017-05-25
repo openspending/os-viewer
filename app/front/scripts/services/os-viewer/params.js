@@ -190,18 +190,17 @@ function validateUrlParams(params, packageModel) {
 }
 
 function init(packageModel, initialParams) {
-  var anyDateTimeHierarchy = _.first(packageModel.dateTimeHierarchies);
-  initialParams = normalizeUrlParams(initialParams || {}, packageModel);
-  initialParams = validateUrlParams(initialParams, packageModel);
-
-  var defaults = getDefaultState({
+  const anyDateTimeHierarchy = _.first(packageModel.dateTimeHierarchies);
+  const defaults = getDefaultState({
     packageId: packageModel.id,
     countryCode: packageModel.meta.countryCode,
     dateTimeDimension: anyDateTimeHierarchy ?
       _.first(anyDateTimeHierarchy.dimensions).key : null
   });
 
-  return _.extend(defaults, initialParams);
+  return updateFromParams(
+    defaults, initialParams || {}, packageModel
+  );
 }
 
 function changeMeasure(state, measure) {
