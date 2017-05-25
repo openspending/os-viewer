@@ -20,7 +20,9 @@ module.exports = {
     countryCode: 'CM',
     dateTimeDimension: 'date_2.Annee',
     babbageApiUrl: 'http://api.example.com',
-    cosmopolitanApiUrl: 'http://cosmopolitan.example.com'
+    cosmopolitanApiUrl: 'http://cosmopolitan.example.com',
+    source: undefined,
+    target: undefined
   },
   history: {
     items: [],

@@ -170,6 +170,28 @@ describe('OS Viewer core service', function() {
       });
       done();
     });
+
+    it('Should set the params groups, source and target correctly', function() {
+      // See bug https://github.com/openspending/openspending/issues/1234
+      const packageModel = data.package1PackageModel;
+      const hierarchy = _.find(packageModel.hierarchies, (hierarchy) => hierarchy.dimensions.length > 1);
+
+      assert.isDefined(
+        hierarchy,
+        'We need a hierarchy with more than 1 dimension to test this behaviour'
+      );
+
+      const initialParams = {
+        groups: [hierarchy.dimensions[0].key],
+        visualizations: ['Treemap'],
+      };
+
+      const params = paramsService.init(packageModel, initialParams);
+
+      assert.deepEqual(params.groups, initialParams.groups);
+      assert.equal(params.source, hierarchy.dimensions[0].key);
+      assert.equal(params.target, hierarchy.dimensions[1].key);
+    });
   });
 
   describe('Core', function() {
