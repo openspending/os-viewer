@@ -68,8 +68,12 @@ var config = {
   },
   colorScales: {
     categorical: d3.scale.category10,
-    constant: () => (() => '#1f78b4'),
-  },
+    constant: function() {
+      return function() {
+        return '#1f78b4';
+      };
+    }
+  }
 };
 
 var ngModule = angular.module('Application', [

@@ -183,7 +183,7 @@ describe('OS Viewer core service', function() {
 
       const initialParams = {
         groups: [hierarchy.dimensions[0].key],
-        visualizations: ['Treemap'],
+        visualizations: ['Treemap']
       };
 
       const params = paramsService.init(packageModel, initialParams);
@@ -302,7 +302,7 @@ describe('OS Viewer core service', function() {
     it('it does not overwrite the state params if there is no new value in the URL params', () => {
       const packageModel = data.package1PackageModel;
       const stateParams = {
-        visualizations: ['Treemap'],
+        visualizations: ['Treemap']
       };
       const urlParams = {};
 
@@ -315,10 +315,10 @@ describe('OS Viewer core service', function() {
       // I'm using "visualizations" here, but this should apply to any value in stateParams
       const packageModel = data.package1PackageModel;
       const stateParams = {
-        visualizations: ['Treemap'],
+        visualizations: ['Treemap']
       };
       const urlParams = {
-        visualizations: ['PieChart'],
+        visualizations: ['PieChart']
       };
 
       const params = paramsService.updateFromParams(stateParams, urlParams, packageModel);

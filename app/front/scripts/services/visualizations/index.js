@@ -290,7 +290,7 @@ function getBabbageUIMessages(i18n) {
     'amount',
     'percentage',
     'total',
-    'others',
+    'others'
   ])
     .map(function(value) {
       return [value, i18n('BabbageUI.' + value)];
