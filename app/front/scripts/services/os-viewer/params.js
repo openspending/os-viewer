@@ -192,8 +192,8 @@ function validateUrlParams(params, packageModel) {
 }
 
 function init(packageModel, initialParams) {
-  const anyDateTimeHierarchy = _.first(packageModel.dateTimeHierarchies);
-  const defaults = getDefaultState({
+  var anyDateTimeHierarchy = _.first(packageModel.dateTimeHierarchies);
+  var defaults = getDefaultState({
     packageId: packageModel.id,
     countryCode: packageModel.meta.countryCode,
     dateTimeDimension: anyDateTimeHierarchy ?

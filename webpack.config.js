@@ -22,7 +22,7 @@ if (process.env.NODE_ENV == 'production') {
 
 module.exports = {
   entry: {
-    'app': './app/front/scripts/index.js'
+    app: './app/front/scripts/index.js'
   },
   devtool: 'source-map',
   output: {
