@@ -14,7 +14,6 @@ var _ = require('lodash');
   globals.jQuery = globals.$ = jquery;
   globals.d3 = require('d3');
   globals.c3 = require('c3');
-  globals.Raphael = require('raphael');
 
   // fetch() polyfill
   require('isomorphic-fetch/fetch-npm-browserify');

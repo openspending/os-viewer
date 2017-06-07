@@ -29,13 +29,6 @@ module.exports = {
     filename: '[name].js',
     path: './public/scripts'
   },
-  resolve: {
-    alias: {
-      // Use `webpack-raphael` instead of `raphael` which is somehow
-      // incompatible with webpack
-      raphael$: 'webpack-raphael'
-    }
-  },
   module: {
     loaders: [
       {test: /\.html$/, loader: 'raw'},
