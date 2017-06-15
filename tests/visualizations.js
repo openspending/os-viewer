@@ -94,7 +94,7 @@ describe('Visualizations', function() {
         aggregates: 'Depenses_realisees.sum',
         group: ['date_2.Annee'],
         filter: [
-          encodeURIComponent('economic_classification_Compte.Compte:"610100"')
+          'economic_classification_Compte.Compte:"610100"'
         ],
         order: [{
           key: 'Depenses_realisees.sum',
@@ -111,7 +111,7 @@ describe('Visualizations', function() {
         aggregates: 'Depenses_realisees.sum',
         group: ['date_2.Annee'],
         filter: [
-          encodeURIComponent('economic_classification_Compte.Compte:"610100"')
+          'economic_classification_Compte.Compte:"610100"'
         ]
       });
       done();
@@ -124,7 +124,7 @@ describe('Visualizations', function() {
         rows: ['date_2.Annee'],
         cols: ['economic_classification_3.Article'],
         filter: [
-          encodeURIComponent('economic_classification_Compte.Compte:"610100"')
+          'economic_classification_Compte.Compte:"610100"'
         ],
         order: [{
           key: 'Depenses_realisees.sum',
@@ -140,7 +140,7 @@ describe('Visualizations', function() {
         aggregates: 'Depenses_realisees.sum',
         group: ['date_2.Annee'],
         filter: [
-          encodeURIComponent('economic_classification_Compte.Compte:"610100"')
+          'economic_classification_Compte.Compte:"610100"'
         ],
         order: [{
           key: 'date_2.Annee',

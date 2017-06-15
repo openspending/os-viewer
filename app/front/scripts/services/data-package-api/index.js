@@ -193,7 +193,7 @@ function loadDimensionValues(packageId, dimension, filters) {
 
     var cut = _.extend({}, filters);
     delete cut[dimension.key];
-    cut = serializeCut(cut);
+    cut = serializeCut(cut).join('|');
     if (cut != '') {
       cut = '?cut=' + encodeURIComponent(cut);
     }
@@ -421,7 +421,6 @@ function serializeCut(filters, drilldown) {
         .join(';')
         .value();
     })
-    .map(encodeURIComponent)
     .value();
 }
 
