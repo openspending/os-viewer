@@ -19,6 +19,7 @@ require('./treemap');
 
 require('./visualization-add-modal');
 require('./visualization-container');
+require('./visualization-download-data');
 
 ngModule.directive('visualizations', [
   'Configuration',
