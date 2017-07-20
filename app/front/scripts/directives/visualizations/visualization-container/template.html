@@ -10,8 +10,12 @@
     <map-visualization ng-switch-when="Map" params="params"></map-visualization>
     <pivot-table-visualization ng-switch-when="PivotTable" params="params"></pivot-table-visualization>
     <radar-chart-visualization ng-switch-when="Radar" params="params"></radar-chart-visualization>
+
     <div class="x-visualization-buttons">
-      <a href="javascript:void(0);" popover="visualizations/remove-popover" class="os-icon os-icon-trashcan"></a>
+      <visualization-download-data params="params" />
+      <a href="javascript:void(0);" popover="visualizations/remove-popover"
+        title="{{ 'Remove this visualization' | i18n }}"
+        class="os-icon os-icon-trashcan"></a>
       <a href="javascript:void(0);" popover="visualizations/share-popover"
         title="{{ 'Share this visualization' | i18n }}"
         class="os-icon os-icon-embed"></a>
