@@ -23,6 +23,18 @@ ngModule.directive('bubbleTreeVisualization', [
           .paramsToBabbageState($scope.params);
 
         $scope.formatValue = Configuration.formatValue;
+        $scope.getStyle = function getStyle(node, index) {
+          var color = '#1F78B4';
+          var negativeColor = '#2CA02C';
+
+          if (node.amount < 0) {
+            color = negativeColor;
+          }
+
+          return {
+            color: color,
+          };
+        };
         $scope.messages = visualizationsService.getBabbageUIMessages(i18n);
 
         $scope.$watch('params', function(newValue, oldValue) {
