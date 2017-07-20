@@ -1,5 +1,6 @@
 'use strict';
 
+var path = require('path');
 var webpack = require('webpack');
 
 var plugins = [
@@ -28,6 +29,12 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: './public/scripts'
+  },
+  resolve: {
+    // This is needed for when we're using dependencies linked with `npm-link`.
+    // This allows them to locate their missing dependencies (e.g. jQuery) in
+    // our own "node_modules"
+    fallback: path.join(__dirname, 'node_modules'),
   },
   module: {
     loaders: [
