@@ -61,6 +61,7 @@
     "normalize-url": "^1.6.0",
     "nunjucks": "^2.1.0",
     "os-bootstrap": "git+https://github.com/openspending/os-bootstrap.git",
+    "os-styles": "^0.0.2",
     "papaparse": "^4.1.2",
     "qs": "^6.2.0",
     "request": "^2.65.0",
