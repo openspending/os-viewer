@@ -3,7 +3,6 @@
 var _ = require('lodash');
 var ngModule = require('../../module');
 var dataPackageAPI = require('../../services/data-package-api');
-var osViewerService = require('../../services/os-viewer');
 
 ngModule.directive('packageInfo', [
   'LoginService',
@@ -13,7 +12,8 @@ ngModule.directive('packageInfo', [
       replace: false,
       restrict: 'E',
       scope: {
-        datapackage: '='
+        datapackage: '=',
+        datamine: '<?'
       },
       link: function($scope) {
         $scope.login = LoginService;
@@ -24,15 +24,15 @@ ngModule.directive('packageInfo', [
             return;
           }
 
-          var theme = osViewerService.theme.get();
-          if (theme.dataMine) {
-            var dataMinePath = theme.dataMine.path;
+          var dataMine = $scope.datamine;
+          if (dataMine) {
+            var dataMinePath = dataMine.path;
 
             if (_.includes(dataMinePath, '{query}')) {
-              if (!theme.dataMine.query) {
+              if (!dataMine.query) {
                 return;
               }
-              var query = theme.dataMine.query;
+              var query = dataMine.query;
               if (_.includes(query, '{factTable}')) {
                 if (!dataPackage.factTable) {
                   return;
@@ -63,7 +63,7 @@ ngModule.directive('packageInfo', [
         }
 
         updateDataMineUrl($scope.datapackage);
-        $scope.$watch('datapackage', function() {
+        $scope.$watchGroup(['datapackage', 'datamine'], function() {
           updateDataMineUrl($scope.datapackage);
         });
         $scope.$watch('login.isLoggedIn', function() {

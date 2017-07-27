@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 var i18n = require('../config/i18n');
-var theme = require('../config/theming');
+var themes = require('../config/themes');
 var utils = require('../services/utils');
 
 function getBasePath(config) {
@@ -41,7 +41,7 @@ module.exports = function(req, res) {
         title: $t('Open Spending Viewer'),
         basePath: getBasePath(config),
         isEmbedded: req.isEmbedded,
-        theme: theme.get(req.query.theme),
+        theme: themes.getTheme(req.query.theme),
         shareMetadata: _.extend({
           title: $t('Open Spending Viewer'),
           description: $t('Open Spending Viewer'),

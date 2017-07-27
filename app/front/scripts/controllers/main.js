@@ -153,7 +153,6 @@ ngModule.controller('MainController', [
           }, true);
         }
       });
-      osViewerService.theme.set($scope.theme);
     });
 
     // Event listeners
