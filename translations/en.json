@@ -71,7 +71,7 @@
   "Table": "Table",
   "Tree Map": "Tree Map",
   "Unknown": "Unknown",
-  "Value Formatting Scale": "\"Billions\": 1000000000, \"Millions\": 1000000, \"Thousands\": 1000",
+  "Value Formatting Scale": "\"Billion\": 1000000000, \"Million\": 1000000, \"Thousand\": 1000",
   "View Raw Source Data": "View Raw Source Data",
   "X-Axis": "X-Axis",
   "existing visualizations to enable full range of visualization types.": "existing visualizations to enable full range of visualization types."
