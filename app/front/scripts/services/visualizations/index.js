@@ -234,9 +234,9 @@ function formatValue(scale) {
   }
   if (!_.isObject(scale)) {
     scale = {
-      Billions: 1000000000,
-      Millions: 1000000,
-      Thousands: 1000
+      Billion: 1000000000,
+      Million: 1000000,
+      Thousand: 1000
     };
   }
 
