@@ -23,7 +23,6 @@ ngModule.directive('barChartVisualization', [
           .paramsToBabbageState($scope.params);
 
         $scope.formatValue = Configuration.formatValue;
-        $scope.colorScale = Configuration.colorScales.constant();
         $scope.messages = visualizationsService.getBabbageUIMessages(i18n);
 
         $scope.$watch('params', function(newValue, oldValue) {
@@ -40,7 +39,27 @@ ngModule.directive('barChartVisualization', [
         $scope.$on('babbage-ui.ready', function() {
           Configuration.sealerHook(200); // Wait for rendering
         });
+
+        $scope.$watch('state', function(newValue, oldValue) {
+          if (newValue.series !== oldValue.series) {
+            $scope.colorScale = getColorScale(newValue.series);
+          }
+        }, true);
+        $scope.colorScale = getColorScale($scope.state.series);
+
+        function getColorScale(series) {
+          // We only want colors on grouped bars, which only happen if there are
+          // series.
+          var colorScale = Configuration.colorScales.constant();
+
+          if (series !== undefined || series.length > 0) {
+            colorScale = Configuration.colorScales.categorical();
+          }
+
+          return colorScale;
+        }
       }
     };
   }
 ]);
+
