@@ -32,7 +32,7 @@ ngModule.directive('bubbleTreeVisualization', [
           }
 
           return {
-            color: color,
+            color: color
           };
         };
         $scope.messages = visualizationsService.getBabbageUIMessages(i18n);
