@@ -2,6 +2,7 @@
 
 var url = require('url');
 var ngModule = require('../../../module');
+var visualizationsService = require('../../../services/visualizations');
 var babbageApi = require('babbage.ui/lib/api');
 
 
@@ -9,8 +10,9 @@ function getUrl(params) {
   var api = new babbageApi.Api();
   var endpoint = params.babbageApiUrl;
   var cube = params.packageId;
+  var state = visualizationsService.paramsToBabbageState(params);
 
-  return api.buildAggregateUrl(endpoint, cube, params)
+  return api.buildAggregateUrl(endpoint, cube, state)
     .then(function(_url) {
       var parsedUrl = url.parse(_url, true);
 
