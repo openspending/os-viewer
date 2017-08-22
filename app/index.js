@@ -14,6 +14,8 @@ module.exports.start = function() {
   return new Promise(function(resolve, reject) {
     var app = express();
 
+    app.set('trust proxy', true);
+
     app.set('config', config);
     app.set('port', config.get('app:port'));
     app.set('views', path.join(__dirname, '/views'));
