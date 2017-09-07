@@ -151,4 +151,45 @@ describe('Visualizations', function() {
       done();
     });
   });
+
+  describe('formatValue', function() {
+    var formatValue = visualizations.formatValue({
+      Million: 1000000,
+      Thousand: 1000
+    });
+
+    var testCases = [
+      {value: 0, expected: '0.0'},
+      {value: 500.99, expected: '500.99'},
+      {value: 500.999, expected: '501.0'},
+      {value: 999, expected: '999.0'},
+
+      {value: 999.999, expected: '1.0 Thousand'},
+      {value: 1000, expected: '1.0 Thousand'},
+      {value: 1001, expected: '1.0 Thousand'},
+      {value: 1500, expected: '1.5 Thousand'},
+      {value: -1000, expected: '-1.0 Thousand'},
+      {value: -1001, expected: '-1.0 Thousand'},
+      {value: -1500, expected: '-1.5 Thousand'},
+      {value: -1590, expected: '-1.59 Thousand'},
+
+      {value: 1000000, expected: '1.0 Million'},
+      {value: 1000001, expected: '1.0 Million'},
+      {value: 1500000, expected: '1.5 Million'},
+      {value: 1590000, expected: '1.59 Million'},
+      {value: 1599000, expected: '1.6 Million'}
+    ];
+
+    testCases.forEach(function(testCase) {
+      it(`correctly formats ${testCase.value}`, () => {
+        assert.strictEqual(formatValue(testCase.value), testCase.expected);
+      });
+    });
+
+    it.skip('correctly formats 999999', () => {
+      // FIXME: This case is tricky, because we use `toFixed()`, which rounds numbers,
+      // after finding the suffix
+      assert.strictEqual(formatValue(999999), '1.0 Million');
+    });
+  });
 });

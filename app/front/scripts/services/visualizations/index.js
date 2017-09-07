@@ -260,11 +260,11 @@ function formatValue(scale) {
     if (!isFinite(num)) {
       return value;
     }
-    value = num;
+    value = parseFloat(num.toFixed(2));
 
     var suffix = '';
     for (var i = 0; i < suffixes.length; i++) {
-      if (value > suffixes[i][0]) {
+      if (Math.abs(value) >= suffixes[i][0]) {
         value = value / suffixes[i][0];
         suffix = suffixes[i][1];
         break;
