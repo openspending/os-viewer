@@ -6,6 +6,7 @@ var nunjucks = require('nunjucks');
 var marked = require('marked');
 var path = require('path');
 var bodyParser = require('body-parser');
+var Raven = require('raven');
 
 var config = require('./config');
 var routes = require('./routes');
@@ -21,6 +22,24 @@ module.exports.start = function() {
     app.set('views', path.join(__dirname, '/views'));
 
     app.enable('trust proxy');  // Needed to properly resolve host of the app
+
+    // Sentry monitoring
+    var sentryDSN = config.get('sentryDSN');
+    if (sentryDSN != null) {
+      Raven.config(sentryDSN).install();
+      app.use(Raven.requestHandler());
+      app.use(Raven.errorHandler());
+
+      // Fallthrough error handler
+      app.use(function onError(err, req, res, next) {
+        // The error id is attached to `res.sentry` to be returned
+        // and optionally displayed to the user for support.
+        res.statusCode = 500;
+        res.end('An error occurred: ' + res.sentry + '\n');
+      });
+    } else {
+      console.log('Sentry DSN not configured');
+    }
 
     // Middlewares
     app.use([
