@@ -40,7 +40,8 @@ nconf.defaults({
   basePath: process.env.OS_VIEWER_BASE_PATH || DEFAULT_BASE_PATH,
   snippets: {
     ga: process.env.OS_SNIPPETS_GA || null
-  }
+  },
+  sentryDSN: process.env.SENTRY_DSN || null
 });
 
 module.exports = {
