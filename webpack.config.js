@@ -35,6 +35,11 @@ module.exports = {
     path: './public/scripts'
   },
   resolve: {
+    alias: {
+      // Resolve all `resuire('jquery')` into project-level `jquery` version
+      // (fixes different jQuery version issue in `babbage.ui/pivottable` viz)
+      jquery$: require.resolve('jquery')
+    },
     // This is needed for when we're using dependencies linked with `npm-link`.
     // This allows them to locate their missing dependencies (e.g. jQuery) in
     // our own "node_modules"
