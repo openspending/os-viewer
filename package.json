@@ -65,6 +65,7 @@
     "papaparse": "^4.1.2",
     "qs": "^6.2.0",
     "raven": "^2.2.1",
+    "raven-js": "^3.20.1",
     "request": "^2.65.0",
     "require-dir-all": "^0.4.9",
     "text-encoding": "^0.6.1"

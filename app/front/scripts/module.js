@@ -6,6 +6,14 @@ require('angular-marked');
 require('angular-filter');
 require('angular-animate');
 
+if (globalConfig.snippets.raven) {
+  var Raven = require('raven-js');
+  Raven
+    .config(globalConfig.snippets.raven, {logger: 'os-viewer-angular'})
+    .addPlugin(require('raven-js/plugins/angular'), angular)
+    .install();
+}
+
 var isAuthModuleAvailable = false;
 try {
   isAuthModuleAvailable = !!angular.module('authClient.services');
@@ -77,6 +85,7 @@ var config = {
 };
 
 var ngModule = angular.module('Application', [
+  'ngRaven',
   'ngAnimate',
   'hc.marked',
   'angular.filter',
