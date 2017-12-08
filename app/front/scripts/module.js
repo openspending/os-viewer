@@ -93,7 +93,6 @@ var moduleDeps = [
 if (globalConfig.snippets.raven) {
   moduleDeps.unshift('ngRaven');
 }
-console.log(moduleDeps);
 var ngModule = angular.module('Application', moduleDeps)
   .constant('Configuration', config)
   .config([
