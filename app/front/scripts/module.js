@@ -84,13 +84,17 @@ var config = {
   }
 };
 
-var ngModule = angular.module('Application', [
-  'ngRaven',
+var moduleDeps = [
   'ngAnimate',
   'hc.marked',
   'angular.filter',
   'authClient.services'
-])
+];
+if (globalConfig.snippets.raven) {
+  moduleDeps.unshift('ngRaven');
+}
+console.log(moduleDeps);
+var ngModule = angular.module('Application', moduleDeps)
   .constant('Configuration', config)
   .config([
     '$httpProvider', '$compileProvider', '$logProvider', '$locationProvider',
