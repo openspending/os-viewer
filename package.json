@@ -10,6 +10,7 @@
     "posttest": "npm run review",
     "review": "eslint app tests index.js gulpfile.js webpack.config.js --ignore-pattern 'app/views/snippets/*'",
     "develop": "npm run build && npm start",
+    "debug": "npm run build && node --inspect index.js",
     "build:assets": "gulp",
     "build:app": "webpack --hide-modules --config webpack.config.js",
     "build": "npm run build:assets && npm run build:app"
