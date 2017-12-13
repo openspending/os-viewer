@@ -5,6 +5,7 @@ var downloader = require('../../../services/downloader');
 var visualizationsService = require('../../../services/visualizations');
 
 require('../controls/sorting');
+require('../controls/breadcrumbs');
 
 ngModule.directive('barChartVisualization', [
   '$timeout', 'i18n', 'Configuration',
