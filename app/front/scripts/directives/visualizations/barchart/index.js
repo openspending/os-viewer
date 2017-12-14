@@ -5,6 +5,7 @@ var downloader = require('../../../services/downloader');
 var visualizationsService = require('../../../services/visualizations');
 
 require('../controls/sorting');
+require('../controls/breadcrumbs');
 
 ngModule.directive('barChartVisualization', [
   '$timeout', 'i18n', 'Configuration',
@@ -36,6 +37,19 @@ ngModule.directive('barChartVisualization', [
             });
           }
         }, true);
+
+        $scope.$on('babbage-ui.click',
+          function($event, component, item) {
+            var categoryName = component.chart.category(item['index']);
+            $event.stopPropagation();
+
+            if (categoryName.toLowerCase() !== 'others') {
+              $scope.$emit(
+                Configuration.events.visualizations.drillDown,
+                categoryName
+              );
+            }
+          });
 
         $scope.$on('babbage-ui.ready', function() {
           Configuration.sealerHook(200); // Wait for rendering

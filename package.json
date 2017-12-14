@@ -10,6 +10,7 @@
     "posttest": "npm run review",
     "review": "eslint app tests index.js gulpfile.js webpack.config.js --ignore-pattern 'app/views/snippets/*'",
     "develop": "npm run build && npm start",
+    "debug": "npm run build && node --inspect index.js",
     "build:assets": "gulp",
     "build:app": "webpack --hide-modules --config webpack.config.js",
     "build": "npm run build:assets && npm run build:app"
@@ -41,7 +42,7 @@
     "angular-animate": "^1.5.8",
     "angular-filter": "^0.5.9",
     "angular-marked": "^1.2.2",
-    "babbage.ui": "^1.6.0",
+    "babbage.ui": "^1.6.1",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "bubbletree": "^2.1.0",
