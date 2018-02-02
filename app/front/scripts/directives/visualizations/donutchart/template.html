@@ -1,0 +1,16 @@
+<div class="clearfix">
+  <breadcrumbs breadcrumbs="params.breadcrumbs"></breadcrumbs>
+</div>
+<div class="x-visualization-chart clearfix">
+  <pie-chart ng-if="isVisible"
+    downloader="downloader"
+    cube="{{ params.packageId }}"
+    type="donut"
+    state="state"
+    format-value="formatValue"
+    messages="messages"
+    endpoint="{{ params.babbageApiUrl }}"
+    max-slices="5"
+    color-scale="colorScale">
+  </pie-chart>
+</div>

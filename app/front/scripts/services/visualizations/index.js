@@ -19,6 +19,13 @@ var availableVisualizations = [
     icon: 'os-icon os-icon-piechart'
   },
   {
+    id: 'DonutChart',
+    name: 'Donut Chart',
+    type: 'drilldown',
+    embed: 'donutchart',
+    icon: 'os-icon os-icon-piechart'
+  },
+  {
     id: 'BubbleTree',
     name: 'Bubble Tree',
     type: 'drilldown',

@@ -6,6 +6,7 @@
   <div ng-switch="state.params.visualizations[0]">
     <treemap-visualization ng-switch-when="Treemap" params="state.params"></treemap-visualization>
     <pie-chart-visualization ng-switch-when="PieChart" params="state.params"></pie-chart-visualization>
+    <donut-chart-visualization ng-switch-when="DonutChart" params="state.params"></donut-chart-visualization>
     <bar-chart-visualization ng-switch-when="BarChart" params="state.params"></bar-chart-visualization>
     <line-chart-visualization ng-switch-when="LineChart" params="state.params"></line-chart-visualization>
     <table-visualization ng-switch-when="Table" params="state.params"></table-visualization>

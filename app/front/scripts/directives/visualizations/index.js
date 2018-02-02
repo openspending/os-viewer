@@ -11,6 +11,7 @@ require('./facts');
 require('./linechart');
 require('./map');
 require('./piechart');
+require('./donutchart');
 require('./pivottable');
 require('./radar');
 require('./sankey');
