@@ -60,7 +60,7 @@ describe('Visualizations', function() {
         data.package1PackageModel);
 
       assert.isArray(items);
-      assert.equal(items.length, 9);
+      assert.equal(items.length, 10);
       _.each(items, function(item) {
         assert.isObject(item);
       });
@@ -74,6 +74,7 @@ describe('Visualizations', function() {
       assert.deepEqual(ids, [
         'BarChart',
         'BubbleTree',
+        'DonutChart',
         'LineChart',
         'PieChart',
         'PivotTable',
