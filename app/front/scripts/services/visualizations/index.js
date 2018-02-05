@@ -23,7 +23,7 @@ var availableVisualizations = [
     name: 'Donut Chart',
     type: 'drilldown',
     embed: 'donutchart',
-    icon: 'os-icon os-icon-piechart'
+    icon: 'os-icon os-icon-donutchart'
   },
   {
     id: 'BubbleTree',
