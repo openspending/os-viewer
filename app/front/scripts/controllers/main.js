@@ -34,7 +34,7 @@ ngModule.controller('MainController', [
 
       // Extend state with some UI-related data
       $scope.state.params.isEmbedded = isEmbedded;
-      $scope.state.params.availableSoring = osViewerService
+      $scope.state.params.availableSorting = osViewerService
         .getAvailableSorting($scope.state);
       $scope.state.params.breadcrumbs = osViewerService
         .buildBreadcrumbs($scope.state);
