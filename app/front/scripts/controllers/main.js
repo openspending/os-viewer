@@ -76,36 +76,35 @@ ngModule.controller('MainController', [
           var urlParams = osViewerService.parseUrl($location.url());
           var packageId = urlParams.packageId;
 
-          return $q(osViewerService.loadDataPackages(
-            token, packageId, userId
-          ))
+          return $q(osViewerService.loadDataPackages(token, packageId, userId))
             .then(function(dataPackages) {
-              // If user is not logged in, and there are no package ID in
-              // url - no data packages will be loaded.
-              // In this case, redirect user to OS Explorer
+              // If user is not logged in, and there are no package ID in url -
+              // no data packages will be loaded. In this case, redirect user
+              // to OS Explorer
               if (!_.isArray(dataPackages) || (dataPackages.length == 0)) {
-                $window.location.href = dataPackageApiService.osExplorerUrl;
-              }
-              return dataPackages;
-            });
-        })
-        .then(function(dataPackages) {
-          $scope.isLoading.application = false;
-          $scope.availablePackages = dataPackages;
+                // Can't access osExplorerUrl until config is loaded.
+                dataPackageApiService.loadConfig().then(function() {
+                  $window.location.href = dataPackageApiService.osExplorerUrl;
+                });
+              } else {
+                $scope.isLoading.application = false;
+                $scope.availablePackages = dataPackages;
 
-          $scope.isLoading.package = true;
-          return $q(osViewerService.getInitialState(dataPackages,
-            $location.url()));
-        })
-        .then(function(state) {
-          osViewerService.translateHierarchies(state, i18n);
-          $scope.state = state;
-          return $q(osViewerService.fullyPopulateModel(state));
-        })
-        .then(function(state) {
-          $scope.state = state;
-          updateStateParams(state.params);
-          $scope.isLoading.package = false;
+                $scope.isLoading.package = true;
+                return $q(osViewerService.getInitialState(dataPackages,
+                  $location.url()))
+                  .then(function(state) {
+                    osViewerService.translateHierarchies(state, i18n);
+                    $scope.state = state;
+                    return $q(osViewerService.fullyPopulateModel(state));
+                  })
+                  .then(function(state) {
+                    $scope.state = state;
+                    updateStateParams(state.params);
+                    $scope.isLoading.package = false;
+                  });
+              }
+            });
         });
     }
 
