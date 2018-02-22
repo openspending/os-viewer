@@ -2,9 +2,15 @@ FROM node:8-alpine
 
 ENV OS_VIEWER_BASE_PATH=viewer/
 
-ADD . /app/
 RUN apk add --update git
-RUN cd /app && npm install && npm run build
+
+WORKDIR /app
+ADD package.json .
+RUN npm install
+
+ADD . .
+RUN npm run build
+
 ADD docker/settings.json /app/settings.json
 
 EXPOSE 8000
