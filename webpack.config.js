@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
 
@@ -7,10 +9,6 @@ var plugins = [
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-  }),
-  new webpack.DefinePlugin({
-    'process.env.SENTRY_PUBLIC_DSN':
-      JSON.stringify(process.env.SENTRY_PUBLIC_DSN)
   })
 ];
 
@@ -27,7 +25,11 @@ if (process.env.NODE_ENV == 'production') {
 
 module.exports = {
   entry: {
-    app: './app/front/scripts/index.js'
+    app: './app/front/scripts/index.js',
+    snippets: _.map(fs.readdirSync('./app/front/scripts/snippets/'),
+                    function(filename) {
+                      return './app/front/scripts/snippets/' + filename;
+                    })
   },
   devtool: 'source-map',
   output: {
