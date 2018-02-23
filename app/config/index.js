@@ -3,20 +3,18 @@
 var path = require('path');
 var nconf = require('nconf');
 
-var DEFAULT_HOST = 'https://openspending.org';
+var DEFAULT_HOST = process.env.OS_BASE_URL;
 var DEFAULT_BASE_PATH = '';
 
 nconf.file({
   file: path.join(__dirname, '/../../settings.json')
 });
 
-var apiHost = process.env.OS_VIEWER_API_HOST || DEFAULT_HOST;
-var authHost = process.env.OS_VIEWER_AUTH_HOST || DEFAULT_HOST;
-var searchHost = process.env.OS_VIEWER_SEARCH_HOST || DEFAULT_HOST;
+var apiHost = process.env.OS_API_URL || DEFAULT_HOST;
+var authHost = process.env.OS_CONDUCTOR_URL || DEFAULT_HOST;
+var searchHost = process.env.OS_SEARCH_URL || DEFAULT_HOST + '/search/package';
 var dataMineHost = process.env.OS_VIEWER_DATAMINE_HOST || DEFAULT_HOST;
-
-var cosmopolitanHost = process.env.OS_VIEWER_API_COSMO_HOST ||
-  '//cosmopolitan.openspending.org/v1/';
+var cosmopolitanHost = process.env.OS_VIEWER_API_COSMO_HOST;
 
 // this is the object that you want to override in your own local config
 nconf.defaults({
@@ -30,7 +28,7 @@ nconf.defaults({
     cosmoUrl: cosmopolitanHost
   },
   search: {
-    url: searchHost + '/search/package'
+    url: searchHost
   },
   dataMine: {
     url: dataMineHost
@@ -40,7 +38,7 @@ nconf.defaults({
   basePath: process.env.OS_VIEWER_BASE_PATH || DEFAULT_BASE_PATH,
   snippets: {
     ga: process.env.OS_SNIPPETS_GA || null,
-    raven: process.env.SENTRY_PUBLIC_DSN || null
+    raven: process.env.OS_SNIPPETS_RAVEN || null
   },
   sentryDSN: process.env.SENTRY_DSN || null
 });

@@ -17,4 +17,30 @@ npm run build
 npm start
 ```
 
+For development, environmental variables can be added to a `.env` file in the root directory, and the following values can be configured:
+
+```ini
+# Required settings
+# Base URL for the application, e.g. 'http://localhost' or 'https://openspending.org'
+OS_BASE_URL=
+
+# Optional settings
+# base path defaults to 'viewer/'. Use '/' for development.
+OS_VIEWER_BASE_PATH=
+OS_SNIPPETS_GA=
+OS_SNIPPETS_RAVEN=
+SENTRY_DSN=
+
+# Cosmopolitan API url (defaults to '//cosmopolitan.openspending.org/v1/')
+OS_VIEWER_API_COSMO_HOST=
+# URL for the associated Redash instance
+OS_VIEWER_DATAMINE_HOST=
+
+# Each service below will use OS_BASE_URL unless overridden here:
+OS_API_URL=
+OS_EXPLORER_URL=
+OS_CONDUCTOR_URL=
+OS_SEARCH_URL=
+```
+
 See the [docs](http://docs.openspending.org/en/latest/developers/viewer/) for more information.

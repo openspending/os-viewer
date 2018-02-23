@@ -21,8 +21,7 @@ function getBasePath(config) {
 }
 
 function getRequestURI(req) {
-  var host = process.env.OS_EXTERNAL_ADDRESS || req.get('host');
-  return req.protocol + '://' + host + req.originalUrl;
+  return process.env.OS_BASE_URL || req.protocol + '://' + req.get('host') + req.originalUrl;
 }
 
 module.exports = function(req, res) {
