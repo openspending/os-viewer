@@ -40,7 +40,6 @@ function getDataPackageMetaData(dataPackageUrl) {
       return response.json();
     })
     .catch(function(error) {
-      console.trace(error);
       return null;  // On error, return nothing ('no metadata')
     })
     .then(dataPackageToMetaData)
