@@ -1,7 +1,5 @@
 FROM node:8-alpine
 
-ENV OS_VIEWER_BASE_PATH=viewer/
-
 RUN apk add --update git
 
 WORKDIR /app
@@ -15,4 +13,4 @@ ADD docker/settings.json /app/settings.json
 
 EXPOSE 8000
 
-CMD API_URL="${OS_EXTERNAL_ADDRESS}" cd /app && npm start
+CMD cd /app && npm start
