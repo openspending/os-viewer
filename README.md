@@ -40,7 +40,6 @@ OS_VIEWER_DATAMINE_HOST=
 OS_API_URL=
 OS_EXPLORER_URL=
 OS_CONDUCTOR_URL=
-OS_SEARCH_URL=
 ```
 
 See the [docs](http://docs.openspending.org/en/latest/developers/viewer/) for more information.

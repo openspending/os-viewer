@@ -17,6 +17,5 @@ module.exports = {
   OS_API_URL: {required: false},
   OS_EXPLORER_URL: {required: false},
   OS_CONDUCTOR_URL: {required: false},
-  OS_SEARCH_URL: {required: false},
   OS_VIEWER_DATAMINE_HOST: {required: false}
 };
