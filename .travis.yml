@@ -1,10 +1,7 @@
-language: node_js
+language: generic
 
 services:
   - docker
-
-node_js:
-  - 8.7.0
 
 env:
   global:
