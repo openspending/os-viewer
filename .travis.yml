@@ -6,13 +6,10 @@ services:
 node_js:
   - '8.7.0'
 
-env:
-  global:
-    - OS_BASE_URL=http://localhost
-
 install:
   - make docker-build
-  - make docker-run
+  # Run docker image with additional args
+  - make docker-run RUN_ARGS="-e OS_BASE_URL=http://localhost"
 
 script:
   - make docker-test

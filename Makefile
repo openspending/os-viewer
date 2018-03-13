@@ -10,7 +10,7 @@ docker-build:
 	docker build -t ${IMG} -t ${LATEST} .
 
 docker-run:
-	docker run -e OS_BASE_URL=http://localhost --name ${NAME} -d ${LATEST}
+	docker run ${RUN_ARGS} --name ${NAME} -d ${LATEST}
 
 docker-test:
 	docker ps | grep latest
