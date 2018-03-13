@@ -20,8 +20,10 @@ docker-remove:
 	docker rm -f ${NAME}
 
 docker-push:
-	docker push ${LATEST}
 	docker push ${IMG}
+	if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+		docker push ${LATEST}
+	fi
 
 docker-login:
 	docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
