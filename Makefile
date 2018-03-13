@@ -1,10 +1,10 @@
-.PHONY: docker-build docker-run docker-test docker-remove push login
+.PHONY: docker-build docker-run docker-test docker-remove docker-push docker-login
 
 NAME   := os-viewer
 REPO   := openspending/${NAME}
 TAG    := $(shell git log -1 --pretty=format:"%h")
-IMG    := ${NAME}:${TAG}
-LATEST := ${NAME}:latest
+IMG    := ${REPO}:${TAG}
+LATEST := ${REPO}:latest
 
 docker-build:
 	docker build -t ${IMG} -t ${LATEST} .
@@ -19,8 +19,9 @@ docker-test:
 docker-remove:
 	docker rm -f ${NAME}
 
-push:
-	docker push ${REPO}
+docker-push:
+	docker push ${LATEST}
+	docker push ${IMG}
 
-login:
-	docker log -u ${DOCKER_USER} -p ${DOCKER_PASS}
+docker-login:
+	docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
