@@ -18,9 +18,6 @@ install:
 script:
   - make ci-test
 
-after_script:
-  - make ci-remove
-
 after_success:
   - make ci-push-tag
 
