@@ -19,10 +19,10 @@ test:
 remove:
 	docker rm -f ${NAME}
 
-push-tag:
+push-tag: login
 	docker push ${IMG}
 
-push-latest:
+push-latest: login
 	docker push ${LATEST}
 
 login:
