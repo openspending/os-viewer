@@ -1,7 +1,29 @@
-language: node_js
+language: generic
 
-node_js:
-  - '8.7.0'
-notifications:
-  slack:
-    secure: s9p3sp2Vjvl5xdFCX5RfCH1/v5tmVyJvMKeFWZNCgIwmDX7b5BWpBX9AVbAuEyQQLVeWSREg06NgMRmEc7w9Xqux/VGaQ3Hw3BvxyAX+gGfmOYIpV8nK9dVCghaysewe4p12z85CkOZpc4eXQiQrcJ6I1xCpaw4vdvL4tSYWLevPM17iFee1Vgqzs2dWfu4B77TM2Na+6q1d4dxuhez5EeGCD/1u7Jy4B09jtYYpIpkzrJhLmy1ZZNik56GnRP3yskhQ5TP+luKuH/Vwq03hT/px3OIMxjjU8DnDJIeFqB+Z3T5oMatvHGUDrt2XI869F5/GKHota//DUp9Va69Yvy8GNplT0fOhbFAq8OfYnNZnMHeIV9zDX5tvqE/ZgbcVu6+weDvNfeo2DacU5wRpUSiBJe474XTLh0V5GICSQNn4/ZemFVpGG4PLrWVGmiuNr28t/fdFrLtYybA7tjKhj26VAjXrSssN5LEhqC6JpoALiMqzM27kMBACis3ZvdyYSuCWx3J9HVuqEH1DuPg17uOeknClolksZd4w9c2e7SePf5qe4b22UB7+vrU3mfAou8WMrDRaKEyUOGVm77FRiMkDvG+O5IYa4CPz6sHrw6yxD0XZn89CgduVF88bb3qjCQWJEyj76xfiWHVOD+Wfw63MtRyBmRmh6bycCZR5SbE=
+services:
+  - docker
+
+env:
+  global:
+    # DOCKER_USERNAME
+    - secure: Pk9BXOh4dajnDntxGJfvhi1vbXaQHw3P5kNkGNLW4LyviCWRGn3MmqEiDQ0gXgrdzZnZlPit0ySrvF+pBWrlPCFsvV/JRcfioCY3cCtgHvhX30EJ8Qn9g6cgOhXtsIxEx5436c7OMm7CQgkKUu/GiIZPXEbAeFX9wNrwwWxV+oiyHY5fLQtZQRz2iacht4dDiZLXsk62+jnm60hEG6RzNk0RuLKXL0JfJiRTlz+6fiTPOJnBXtQ2/vwe2+ZzQ4fsa/0zS/i4xGgmnYceLgEkXv5oaljIOWA1zcWqaOVjfNPf9zcnSE4qBxpRtnpfK7xyHRaUW+w9oCElNS8CUG/t7vpcCCo4SVjQyIlOlBuUF4mshRgG3eXl3QytZjBPy6f4h/QKALtpKyZdZh7ajV//y7hio/RAQcR4zUUSfsLQIGjXwSTx0sckAJcACFmci/PiqHQEc9iAI7xO4nS5EfWBuo/uGdbU1fx1TcxVpfSf7an31HlMKYgLQz4n8yRDJJvMYZQsG2R2Qr+KEkIZPcYYtMqWpEAdVtscs5C9XWir9QgxYzf6ly4xxxEuIeXvue7YKPx2ozxJGnXk0tmHTS06Z039AVrMvH5jYPPmRxP0ztesP/2gH6U9SLx9kNfTidedXoZZ1AOqDG/mSH0BPaAS8Uqvh79oJ+b1MfgMNMjIYUI=
+    # DOCKER_PASSWORD
+    - secure: D0/q/TyQyPLmGo00MuoebjMZWh+iiGhK+a+EQqrHA3cOXYT+9kbfflTbW0MmRx5LYX5TTkX6d81y+R9NfEnLAG9Z+KLaB5qXLf04cv3hSjpukhLMAdKHEGBIpM6hPxwrRnYmQX5zTpYocXp22da/Z6dMmIP9ar6WOmr/gyZUHgd4rWFVjfW/ae0+uLtNZlSaC4dNKDuj67Y6mlml1cQV20Z5tgVUcfyfxD5PEnUoj110vnM3OK9EYjOe+PZC9LHjq0M8e9w8dt4ByVWoNn+yLX/r4saQmmngnCcZYyiLiNpPuaqlFzblhU3+DML8cOl7EdwIv8XT45RmzSikweQrXirjft0IpgIkLWv7s6YsOcf9fZ8/Sdri+ulBkDABN/QiE8jVhdQVpWweoYwBlD+zew7A9CLOGXyQxze07JqzbV4sPU7g4KP8tqfZe5Ksk59tmr2nsBJuG0vgkN3GAFDL6Eagq7B+or+13XfzBUIdWvLH8kCOvYE5yBHsCIij4NmdMlA3ay4JCuNTynoly6h3F0tHwru3/eNCLlffJPW7op7iC52WqbIWGpG4jXWL+QNctUoJ+NmyDAijNX/xjljxri1coDTgiNTWnLVKH95vpnxfWQJ9xZV1Wo/8Oo3ReQ8JWfXBalzjWWDHCyj/zZZQxGsvICg34N31GdKvicp8gCI=
+
+install:
+  - make ci-build
+  # Run docker image with additional args
+  - make ci-run RUN_ARGS="-e OS_BASE_URL=http://localhost"
+
+script:
+  - make ci-test
+
+after_success:
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then make ci-push-tag TAG="${TRAVIS_PULL_REQUEST_BRANCH////_}"; fi'
+
+deploy:
+  # deploy master to latest tag
+  - provider: script
+    script: make ci-push
+    on:
+      branch: master
