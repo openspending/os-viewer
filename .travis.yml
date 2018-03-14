@@ -22,8 +22,11 @@ after_script:
   - make remove
 
 after_success:
-  - make login
   - make push-tag
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-      make push-latest
-    fi
+
+deploy:
+  # deploy master to latest tag
+  - provider: script
+    script: make push-latest
+    on:
+      branch: master
