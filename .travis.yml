@@ -19,11 +19,11 @@ script:
   - make ci-test
 
 after_success:
-  - make ci-push-tag
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then make ci-push-tag TAG="${TRAVIS_PULL_REQUEST_BRANCH////_}"; fi'
 
 deploy:
   # deploy master to latest tag
   - provider: script
-    script: make ci-push-latest
+    script: make ci-push
     on:
       branch: master

@@ -1,7 +1,8 @@
 .PHONY: ci-build ci-run ci-test ci-remove ci-push-tag ci-push-latest ci-login
 
 NAME   := os-viewer
-REPO   := openspending/${NAME}
+ORG    := openspending
+REPO   := ${ORG}/${NAME}
 TAG    := $(shell git log -1 --pretty=format:"%h")
 IMG    := ${REPO}:${TAG}
 LATEST := ${REPO}:latest
@@ -19,11 +20,13 @@ ci-test:
 ci-remove:
 	docker rm -f ${NAME}
 
-ci-push-tag: login
+ci-push: ci-login
 	docker push ${IMG}
-
-ci-push-latest: login
 	docker push ${LATEST}
+
+ci-push-tag: ci-login
+	docker build -t ${REPO}:${TAG} .
+	docker push ${REPO}:${TAG}
 
 ci-login:
 	docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
