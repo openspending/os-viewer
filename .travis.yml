@@ -23,4 +23,7 @@ after_script:
 
 after_success:
   - make login
-  - make push
+  - make push-tag
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+      make push-latest
+    fi

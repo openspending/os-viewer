@@ -1,4 +1,4 @@
-.PHONY: build run test remove push login
+.PHONY: build run test remove push-tag push-latest login
 
 NAME   := os-viewer
 REPO   := openspending/${NAME}
@@ -19,11 +19,11 @@ test:
 remove:
 	docker rm -f ${NAME}
 
-push:
+push-tag:
 	docker push ${IMG}
-	if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-		docker push ${LATEST}
-	fi
+
+push-latest:
+	docker push ${LATEST}
 
 login:
 	docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
