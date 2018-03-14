@@ -11,16 +11,16 @@ env:
     - secure: D0/q/TyQyPLmGo00MuoebjMZWh+iiGhK+a+EQqrHA3cOXYT+9kbfflTbW0MmRx5LYX5TTkX6d81y+R9NfEnLAG9Z+KLaB5qXLf04cv3hSjpukhLMAdKHEGBIpM6hPxwrRnYmQX5zTpYocXp22da/Z6dMmIP9ar6WOmr/gyZUHgd4rWFVjfW/ae0+uLtNZlSaC4dNKDuj67Y6mlml1cQV20Z5tgVUcfyfxD5PEnUoj110vnM3OK9EYjOe+PZC9LHjq0M8e9w8dt4ByVWoNn+yLX/r4saQmmngnCcZYyiLiNpPuaqlFzblhU3+DML8cOl7EdwIv8XT45RmzSikweQrXirjft0IpgIkLWv7s6YsOcf9fZ8/Sdri+ulBkDABN/QiE8jVhdQVpWweoYwBlD+zew7A9CLOGXyQxze07JqzbV4sPU7g4KP8tqfZe5Ksk59tmr2nsBJuG0vgkN3GAFDL6Eagq7B+or+13XfzBUIdWvLH8kCOvYE5yBHsCIij4NmdMlA3ay4JCuNTynoly6h3F0tHwru3/eNCLlffJPW7op7iC52WqbIWGpG4jXWL+QNctUoJ+NmyDAijNX/xjljxri1coDTgiNTWnLVKH95vpnxfWQJ9xZV1Wo/8Oo3ReQ8JWfXBalzjWWDHCyj/zZZQxGsvICg34N31GdKvicp8gCI=
 
 install:
-  - make docker-build
+  - make build
   # Run docker image with additional args
-  - make docker-run RUN_ARGS="-e OS_BASE_URL=http://localhost"
+  - make run RUN_ARGS="-e OS_BASE_URL=http://localhost"
 
 script:
-  - make docker-test
+  - make test
 
 after_script:
-  - make docker-remove
+  - make remove
 
 after_success:
-  - make docker-login
-  - make docker-push
+  - make login
+  - make push
