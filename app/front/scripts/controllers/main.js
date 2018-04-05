@@ -189,20 +189,27 @@ ngModule.controller('MainController', [
         var urlParams = osViewerService.parseUrl(url);
         if (!$scope.state || (packageId != $scope.state.package.id)) {
           $scope.isLoading.package = true;
-          $q(osViewerService.loadDataPackage(packageId, urlParams))
-            .then(function(state) {
-              state.params.lang = $scope.state.params.lang;
-              state.params.theme = $scope.state.params.theme;
-              $scope.state = state;
-              osViewerService.translateHierarchies(state, i18n);
-              return $q(osViewerService.fullyPopulateModel(state));
-            })
-            .then(function(state) {
-              $scope.isLoading.package = false;
-              $scope.state = state;
-              // Do not update url and history when populating data from url
-              updateStateParams(state.params, !isUrlAvailable,
-                !isUrlAvailable);
+
+          return $q(LoginService.tryGetToken())
+            .then(function(token) {
+              var userId = token ? LoginService.getUserId() : null;
+
+              $q(osViewerService.loadDataPackage(packageId, urlParams))
+                .then(function(state) {
+                  state.params.lang = $scope.state.params.lang;
+                  state.params.theme = $scope.state.params.theme;
+                  $scope.state = state;
+                  osViewerService.translateHierarchies(state, i18n);
+                  osViewerService.addIsOwner(state, userId);
+                  return $q(osViewerService.fullyPopulateModel(state));
+                })
+                .then(function(state) {
+                  $scope.isLoading.package = false;
+                  $scope.state = state;
+                  // Do not update url and history when populating data from url
+                  updateStateParams(state.params, !isUrlAvailable,
+                    !isUrlAvailable);
+                });
             });
         } else {
           if (isUrlAvailable) {
