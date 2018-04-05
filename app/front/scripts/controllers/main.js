@@ -95,6 +95,7 @@ ngModule.controller('MainController', [
                   $location.url()))
                   .then(function(state) {
                     osViewerService.translateHierarchies(state, i18n);
+                    osViewerService.addIsOwner(state, userId);
                     $scope.state = state;
                     return $q(osViewerService.fullyPopulateModel(state));
                   })

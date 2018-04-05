@@ -76,6 +76,13 @@ function loadDataPackage(packageId, initialParams) {
     });
 }
 
+function addIsOwner(state, userId) {
+  /*
+  Add owner status to package in state if owned by userId.
+  */
+  state.package.meta.isOwner = (state.package.meta.owner == userId);
+}
+
 function fullyPopulateModel(state) {
   return dataPackageApi.loadDimensionsValues(state.package, null,
     state.params.filters)
@@ -422,6 +429,7 @@ module.exports.params = stateParams;
 module.exports.history = history;
 module.exports.loadDataPackages = loadDataPackages;
 module.exports.loadDataPackage = loadDataPackage;
+module.exports.addIsOwner = addIsOwner;
 module.exports.parseUrl = parseUrl;
 module.exports.getInitialState = getInitialState;
 module.exports.fullyPopulateModel = fullyPopulateModel;
