@@ -63,7 +63,9 @@ var config = {
       drillDown: 'visualizations.drillDown',
       changeOrderBy: 'visualizations.changeOrderBy',
       showShareModal: 'visualizations.showShareModal',
-      breadcrumbClick: 'visualizations.breadcrumbClick'
+      breadcrumbClick: 'visualizations.breadcrumbClick',
+      clearAllParams: 'visualizations.clearAllParams',
+      resetToDefault: 'visualizations.resetToDefault'
     },
     sidebar: {
       listItemChange: 'sidebar.listItemChange',

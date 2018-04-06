@@ -241,6 +241,18 @@ ngModule.controller('MainController', [
             $scope.state.package));
       });
 
+    $scope.$on(Configuration.events.visualizations.clearAllParams,
+      function() {
+        updateStateParams(osViewerService.params
+          .clearAllParams($scope.state.params,
+            $scope.state.package));
+      });
+
+    $scope.$on(Configuration.events.visualizations.resetToDefault,
+      function($event, defaultParams) {
+        updateStateParams(defaultParams, true, true);
+      });
+
     $scope.$on(Configuration.events.visualizations.drillDown,
       function($event, drillDownValue) {
         updateStateParams(osViewerService.params

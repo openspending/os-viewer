@@ -649,6 +649,12 @@ function updateFromParams(state, urlParams, packageModel) {
   return result;
 }
 
+function clearAllParams(state, packageModel) {
+  var result = cloneState(state);
+  clearParams(result, packageModel);
+  return result;
+}
+
 module.exports.init = init;
 module.exports.changeMeasure = changeMeasure;
 module.exports.changeFilter = changeFilter;
@@ -665,3 +671,4 @@ module.exports.removeAllVisualizations = removeAllVisualizations;
 module.exports.changeOrderBy = changeOrderBy;
 module.exports.updateFromParams = updateFromParams;
 module.exports._getDefaultState = getDefaultState;
+module.exports.clearAllParams = clearAllParams;
