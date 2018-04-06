@@ -14,7 +14,8 @@
     "debug": "npm run build && node --inspect index.js",
     "build:assets": "gulp",
     "build:app": "webpack --hide-modules --config webpack.config.js",
-    "build": "npm run build:assets && npm run build:app"
+    "build": "npm run build:assets && npm run build:app",
+    "dev-watch": "npm run build:app -- --watch"
   },
   "engines": {
     "node": "^8.7.0",
