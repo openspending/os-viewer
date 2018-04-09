@@ -65,8 +65,10 @@ function loadDataPackage(packageId, initialParams) {
         stateParams.init(packageModel, initialParams), {
           babbageApiUrl: dataPackageApi.apiConfig.url,
           cosmopolitanApiUrl: dataPackageApi.apiConfig.cosmoUrl
-        }, packageModel.meta.defaultParams
-      );
+        });
+      if (!_.has(initialParams, 'visualizations')) {
+        var params = _.extend(params, packageModel.meta.defaultParams);
+      }
 
       return {
         package: packageModel,
