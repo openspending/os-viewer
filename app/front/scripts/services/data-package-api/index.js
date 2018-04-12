@@ -8,6 +8,7 @@ var downloader = require('../downloader');
 module.exports.apiConfig = {};
 module.exports.searchConfig = {};
 module.exports.osExplorerUrl = null;
+module.exports.osConductorUrl = null;
 module.exports.defaultSettingsUrl = 'settings.json';
 
 function loadConfig(settingsUrl) {
@@ -17,6 +18,7 @@ function loadConfig(settingsUrl) {
     module.exports.searchConfig = config.search;
     module.exports.dataMineConfig = config.dataMine;
     module.exports.osExplorerUrl = config.osExplorerUrl;
+    module.exports.osConductorUrl = config.osConductorUrl;
     return config;
   });
 }
@@ -76,6 +78,7 @@ function getDataPackageMetadata(dataPackage, model) {
   // jscs:enable
 
   return {
+    defaultParams: dataPackage.defaultParams,
     name: dataPackage.name,
     title: dataPackage.title,
     description: dataPackage.description,
@@ -424,6 +427,37 @@ function serializeCut(filters, drilldown) {
     .value();
 }
 
+function setDefaultParams(token, packageId, params) {
+  return loadConfig().then(function() {
+    var url = module.exports.osConductorUrl + '/package/update_params';
+
+    var data = _.chain({
+      jwt: token,
+      id: packageId
+    })
+    .map(function(value, key) {
+      return encodeURIComponent(key) + '=' + encodeURIComponent(value);
+    })
+    .join('&')
+    .value();
+
+    var options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    };
+    return downloader.getJson(url + '?' + data, options, true)
+      .then(function(result) {
+        if (!result.success) {
+          throw new Error(result.error);
+        }
+        return result.json;
+      });
+  });
+}
+
 module.exports.serializeCut = serializeCut;
 module.exports.loadConfig = loadConfig;
 module.exports.getDataPackages = getDataPackages;
@@ -431,3 +465,4 @@ module.exports.getDataPackage = getDataPackage;
 module.exports.loadDimensionValues = loadDimensionValues;
 module.exports.loadDimensionsValues = loadDimensionsValues;
 module.exports.createPackageModel = createPackageModel;
+module.exports.setDefaultParams = setDefaultParams;
