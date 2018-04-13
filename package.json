@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "lookenv --dotenv -- node index.js",
+    "start:dev": "nodemon npm run develop",
     "test": "mocha tests/*.js",
     "posttest": "npm run review",
     "review": "eslint app tests index.js gulpfile.js webpack.config.js --ignore-pattern 'app/views/snippets/*'",
@@ -13,7 +14,8 @@
     "debug": "npm run build && node --inspect index.js",
     "build:assets": "gulp",
     "build:app": "webpack --hide-modules --config webpack.config.js",
-    "build": "npm run build:assets && npm run build:app"
+    "build": "npm run build:assets && npm run build:app",
+    "dev-watch": "npm run build:app -- --watch"
   },
   "engines": {
     "node": "^8.7.0",
@@ -87,6 +89,7 @@
     "json-loader": "^0.5.4",
     "mocha": "^3.4.2",
     "nock": "^7.2.2",
+    "nodemon": "^1.17.2",
     "null-loader": "^0.1.1",
     "raw-loader": "^0.5.1",
     "supertest": "^1.2.0",

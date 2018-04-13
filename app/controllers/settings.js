@@ -6,7 +6,8 @@ module.exports = function(req, res) {
     api: config.get('api'),
     search: config.get('search'),
     dataMine: config.get('dataMine'),
-    osExplorerUrl: config.get('osExplorerUrl')
+    osExplorerUrl: config.get('osExplorerUrl'),
+    osConductorUrl: config.get('osConductorUrl')
   });
 };
 

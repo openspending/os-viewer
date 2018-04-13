@@ -34,7 +34,7 @@ ngModule.controller('MainController', [
 
       // Extend state with some UI-related data
       $scope.state.params.isEmbedded = isEmbedded;
-      $scope.state.params.availableSoring = osViewerService
+      $scope.state.params.availableSorting = osViewerService
         .getAvailableSorting($scope.state);
       $scope.state.params.breadcrumbs = osViewerService
         .buildBreadcrumbs($scope.state);
@@ -95,6 +95,7 @@ ngModule.controller('MainController', [
                   $location.url()))
                   .then(function(state) {
                     osViewerService.translateHierarchies(state, i18n);
+                    osViewerService.addIsOwner(state, userId);
                     $scope.state = state;
                     return $q(osViewerService.fullyPopulateModel(state));
                   })
@@ -188,20 +189,27 @@ ngModule.controller('MainController', [
         var urlParams = osViewerService.parseUrl(url);
         if (!$scope.state || (packageId != $scope.state.package.id)) {
           $scope.isLoading.package = true;
-          $q(osViewerService.loadDataPackage(packageId, urlParams))
-            .then(function(state) {
-              state.params.lang = $scope.state.params.lang;
-              state.params.theme = $scope.state.params.theme;
-              $scope.state = state;
-              osViewerService.translateHierarchies(state, i18n);
-              return $q(osViewerService.fullyPopulateModel(state));
-            })
-            .then(function(state) {
-              $scope.isLoading.package = false;
-              $scope.state = state;
-              // Do not update url and history when populating data from url
-              updateStateParams(state.params, !isUrlAvailable,
-                !isUrlAvailable);
+
+          return $q(LoginService.tryGetToken())
+            .then(function(token) {
+              var userId = token ? LoginService.getUserId() : null;
+
+              $q(osViewerService.loadDataPackage(packageId, urlParams))
+                .then(function(state) {
+                  state.params.lang = $scope.state.params.lang;
+                  state.params.theme = $scope.state.params.theme;
+                  $scope.state = state;
+                  osViewerService.translateHierarchies(state, i18n);
+                  osViewerService.addIsOwner(state, userId);
+                  return $q(osViewerService.fullyPopulateModel(state));
+                })
+                .then(function(state) {
+                  $scope.isLoading.package = false;
+                  $scope.state = state;
+                  // Do not update url and history when populating data from url
+                  updateStateParams(state.params, !isUrlAvailable,
+                    !isUrlAvailable);
+                });
             });
         } else {
           if (isUrlAvailable) {
@@ -231,6 +239,18 @@ ngModule.controller('MainController', [
         updateStateParams(osViewerService.params
           .removeAllVisualizations($scope.state.params,
             $scope.state.package));
+      });
+
+    $scope.$on(Configuration.events.visualizations.clearAllParams,
+      function() {
+        updateStateParams(osViewerService.params
+          .clearAllParams($scope.state.params,
+            $scope.state.package));
+      });
+
+    $scope.$on(Configuration.events.visualizations.resetToDefault,
+      function($event, defaultParams) {
+        updateStateParams(defaultParams, true, true);
       });
 
     $scope.$on(Configuration.events.visualizations.drillDown,

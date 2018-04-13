@@ -65,8 +65,10 @@ function loadDataPackage(packageId, initialParams) {
         stateParams.init(packageModel, initialParams), {
           babbageApiUrl: dataPackageApi.apiConfig.url,
           cosmopolitanApiUrl: dataPackageApi.apiConfig.cosmoUrl
-        }
-      );
+        });
+      if (!_.has(initialParams, 'visualizations')) {
+        var params = _.extend(params, packageModel.meta.defaultParams);
+      }
 
       return {
         package: packageModel,
@@ -74,6 +76,13 @@ function loadDataPackage(packageId, initialParams) {
         history: history.init()
       };
     });
+}
+
+function addIsOwner(state, userId) {
+  /*
+  Add owner status to package in state if owned by userId.
+  */
+  state.package.meta.isOwner = (state.package.meta.owner == userId);
 }
 
 function fullyPopulateModel(state) {
@@ -422,6 +431,7 @@ module.exports.params = stateParams;
 module.exports.history = history;
 module.exports.loadDataPackages = loadDataPackages;
 module.exports.loadDataPackage = loadDataPackage;
+module.exports.addIsOwner = addIsOwner;
 module.exports.parseUrl = parseUrl;
 module.exports.getInitialState = getInitialState;
 module.exports.fullyPopulateModel = fullyPopulateModel;

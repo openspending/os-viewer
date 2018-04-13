@@ -35,6 +35,7 @@ nconf.defaults({
     url: dataMineHost
   },
   osExplorerUrl: process.env.OS_EXPLORER_URL || DEFAULT_HOST + '/',
+  osConductorUrl: conductorUrl + '/',
   authLibraryUrl: authHost + '/user/lib',
   basePath: process.env.OS_VIEWER_BASE_PATH || DEFAULT_BASE_PATH,
   snippets: {

@@ -17,6 +17,7 @@
 
     <div ng-if="!isLoading.package">
       <div class="clearfix">
+        <param-controls datapackage="state.package" is-owner="state.package.meta.isOwner" params="state.params" default-params="state.package.meta.defaultParams"></param-controls>
         <filter-list filters="state.params.selectedFilters" params="state.params"></filter-list>
         <history-navigation history="state.history"></history-navigation>
       </div>

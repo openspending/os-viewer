@@ -24,23 +24,28 @@ function getNormalizedUrl(originalUrl) {
 }
 
 module.exports = {
-  get: function(url) {
+  get: function(url, options, bypassCache) {
     // Make cache more efficient - use normalized url
     url = getNormalizedUrl(url);
-    if (!cache[url]) {
-      cache[url] = fetch(url).then(function(response) {
+    if (bypassCache || !cache[url]) {
+      var requestPromise = fetch(url, options).then(function(response) {
         if (response.status != 200) {
           throw new Error('Failed loading data from ' + response.url);
         }
         return response.text();
       });
+
+      if (bypassCache) {
+        return requestPromise;
+      }
+      cache[url] = requestPromise;
     }
     return new Promise(function(resolve, reject) {
       cache[url].then(resolve).catch(reject);
     });
   },
-  getJson: function(url) {
-    return this.get(url)
+  getJson: function(url, options, bypassCache) {
+    return this.get(url, options, bypassCache)
       .then(JSON.parse)
       .catch(function(error) {
         console.trace(error);

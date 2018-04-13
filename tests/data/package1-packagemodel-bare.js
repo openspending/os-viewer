@@ -6,6 +6,7 @@ module.exports = {
     name: 'ekondo-titi-trial',
     title: 'Ekondo Titi trial 04/29',
     description: undefined,
+    defaultParams: {},
     owner: '8c248ff162c3c3b957f487138850eaf2',
     author: 'Victoria Vlad <victoriavladd@not.shown>',
     countryCode: 'CM',

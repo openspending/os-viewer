@@ -34,6 +34,7 @@ babbageApiExporter.setExportFunc(function(key, value) {
 
 // Application directives
 require('./autoselect');
+require('./confirmation-popover');
 require('./filter-list');
 require('./history-navigation');
 require('./package-selector');
@@ -41,3 +42,4 @@ require('./package-info');
 require('./popover');
 require('./sidebar');
 require('./visualizations');
+require('./param-controls');
