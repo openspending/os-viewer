@@ -77,8 +77,14 @@ function getDataPackageMetadata(dataPackage, model) {
     ].join('/');
   // jscs:enable
 
+  var defaultParams = {};
+  if (dataPackage.defaultParams &&
+      _.isString(dataPackage.defaultParams.params)) {
+    defaultParams = JSON.parse(dataPackage.defaultParams.params);
+  }
+
   return {
-    defaultParams: dataPackage.defaultParams,
+    defaultParams: defaultParams,
     name: dataPackage.name,
     title: dataPackage.title,
     description: dataPackage.description,
@@ -446,7 +452,7 @@ function setDefaultParams(token, packageId, params) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(params)
+      body: JSON.stringify({params: JSON.stringify(params)})
     };
     return downloader.getJson(url + '?' + data, options, true)
       .then(function(result) {
