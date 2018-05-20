@@ -1,6 +1,9 @@
 {
-  "Pie Chart": "Gráfica de torta",
   "Activity": "Funcional por proyecto",
+  "Date": "Período",
   "Functional Classification": "Clasificación programática",
-  "Date": "Período"
+  "Pie Chart": "Gráfica de torta",
+  "activity": "Funcional por proyecto",
+  "date": "Período",
+  "functional-classification": "Clasificación programática"
 }

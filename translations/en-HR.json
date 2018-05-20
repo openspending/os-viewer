@@ -1,5 +1,8 @@
 {
   "Activity": "Program Classification",
   "Administrative Classification": "Organizational Classification",
-  "Fin Source": "Funds"
+  "Fin Source": "Funds",
+  "activity": "Program Classification",
+  "administrative-classification": "Organizational Classification",
+  "fin-source": "Funds"
 }
