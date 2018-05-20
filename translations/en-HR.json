@@ -3,6 +3,6 @@
   "Administrative Classification": "Organizational Classification",
   "Fin Source": "Funds",
   "activity": "Program Classification",
-  "administrative-classification": "Organizational Classification",
-  "fin-source": "Funds"
+  "administrative_classification": "Organizational Classification",
+  "fin_source": "Funds"
 }
