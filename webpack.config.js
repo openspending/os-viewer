@@ -25,11 +25,7 @@ if (process.env.NODE_ENV == 'production') {
 
 module.exports = {
   entry: {
-    app: './app/front/scripts/index.js',
-    snippets: _.map(fs.readdirSync('./app/front/scripts/snippets/'),
-                    function(filename) {
-                      return './app/front/scripts/snippets/' + filename;
-                    })
+    app: './app/front/scripts/index.js'
   },
   devtool: 'source-map',
   output: {

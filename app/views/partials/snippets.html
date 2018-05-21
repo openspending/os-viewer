@@ -1,4 +1,9 @@
 <script type="text/javascript">
   globalConfig = {{ globalConfig | stringify }};
+  if (globalConfig.snippets && globalConfig.snippets.ga) {
+    var okiConsent = {
+      analyticsTrackingID: globalConfig.snippets.ga
+    };
+  }
 </script>
-<script src="scripts/snippets.js" type="text/javascript" charset="utf-8"></script>
+<script type='text/javascript' src='https://a.okfn.org/html/oki/consent/assets/js/consent.js?ver=4.9.5'></script>
