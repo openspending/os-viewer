@@ -393,7 +393,7 @@ function getDataPackage(packageId, loadBareModel) {
       downloader.getJson(apiConfig.url + '/info/' +
         encodeURIComponent(packageId) + '/package'),
       downloader.getJson(apiConfig.url + '/cubes/' +
-        encodeURIComponent(packageId) + '/model')
+        encodeURIComponent(packageId) + '/model/')
     ];
 
     return Promise.all(promises)

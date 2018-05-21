@@ -1,7 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
-var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
 
