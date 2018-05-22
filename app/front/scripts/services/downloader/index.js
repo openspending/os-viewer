@@ -12,6 +12,7 @@ var cache = {};
 // path, may have default port (i.e. :80 for http://). This function
 // will convert all such variants to a single form.
 function getNormalizedUrl(originalUrl) {
+  console.log(originalUrl);
   if (originalUrl.indexOf('://') == -1) {
     return originalUrl;
   }
@@ -20,13 +21,17 @@ function getNormalizedUrl(originalUrl) {
   });
   var parsed = url.parse(originalUrl);
   parsed.pathname = decodeURIComponent(parsed.pathname);
+  console.log(url.format(parsed));
   return url.format(parsed);
 }
 
 module.exports = {
   get: function(url, options, bypassCache) {
     // Make cache more efficient - use normalized url
+    // console.log(url);
     url = getNormalizedUrl(url);
+    // console.log(url);
+    // console.log('');
     if (bypassCache || !cache[url]) {
       var requestPromise = fetch(url, options).then(function(response) {
         if (response.status != 200) {
