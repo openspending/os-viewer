@@ -49,13 +49,13 @@ module.exports.initMocks = function() {
     .reply(200, data.package1Package, {'access-control-allow-origin': '*'});
   nock('http://api.example.com')
     .persist()
-    .get('/cubes/Package1/model')
+    .get('/cubes/Package1/model/')
     .reply(200, data.package1Model, {'access-control-allow-origin': '*'});
 
   _.each(data.package1Members, function(member) {
     nock('http://api.example.com')
       .persist()
-      .get('/cubes/Package1/members/' + member.key)
+      .get('/cubes/Package1/members/' + member.key + '/')
       .reply(200, member.data, {'access-control-allow-origin': '*'});
   });
 };

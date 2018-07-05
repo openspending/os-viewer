@@ -12,16 +12,15 @@ var cache = {};
 // path, may have default port (i.e. :80 for http://). This function
 // will convert all such variants to a single form.
 function getNormalizedUrl(originalUrl) {
-  console.log(originalUrl);
   if (originalUrl.indexOf('://') == -1) {
     return originalUrl;
   }
   originalUrl = normalizeUrl(originalUrl, {
-    stripWWW: false
+    stripWWW: false,
+    removeTrailingSlash: false
   });
   var parsed = url.parse(originalUrl);
   parsed.pathname = decodeURIComponent(parsed.pathname);
-  console.log(url.format(parsed));
   return url.format(parsed);
 }
 

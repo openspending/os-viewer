@@ -268,7 +268,7 @@ function loadDimensionsValues(packageModel, dimensions, filters) {
           if (isFiltered && !hasValues) {
             var url = apiConfig.url + '/cubes/' +
               encodeURIComponent(packageModel.id) + '/members/' +
-              encodeURIComponent(dimension.id);
+              encodeURIComponent(dimension.id) + '/';
             return downloader.getJson(url).then(function(result) {
               dimension.values = mapDimensionValues(dimension, result.data);
               return result;
@@ -291,7 +291,7 @@ function loadDimensionsValues(packageModel, dimensions, filters) {
 
         var url = apiConfig.url + '/cubes/' +
           encodeURIComponent(packageModel.id) + '/members/' +
-          encodeURIComponent(dimension.id) + cut;
+          encodeURIComponent(dimension.id) + cut + '/';
         return downloader.getJson(url).then(function(result) {
           // Save current values; after loading new values, some of selected
           // values may be missed in the new set, so we'll need to add them
