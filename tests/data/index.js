@@ -55,7 +55,7 @@ module.exports.initMocks = function() {
   _.each(data.package1Members, function(member) {
     nock('http://api.example.com')
       .persist()
-      .get('/cubes/Package1/members/' + member.key + '/')
+      .get('/cubes/Package1/members/' + member.key)
       .reply(200, member.data, {'access-control-allow-origin': '*'});
   });
 };
