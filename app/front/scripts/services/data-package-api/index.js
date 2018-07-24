@@ -204,7 +204,9 @@ function loadDimensionValues(packageId, dimension, filters) {
     delete cut[dimension.key];
     cut = serializeCut(cut).join('|');
     if (cut != '') {
-      cut = '?cut=' + encodeURIComponent(cut);
+      cut = '/?cut=' + encodeURIComponent(cut);
+    } else {
+      cut = '/';
     }
 
     var url = apiConfig.url + '/cubes/' +
@@ -286,7 +288,9 @@ function loadDimensionsValues(packageModel, dimensions, filters) {
         delete cut[dimension.key];
         cut = serializeCut(cut).join('|');
         if (cut != '') {
-          cut = '?cut=' + encodeURIComponent(cut);
+          cut = '/?cut=' + encodeURIComponent(cut);
+        } else {
+          cut = '/';
         }
 
         var url = apiConfig.url + '/cubes/' +
