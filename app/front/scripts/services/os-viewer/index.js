@@ -82,7 +82,11 @@ function addIsOwner(state, userId) {
   /*
   Add owner status to package in state if owned by userId.
   */
-  state.package.meta.isOwner = (state.package.meta.owner == userId);
+  var isOwner = false;
+  if (userId && state.package.meta.owner) {
+    isOwner = (state.package.meta.owner == userId);
+  }
+  state.package.meta.isOwner = isOwner;
 }
 
 function fullyPopulateModel(state) {
