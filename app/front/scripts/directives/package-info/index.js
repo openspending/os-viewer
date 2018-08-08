@@ -25,7 +25,7 @@ ngModule.directive('packageInfo', [
           }
 
           var dataMine = $scope.datamine;
-          if (dataMine && dataPackageAPI.dataMineConfig.url) {
+          if (dataMine) {
             var dataMinePath = dataMine.path;
 
             if (_.includes(dataMinePath, '{query}')) {
