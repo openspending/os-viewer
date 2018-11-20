@@ -92,5 +92,10 @@
   "procurer": "Procurer",
   "recipient": "Recipient",
   "supplier": "Supplier",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "Save View as Default": "Save View as Default",
+  "Reset View": "Reset View",
+  "Reset to Defaults": "Reset to Defaults",
+  "This will save the current view as the<br>default for all users of this dataset.<br>Are you sure?": "This will save the current view as the<br>default for all users of this dataset.<br>Are you sure?",
+  "Yes": "Yes"
 }
