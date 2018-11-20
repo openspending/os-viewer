@@ -1,3 +1,4 @@
 .env
 .git
+public
 node_modules
