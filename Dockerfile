@@ -1,15 +1,18 @@
 FROM node:8-alpine
 
-RUN apk add --update git
-
 WORKDIR /app
-ADD package.json .
-RUN npm install
+COPY package.json .
 
-ADD . .
+RUN apk add --update --no-cache --virtual=build-dependencies \
+    git \
+    && npm install \
+    && apk del build-dependencies \
+    && rm -rf /var/cache/apk/*
+
+
+COPY docker/settings.json /app/settings.json
+COPY . .
 RUN npm run build
-
-ADD docker/settings.json /app/settings.json
 
 EXPOSE 8000
 
