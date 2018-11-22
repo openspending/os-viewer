@@ -91,5 +91,10 @@
   "procurer": "Contratante",
   "recipient": "Contratista",
   "supplier": "Proveedor",
-  "unknown": "Desconocido"
+  "unknown": "Desconocido",
+  "Save View as Default": "Guardar Como Vista Predeterminada",
+  "Reset View": "Reiniciar Vista",
+  "Reset to Defaults": "Volver a Predeterminado",
+  "This will save the current view as the<br>default for all users of this dataset.<br>Are you sure?": "Esto guardará la vista actual como<br>predeterminada para todos los usuarios de este conjunto de datos<br>¿Estás seguro(a)?",
+  "Yes": "Sí"
 }
