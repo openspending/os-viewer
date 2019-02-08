@@ -25,7 +25,7 @@ module.exports = {
   entry: {
     app: './app/front/scripts/index.js'
   },
-  devtool: 'source-map',
+  // devtool: 'source-map',
   output: {
     filename: '[name].js',
     path: './public/scripts'
