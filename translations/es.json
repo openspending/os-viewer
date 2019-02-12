@@ -71,7 +71,7 @@
   "Table": "Tabla",
   "Tree Map": "Gráfico de Rectángulos",
   "Unknown": "Desconocido",
-  "Value Formatting Scale": "\"Billones\": 1000000000000, \"Millones\": 1000000, \"Miles\": 1000",
+  "Value Formatting Scale": "\"Billones\": 1000000000000, \"Mil Millones\": 1000000000, \"Millones\": 1000000, \"Miles\": 1000",
   "View Raw Source Data": "Descarga .CSV con los datos completos",
   "X-Axis": "Eje-X",
   "activity": "Actividad",
