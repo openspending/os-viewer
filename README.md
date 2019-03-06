@@ -7,6 +7,10 @@
 
 An app to view data packages loaded to OpenSpending. Provides access to raw data, access to an API for the data, and a suite of views to visualise the data.
 
+- [AngularJS](https://angularjs.org/)
+- [ExpressJS](https://expressjs.com/)
+- [babbage.ui](https://github.com/openspending/babbage.ui)
+
 ## Quick start
 
 Clone the repo, install dependencies from npm, and run the server:
