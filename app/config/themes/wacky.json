@@ -7,11 +7,11 @@
   "header": {
     "links": [
       {
-        "title": "Upload Dataaaa",
+        "title": "Upload Data",
         "href": "/packager/"
       },
       {
-        "title": "Explore Datasetssss",
+        "title": "Explore Datasets",
         "href": "/explorer/"
       }
     ]
@@ -19,11 +19,11 @@
   "footer": {
     "links": [
       {
-        "title": "Privacyyyyy policy",
+        "title": "Privacy policy",
         "href": "https://okfn.org/privacy-policy/"
       },
       {
-        "title": "Cookie policyyyyyyyy",
+        "title": "Cookie policy",
         "href": "https://okfn.org/cookie-policy/"
       }
     ]

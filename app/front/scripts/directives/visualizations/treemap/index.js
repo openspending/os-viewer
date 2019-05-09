@@ -23,7 +23,7 @@ ngModule.directive('treemapVisualization', [
           .paramsToBabbageState($scope.params);
 
         $scope.formatValue = Configuration.formatValue;
-        $scope.colorScale = Configuration.colorScales.constant();
+        $scope.colorScale = Configuration.colorScales.categorical();
         $scope.messages = visualizationsService.getBabbageUIMessages(i18n);
 
         $scope.$watch('params', function(newValue, oldValue) {
