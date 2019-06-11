@@ -27,16 +27,17 @@ function getNormalizedUrl(originalUrl) {
 module.exports = {
   get: function(url, options, bypassCache) {
     // Make cache more efficient - use normalized url
-    // console.log(url);
     url = getNormalizedUrl(url);
-    // console.log(url);
-    // console.log('');
     if (bypassCache || !cache[url]) {
       var requestPromise = fetch(url, options).then(function(response) {
-        if (response.status != 200) {
-          throw new Error('Failed loading data from ' + response.url);
+        var responseText = response.text();
+
+        if (response.status >= 400) {
+          responseText.then(function(errorText) {
+            throw errorText;
+          });
         }
-        return response.text();
+        return responseText;
       });
 
       if (bypassCache) {
