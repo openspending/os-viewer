@@ -59,23 +59,27 @@ function loadDataPackages(authToken, packageId, userId) {
 }
 
 function loadDataPackage(packageId, initialParams) {
-  return dataPackageApi.getDataPackage(packageId, true)
-    .then(function(packageModel) {
-      var params = _.extend(
-        stateParams.init(packageModel, initialParams), {
-          babbageApiUrl: dataPackageApi.apiConfig.url,
-          cosmopolitanApiUrl: dataPackageApi.apiConfig.cosmoUrl
-        });
-      if (!_.has(initialParams, 'visualizations')) {
-        var params = _.extend(params, packageModel.meta.defaultParams);
-      }
+  return dataPackageApi.getBabbageModel(dataPackageApi.apiConfig.url, packageId)
+    .then(function(babbageModel){
+      return dataPackageApi.getDataPackage(packageId, true)
+        .then(function(packageModel) {
+          var params = _.extend(
+            stateParams.init(packageModel, initialParams), {
+              babbageApiUrl: dataPackageApi.apiConfig.url,
+              cosmopolitanApiUrl: dataPackageApi.apiConfig.cosmoUrl,
+              model: babbageModel.model
+            });
+          if (!_.has(initialParams, 'visualizations')) {
+            var params = _.extend(params, packageModel.meta.defaultParams);
+          }
 
-      return {
-        package: packageModel,
-        params: params,
-        history: history.init()
-      };
-    });
+          return {
+            package: packageModel,
+            params: params,
+            history: history.init()
+          };
+        });
+    })
 }
 
 function addIsOwner(state, userId) {

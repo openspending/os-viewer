@@ -28,6 +28,8 @@ ngModule.directive('pivotTableVisualization', [
         $scope.formatValue = Configuration.formatValue;
         $scope.messages = visualizationsService.getBabbageUIMessages(i18n);
 
+        $scope.model = $scope.params.model;
+
         $scope.$on('babbage-ui.table-ready', function() {
           table = prettyTable(element.find('.pivot-table').get(0));
 

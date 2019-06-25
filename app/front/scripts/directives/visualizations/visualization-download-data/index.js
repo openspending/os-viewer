@@ -12,16 +12,14 @@ function getUrl(params) {
   var cube = params.packageId;
   var state = visualizationsService.paramsToBabbageState(params);
 
-  return api.buildAggregateUrl(endpoint, cube, state)
-    .then(function(_url) {
-      var parsedUrl = url.parse(_url, true);
+  var aggregateUrl = api.buildAggregateUrl(endpoint, cube, state, params.model);
+  var parsedUrl = url.parse(aggregateUrl, true);
 
-      // url.format() only uses the .query object if there's no .search
-      delete parsedUrl.search;
-      parsedUrl.query.format = 'csv';
+  // url.format() only uses the .query object if there's no .search
+  delete parsedUrl.search;
+  parsedUrl.query.format = 'csv';
 
-      return url.format(parsedUrl);
-    });
+  return url.format(parsedUrl);
 }
 
 ngModule.directive('visualizationDownloadData', [
@@ -36,15 +34,11 @@ ngModule.directive('visualizationDownloadData', [
       link: function($scope, element) {
         $scope.$watch('params', function(newValue, oldValue) {
           if (newValue !== oldValue) {
-            getUrl(newValue).then(function(url) {
-              $scope.url = url;
-            });
+            $scope.url = getUrl(newValue);
           }
         }, true);
 
-        getUrl($scope.params).then(function(url) {
-          $scope.url = url;
-        });
+        $scope.url = getUrl($scope.params);
       }
     };
   }
