@@ -1,6 +1,6 @@
 {
   "... there are more items": "… postoji više elemenata",
-  "Activity": "Glavni program",
+  "Activity": "Programska klasifikacija",
   "Add Visualization": "Dodaj vizualizaciju",
   "Administrative Classification": "Prva razina organizacijske klasifikacije (razdjel)",
   "Administrator": "Proračunski korisnik",
@@ -75,7 +75,7 @@
   "Value Formatting Scale": "\"Milijarda\": 1000000000, \"Milijun\": 1000000, \"Tisuću\": 1000",
   "View Raw Source Data": "Pogledaj izvorne podatke",
   "X-Axis": "X-Os",
-  "activity": "Glavni program",
+  "activity": "Programska klasifikacija",
   "administrative_classification": "prva razina organizacijske klasifikacije (razdjel) ",
   "administrator": "proračunski korisnik",
   "budget_line_id": "Proračunska adresa /Proračunska stavka",
