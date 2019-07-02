@@ -101,7 +101,8 @@ describe('Visualizations', function() {
           key: 'Depenses_realisees.sum',
           direction: 'asc'
         }],
-        series: ['economic_classification_3.Article']
+        series: ['economic_classification_3.Article'],
+        model: undefined
       });
       done();
     });

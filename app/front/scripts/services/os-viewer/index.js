@@ -60,7 +60,7 @@ function loadDataPackages(authToken, packageId, userId) {
 
 function loadDataPackage(packageId, initialParams) {
   return dataPackageApi.getBabbageModel(dataPackageApi.apiConfig.url, packageId)
-    .then(function(babbageModel){
+    .then(function(babbageModel) {
       return dataPackageApi.getDataPackage(packageId, true)
         .then(function(packageModel) {
           var params = _.extend(
@@ -79,7 +79,7 @@ function loadDataPackage(packageId, initialParams) {
             history: history.init()
           };
         });
-    })
+    });
 }
 
 function addIsOwner(state, userId) {
