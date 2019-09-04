@@ -44,7 +44,7 @@
     "angular-animate": "^1.5.8",
     "angular-filter": "^0.5.9",
     "angular-marked": "^1.2.2",
-    "babbage.ui": "^1.6.8",
+    "babbage.ui": "^1.7.0",
     "babel-polyfill": "^6.26.0",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
