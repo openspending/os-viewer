@@ -383,7 +383,16 @@ function createPackageModel(packageId, dataPackage, model) {
   packageModel.dateTimeHierarchies = filterHierarchiesByType(
     packageModel.hierarchies, 'datetime');
 
+
   return packageModel;
+}
+
+function getBabbageModel(apiURL, packageId) {
+  var model = downloader.getJson(apiURL
+                          + '/cubes/'
+                          + encodeURIComponent(packageId)
+                          + '/model/');
+  return model;
 }
 
 // If loadBareModel == true, this function will load only
@@ -396,8 +405,7 @@ function getDataPackage(packageId, loadBareModel) {
     var promises = [
       downloader.getJson(apiConfig.url + '/info/' +
         encodeURIComponent(packageId) + '/package'),
-      downloader.getJson(apiConfig.url + '/cubes/' +
-        encodeURIComponent(packageId) + '/model/')
+      getBabbageModel(apiConfig.url, packageId)
     ];
 
     return Promise.all(promises)
@@ -472,6 +480,7 @@ module.exports.serializeCut = serializeCut;
 module.exports.loadConfig = loadConfig;
 module.exports.getDataPackages = getDataPackages;
 module.exports.getDataPackage = getDataPackage;
+module.exports.getBabbageModel = getBabbageModel;
 module.exports.loadDimensionValues = loadDimensionValues;
 module.exports.loadDimensionsValues = loadDimensionsValues;
 module.exports.createPackageModel = createPackageModel;

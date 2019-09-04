@@ -1,6 +1,7 @@
 'use strict';
 
 var packageModel = require('./package1-packagemodel');
+var babbageModel = require('./package1-model');
 
 module.exports = {
   package: packageModel,
@@ -22,7 +23,8 @@ module.exports = {
     babbageApiUrl: 'http://api.example.com',
     cosmopolitanApiUrl: 'http://cosmopolitan.example.com',
     source: undefined,
-    target: undefined
+    target: undefined,
+    model: babbageModel.model
   },
   history: {
     items: [],

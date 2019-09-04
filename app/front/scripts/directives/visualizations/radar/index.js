@@ -24,6 +24,8 @@ ngModule.directive('radarChartVisualization', [
         $scope.colorScale = Configuration.colorScales.categorical();
         $scope.messages = visualizationsService.getBabbageUIMessages(i18n);
 
+        $scope.model = $scope.params.model;
+
         $scope.$watch('params', function(newValue, oldValue) {
           if (newValue !== oldValue) {
             $scope.state = visualizationsService

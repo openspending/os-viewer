@@ -146,6 +146,7 @@ function paramsToBabbageState(params) {
   var result = {
     aggregates: _.first(params.measures),
     group: params.groups,
+    model: params.model,
     filter: serializeFilters(params.filters, params.drilldown),
     order: [params.orderBy]
   };
