@@ -1,29 +1,22 @@
 language: generic
-
 services:
-  - docker
-
+- docker
 env:
   global:
-    # DOCKER_USERNAME
-    - secure: Pk9BXOh4dajnDntxGJfvhi1vbXaQHw3P5kNkGNLW4LyviCWRGn3MmqEiDQ0gXgrdzZnZlPit0ySrvF+pBWrlPCFsvV/JRcfioCY3cCtgHvhX30EJ8Qn9g6cgOhXtsIxEx5436c7OMm7CQgkKUu/GiIZPXEbAeFX9wNrwwWxV+oiyHY5fLQtZQRz2iacht4dDiZLXsk62+jnm60hEG6RzNk0RuLKXL0JfJiRTlz+6fiTPOJnBXtQ2/vwe2+ZzQ4fsa/0zS/i4xGgmnYceLgEkXv5oaljIOWA1zcWqaOVjfNPf9zcnSE4qBxpRtnpfK7xyHRaUW+w9oCElNS8CUG/t7vpcCCo4SVjQyIlOlBuUF4mshRgG3eXl3QytZjBPy6f4h/QKALtpKyZdZh7ajV//y7hio/RAQcR4zUUSfsLQIGjXwSTx0sckAJcACFmci/PiqHQEc9iAI7xO4nS5EfWBuo/uGdbU1fx1TcxVpfSf7an31HlMKYgLQz4n8yRDJJvMYZQsG2R2Qr+KEkIZPcYYtMqWpEAdVtscs5C9XWir9QgxYzf6ly4xxxEuIeXvue7YKPx2ozxJGnXk0tmHTS06Z039AVrMvH5jYPPmRxP0ztesP/2gH6U9SLx9kNfTidedXoZZ1AOqDG/mSH0BPaAS8Uqvh79oJ+b1MfgMNMjIYUI=
-    # DOCKER_PASSWORD
-    - secure: D0/q/TyQyPLmGo00MuoebjMZWh+iiGhK+a+EQqrHA3cOXYT+9kbfflTbW0MmRx5LYX5TTkX6d81y+R9NfEnLAG9Z+KLaB5qXLf04cv3hSjpukhLMAdKHEGBIpM6hPxwrRnYmQX5zTpYocXp22da/Z6dMmIP9ar6WOmr/gyZUHgd4rWFVjfW/ae0+uLtNZlSaC4dNKDuj67Y6mlml1cQV20Z5tgVUcfyfxD5PEnUoj110vnM3OK9EYjOe+PZC9LHjq0M8e9w8dt4ByVWoNn+yLX/r4saQmmngnCcZYyiLiNpPuaqlFzblhU3+DML8cOl7EdwIv8XT45RmzSikweQrXirjft0IpgIkLWv7s6YsOcf9fZ8/Sdri+ulBkDABN/QiE8jVhdQVpWweoYwBlD+zew7A9CLOGXyQxze07JqzbV4sPU7g4KP8tqfZe5Ksk59tmr2nsBJuG0vgkN3GAFDL6Eagq7B+or+13XfzBUIdWvLH8kCOvYE5yBHsCIij4NmdMlA3ay4JCuNTynoly6h3F0tHwru3/eNCLlffJPW7op7iC52WqbIWGpG4jXWL+QNctUoJ+NmyDAijNX/xjljxri1coDTgiNTWnLVKH95vpnxfWQJ9xZV1Wo/8Oo3ReQ8JWfXBalzjWWDHCyj/zZZQxGsvICg34N31GdKvicp8gCI=
-
+  # DOCKER_USERNAME
+  - secure: Emd9qv/K5dXXpyQ6UBO/GmKH/tjP1Ei+voOT+iDrKGYcmCoNSWw1f/19rzSm+yX3BErS7/WAL5eiB9XSGyf3izPzu7QHLh6kTGn/KA7t2ZY4jxrc3EQQAKQTXK0VH09eZjQzyTdl7r83Sm+P0UuA2MXpxM6ZWfmRz6zUGcnNDdvXhlKJ7lh/KufBbcN+snfaKQl3uhlTHoODbLq5KpwDOsM1p5wmSpKM01Vr6JYzZHY6uphRvYAb3ddZ/Be3vpViv3Izrg4aoZEVr9nW2IUFigWdafdCrh1QaKRVqcgmbHN1pgUxym5VdCh3BEfVwZl7ud0+swd7hBUO8p7dH+UQ7uorfRCo2Z5v+jcYi0Hz8+xQsZYDq38EYsMmZKVIrCrnzEDPMta7O/Npko2jHfITN6GNSiBuHrSqjbUgYkjJa9hA2XZsUIknRUGdny584bAd5j/8HhJY0OzF2dCILgDkYKwHBpxI/kG4Bw8fRSM9N14D0IWD+xdRmOsSv53kWwnmip3Zc0ZtIW7fc55PKVG4lsQi8afz8QmpF23BMW7akNyXPZEUUJ8IdbrbGSd6cavymtbSkucE2ggDNTkmZHFgM8Mi07++GfeolawugBS1f3a+7/xVUmqi6PJGuQsgqCgcuCqH8M4ht8DEq72znkmojnE+hXAzDpFucqupqN8J0B8=
+  # DOCKER_PASSWORD
+  - secure: MMZDT+l8fLxxp5ROLU6NiEwdHYiPK1tgo9/7bSJ6dM/8SSgRuJsu1tcD/DYex0H6Zx9Gb5heLrUVNuMolOX+yJNvhTH8LpX+7UnkySRDdYk5TH6dUvR+p0ra5amsb3qvZp+93Ir7FTPkkqMuRCJ6l49Fo/eq7dKO236/Twxj74u4RFUstnzX7CuDAOsCwFBUDQtvsoNGm9nsp8NyUfxHDwurZWAg48uu4T/JscUYjDvnyTQ8NvZNpO0awFEbjoCxPCfOB+7kA3obb0AioTJdjcTXDrxd6WPh+udMHyFKy7ReInaRjeFhSgKQgYYvb7mpTTawzg4w+hasZXQQPPIS8aWV5SjqJW2xXlc9SFKTCOCfDJDv33r+xZA68Fc7otqSUh693lDjoqpjtV/gnnvh9Mtu7ACCkyCeALgpId0HRo4UXrr9Z4O2UgO/Aa39uVNUaVb2/Vmax4HOnwuilTq63Pkcrp0vtot4jKxurGyaFfbYSkftl4NJ2xMXNpw1razRZGy+Paa4Pdg0sBGCkvNSeXIk0Wvykkzbb7gaPzZXNVK2gqac4C3DfbNiwz5ZNtLvjb9iTjlvCxtdyHSwTUnR3fJN8jSOSKg8l9rp/RzhhFOwBnXWxeYfJh22JerhscrTE5d60uWyjYiw/nfd62i9JuF37zAPL2DLAgortoRwW1c=
 install:
-  - make ci-build
-  # Run docker image with additional args
-  - make ci-run RUN_ARGS="-e OS_BASE_URL=http://localhost"
-
+- make ci-build
+- make ci-run RUN_ARGS="-e OS_BASE_URL=http://localhost"
 script:
-  - make ci-test
-
+- make ci-test
 after_success:
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then make ci-push-tag TAG="${TRAVIS_PULL_REQUEST_BRANCH////_}"; fi'
-
+- if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then make ci-push-tag TAG="${TRAVIS_PULL_REQUEST_BRANCH////_}";
+  fi
 deploy:
-  # deploy master to latest tag
-  - provider: script
-    script: make ci-push
-    on:
-      branch: master
+- provider: script
+  script: make ci-push
+  on:
+    branch: master
