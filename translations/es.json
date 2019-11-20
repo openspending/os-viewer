@@ -87,6 +87,8 @@
   "fin_source": "Fuente de Financiamiento",
   "functional_classification": "Clasificación Funcional",
   "geo_source": "Entidad Geográfica",
+  "object_classification": "Objeto del Gasto",
+  "Object Classification": "Objeto del Gasto",
   "phase": "Fase",
   "procurer": "Contratante",
   "recipient": "Contratista",
