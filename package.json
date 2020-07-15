@@ -58,7 +58,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^2.1.4",
     "js-polyfills": "^0.1.12",
-    "lodash": "^4.6.1",
+    "lodash": "^4.17.19",
     "lookenv": "^0.6.3",
     "lru-cache": "^4.0.2",
     "marked": "~0.3.9",
