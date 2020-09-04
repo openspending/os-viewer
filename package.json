@@ -69,7 +69,7 @@
     "nunjucks": "^2.1.0",
     "os-bootstrap": "git+https://github.com/openspending/os-bootstrap.git",
     "os-styles": "^0.0.2",
-    "papaparse": "^4.1.2",
+    "papaparse": "^5.2.0",
     "punycode": "^1.4.1",
     "qs": "^6.2.0",
     "raven": "^2.2.1",
