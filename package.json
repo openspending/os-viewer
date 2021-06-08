@@ -64,7 +64,7 @@
     "marked": "~0.3.9",
     "nconf": "^0.8.2",
     "node-polyglot": "^2.0.0",
-    "normalize-url": "^1.6.0",
+    "normalize-url": "^4.5.1",
     "npm": "^6.7.0",
     "nunjucks": "^2.1.0",
     "os-bootstrap": "git+https://github.com/openspending/os-bootstrap.git",
