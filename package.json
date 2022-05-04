@@ -40,7 +40,7 @@
   "bugs": "https://github.com/openspending/os-viewer/issues",
   "homepage": "https://github.com/openspending/os-viewer#readme",
   "dependencies": {
-    "angular": "^1.5.8",
+    "angular": "^1.8.3",
     "angular-animate": "^1.5.8",
     "angular-filter": "^0.5.9",
     "angular-marked": "^1.2.2",
