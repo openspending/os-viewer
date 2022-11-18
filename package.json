@@ -97,7 +97,7 @@
     "raw-loader": "^0.5.1",
     "supertest": "^1.2.0",
     "val-loader": "^0.5.0",
-    "webpack": "^1.14.0",
+    "webpack": "^5.75.0",
     "zombie": "^4.2.1"
   }
 }
