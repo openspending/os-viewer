@@ -51,7 +51,7 @@
     "bubbletree": "^2.1.0",
     "c3": "^0.4.18",
     "d3": "^3.5.14",
-    "express": "^4.13.3",
+    "express": "^4.17.3",
     "file-saver": "^1.3.3",
     "font-awesome": "^4.5.0",
     "install": "^0.12.2",
